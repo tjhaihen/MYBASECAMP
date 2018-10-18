@@ -1,0 +1,567 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A46315B6-6D8D-4667-8E3D-3A4713E5A11F}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Application</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyMode>None</AssemblyOriginatorKeyMode>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <RootNamespace>
+    </RootNamespace>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <MyType>Windows</MyType>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Application.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>Application.xml</DocumentationFile>
+    <BaseAddress>285212672</BaseAddress>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>1</WarningLevel>
+    <NoWarn>42016,42017,42018,42019,42032,42353,42354,42355</NoWarn>
+    <DebugType>none</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine">
+      <HintPath>..\..\..\_dll\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared">
+      <HintPath>..\..\..\_dll\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Web">
+      <HintPath>..\..\..\_dll\CrystalDecisions.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="eWorld.UI">
+      <HintPath>..\..\..\_dll\eWorld.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Conversion.v4.0" />
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Web.DataVisualization" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Telerik.Web.UI">
+      <HintPath>..\..\..\_dll\Telerik.Web.UI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Configuration" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Web" />
+    <Import Include="System.Web.UI" />
+    <Import Include="System.Web.UI.HtmlControls" />
+    <Import Include="System.Web.UI.WebControls" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonLibs\Controls\GeneralCtl.ascx.designer.vb">
+      <Link>SharedLibs\Controls\GeneralCtl.ascx.designer.vb</Link>
+      <DependentUpon>GeneralCtl.ascx.vb</DependentUpon>
+    </Compile>
+    <Compile Include="..\CommonLibs\Controls\GeneralCtl.ascx.vb">
+      <Link>SharedLibs\Controls\GeneralCtl.ascx.vb</Link>
+      <DependentUpon>GeneralCtl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\CommonLibs\Controls\Menu.ascx.designer.vb">
+      <Link>SharedLibs\Controls\Menu.ascx.designer.vb</Link>
+      <DependentUpon>Menu.ascx.vb</DependentUpon>
+    </Compile>
+    <Compile Include="..\CommonLibs\Controls\Menu.ascx.vb">
+      <Link>SharedLibs\Controls\Menu.ascx.vb</Link>
+      <DependentUpon>Menu.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="base\ModuleBase.vb">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="base\PageBase.vb">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BusinessRules\Base\bussinessRulesBase.vb" />
+    <Compile Include="BusinessRules\Components\TransactionType.vb" />
+    <Compile Include="BusinessRules\Components\MyReport.vb" />
+    <Compile Include="ErrMsg.aspx.vb">
+      <DependentUpon>ErrMsg.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Global.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="incl\calendar.ascx.vb">
+      <DependentUpon>calendar.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="incl\copyright.ascx.designer.vb">
+      <DependentUpon>copyright.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="incl\copyright.ascx.vb">
+      <DependentUpon>copyright.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="incl\CSSToolbar.ascx.designer.vb">
+      <DependentUpon>CSSToolbar.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="incl\CSSToolbar.ascx.vb">
+      <DependentUpon>CSSToolbar.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="incl\projectBanner.ascx.designer.vb">
+      <DependentUpon>projectBanner.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="incl\projectBanner.ascx.vb">
+      <DependentUpon>projectBanner.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="incl\RadMenu.ascx.designer.vb">
+      <DependentUpon>RadMenu.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="incl\RadMenu.ascx.vb">
+      <DependentUpon>RadMenu.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Logon.aspx.vb">
+      <DependentUpon>Logon.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Logout.aspx.vb">
+      <DependentUpon>Logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportViewer.aspx.designer.vb">
+      <DependentUpon>ReportViewer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportViewer.aspx.vb">
+      <DependentUpon>ReportViewer.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="searchlist.aspx.designer.vb">
+      <DependentUpon>searchlist.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="searchlist.aspx.vb">
+      <DependentUpon>searchlist.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Balance\AccountingBalance.aspx.designer.vb">
+      <DependentUpon>AccountingBalance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Balance\AccountingBalance.aspx.vb">
+      <DependentUpon>AccountingBalance.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Budget\BudgetAccount.aspx.designer.vb">
+      <DependentUpon>BudgetAccount.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Budget\BudgetAccount.aspx.vb">
+      <DependentUpon>BudgetAccount.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Budget\BudgetPurchasing.aspx.designer.vb">
+      <DependentUpon>BudgetPurchasing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Budget\BudgetPurchasing.aspx.vb">
+      <DependentUpon>BudgetPurchasing.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\ChangePassword.aspx.designer.vb">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\ChangePassword.aspx.vb">
+      <DependentUpon>ChangePassword.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\CommonCode.aspx.designer.vb">
+      <DependentUpon>CommonCode.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\CommonCode.aspx.vb">
+      <DependentUpon>CommonCode.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\EMR\AssesmentMedis.aspx.designer.vb">
+      <DependentUpon>AssesmentMedis.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\EMR\AssesmentMedis.aspx.vb">
+      <DependentUpon>AssesmentMedis.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\EMR\AssesmentPerawat.aspx.designer.vb">
+      <DependentUpon>AssesmentPerawat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\EMR\AssesmentPerawat.aspx.vb">
+      <DependentUpon>AssesmentPerawat.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\EMR\main.aspx.designer.vb">
+      <DependentUpon>main.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\EMR\main.aspx.vb">
+      <DependentUpon>main.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\FollowUpIssue.aspx.designer.vb">
+      <DependentUpon>FollowUpIssue.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\FollowUpIssue.aspx.vb">
+      <DependentUpon>FollowUpIssue.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\IssueStudy.aspx.designer.vb">
+      <DependentUpon>IssueStudy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\IssueStudy.aspx.vb">
+      <DependentUpon>IssueStudy.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Mobile\Productivity.aspx.designer.vb">
+      <DependentUpon>Productivity.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Mobile\Productivity.aspx.vb">
+      <DependentUpon>Productivity.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Progress.aspx.designer.vb">
+      <DependentUpon>Progress.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Progress.aspx.vb">
+      <DependentUpon>Progress.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Project.aspx.designer.vb">
+      <DependentUpon>Project.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Project.aspx.vb">
+      <DependentUpon>Project.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\GetImage.aspx.designer.vb">
+      <DependentUpon>GetImage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\GetImage.aspx.vb">
+      <DependentUpon>GetImage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\ProjectDetail.aspx.designer.vb">
+      <DependentUpon>ProjectDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\ProjectDetail.aspx.vb">
+      <DependentUpon>ProjectDetail.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Main.aspx.designer.vb">
+      <DependentUpon>Main.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Main.aspx.vb">
+      <DependentUpon>Main.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Profile.aspx.designer.vb">
+      <DependentUpon>Profile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Profile.aspx.vb">
+      <DependentUpon>Profile.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\ProjectGroup.aspx.designer.vb">
+      <DependentUpon>ProjectGroup.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\ProjectGroup.aspx.vb">
+      <DependentUpon>ProjectGroup.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\ReportImage.aspx.designer.vb">
+      <DependentUpon>ReportImage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\ReportImage.aspx.vb">
+      <DependentUpon>ReportImage.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\SystemParameter.aspx.designer.vb">
+      <DependentUpon>SystemParameter.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\SystemParameter.aspx.vb">
+      <DependentUpon>SystemParameter.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\People.aspx.designer.vb">
+      <DependentUpon>People.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\People.aspx.vb">
+      <DependentUpon>People.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Utilities\BedInformation.aspx.designer.vb">
+      <DependentUpon>BedInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Utilities\BedInformation.aspx.vb">
+      <DependentUpon>BedInformation.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Utilities\BedInformationSummary.aspx.designer.vb">
+      <DependentUpon>BedInformationSummary.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Utilities\BedInformationSummary.aspx.vb">
+      <DependentUpon>BedInformationSummary.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Utilities\DrugInteractionInfo.aspx.designer.vb">
+      <DependentUpon>DrugInteractionInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Utilities\DrugInteractionInfo.aspx.vb">
+      <DependentUpon>DrugInteractionInfo.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Utilities\PatientMedicalRecord.aspx.designer.vb">
+      <DependentUpon>PatientMedicalRecord.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Utilities\PatientMedicalRecord.aspx.vb">
+      <DependentUpon>PatientMedicalRecord.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Utilities\PhysicianScheduleInformation.aspx.designer.vb">
+      <DependentUpon>PhysicianScheduleInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Utilities\PhysicianScheduleInformation.aspx.vb">
+      <DependentUpon>PhysicianScheduleInformation.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Utilities\TransactionNumbering\Default.aspx.vb">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\WorkTime\dashboard.aspx.designer.vb">
+      <DependentUpon>dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\WorkTime\dashboard.aspx.vb">
+      <DependentUpon>dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\WorkTime\main.aspx.designer.vb">
+      <DependentUpon>main.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\WorkTime\main.aspx.vb">
+      <DependentUpon>main.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ShowCR.vb">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Content Include="..\CommonLibs\Controls\GeneralCtl.ascx">
+      <Link>SharedLibs\Controls\GeneralCtl.ascx</Link>
+    </Content>
+    <Content Include="..\CommonLibs\Controls\Menu.ascx">
+      <Link>SharedLibs\Controls\Menu.ascx</Link>
+    </Content>
+    <Content Include="ErrMsg.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="incl\calendar.ascx" />
+    <Content Include="incl\copyright.ascx" />
+    <Content Include="incl\CSSToolbar.ascx" />
+    <Content Include="incl\projectBanner.ascx" />
+    <Content Include="incl\RadMenu.ascx" />
+    <Content Include="Logon.aspx" />
+    <Content Include="Logout.aspx" />
+    <Content Include="ReportViewer.aspx" />
+    <Content Include="searchlist.aspx" />
+    <Content Include="Secure\Balance\AccountingBalance.aspx" />
+    <Content Include="Secure\Budget\BudgetAccount.aspx" />
+    <Content Include="Secure\Budget\BudgetPurchasing.aspx" />
+    <Content Include="Secure\ChangePassword.aspx" />
+    <Content Include="Secure\CommonCode.aspx" />
+    <Content Include="Secure\EMR\AssesmentMedis.aspx" />
+    <Content Include="Secure\EMR\AssesmentPerawat.aspx" />
+    <Content Include="Secure\EMR\main.aspx" />
+    <Content Include="Secure\FollowUpIssue.aspx" />
+    <Content Include="Secure\IssueStudy.aspx" />
+    <Content Include="Secure\Mobile\Productivity.aspx" />
+    <Content Include="Secure\Progress.aspx" />
+    <Content Include="Secure\Project.aspx" />
+    <Content Include="Secure\GetImage.aspx" />
+    <Content Include="Secure\ProjectDetail.aspx" />
+    <Content Include="Secure\Main.aspx" />
+    <Content Include="Secure\Profile.aspx" />
+    <Content Include="Secure\ProjectGroup.aspx" />
+    <Content Include="Secure\ReportImage.aspx" />
+    <Content Include="Secure\SystemParameter.aspx" />
+    <Content Include="Secure\People.aspx" />
+    <Content Include="Secure\Utilities\BedInformation.aspx" />
+    <Content Include="Secure\Utilities\BedInformationSummary.aspx" />
+    <Content Include="Secure\Utilities\DrugInteractionInfo.aspx" />
+    <Content Include="Secure\Utilities\PatientMedicalRecord.aspx" />
+    <Content Include="Secure\Utilities\PhysicianScheduleInformation.aspx" />
+    <Content Include="Secure\Utilities\TransactionNumbering\Default.aspx" />
+    <Content Include="Secure\Web.config" />
+    <Content Include="Secure\WorkTime\dashboard.aspx" />
+    <Content Include="Secure\WorkTime\main.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <EmbeddedResource Include="ErrMsg.aspx.resx">
+      <DependentUpon>ErrMsg.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="incl\calendar.ascx.resx">
+      <DependentUpon>calendar.ascx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logon.aspx.resx">
+      <DependentUpon>Logon.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logout.aspx.resx">
+      <DependentUpon>Logout.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Secure\licenses.licx" />
+    <EmbeddedResource Include="Secure\Utilities\TransactionNumbering\Default.aspx.resx">
+      <DependentUpon>Default.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <None Include="App_Data\RadSpell\de-DE.tdf" />
+    <None Include="App_Data\RadSpell\en-US.tdf" />
+    <None Include="App_Data\RadSpell\fr-FR.tdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{967B4E0D-AD0C-4609-AB67-0FA40C0206D8}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.vbproj">
+      <Project>{EE2E0956-7B93-4C4B-B90E-9DB36391C6E5}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QIS.Basecamp.Common\QIS.Basecamp.Common.csproj">
+      <Project>{59F1938C-C13A-4A5D-939E-CA5A88FD77F9}</Project>
+      <Name>QIS.Basecamp.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QIS.Basecamp.Web.CustomControl\QIS.Basecamp.Web.CustomControl.csproj">
+      <Project>{2185F628-0A37-4666-9D2E-39C18A4A2909}</Project>
+      <Name>QIS.Basecamp.Web.CustomControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QIS.Data.Core\QIS.Data.Core.csproj">
+      <Project>{CAC7A3D3-E6BB-4C97-B728-B87D395EB688}</Project>
+      <Name>QIS.Data.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Security\Security.vbproj">
+      <Project>{98AC7B9B-E2ED-43F9-A3EC-D3F8436AC6E4}</Project>
+      <Name>Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemFrameWork\SystemFrameWork.vbproj">
+      <Project>{BA89C258-AFC5-41C7-88F5-638DF632B835}</Project>
+      <Name>SystemFrameWork</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\" />
+    <Folder Include="Secure\MSExcelTemplates\" />
+    <Folder Include="SharedLibs\Tools\" />
+    <Folder Include="Uploads\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>1450</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/Basecamp/Application</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
