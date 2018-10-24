@@ -160,6 +160,10 @@ Namespace QIS.Web.EMR
         Private Sub btnSearchPatient_Click(sender As Object, e As System.EventArgs) Handles btnSearchPatient.Click
             UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim)
         End Sub
+
+        Private Sub btnShowHistory_Click(sender As Object, e As System.EventArgs) Handles btnShowHistory.Click
+            OpenPatientHistory(txtMedicalNoHistory.Text.Trim)
+        End Sub
 #End Region
 
 #Region " Support functions for navigation bar (Controls) "
@@ -211,6 +215,11 @@ Namespace QIS.Web.EMR
             UpdateViewGridPatientIntervention()
         End Sub
 
+        Private Sub PrepareScreenPatientHistory()
+            txtMedicalNoHistory.Text = String.Empty
+            UpdateViewGridPatientResumeHistoryMR()
+        End Sub
+
         Private Sub UpdateViewGridTodayPatient(ByVal strSearch As String)
             Dim dt As New DataTable
             Dim oBR As New Common.BussinessRules.EMR
@@ -248,6 +257,17 @@ Namespace QIS.Web.EMR
                 .MRN = lblPBMRN.Text.Trim
                 grdPatientResumeHistory.DataSource = .GetPatientResumeByMRN()
                 grdPatientResumeHistory.DataBind()
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
+        Private Sub UpdateViewGridPatientResumeHistoryMR()
+            Dim oBR As New Common.BussinessRules.EMR
+            With oBR
+                .MRN = txtMedicalNoHistory.Text.Trim
+                grdPatientResumeHistoryMR.DataSource = .GetPatientResumeByMRN()
+                grdPatientResumeHistoryMR.DataBind()
             End With
             oBR.Dispose()
             oBR = Nothing
@@ -398,6 +418,41 @@ Namespace QIS.Web.EMR
             End With
             oBR.Dispose()
             oBR = Nothing
+        End Sub
+
+        Private Sub OpenPatientHistory(ByVal strMRN As String)
+            Dim strFormattedMRN As String = String.Empty
+            strFormattedMRN = Right("00000000" + strMRN.Replace("-", "").Trim, 8).Trim
+            strFormattedMRN = Left(strFormattedMRN, 2) + "-" + Mid(strFormattedMRN, 3, 2) + "-" + Mid(strFormattedMRN, 5, 2) + "-" + Right(strFormattedMRN, 2)
+            txtMedicalNoHistory.Text = strFormattedMRN
+
+            Dim oBR As New Common.BussinessRules.Patient
+            With oBR
+                .MRN = txtMedicalNoHistory.Text.Trim
+                If .SelectOne.Rows.Count > 0 Then
+                    lblPBPatientNameHistory.Text = .patientName.Trim
+                    lblPBPatientGenderHistory.Text = .gender.Trim
+                    lblPBMRNHistory.Text = .MRN.Trim
+                    lblPBPatientDOBHistory.Text = Format(.dateOfBirth, commonFunction.FORMAT_DATE)
+                    lblPBAddressHistory.Text = .address.Trim
+                    If lblPBPatientGenderHistory.Text = "P" Then
+                        imgPBPatientHistory.ImageUrl = "/qistoollib/images/person-female.png"
+                    Else
+                        imgPBPatientHistory.ImageUrl = "/qistoollib/images/person-male.png"
+                    End If
+                Else
+                    lblPBPatientNameHistory.Text = String.Empty
+                    lblPBPatientGenderHistory.Text = String.Empty
+                    lblPBMRNHistory.Text = String.Empty
+                    lblPBPatientDOBHistory.Text = String.Empty
+                    lblPBAddressHistory.Text = String.Empty
+                    commonFunction.MsgBox(Me, "Nomor Rekam Medis tidak terdaftar. Silahkan masukkan Nomor Rekam Medis yang benar.")
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+
+            UpdateViewGridPatientResumeHistoryMR()
         End Sub
 
         Private Sub InsertPatientResume()

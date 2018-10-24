@@ -81,7 +81,7 @@
                                             <Tabs>
                                                 <telerik:RadTab Text="Pasien Hari Ini">
                                                 </telerik:RadTab>
-                                                <telerik:RadTab Text="Data Rekam Medis" Visible="false">
+                                                <telerik:RadTab Text="Data Rekam Medis">
                                                 </telerik:RadTab>
                                             </Tabs>
                                         </telerik:RadTabStrip>
@@ -182,6 +182,280 @@
                                                 </table>
                                             </telerik:RadPageView>
                                             <telerik:RadPageView ID="RadPageView4" runat="server">
+                                                <table cellpadding="2" width="100%">
+                                                    <tr>
+                                                        <td class="right" style="width: 150;">
+                                                            Nomor Rekam Medis
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtMedicalNoHistory" runat="server" Width="150"></asp:TextBox>
+                                                            <asp:Button ID="btnShowHistory" runat="server" Text="Tampilkan" Width="100" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="projectbanner projectbanner_heading1" colspan="4">
+                                                            <table width="100%" cellpadding="3" cellspacing="1">
+                                                                <tr>
+                                                                    <td rowspan="3" style="background: #eeeeee; width: 60;" class="center">
+                                                                        <asp:Image ID="imgPBPatientHistory" runat="server" BorderStyle="None" Width="60" />
+                                                                    </td>
+                                                                    <td class="projectbanner_heading1">
+                                                                        <asp:Label runat="server" ID="lblPBPatientNameHistory"></asp:Label>
+                                                                        &nbsp;(<asp:Label runat="server" ID="lblPBPatientGenderHistory"></asp:Label>)
+                                                                    </td>                                                                    
+                                                                    <td class="projectbanner">
+                                                                        Alamat:
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="projectbanner_heading1">
+                                                                        <asp:Label runat="server" ID="lblPBMRNHistory"></asp:Label>
+                                                                    </td>
+                                                                    <td class="projectbanner">
+                                                                        <asp:Label runat="server" ID="lblPBAddressHistory"></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="projectbanner">
+                                                                        Tanggal Lahir:
+                                                                        &nbsp;<asp:Label runat="server" ID="lblPBPatientDOBHistory" Font-Bold="true"></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            <asp:DataGrid ID="grdPatientResumeHistoryMR" runat="server" BorderWidth="0" GridLines="None"
+                                                                Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
+                                                                AutoGenerateColumns="false">
+                                                                <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
+                                                                <ItemStyle CssClass="gridItemStyle" />
+                                                                <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
+                                                                <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
+                                                                <Columns>
+                                                                    <asp:TemplateColumn runat="server" HeaderText="" ItemStyle-Width="30" ItemStyle-VerticalAlign="Top">
+                                                                        <ItemTemplate>
+                                                                            <asp:Label runat="server" ID="_lblID" Text='<%# DataBinder.Eval(Container.DataItem, "ID")%>'
+                                                                                Visible="false"></asp:Label>
+                                                                            <asp:ImageButton runat="server" ID="_ibtnEdit" ImageUrl="/qistoollib/images/edit.png"
+                                                                                CommandName="Revise" ToolTip="Revisi" Visible='<%# NOT DataBinder.Eval(Container.DataItem, "IsRevised")%>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateColumn>
+                                                                    <asp:TemplateColumn runat="server" HeaderText="Informasi Kunjungan" ItemStyle-Width="250"
+                                                                        ItemStyle-VerticalAlign="Top">
+                                                                        <ItemTemplate>
+                                                                            <table width="100%">
+                                                                                <tr>
+                                                                                    <td style="width: 50px;" valign="top">
+                                                                                        Tanggal
+                                                                                    </td>
+                                                                                    <td valign="top">
+                                                                                        :&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "CreatedDate"), "dd-MMM-yyyy hh:mm")%>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td style="width: 50px;" valign="top">
+                                                                                        Unit
+                                                                                    </td>
+                                                                                    <td valign="top">
+                                                                                        :&nbsp;<%# DataBinder.Eval(Container.DataItem, "ServiceUnitName")%>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td style="width: 50px;" valign="top">
+                                                                                        Dokter
+                                                                                    </td>
+                                                                                    <td valign="top">
+                                                                                        :&nbsp;<%# DataBinder.Eval(Container.DataItem, "PhysicianName")%>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan="2" valign="top">
+                                                                                        <asp:Panel runat="server" ID="_pnlRevised" Visible='<%# DataBinder.Eval(Container.DataItem, "IsRevised")%>'>
+                                                                                            <table cellpadding="2" cellspacing="1" style="background-color: Red;">
+                                                                                                <tr>
+                                                                                                    <td style="color: White;">
+                                                                                                        REVISED
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td class="txtweak" style="background-color: White;">
+                                                                                                        on
+                                                                                                        <%# Format(DataBinder.Eval(Container.DataItem, "LastUpdatedDate"), "dd-MMM-yyyy hh:mm")%><br />
+                                                                                                        by
+                                                                                                        <%# DataBinder.Eval(Container.DataItem, "LastUpdatedByUserName")%>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </table>
+                                                                                        </asp:Panel>
+                                                                                        <asp:Panel runat="server" ID="_pnlCreated" Visible='<%# NOT DataBinder.Eval(Container.DataItem, "IsRevised")%>'>
+                                                                                            <table cellpadding="2" cellspacing="1" style="background-color: Olive;">
+                                                                                                <tr>
+                                                                                                    <td style="color: White;">
+                                                                                                        CREATED
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td class="txtweak" style="background-color: White;">
+                                                                                                        on
+                                                                                                        <%# Format(DataBinder.Eval(Container.DataItem, "CreatedDate"), "dd-MMM-yyyy hh:mm")%><br />
+                                                                                                        by
+                                                                                                        <%# DataBinder.Eval(Container.DataItem, "CreatedByUserName")%>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </table>
+                                                                                        </asp:Panel>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateColumn>
+                                                                    <asp:TemplateColumn runat="server" HeaderText="Subjective" ItemStyle-VerticalAlign="Top"
+                                                                        ItemStyle-Width="250">
+                                                                        <ItemTemplate>
+                                                                            <table width="100%">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        Keluhan Utama:<br />
+                                                                                        <asp:TextBox ID="_txtChiefComplaintText" runat="server" TextMode="MultiLine" Font-Names="Segoe-UI,Arial"
+                                                                                            Width="100%" Height="100" ReadOnly="true" Text='<%# DataBinder.Eval(Container.DataItem, "ChiefComplaint")%>'></asp:TextBox>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <br />
+                                                                                        Riwayat Keluhan Saat Ini:<br />
+                                                                                        <asp:TextBox ID="_txtHistoryOfPresentIllnessText" runat="server" TextMode="MultiLine"
+                                                                                            Font-Names="Segoe-UI,Arial" Width="100%" Height="100" ReadOnly="true" Text='<%# DataBinder.Eval(Container.DataItem, "HistoryOfPresentIllness")%>'></asp:TextBox>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateColumn>
+                                                                    <asp:TemplateColumn runat="server" HeaderText="Diagnosa" ItemStyle-VerticalAlign="Top"
+                                                                        ItemStyle-Width="250">
+                                                                        <ItemTemplate>
+                                                                            <table width="100%">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        Diagnosa Utama:<br />
+                                                                                        <asp:TextBox ID="_txtMainDiagnosisText" runat="server" TextMode="MultiLine" Font-Names="Segoe-UI,Arial"
+                                                                                            Width="100%" Height="100" ReadOnly="true" Text='<%# DataBinder.Eval(Container.DataItem, "MainDiagnosisText")%>'></asp:TextBox>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <br />
+                                                                                        Diagnosa Sekunder:<br />
+                                                                                        <asp:TextBox ID="_txtSecondaryDiagnosisText" runat="server" TextMode="MultiLine"
+                                                                                            Font-Names="Segoe-UI,Arial" Width="100%" Height="100" ReadOnly="true" Text='<%# DataBinder.Eval(Container.DataItem, "SecondaryDiagnosisText")%>'></asp:TextBox>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateColumn>
+                                                                    <asp:TemplateColumn runat="server" HeaderText="Prosedur" ItemStyle-VerticalAlign="Top"
+                                                                        ItemStyle-Width="300">
+                                                                        <ItemTemplate>
+                                                                            <table width="100%">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        Prosedur:<br />
+                                                                                        <asp:TextBox ID="_txtProcedureText" runat="server" TextMode="MultiLine" Font-Names="Segoe-UI,Arial"
+                                                                                            Width="100%" Height="100" ReadOnly="true" Text='<%# DataBinder.Eval(Container.DataItem, "ProcedureText")%>'></asp:TextBox>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateColumn>
+                                                                    <asp:TemplateColumn runat="server" HeaderText="Terapi" ItemStyle-VerticalAlign="Top"
+                                                                        ItemStyle-Width="350">
+                                                                        <ItemTemplate>
+                                                                            <table width="100%">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        Terapi:<br />
+                                                                                        <asp:TextBox ID="_txtTherapyText" runat="server" TextMode="MultiLine" Font-Names="Segoe-UI,Arial"
+                                                                                            Font-Size="Small" Width="100%" Height="194" ReadOnly="true" Text='<%# DataBinder.Eval(Container.DataItem, "TherapyText")%>'></asp:TextBox>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <asp:Label runat="server" ID="_lblTherapyHISOrderNo" Visible="false" Text='<%# DataBinder.Eval(Container.DataItem, "TherapyHISOrderNo")%>'></asp:Label>
+                                                                                        <asp:Panel runat="server" ID="_pnlOrder" Visible='<%# DataBinder.Eval(Container.DataItem, "TherapyHISOrderNo") <> "" and DataBinder.Eval(Container.DataItem, "TherapyHISOrderStatus") = "Order" %>'>
+                                                                                            <table cellpadding="2" cellspacing="1" style="background-color: #2e86c1;" width="100%">
+                                                                                                <tr>
+                                                                                                    <td style="color: White;">
+                                                                                                        Order#:
+                                                                                                        <%# DataBinder.Eval(Container.DataItem, "TherapyHISOrderNo")%>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td class="txtweak" style="background-color: White;">
+                                                                                                        Status:
+                                                                                                        <%# DataBinder.Eval(Container.DataItem, "TherapyHISOrderStatus")%>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </table>
+                                                                                        </asp:Panel>
+                                                                                        <asp:Panel runat="server" ID="_pnlCancel" Visible='<%# DataBinder.Eval(Container.DataItem, "TherapyHISOrderNo") <> "" and DataBinder.Eval(Container.DataItem, "TherapyHISOrderStatus") = "Batal" %>'>
+                                                                                            <table cellpadding="2" cellspacing="1" style="background-color: Red;" width="100%">
+                                                                                                <tr>
+                                                                                                    <td style="color: White;">
+                                                                                                        Order#:
+                                                                                                        <%# DataBinder.Eval(Container.DataItem, "TherapyHISOrderNo")%>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td class="txtweak" style="background-color: White;">
+                                                                                                        Status:
+                                                                                                        <%# DataBinder.Eval(Container.DataItem, "TherapyHISOrderStatus")%>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </table>
+                                                                                        </asp:Panel>
+                                                                                        <asp:Panel runat="server" ID="_pnlRealisasi" Visible='<%# DataBinder.Eval(Container.DataItem, "TherapyHISOrderNo") <> "" and DataBinder.Eval(Container.DataItem, "TherapyHISOrderStatus") = "Realisasi" %>'>
+                                                                                            <table cellpadding="2" cellspacing="1" style="background-color: Olive;" width="100%">
+                                                                                                <tr>
+                                                                                                    <td style="color: White;">
+                                                                                                        Order#:
+                                                                                                        <%# DataBinder.Eval(Container.DataItem, "TherapyHISOrderNo")%>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td class="txtweak" style="background-color: White;">
+                                                                                                        Status:
+                                                                                                        <asp:Label runat="server" ID="_lblTherapyHISOrderStatus" Text='<%# DataBinder.Eval(Container.DataItem, "TherapyHISOrderStatus")%>'></asp:Label><br />
+                                                                                                        on
+                                                                                                        <%# Format(DataBinder.Eval(Container.DataItem, "TherapyHISOrderStatusUpdatedDate"), "dd-MMM-yyyy hh:mm")%><br />
+                                                                                                        by
+                                                                                                        <%# DataBinder.Eval(Container.DataItem, "TherapyHISOrderStatusUpdatedBy")%>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </table>
+                                                                                        </asp:Panel>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateColumn>
+                                                                    <asp:TemplateColumn runat="server" HeaderText="Tgl. Penghentian Pengobatan" ItemStyle-VerticalAlign="Top">
+                                                                        <ItemTemplate>
+                                                                            <pre><%# DataBinder.Eval(Container.DataItem, "TherapyStopDate")%></pre>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateColumn>
+                                                                    <asp:TemplateColumn runat="server" HeaderText="Keterangan" ItemStyle-Width="200"
+                                                                        ItemStyle-VerticalAlign="Top">
+                                                                        <ItemTemplate>
+                                                                            <%# DataBinder.Eval(Container.DataItem, "Notes")%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateColumn>
+                                                                </Columns>
+                                                            </asp:DataGrid>
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             </telerik:RadPageView>
                                         </telerik:RadMultiPage>
                                     </td>
@@ -1068,9 +1342,8 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td valign="top" colspan="2">
-                                                                                        <asp:TextBox ID="_txtKeluhanUtama" runat="server" TextMode="MultiLine"
-                                                                                            Text='<%# DataBinder.Eval(Container.DataItem, "chiefComplaint") %>' Height="80"
-                                                                                            ReadOnly="true" Font-Names="Segoe UI" BorderStyle="None"></asp:TextBox>
+                                                                                        <asp:TextBox ID="_txtKeluhanUtama" runat="server" TextMode="MultiLine" Text='<%# DataBinder.Eval(Container.DataItem, "chiefComplaint") %>'
+                                                                                            Height="80" ReadOnly="true" Font-Names="Segoe UI" BorderStyle="None"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -1081,8 +1354,8 @@
                                                                                 <tr>
                                                                                     <td valign="top" colspan="2">
                                                                                         <asp:TextBox ID="_txtHistoryOfPresentIllness" runat="server" TextMode="MultiLine"
-                                                                                            Text='<%# DataBinder.Eval(Container.DataItem, "HistoryOfPresentIllness") %>' Height="80"
-                                                                                            ReadOnly="true" Font-Names="Segoe UI" BorderStyle="None"></asp:TextBox>
+                                                                                            Text='<%# DataBinder.Eval(Container.DataItem, "HistoryOfPresentIllness") %>'
+                                                                                            Height="80" ReadOnly="true" Font-Names="Segoe UI" BorderStyle="None"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -1092,9 +1365,8 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td valign="top" colspan="2">
-                                                                                        <asp:TextBox ID="_txtMainDiagnosisText" runat="server" TextMode="MultiLine"
-                                                                                            Text='<%# DataBinder.Eval(Container.DataItem, "MainDiagnosisText") %>' Height="80"
-                                                                                            ReadOnly="true" Font-Names="Segoe UI" BorderStyle="None"></asp:TextBox>
+                                                                                        <asp:TextBox ID="_txtMainDiagnosisText" runat="server" TextMode="MultiLine" Text='<%# DataBinder.Eval(Container.DataItem, "MainDiagnosisText") %>'
+                                                                                            Height="80" ReadOnly="true" Font-Names="Segoe UI" BorderStyle="None"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -1104,9 +1376,8 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td valign="top" colspan="2">
-                                                                                        <asp:TextBox ID="_txtTherapyText" runat="server" TextMode="MultiLine"
-                                                                                            Text='<%# DataBinder.Eval(Container.DataItem, "TherapyText") %>' Height="80"
-                                                                                            ReadOnly="true" Font-Names="Segoe UI" BorderStyle="None"></asp:TextBox>
+                                                                                        <asp:TextBox ID="_txtTherapyText" runat="server" TextMode="MultiLine" Text='<%# DataBinder.Eval(Container.DataItem, "TherapyText") %>'
+                                                                                            Height="80" ReadOnly="true" Font-Names="Segoe UI" BorderStyle="None"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -1151,9 +1422,8 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td valign="top" colspan="2">
-                                                                                        <asp:TextBox ID="_txtKeluhanUtama" runat="server" TextMode="MultiLine"
-                                                                                            Text='<%# DataBinder.Eval(Container.DataItem, "KeluhanUtama") %>' Height="80"
-                                                                                            ReadOnly="true" Font-Names="Segoe UI" BorderStyle="None"></asp:TextBox>
+                                                                                        <asp:TextBox ID="_txtKeluhanUtama" runat="server" TextMode="MultiLine" Text='<%# DataBinder.Eval(Container.DataItem, "KeluhanUtama") %>'
+                                                                                            Height="80" ReadOnly="true" Font-Names="Segoe UI" BorderStyle="None"></asp:TextBox>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -1178,39 +1448,47 @@
                                                                                         <table cellspacing="0" cellpadding="0">
                                                                                             <tr>
                                                                                                 <td>
-                                                                                                    Tekanan darah: <%# DataBinder.Eval(Container.DataItem, "ttvTekananDarah")%>
+                                                                                                    Tekanan darah:
+                                                                                                    <%# DataBinder.Eval(Container.DataItem, "ttvTekananDarah")%>
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    Berat badan: <%# DataBinder.Eval(Container.DataItem, "ttvBeratBadan")%>
+                                                                                                    Berat badan:
+                                                                                                    <%# DataBinder.Eval(Container.DataItem, "ttvBeratBadan")%>
                                                                                                 </td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>
-                                                                                                    Nadi: <%# DataBinder.Eval(Container.DataItem, "ttvNadi")%>
+                                                                                                    Nadi:
+                                                                                                    <%# DataBinder.Eval(Container.DataItem, "ttvNadi")%>
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    Tinggi badan: <%# DataBinder.Eval(Container.DataItem, "ttvTinggiBadan")%>
+                                                                                                    Tinggi badan:
+                                                                                                    <%# DataBinder.Eval(Container.DataItem, "ttvTinggiBadan")%>
                                                                                                 </td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>
-                                                                                                    Suhu: <%# DataBinder.Eval(Container.DataItem, "ttvSuhu")%>
+                                                                                                    Suhu:
+                                                                                                    <%# DataBinder.Eval(Container.DataItem, "ttvSuhu")%>
                                                                                                 </td>
                                                                                                 <td>
-                                                                                                    IMT: <%# DataBinder.Eval(Container.DataItem, "ttvIndexMasaTubuh")%>
+                                                                                                    IMT:
+                                                                                                    <%# DataBinder.Eval(Container.DataItem, "ttvIndexMasaTubuh")%>
                                                                                                 </td>
                                                                                             </tr>
-                                                                                        </table>   
+                                                                                        </table>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td valign="top" colspan="2">
-                                                                                        Skala Nyeri: <%# DataBinder.Eval(Container.DataItem, "NyeriSkala")%>
+                                                                                        Skala Nyeri:
+                                                                                        <%# DataBinder.Eval(Container.DataItem, "NyeriSkala")%>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td valign="top" colspan="2">
-                                                                                        Resiko Jatuh: <%# DataBinder.Eval(Container.DataItem, "KategoriResikoJatuh")%>
+                                                                                        Resiko Jatuh:
+                                                                                        <%# DataBinder.Eval(Container.DataItem, "KategoriResikoJatuh")%>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
