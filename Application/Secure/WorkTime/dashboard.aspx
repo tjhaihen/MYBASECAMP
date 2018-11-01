@@ -29,10 +29,10 @@
             list-style-type: none;
             display: inline-block; /* FF3.6; Chrome10+ */                     
             *display: inline;
-            background: #eeeeee;
-            width: 50px;
-            height: 50px;
-            margin: 5px;
+            background: #606060;
+            width: 20px;
+            height: 20px;
+            margin: 0px;
         }
         #ulRepDateInMonth
         {
@@ -81,10 +81,6 @@
                         <td>
                             <asp:TextBox ID="txtYear" runat="server" Width="150" AutoPostBack="true">
                             </asp:TextBox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
                             <asp:DropDownList ID="ddlMonth" runat="server" Width="150" AutoPostBack="true">
                             </asp:DropDownList>
                         </td>
@@ -99,7 +95,7 @@
                                 <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
                                 <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
                                 <Columns>
-                                    <asp:TemplateColumn runat="server" HeaderText="Team Name">
+                                    <asp:TemplateColumn runat="server" HeaderText="Team Name" ItemStyle-Width="200">
                                         <ItemTemplate>
                                             <asp:Label ID="_lblUserID" runat="server" Visible="false" Text='<%# DataBinder.Eval(Container.DataItem, "userID") %>'></asp:Label>
                                             <%# DataBinder.Eval(Container.DataItem, "fullName") %>
@@ -113,7 +109,11 @@
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <li>
-                                                        <asp:Panel ID="pnlHEXColor" runat="server" Width="100%" BackColor="#3399FF">
+                                                        <asp:Panel ID="pnlHEXColor" runat="server" Width="100%" BackColor="#606060" ForeColor="#FFFFFF" CssClass="center" Visible='<%# DataBinder.Eval(Container.DataItem, "IsChecked")=0 %>'>
+                                                            <%# Left(Format(DataBinder.Eval(Container.DataItem, "DateInMonth"), "{0:dd/MM/yyyy}"),2) %>
+                                                        </asp:Panel>
+                                                        <asp:Panel ID="pnlHEXColorFilled" runat="server" Width="100%" BackColor="#017BCD" ForeColor="#FFFFFF" CssClass="center" Visible='<%# DataBinder.Eval(Container.DataItem, "IsChecked") %>'>
+                                                            <%# Left(Format(DataBinder.Eval(Container.DataItem, "DateInMonth"), "{0:dd/MM/yyyy}"),2) %>
                                                         </asp:Panel>
                                                     </li>
                                                 </ItemTemplate>

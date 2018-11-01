@@ -766,7 +766,7 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function GetDateInMOnth(ByVal intMonth As Integer, ByVal strUserID As String) As DataTable
+        Public Function GetDateInMonth(ByVal intMonth As Integer, ByVal strUserID As String) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "GetDateInMonth"
             cmdToExecute.CommandType = CommandType.StoredProcedure

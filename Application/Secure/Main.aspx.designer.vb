@@ -33,6 +33,51 @@ Namespace QIS.Web
         Protected WithEvents RadMenu As Global.QIS.RadMenu
 
         '''<summary>
+        '''chkWorktime control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkWorktime As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''chkAssignments control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkAssignments As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''lblAssignmentsTotal control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblAssignmentsTotal As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''chkUrgents control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkUrgents As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''lblUrgentsTotal control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblUrgentsTotal As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''ibtnMyProjects control.
         '''</summary>
         '''<remarks>

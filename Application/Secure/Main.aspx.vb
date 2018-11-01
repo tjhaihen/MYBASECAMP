@@ -46,6 +46,7 @@ Namespace QIS.Web
                 End If
                 ReadQueryString()
                 GetProjectsByUserID(chkIsMyAssignment.Checked)
+                GetTasksByUserID()
             End If
         End Sub
 
@@ -149,6 +150,11 @@ Namespace QIS.Web
         Private Sub PrepareScreen()
             lblPageTitle.Text = "My Projects"
             chkIsMyAssignment.Checked = False
+            chkWorktime.Checked = False
+            chkAssignments.Checked = False
+            chkUrgents.Checked = False
+            lblAssignmentsTotal.Text = "0"
+            lblUrgentsTotal.Text = "0"
         End Sub
 
         Private Sub GetProjectsByUserID(ByVal IsAssignedOnly As Boolean)
@@ -157,6 +163,34 @@ Namespace QIS.Web
             repMyProjectGroups.DataBind()
             oBr.Dispose()
             oBr = Nothing
+        End Sub
+
+        Private Sub GetTasksByUserID()
+            Dim intAssignments As Integer = 0
+            Dim intUrgents As Integer = 0
+            Dim oBr As New Common.BussinessRules.Issue
+            With oBr
+                .userIDassignedTo = MyBase.LoggedOnUserID.Trim
+                intAssignments = .SelectIssueOutstandingByUserID(False).Rows.Count
+                intUrgents = .SelectIssueOutstandingByUserID(True).Rows.Count
+            End With
+            oBr.Dispose()
+            oBr = Nothing
+
+            Dim oWT As New Common.BussinessRules.WorkTimeHd
+            With oWT
+                .UserID = MyBase.LoggedOnUserID.Trim
+                .WorkTimeDate = Today.Date
+                chkWorktime.Checked = (.SelectByUserIDWorkTimeDateSubmitted.Rows.Count > 0)
+            End With
+            oWT.Dispose()
+            oWT = Nothing
+
+            lblAssignmentsTotal.Text = intAssignments.ToString.Trim
+            lblUrgentsTotal.Text = intUrgents.ToString.Trim
+
+            chkAssignments.Checked = (lblAssignmentsTotal.Text = "0")
+            chkUrgents.Checked = (lblUrgentsTotal.Text = "0")
         End Sub
 
         Private Function GetProjectByProjectGroupID(ByVal ProjectGroupID As String, ByVal IsAssignedOnly As Boolean) As DataTable

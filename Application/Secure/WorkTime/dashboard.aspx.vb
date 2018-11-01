@@ -41,12 +41,13 @@ Namespace QIS.Web.WorkTime
         Private Sub Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
             If Not Me.IsPostBack Then
                 setToolbarVisibleButton()
+                prepareDDL()
                 PrepareScreen()
             End If
         End Sub
 
         Private Sub ddlMonth_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlMonth.SelectedIndexChanged
-            GetDateInMonth()
+            UpdateViewGridActivePeople()
         End Sub
 
         Private Sub txtYear_TextChanged(sender As Object, e As System.EventArgs) Handles txtYear.TextChanged
@@ -54,13 +55,15 @@ Namespace QIS.Web.WorkTime
         End Sub
 
         Private Sub grdActivePeople_ItemDataBound(sender As Object, e As System.Web.UI.WebControls.DataGridItemEventArgs) Handles grdActivePeople.ItemDataBound
-            Dim _repDateInMonthByPeople As Repeater = CType(e.Item.FindControl("_repDateInMonthByPeople"), Repeater)
-            Dim _lblUserID As Label = CType(e.Item.FindControl("lblUserID"), Label)
-            Dim oPU As New Common.BussinessRules.Utility
-            _repDateInMonthByPeople.DataSource = oPU.GetDateInMOnth(CInt(ddlMonth.SelectedValue.Trim), _lblUserID.Text.Trim)
-            _repDateInMonthByPeople.DataBind()
-            oPU.Dispose()
-            oPU = Nothing
+            If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+                Dim _repDateInMonthByPeople As Repeater = CType(e.Item.FindControl("_repDateInMonthByPeople"), Repeater)
+                Dim _lblUserID As Label = CType(e.Item.FindControl("_lblUserID"), Label)
+                Dim oPU As New Common.BussinessRules.Utility
+                _repDateInMonthByPeople.DataSource = oPU.GetDateInMonth(CInt(ddlMonth.SelectedValue.Trim), _lblUserID.Text.Trim)
+                _repDateInMonthByPeople.DataBind()
+                oPU.Dispose()
+                oPU = Nothing
+            End If            
         End Sub
 #End Region
 
