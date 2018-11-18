@@ -33,6 +33,42 @@ Namespace QIS.Web.EMR
         Protected WithEvents RadMenu As Global.QIS.RadMenu
 
         '''<summary>
+        '''pnlDashboard control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlDashboard As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''lblTotalPasienIGD control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalPasienIGD As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalPasienRawatJalan control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalPasienRawatJalan As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalPasienRawatInap control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalPasienRawatInap As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''txtLinkParamedicID control.
         '''</summary>
         '''<remarks>
@@ -303,6 +339,15 @@ Namespace QIS.Web.EMR
         Protected WithEvents lblPBRegistrationTime As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
+        '''lblPBDepartmentName control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblPBDepartmentName As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''lblPBRegistrationNo control.
         '''</summary>
         '''<remarks>
@@ -438,6 +483,24 @@ Namespace QIS.Web.EMR
         Protected WithEvents lbtnDischarge As Global.System.Web.UI.WebControls.LinkButton
 
         '''<summary>
+        '''ddlAssessmentType control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlAssessmentType As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''chkIsDischarged control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsDischarged As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
         '''txtChiefComplaint control.
         '''</summary>
         '''<remarks>
@@ -454,6 +517,15 @@ Namespace QIS.Web.EMR
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents txtHistoryOfPresentIllness As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''txtObjectiveText control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtObjectiveText As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
         '''txtID control.
@@ -483,6 +555,15 @@ Namespace QIS.Web.EMR
         Protected WithEvents txtSecondaryDiagnosisText As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
+        '''txtProcedureText control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtProcedureText As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
         '''chkIsCreateOrder control.
         '''</summary>
         '''<remarks>
@@ -510,15 +591,6 @@ Namespace QIS.Web.EMR
         Protected WithEvents lblTherapyHISOrderNo As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
-        '''txtProcedureText control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents txtProcedureText As Global.System.Web.UI.WebControls.TextBox
-
-        '''<summary>
         '''txtTherapyText control.
         '''</summary>
         '''<remarks>
@@ -526,6 +598,15 @@ Namespace QIS.Web.EMR
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents txtTherapyText As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''txtMeasurableTargetText control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtMeasurableTargetText As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
         '''txtTherapyStopDate control.
@@ -537,15 +618,6 @@ Namespace QIS.Web.EMR
         Protected WithEvents txtTherapyStopDate As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
-        '''chkIsDischarged control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents chkIsDischarged As Global.System.Web.UI.WebControls.CheckBox
-
-        '''<summary>
         '''txtNotes control.
         '''</summary>
         '''<remarks>
@@ -553,6 +625,24 @@ Namespace QIS.Web.EMR
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents txtNotes As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''btnGenerateSOAPNotes control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnGenerateSOAPNotes As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''txtSOAPNotes control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtSOAPNotes As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
         '''grdPatientResume control.
@@ -598,6 +688,15 @@ Namespace QIS.Web.EMR
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents grdPatientDocument As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''grdPatientDocumentByRegistration control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdPatientDocumentByRegistration As Global.System.Web.UI.WebControls.DataGrid
 
         '''<summary>
         '''RadPageView7 control.

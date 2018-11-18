@@ -11,17 +11,15 @@ Namespace QIS.Common.BussinessRules
 #Region " Class Member Declarations "
 
         Private _fileID As Integer
-        Private _MRN, _fileName, _fileExtension, _fileDescription As String
+        Private _MRN, _registrationNo, _fileName, _fileExtension, _fileDescription As String
         Private _uploadBy As String
         Private _uploadDate As DateTime
 
 #End Region
 
-
         Public Sub New()
             ' // Nothing for now.
         End Sub
-
 
         Public Sub New(ByVal strConnectionString As String)
             ConnectionString = strConnectionString
@@ -31,9 +29,9 @@ Namespace QIS.Common.BussinessRules
         Public Overrides Function Insert() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
 
-            cmdToExecute.CommandText = "INSERT INTO [EMRPatientDocument] (MRN, fileName, fileExtension, fileDescription, " & _
+            cmdToExecute.CommandText = "INSERT INTO [EMRPatientDocument] (MRN, registrationNo, fileName, fileExtension, fileDescription, " & _
                                         "uploadBy, uploadDate) " & _
-                                        "VALUES (@MRN, @fileName, @fileExtension, @fileDescription, " & _
+                                        "VALUES (@MRN, @registrationNo, @fileName, @fileExtension, @fileDescription, " & _
                                         "@uploadBy, GETDATE())"
             cmdToExecute.CommandType = CommandType.Text
 
@@ -42,6 +40,7 @@ Namespace QIS.Common.BussinessRules
 
             Try
                 cmdToExecute.Parameters.AddWithValue("@MRN", _MRN)
+                cmdToExecute.Parameters.AddWithValue("@registrationNo", _registrationNo)
                 cmdToExecute.Parameters.AddWithValue("@fileName", _fileName)
                 cmdToExecute.Parameters.AddWithValue("@fileExtension", _fileExtension)
                 cmdToExecute.Parameters.AddWithValue("@fileDescription", _fileDescription)
@@ -86,6 +85,7 @@ Namespace QIS.Common.BussinessRules
                 If toReturn.Rows.Count > 0 Then
                     _fileID = CType(toReturn.Rows(0)("fileID"), Integer)
                     _MRN = CType(toReturn.Rows(0)("MRN"), String)
+                    _registrationNo = CType(toReturn.Rows(0)("registrationNo"), String)
                     _fileName = CType(toReturn.Rows(0)("fileName"), String)
                     _fileExtension = CType(toReturn.Rows(0)("fileExtension"), String)
                     _fileDescription = CType(toReturn.Rows(0)("fileDescription"), String)
@@ -172,6 +172,84 @@ Namespace QIS.Common.BussinessRules
                 adapter.Dispose()
             End Try
         End Function
+
+        Public Function GetPatientDocumentByMRNRegistrationNo() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand()
+            cmdToExecute.CommandText = "SELECT pf.*, " + _
+                                        "FileUrl = " + _
+                                        "CASE " + _
+                                        "WHEN(LEN(pf.fileName) > 0) THEN((SELECT [value] FROM CommonCode WHERE groupCode='FILEDIR' AND code='PATIENTDOCDIRAC') + pf.MRN + '/' + pf.[fileName]) " + _
+                                        "ELSE('#') " + _
+                                        "END, " + _
+                                        "UploadByName = (SELECT userName FROM [User] WHERE userID=pf.uploadBy) " + _
+                                        "FROM [EMRPatientDocument] pf WHERE pf.MRN=@MRN AND pf.registrationNo=@registrationNo"
+            cmdToExecute.CommandType = CommandType.Text
+            Dim toReturn As DataTable = New DataTable("GetPatientDocumentByMRNRegistrationNo")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            ' // Use base class' connection object
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@MRN", _MRN)
+                cmdToExecute.Parameters.AddWithValue("@registrationNo", _registrationNo)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                Return toReturn
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+        End Function
+
+        Public Function GetPatientDocumentByMRNExcludeInRegistration() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand()
+            cmdToExecute.CommandText = "SELECT pf.*, " + _
+                                        "FileUrl = " + _
+                                        "CASE " + _
+                                        "WHEN(LEN(pf.fileName) > 0) THEN((SELECT [value] FROM CommonCode WHERE groupCode='FILEDIR' AND code='PATIENTDOCDIRAC') + pf.MRN + '/' + pf.[fileName]) " + _
+                                        "ELSE('#') " + _
+                                        "END, " + _
+                                        "UploadByName = (SELECT userName FROM [User] WHERE userID=pf.uploadBy) " + _
+                                        "FROM [EMRPatientDocument] pf WHERE pf.MRN=@MRN AND pf.registrationNo <> @registrationNo"
+            cmdToExecute.CommandType = CommandType.Text
+            Dim toReturn As DataTable = New DataTable("GetPatientDocumentByMRNExcludeInRegistration")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            ' // Use base class' connection object
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@MRN", _MRN)
+                cmdToExecute.Parameters.AddWithValue("@registrationNo", _registrationNo)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                Return toReturn
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+        End Function
 #End Region
 
 #Region " Class Property Declarations "
@@ -191,6 +269,15 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _MRN = Value
+            End Set
+        End Property
+
+        Public Property [RegistrationNo]() As String
+            Get
+                Return _registrationNo
+            End Get
+            Set(ByVal Value As String)
+                _registrationNo = Value
             End Set
         End Property
 

@@ -33,6 +33,60 @@ Namespace QIS.Web.EMR
         Protected WithEvents RadMenu As Global.QIS.RadMenu
 
         '''<summary>
+        '''pnlDashboard control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlDashboard As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''lblTotalPasienIGD control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalPasienIGD As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalPasienRawatJalan control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalPasienRawatJalan As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalPasienRawatInap control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalPasienRawatInap As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''pnlInfoForPhysician control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlInfoForPhysician As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''pnlPatientIntervention control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlPatientIntervention As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
         '''txtLinkParamedicID control.
         '''</summary>
         '''<remarks>

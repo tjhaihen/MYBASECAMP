@@ -82,6 +82,18 @@
                                             </tr>
                                             <tr>
                                                 <td class="right" style="background-color: #30CD08; color: #ffffff; width: 200;">
+                                                    Nomor Registrasi
+                                                </td>
+                                                <td style="width: 500px;">
+                                                    <asp:TextBox ID="txtRegistrationNo" Width="150" MaxLength="15" runat="server" AutoPostBack="true" />                                                    
+                                                </td>
+                                                <td style="width: 200;" class="right">
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="right" style="background-color: #30CD08; color: #ffffff; width: 200;">
                                                     Nama Pasien
                                                 </td>
                                                 <td style="width: 500px;">
@@ -200,6 +212,11 @@
                                                             <asp:TemplateColumn runat="server" HeaderText="Keterangan" ItemStyle-VerticalAlign="Top">
                                                                 <ItemTemplate>
                                                                     <%# DataBinder.Eval(Container.DataItem, "FileDescription")%>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateColumn>
+                                                            <asp:TemplateColumn runat="server" HeaderText="No. Registrasi" ItemStyle-VerticalAlign="Top">
+                                                                <ItemTemplate>
+                                                                    <%# DataBinder.Eval(Container.DataItem, "RegistrationNo")%>
                                                                 </ItemTemplate>
                                                             </asp:TemplateColumn>
                                                             <asp:TemplateColumn runat="server" HeaderText="Diunggah" ItemStyle-Width="150" ItemStyle-VerticalAlign="Top">

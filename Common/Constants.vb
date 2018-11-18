@@ -15,6 +15,8 @@
             Public Const System_SCode As String = "SYSTEM"
             Public Const Delimiter_SCode As String = "DELIMITER"
 
+            Public Const EMRAssessmentType_SCode As String = "ASSESSMENTTYPE"
+
             Public Const NAAsalInformasi_SCode As String = "INFOSOURCE"
             Public Const NAHubungan_SCode As String = "RELATIONSHIP"
             Public Const NAJenisAlergi_SCode As String = "ALERGYTYPE"

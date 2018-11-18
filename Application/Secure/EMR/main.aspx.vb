@@ -180,10 +180,14 @@ Namespace QIS.Web.EMR
             pnlPatientRecord.Visible = False
             txtSearchPatient.Text = String.Empty
             UpdateViewGridTodayPatient(String.Empty)
+            PrepareScreenDashboard()
 
             chkIsCreateOrder.Checked = True
             chkIsRealized.Checked = False
             lblTherapyHISOrderNo.Text = String.Empty
+
+            pnlInfoForPhysician.Visible = chkIsPhysician.Checked
+            pnlPatientIntervention.Visible = Not chkIsPhysician.Checked
         End Sub
 
         Private Sub PrepareScreenPatientResume()
@@ -215,6 +219,39 @@ Namespace QIS.Web.EMR
         Private Sub PrepareScreenPatientHistory()
             txtMedicalNoHistory.Text = String.Empty
             UpdateViewGridPatientResumeHistoryMR()
+        End Sub
+
+        Private Sub PrepareScreenDashboard()
+            Dim dt As New DataTable
+            Dim oBR As New Common.BussinessRules.EMR
+            With oBR
+                .PhysicianID = txtLinkParamedicID.Text.Trim
+                .DepartmentID = "OUTPATIENT"
+                If chkIsPhysician.Checked Then
+                    dt = .GetPatientPhysicianIDToday(String.Empty)
+                Else
+                    dt = .GetPatientToday(String.Empty)
+                End If
+                lblTotalPasienRawatJalan.Text = dt.Rows.Count.ToString.Trim
+
+                .DepartmentID = "EMERGENCY"
+                If chkIsPhysician.Checked Then
+                    dt = .GetPatientPhysicianIDToday(String.Empty)
+                Else
+                    dt = .GetPatientToday(String.Empty)
+                End If
+                lblTotalPasienIGD.Text = dt.Rows.Count.ToString.Trim
+
+                .DepartmentID = "INPATIENT"
+                If chkIsPhysician.Checked Then
+                    dt = .GetPatientPhysicianIDToday(String.Empty)
+                Else
+                    dt = .GetPatientToday(String.Empty)
+                End If
+                lblTotalPasienRawatInap.Text = dt.Rows.Count.ToString.Trim
+            End With
+            oBR.Dispose()
+            oBR = Nothing
         End Sub
 
         Private Sub UpdateViewGridTodayPatient(ByVal strSearch As String)

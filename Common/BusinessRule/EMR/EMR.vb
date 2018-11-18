@@ -25,6 +25,7 @@ Namespace QIS.Common.BussinessRules
         Private _CreatedDate, _LastUpdatedDate As DateTime
 
         Private _ComplainText, _InterventionText, _EvaluationText, _ParamedicID As String
+        Private _AssessmentTypeSCode, _SOAPNotes, _ObjectiveText, _MeasurableTargetText As String
 
 #End Region
 
@@ -50,6 +51,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@MRN", _MRN)
                 cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
                 cmdToExecute.Parameters.AddWithValue("@PhysicianID", _PhysicianID)
+                cmdToExecute.Parameters.AddWithValue("@AssessmentTypeSCode", _AssessmentTypeSCode)
                 cmdToExecute.Parameters.AddWithValue("@ChiefComplaint", _ChiefComplaint)
                 cmdToExecute.Parameters.AddWithValue("@HistoryOfPresentIllness", _HistoryOfPresentIllness)
                 cmdToExecute.Parameters.AddWithValue("@MainDiagnosisText", _MainDiagnosisText)
@@ -62,6 +64,9 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@LastUpdatedBy", _LastUpdatedBy)
                 cmdToExecute.Parameters.AddWithValue("@IsDischarged", _IsDischarged)
                 cmdToExecute.Parameters.AddWithValue("@TherapyHISOrderNo", _TherapyHISOrderNo)
+                cmdToExecute.Parameters.AddWithValue("@SOAPNotes", _SOAPNotes)
+                cmdToExecute.Parameters.AddWithValue("@ObjectiveText", _ObjectiveText)
+                cmdToExecute.Parameters.AddWithValue("@MeasurableTargetText", _MeasurableTargetText)
 
                 ' // Open Connection
                 _mainConnection.Open()
@@ -91,6 +96,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@MRN", _MRN)
                 cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
                 cmdToExecute.Parameters.AddWithValue("@PhysicianID", _PhysicianID)
+                cmdToExecute.Parameters.AddWithValue("@AssessmentTypeSCode", _AssessmentTypeSCode)
                 cmdToExecute.Parameters.AddWithValue("@ChiefComplaint", _ChiefComplaint)
                 cmdToExecute.Parameters.AddWithValue("@HistoryOfPresentIllness", _HistoryOfPresentIllness)
                 cmdToExecute.Parameters.AddWithValue("@MainDiagnosisText", _MainDiagnosisText)
@@ -103,6 +109,9 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@LastUpdatedBy", _LastUpdatedBy)
                 cmdToExecute.Parameters.AddWithValue("@IsDischarged", _IsDischarged)
                 cmdToExecute.Parameters.AddWithValue("@TherapyHISOrderNo", _TherapyHISOrderNo)
+                cmdToExecute.Parameters.AddWithValue("@SOAPNotes", _SOAPNotes)
+                cmdToExecute.Parameters.AddWithValue("@ObjectiveText", _ObjectiveText)
+                cmdToExecute.Parameters.AddWithValue("@MeasurableTargetText", _MeasurableTargetText)
 
                 ' // Open Connection
                 _mainConnection.Open()
@@ -342,6 +351,39 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
+        Public Function GetPatientResumeFirstAssessmentByRegistrationNo() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spEMRGetPatientResumeFirstAssessmentByRegistrationNo"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spEMRGetPatientResumeFirstAssessmentByRegistrationNo")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@MRN", _MRN)
+                cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
         Public Function GetPatientResumeByID() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "spEMRGetPatientResumeByID"
@@ -362,6 +404,7 @@ Namespace QIS.Common.BussinessRules
                 adapter.Fill(toReturn)
 
                 If toReturn.Rows.Count > 0 Then
+                    _AssessmentTypeSCode = CType(toReturn.Rows(0)("AssessmentTypeSCode"), String)
                     _ChiefComplaint = CType(toReturn.Rows(0)("ChiefComplaint"), String)
                     _HistoryOfPresentIllness = CType(toReturn.Rows(0)("HistoryOfPresentIllness"), String)
                     _MainDiagnosisText = CType(toReturn.Rows(0)("MainDiagnosisText"), String)
@@ -370,6 +413,9 @@ Namespace QIS.Common.BussinessRules
                     _TherapyText = CType(toReturn.Rows(0)("TherapyText"), String)
                     _TherapyStopDate = CType(toReturn.Rows(0)("TherapyStopDate"), String)
                     _Notes = CType(toReturn.Rows(0)("Notes"), String)
+                    _SOAPNotes = CType(toReturn.Rows(0)("SOAPNotes"), String)
+                    _ObjectiveText = CType(toReturn.Rows(0)("ObjectiveText"), String)
+                    _MeasurableTargetText = CType(toReturn.Rows(0)("MeasurableTargetText"), String)
                     _ID = CType(toReturn.Rows(0)("ID"), Integer)
                 End If
             Catch ex As Exception
@@ -687,6 +733,15 @@ Namespace QIS.Common.BussinessRules
             End Set
         End Property
 
+        Public Property [AssessmentTypeSCode]() As String
+            Get
+                Return _AssessmentTypeSCode
+            End Get
+            Set(ByVal Value As String)
+                _AssessmentTypeSCode = Value
+            End Set
+        End Property
+
         Public Property [ChiefComplaint]() As String
             Get
                 Return _ChiefComplaint
@@ -756,6 +811,33 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _Notes = Value
+            End Set
+        End Property
+
+        Public Property [SOAPNotes]() As String
+            Get
+                Return _SOAPNotes
+            End Get
+            Set(ByVal Value As String)
+                _SOAPNotes = Value
+            End Set
+        End Property
+
+        Public Property [ObjectiveText]() As String
+            Get
+                Return _ObjectiveText
+            End Get
+            Set(ByVal Value As String)
+                _ObjectiveText = Value
+            End Set
+        End Property
+
+        Public Property [MeasurableTargetText]() As String
+            Get
+                Return _MeasurableTargetText
+            End Get
+            Set(ByVal Value As String)
+                _MeasurableTargetText = Value
             End Set
         End Property
 

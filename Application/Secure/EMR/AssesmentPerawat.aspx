@@ -118,8 +118,9 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="6">
-                                                    <asp:DataGrid ID="grdTodayPatient" runat="server" BorderWidth="0" GridLines="None" Width="100%"
-                                                        CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false" AutoGenerateColumns="false">
+                                                    <asp:DataGrid ID="grdTodayPatient" runat="server" BorderWidth="0" GridLines="None"
+                                                        Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
+                                                        AutoGenerateColumns="false">
                                                         <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
                                                         <ItemStyle CssClass="gridItemStyle" />
                                                         <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
@@ -194,7 +195,7 @@
                                                                 </ItemTemplate>
                                                             </asp:TemplateColumn>
                                                         </Columns>
-                                                    </asp:DataGrid>                                                    
+                                                    </asp:DataGrid>
                                                 </td>
                                             </tr>
                                         </table>
@@ -260,10 +261,10 @@
                                             <asp:Label runat="server" ID="lblPBTransactionNo"></asp:Label>
                                         </td>
                                         <td class="projectbanner right">
-                                            Dokter:                                            
+                                            Dokter:
                                         </td>
                                         <td class="projectbanner">
-                                            <asp:Label runat="server" ID="lblPBPhysicianName" Font-Bold="true"></asp:Label>                                            
+                                            <asp:Label runat="server" ID="lblPBPhysicianName" Font-Bold="true"></asp:Label>
                                         </td>
                                         <td class="projectbanner right">
                                             Penjamin:
@@ -280,12 +281,48 @@
                                 <telerik:RadTabStrip RenderMode="Lightweight" ID="RadTabStrip3" runat="server" MultiPageID="RadMultiPage3"
                                     Skin="Windows7" SelectedIndex="0" AutoPostBack="true">
                                     <Tabs>
-                                        <telerik:RadTab Text="Pengkajian Awal Keperawatan">
+                                        <telerik:RadTab Text="Asesmen Keperawatan">
                                         </telerik:RadTab>
                                     </Tabs>
                                 </telerik:RadTabStrip>
                                 <telerik:RadMultiPage ID="RadMultiPage3" CssClass="RadMultiPage" runat="server" SelectedIndex="0">
                                     <telerik:RadPageView ID="RadPageView5" runat="server">
+                                        <asp:Panel ID="pnlNurseAssesmentGrid" runat="server">
+                                            <table cellpadding="2" cellspacing="1" width="100%">
+                                                <tr>
+                                                    <td>
+                                                        <asp:DataGrid ID="grdNurseAssessment" runat="server" BorderWidth="0" GridLines="None"
+                                                            Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="false" ShowFooter="false"
+                                                            AutoGenerateColumns="false">
+                                                            <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
+                                                            <ItemStyle CssClass="gridItemStyle" />
+                                                            <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
+                                                            <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
+                                                            <Columns>
+                                                                <asp:TemplateColumn runat="server" HeaderText="Tipe Asesmen" ItemStyle-Width="150"
+                                                                    ItemStyle-VerticalAlign="Top">
+                                                                    <ItemTemplate>
+                                                                        <%# DataBinder.Eval(Container.DataItem, "AssessmentTypeName") %>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                                <asp:TemplateColumn runat="server" HeaderText="Dibuat Pada" ItemStyle-Width="250"
+                                                                    ItemStyle-VerticalAlign="Top">
+                                                                    <ItemTemplate>
+                                                                        <%# Format(DataBinder.Eval(Container.DataItem, "CreatedDate"), "dd-MMM-yyyy hh:mm")%>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                                <asp:TemplateColumn runat="server" HeaderText="Dibuat Oleh" ItemStyle-Width="250"
+                                                                    ItemStyle-VerticalAlign="Top">
+                                                                    <ItemTemplate>
+                                                                        <%# DataBinder.Eval(Container.DataItem, "CreatedByName")%>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                            </Columns>
+                                                        </asp:DataGrid>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </asp:Panel>
                                         <asp:Panel ID="pnlNurseAssesment" runat="server">
                                             <table class="ToolbarM" cellpadding="1" cellspacing="0" border="0" width="100%">
                                                 <tr>
@@ -307,6 +344,15 @@
                                                 <tr>
                                                     <td colspan="4">
                                                         <table cellpadding="2" cellspacing="1" width="100%">
+                                                            <tr>
+                                                                <td style="width: 200; background-color: #30CD06; color: #ffffff;">
+                                                                    Tipe Asesmen
+                                                                </td>
+                                                                <td>
+                                                                    <asp:DropDownList ID="ddlAssessmentType" runat="server" Width="150">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
                                                             <tr>
                                                                 <td rowspan="3" style="width: 200; background-color: #30CD06; color: #ffffff;">
                                                                     Asal Informasi

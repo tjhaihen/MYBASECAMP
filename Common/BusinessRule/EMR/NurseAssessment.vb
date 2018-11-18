@@ -13,6 +13,7 @@ Namespace QIS.Common.BussinessRules
 #Region " Class Member Declarations "
         Private _PengkajianID As Integer
         Private _DepartmentID, _RegistrationNo, _RoomCode, _PenjaminBayarCode As String
+        Private _AssessmentTypeSCode As String
         Private _GCAsalInformasi, _GCAsalInformasiHubungan, _GCJenisAlergi, _GCKesadaran, _GCttvNadiDenyut, _GCNyeriMetode, _GCNyeriKualitas,
             _GCNyeriKarakteristik, _GCNyeriBerkurang, _GCNyeriBertambah, _GCAktivitasMobilisasi, _GCStatusPsikologi,
             _GCStatusMental, _GCStatusPernikahan, _GCStatusTempatTinggal, _GCPekerjaan, _GCPenjaminBayar,
@@ -54,6 +55,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
                 cmdToExecute.Parameters.AddWithValue("@RoomCode", _RoomCode)
                 cmdToExecute.Parameters.AddWithValue("@PenjaminBayarCode", _PenjaminBayarCode)
+                cmdToExecute.Parameters.AddWithValue("@AssessmentTypeSCode", _AssessmentTypeSCode)
 
                 cmdToExecute.Parameters.AddWithValue("@GCAsalInformasi", _GCAsalInformasi)
                 cmdToExecute.Parameters.AddWithValue("@GCAsalInformasiHubungan", _GCAsalInformasiHubungan)
@@ -366,6 +368,7 @@ Namespace QIS.Common.BussinessRules
                     _PengkajianID = CType(toReturn.Rows(0)("PengkajianID"), Integer)
                     _DepartmentID = CType(toReturn.Rows(0)("DepartmentID"), String)
                     _RegistrationNo = CType(toReturn.Rows(0)("RegistrationNo"), String)
+                    _AssessmentTypeSCode = CType(toReturn.Rows(0)("AssessmentTypeSCode"), String)
                     _RoomCode = CType(toReturn.Rows(0)("RoomCode"), String)
                     _PenjaminBayarCode = CType(toReturn.Rows(0)("PenjaminBayarCode"), String)
                     _GCAsalInformasi = CType(toReturn.Rows(0)("GCAsalInformasi"), String)
@@ -496,6 +499,15 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _RegistrationNo = Value
+            End Set
+        End Property
+
+        Public Property [AssessmentTypeSCode]() As String
+            Get
+                Return _AssessmentTypeSCode
+            End Get
+            Set(ByVal Value As String)
+                _AssessmentTypeSCode = Value
             End Set
         End Property
 

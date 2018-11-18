@@ -60,6 +60,15 @@ Namespace QIS.Web.Secure
         Protected WithEvents rfvMRN As Global.System.Web.UI.WebControls.RequiredFieldValidator
 
         '''<summary>
+        '''txtRegistrationNo control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtRegistrationNo As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
         '''txtPatientName control.
         '''</summary>
         '''<remarks>

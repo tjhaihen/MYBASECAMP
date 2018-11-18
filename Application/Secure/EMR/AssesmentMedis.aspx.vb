@@ -45,8 +45,13 @@ Namespace QIS.Web.EMR
                 txtLinkParamedicID.Text = MyBase.LoggedOnLinkParamedicID
                 chkIsPhysician.Checked = IsUserPhysician(MyBase.LoggedOnUserID)
 
+                prepareDDL()
                 PrepareScreen()
             End If
+        End Sub
+
+        Private Sub ddlDepartmentFilter_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlDepartmentFilter.SelectedIndexChanged
+            UpdateViewGridTodayPatient(String.Empty)
         End Sub
 
         Private Sub grdTodayPatient_ItemCommand(source As Object, e As System.Web.UI.WebControls.DataGridCommandEventArgs) Handles grdTodayPatient.ItemCommand
@@ -58,7 +63,7 @@ Namespace QIS.Web.EMR
                     lblPBRegistrationNo.Text = _lbtnRegistrationNo.Text.Trim
                     lblPBTransactionNo.Text = _lblTransactionNo.Text.Trim
                     lblPBPhysicianName.Text = _lblPhysicianName.Text.Trim
-                    OpenRegistration(ddlDepartmentFilter.SelectedValue.Trim, lblPBRegistrationNo.Text.Trim, lblPBTransactionNo.Text.Trim)
+                    OpenRegistration(ddlDepartmentFilter.SelectedValue.Trim, lblPBRegistrationNo.Text.Trim, lblPBTransactionNo.Text.Trim, ddlDepartmentFilter.SelectedItem.Text.Trim)
             End Select
         End Sub
 
@@ -164,6 +169,44 @@ Namespace QIS.Web.EMR
         Private Sub btnShowHistory_Click(sender As Object, e As System.EventArgs) Handles btnShowHistory.Click
             OpenPatientHistory(txtMedicalNoHistory.Text.Trim)
         End Sub
+
+        Private Sub btnGenerateSOAPNotes_Click(sender As Object, e As System.EventArgs) Handles btnGenerateSOAPNotes.Click
+            If txtChiefComplaint.Text.Trim = String.Empty Then
+                commonFunction.MsgBox(Me, "Anamneis (Keluhan Utama) harus diisi.")
+                Exit Sub
+            End If
+            If txtMainDiagnosisText.Text.Trim = String.Empty Then
+                commonFunction.MsgBox(Me, "Diagnosa Utama harus diisi.")
+                Exit Sub
+            End If
+            Dim strSOAPNotes As String = String.Empty
+            strSOAPNotes = "Subjective:" + vbCrLf
+            strSOAPNotes += "Keluhan utama: " + txtChiefComplaint.Text.Trim + vbCrLf
+            If txtHistoryOfPresentIllness.Text.Trim.Length > 0 Then
+                strSOAPNotes += "Riwayat kesehatan: " + txtHistoryOfPresentIllness.Text.Trim + vbCrLf
+            End If
+            strSOAPNotes += vbCrLf
+            strSOAPNotes += "Objective:" + vbCrLf
+            strSOAPNotes += txtObjectiveText.Text.Trim + vbCrLf
+            strSOAPNotes += vbCrLf
+            strSOAPNotes += "Assessment:" + vbCrLf
+            strSOAPNotes += "Diagnosa utama: " + txtMainDiagnosisText.Text.Trim + vbCrLf
+            If txtSecondaryDiagnosisText.Text.Trim.Length > 0 Then
+                strSOAPNotes += "Diagnosa sekunder: " + txtSecondaryDiagnosisText.Text.Trim + vbCrLf
+            End If            
+            strSOAPNotes += vbCrLf
+            strSOAPNotes += "Planning:" + vbCrLf
+            strSOAPNotes += "Terapi:" + vbCrLf
+            strSOAPNotes += txtTherapyText.Text.Trim + vbCrLf
+            
+            txtSOAPNotes.Text = strSOAPNotes
+
+            commonFunction.Focus(Me, txtSOAPNotes.ClientID)
+        End Sub
+
+        Private Sub RadTabStrip3_TabClick(sender As Object, e As Telerik.Web.UI.RadTabStripEventArgs) Handles RadTabStrip3.TabClick
+            UpdateViewGridCatatanMedis()
+        End Sub
 #End Region
 
 #Region " Support functions for navigation bar (Controls) "
@@ -175,6 +218,10 @@ Namespace QIS.Web.EMR
 
         End Function
 
+        Private Sub prepareDDL()
+            commonFunction.SetDDL_Table(ddlAssessmentType, "CommonCode", Common.Constants.GroupCode.EMRAssessmentType_SCode)
+        End Sub
+
         Private Sub PrepareScreen()
             txtTodayDate.Text = Format(Date.Today, commonFunction.FORMAT_DATE)
             'pnlPhysicianOnly.Visible = chkIsPhysician.Checked
@@ -182,6 +229,7 @@ Namespace QIS.Web.EMR
             pnlPatientRecord.Visible = False
             txtSearchPatient.Text = String.Empty
             UpdateViewGridTodayPatient(String.Empty)
+            PrepareScreenDashboard()
 
             chkIsCreateOrder.Checked = True
             chkIsRealized.Checked = False
@@ -190,6 +238,7 @@ Namespace QIS.Web.EMR
 
         Private Sub PrepareScreenPatientResume()
             txtID.Text = String.Empty
+            ddlAssessmentType.Enabled = True
             txtChiefComplaint.Text = String.Empty
             txtHistoryOfPresentIllness.Text = String.Empty
             txtMainDiagnosisText.Text = String.Empty
@@ -198,6 +247,9 @@ Namespace QIS.Web.EMR
             txtTherapyText.Text = String.Empty
             txtTherapyStopDate.Text = String.Empty
             txtNotes.Text = String.Empty
+            txtSOAPNotes.Text = String.Empty
+            txtObjectiveText.Text = String.Empty
+            txtMeasurableTargetText.Text = String.Empty
             UpdateViewGridPatientResume()
             UpdateViewGridPatientResumeHistory()
             UpdateViewGridPatientDocument()
@@ -205,6 +257,8 @@ Namespace QIS.Web.EMR
             chkIsCreateOrder.Checked = True
             chkIsRealized.Checked = False
             lblTherapyHISOrderNo.Text = String.Empty
+
+            CheckFirstAssessmentByRegistrationNo()
         End Sub
 
         Private Sub PrepareScreenPatientIntervention()
@@ -219,6 +273,47 @@ Namespace QIS.Web.EMR
             txtMedicalNoHistory.Text = String.Empty
             UpdateViewGridPatientResumeHistoryMR()
         End Sub
+
+        Private Sub PrepareScreenDashboard()
+            Dim dt As New DataTable
+            Dim oBR As New Common.BussinessRules.EMR
+            With oBR
+                .PhysicianID = txtLinkParamedicID.Text.Trim
+                .DepartmentID = "OUTPATIENT"
+                dt = .GetPatientPhysicianIDToday(String.Empty)
+                lblTotalPasienRawatJalan.Text = dt.Rows.Count.ToString.Trim
+
+                .DepartmentID = "EMERGENCY"
+                dt = .GetPatientPhysicianIDToday(String.Empty)
+                lblTotalPasienIGD.Text = dt.Rows.Count.ToString.Trim
+
+                .DepartmentID = "INPATIENT"
+                dt = .GetPatientPhysicianIDToday(String.Empty)
+                lblTotalPasienRawatInap.Text = dt.Rows.Count.ToString.Trim
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
+        Private Function CheckFirstAssessmentByRegistrationNo() As Boolean
+            Dim bolFA As Boolean = False
+            Dim oBr As New Common.BussinessRules.EMR
+            With oBr
+                .MRN = lblPBMRN.Text.Trim
+                .RegistrationNo = lblPBRegistrationNo.Text.Trim
+                If .GetPatientResumeFirstAssessmentByRegistrationNo.Rows.Count > 0 Then
+                    ddlAssessmentType.SelectedIndex = 1
+                    bolFA = True
+                Else
+                    ddlAssessmentType.SelectedIndex = 0
+                    bolFA = False
+                End If
+            End With
+            oBr.Dispose()
+            oBr = Nothing
+
+            Return bolFA
+        End Function
 
         Private Sub UpdateViewGridTodayPatient(ByVal strSearch As String)
             Dim dt As New DataTable
@@ -290,6 +385,10 @@ Namespace QIS.Web.EMR
                 .MRN = lblPBMRN.Text.Trim
                 grdPatientDocument.DataSource = .GetPatientDocumentByMRN()
                 grdPatientDocument.DataBind()
+
+                .RegistrationNo = lblPBRegistrationNo.Text.Trim
+                grdPatientDocumentByRegistration.DataSource = .GetPatientDocumentByMRNRegistrationNo()
+                grdPatientDocumentByRegistration.DataBind()
             End With
             oBR.Dispose()
             oBR = Nothing
@@ -336,7 +435,7 @@ Namespace QIS.Web.EMR
             Return bolIsPhysician
         End Function
 
-        Private Sub OpenRegistration(ByVal DepartmentID As String, ByVal RegistrationNo As String, ByVal TransactionNo As String)
+        Private Sub OpenRegistration(ByVal DepartmentID As String, ByVal RegistrationNo As String, ByVal TransactionNo As String, ByVal DepartmentName As String)
             Dim oBR As New Common.BussinessRules.EMR
             With oBR
                 .DepartmentID = DepartmentID.Trim
@@ -356,6 +455,7 @@ Namespace QIS.Web.EMR
                     lblPBServiceUnitID.Text = .ServiceUnitID.Trim
                     lblPBServiceUnitName.Text = .ServiceUnitName.Trim
                     lblPBBusinessPartnerName.Text = .BusinessPartnerName.Trim
+                    lblPBDepartmentName.Text = DepartmentName.Trim
                     chkIsDischarged.Checked = .IsDischarged
                     If lblPBPatientGender.Text = "P" Then
                         imgPBPatient.ImageUrl = "/qistoollib/images/person-female.png"
@@ -376,11 +476,18 @@ Namespace QIS.Web.EMR
                     lblPBServiceUnitID.Text = String.Empty
                     lblPBServiceUnitName.Text = String.Empty
                     lblPBBusinessPartnerName.Text = String.Empty
+                    lblPBDepartmentName.Text = String.Empty
                     chkIsDischarged.Checked = False
                 End If
             End With
             oBR.Dispose()
             oBR = Nothing
+
+            If DepartmentID.Trim = "OUTPATIENT" Then
+                RadTabStrip3.Tabs.Item(4).Visible = False
+            Else
+                RadTabStrip3.Tabs.Item(4).Visible = True
+            End If
 
             PrepareScreenPatientResume()
             PrepareScreenPatientIntervention()
@@ -394,6 +501,8 @@ Namespace QIS.Web.EMR
             With oBR
                 .ID = ID
                 If .GetPatientResumeByID.Rows.Count > 0 Then
+                    ddlAssessmentType.SelectedValue = .AssessmentTypeSCode.Trim
+                    ddlAssessmentType.Enabled = False
                     txtChiefComplaint.Text = .ChiefComplaint.Trim
                     txtHistoryOfPresentIllness.Text = .HistoryOfPresentIllness.Trim
                     txtMainDiagnosisText.Text = .MainDiagnosisText.Trim
@@ -403,8 +512,12 @@ Namespace QIS.Web.EMR
                     txtTherapyStopDate.Text = .TherapyStopDate.Trim
                     chkIsDischarged.Checked = .IsDischarged
                     txtNotes.Text = .Notes.Trim
+                    txtSOAPNotes.Text = .SOAPNotes.Trim
+                    txtObjectiveText.Text = .ObjectiveText.Trim
+                    txtMeasurableTargetText.Text = .MeasurableTargetText.Trim
                 Else
                     txtID.Text = String.Empty
+                    ddlAssessmentType.Enabled = True
                     txtChiefComplaint.Text = String.Empty
                     txtHistoryOfPresentIllness.Text = String.Empty
                     txtMainDiagnosisText.Text = String.Empty
@@ -414,6 +527,9 @@ Namespace QIS.Web.EMR
                     txtTherapyStopDate.Text = String.Empty
                     chkIsDischarged.Checked = False
                     txtNotes.Text = String.Empty
+                    txtSOAPNotes.Text = String.Empty
+                    txtObjectiveText.Text = String.Empty
+                    txtMeasurableTargetText.Text = String.Empty
                 End If
             End With
             oBR.Dispose()
@@ -460,6 +576,10 @@ Namespace QIS.Web.EMR
                 commonFunction.MsgBox(Me, "Diagnosa Utama harus diisi.")
                 Exit Sub
             End If
+            If CheckFirstAssessmentByRegistrationNo() = True And ddlAssessmentType.SelectedValue = "01" Then
+                commonFunction.MsgBox(Me, "Sudah ada asesmen Awal. Silahkan lanjutkan dengan memilih tipe asesmen Lanjutan.")
+                Exit Sub
+            End If
             Dim oBR As New Common.BussinessRules.EMR
             With oBR
                 .DepartmentID = ddlDepartmentFilter.SelectedValue.Trim
@@ -467,6 +587,7 @@ Namespace QIS.Web.EMR
                 .RegistrationNo = lblPBRegistrationNo.Text.Trim
                 .MRN = lblPBMRN.Text.Trim
                 .PhysicianID = txtLinkParamedicID.Text.Trim
+                .AssessmentTypeSCode = ddlAssessmentType.SelectedValue.Trim
                 .ChiefComplaint = txtChiefComplaint.Text.Trim
                 .HistoryOfPresentIllness = txtHistoryOfPresentIllness.Text.Trim
                 .MainDiagnosisText = txtMainDiagnosisText.Text.Trim
@@ -475,6 +596,9 @@ Namespace QIS.Web.EMR
                 .TherapyText = txtTherapyText.Text.Trim
                 .TherapyStopDate = txtTherapyStopDate.Text.Trim
                 .Notes = txtNotes.Text.Trim
+                .SOAPNotes = txtSOAPNotes.Text.Trim
+                .ObjectiveText = txtObjectiveText.Text.Trim
+                .MeasurableTargetText = txtMeasurableTargetText.Text.Trim
                 .CreatedBy = MyBase.LoggedOnUserID.Trim
                 .LastUpdatedBy = MyBase.LoggedOnUserID.Trim
                 .IsDischarged = chkIsDischarged.Checked
@@ -482,7 +606,7 @@ Namespace QIS.Web.EMR
                     .TherapyHISOrderNo = SaveWorklistPrescriptionText().Trim
                 Else
                     .TherapyHISOrderNo = String.Empty
-                End If
+                End If                
                 .Insert()
             End With
             oBR.Dispose()
@@ -498,6 +622,7 @@ Namespace QIS.Web.EMR
                 .RegistrationNo = lblPBRegistrationNo.Text.Trim
                 .MRN = lblPBMRN.Text.Trim
                 .PhysicianID = txtLinkParamedicID.Text.Trim
+                .AssessmentTypeSCode = ddlAssessmentType.SelectedValue.Trim
                 .ChiefComplaint = txtChiefComplaint.Text.Trim
                 .HistoryOfPresentIllness = txtHistoryOfPresentIllness.Text.Trim
                 .MainDiagnosisText = txtMainDiagnosisText.Text.Trim
@@ -506,6 +631,9 @@ Namespace QIS.Web.EMR
                 .TherapyText = txtTherapyText.Text.Trim
                 .TherapyStopDate = txtTherapyStopDate.Text.Trim
                 .Notes = txtNotes.Text.Trim
+                .SOAPNotes = txtSOAPNotes.Text.Trim
+                .ObjectiveText = txtObjectiveText.Text.Trim
+                .MeasurableTargetText = txtMeasurableTargetText.Text.Trim
                 .CreatedBy = MyBase.LoggedOnUserID.Trim
                 .LastUpdatedBy = MyBase.LoggedOnUserID.Trim
                 .IsDischarged = chkIsDischarged.Checked
@@ -520,7 +648,7 @@ Namespace QIS.Web.EMR
                     Else
                         .TherapyHISOrderNo = String.Empty
                     End If
-                End If
+                End If                
                 .Update()
             End With
             oBR.Dispose()

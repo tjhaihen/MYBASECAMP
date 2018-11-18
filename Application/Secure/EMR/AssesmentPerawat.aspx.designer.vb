@@ -276,6 +276,24 @@ Namespace QIS.Web.EMR
         Protected WithEvents RadPageView5 As Global.Telerik.Web.UI.RadPageView
 
         '''<summary>
+        '''pnlNurseAssesmentGrid control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlNurseAssesmentGrid As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''grdNurseAssessment control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdNurseAssessment As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
         '''pnlNurseAssesment control.
         '''</summary>
         '''<remarks>
@@ -310,6 +328,15 @@ Namespace QIS.Web.EMR
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents lbtnSaveSOAP As Global.System.Web.UI.WebControls.LinkButton
+
+        '''<summary>
+        '''ddlAssessmentType control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlAssessmentType As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
         '''txtPengkajianID control.
