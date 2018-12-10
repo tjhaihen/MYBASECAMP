@@ -15,7 +15,6 @@ Imports System.Math
 Imports System.IO
 Imports Microsoft.VisualBasic
 
-
 Imports System.Data.SqlTypes
 
 Namespace QIS.Web.EMR
@@ -188,6 +187,7 @@ Namespace QIS.Web.EMR
 
             pnlInfoForPhysician.Visible = chkIsPhysician.Checked
             pnlPatientIntervention.Visible = Not chkIsPhysician.Checked
+            pnlChart.Visible = chkIsPhysician.Checked
         End Sub
 
         Private Sub PrepareScreenPatientResume()
@@ -252,6 +252,8 @@ Namespace QIS.Web.EMR
             End With
             oBR.Dispose()
             oBR = Nothing
+
+            UpdateViewChartData()
         End Sub
 
         Private Sub UpdateViewGridTodayPatient(ByVal strSearch As String)
@@ -338,6 +340,27 @@ Namespace QIS.Web.EMR
             End With
             oBR.Dispose()
             oBR = Nothing
+        End Sub
+
+        Private Sub UpdateViewChartData()
+            chtMyPatient.Titles.Add("Jumlah Pasien Rawat Jalan " + MonthName(Today.Month) + " " + Today.Year.ToString.Trim)
+            chtPatientByBusinessPartner.Titles.Add("Jumlah Pasien Rawat Jalan " + MonthName(Today.Month) + " " + Today.Year.ToString.Trim + " Berdasarkan Jenis Penjamin")
+
+            Dim oBr As New Common.BussinessRules.EMR
+            Dim dtP As New DataTable
+            Dim dtB As New DataTable
+            With oBr
+                oBr.PhysicianID = txtLinkParamedicID.Text.Trim
+                dtP = oBr.GetPatientPhysicianIDChartOutpatient()
+                dtB = oBr.GetPatientPhysicianIDBusinessPartnerChartOutpatient()
+
+                chtMyPatient.Series("Categories").Points.DataBindXY(dtP.Rows, "RegistrationDate", dtP.Rows, "RegistrationCount")
+                chtPatientByBusinessPartner.Series("Categories").Points.DataBindXY(dtB.Rows, "CustomerType", dtB.Rows, "RegistrationCount")
+
+                chtMyPatient.ChartAreas(0).AxisX.LabelStyle.Format = commonFunction.FORMAT_DATE_CHART
+            End With
+            oBr.Dispose()
+            oBr = Nothing
         End Sub
 #End Region
 

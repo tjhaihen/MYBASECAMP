@@ -99,7 +99,16 @@ Namespace QIS.Web.EMR
             End Select
         End Sub
 
-        Private Sub lbtnBack_Click(sender As Object, e As System.EventArgs) Handles lbtnBack.Click
+        Private Sub grdCatatanPerawatNurseNotes_ItemCommand(source As Object, e As System.Web.UI.WebControls.DataGridCommandEventArgs) Handles grdCatatanPerawatNurseNotes.ItemCommand
+            Select Case e.CommandName
+                Case "PhysicianConfirmed"
+                    Dim _txtNurseNotesID As TextBox = CType(e.Item.FindControl("_txtNurseNotesID"), TextBox)
+                    UpdateNurseNotesPhysicianConfirmed(CInt(_txtNurseNotesID.Text.Trim))
+                    UpdateViewGridCatatanPerawat()
+            End Select
+        End Sub
+
+        Private Sub lbtnBackToPatientList_Click(sender As Object, e As System.EventArgs) Handles lbtnBackToPatientList.Click
             PrepareScreenPatientResume()
             pnlPatientList.Visible = True
             pnlPatientRecord.Visible = False
@@ -135,13 +144,6 @@ Namespace QIS.Web.EMR
 
             UpdatePatientDischarge()
             PrepareScreenPatientResume()
-            pnlPatientList.Visible = True
-            pnlPatientRecord.Visible = False
-            UpdateViewGridTodayPatient(String.Empty)
-        End Sub
-
-        Private Sub lbtnBackIE_Click(sender As Object, e As System.EventArgs) Handles lbtnBackIE.Click
-            PrepareScreenPatientIntervention()
             pnlPatientList.Visible = True
             pnlPatientRecord.Visible = False
             UpdateViewGridTodayPatient(String.Empty)
@@ -234,6 +236,8 @@ Namespace QIS.Web.EMR
             chkIsCreateOrder.Checked = True
             chkIsRealized.Checked = False
             lblTherapyHISOrderNo.Text = String.Empty
+
+            lbtnBackToPatientList.Visible = False
         End Sub
 
         Private Sub PrepareScreenPatientResume()
@@ -257,6 +261,8 @@ Namespace QIS.Web.EMR
             chkIsCreateOrder.Checked = True
             chkIsRealized.Checked = False
             lblTherapyHISOrderNo.Text = String.Empty
+
+            lbtnBackToPatientList.Visible = False
 
             CheckFirstAssessmentByRegistrationNo()
         End Sub
@@ -414,6 +420,15 @@ Namespace QIS.Web.EMR
             End With
             oBR.Dispose()
             oBR = Nothing
+
+            Dim oBRNN As New Common.BussinessRules.EMR
+            With oBRNN
+                .RegistrationNo = lblPBRegistrationNo.Text.Trim
+                grdCatatanPerawatNurseNotes.DataSource = .GetNurseNotesByRegistrationNo()
+                grdCatatanPerawatNurseNotes.DataBind()
+            End With
+            oBRNN.Dispose()
+            oBRNN = Nothing
         End Sub
 #End Region
 
@@ -494,6 +509,8 @@ Namespace QIS.Web.EMR
 
             UpdateViewGridCatatanMedis()
             UpdateViewGridCatatanPerawat()
+
+            lbtnBackToPatientList.Visible = True
         End Sub
 
         Private Sub OpenPatientResume(ByVal ID As Integer)
@@ -663,6 +680,18 @@ Namespace QIS.Web.EMR
                 .RegistrationNo = lblPBRegistrationNo.Text.Trim
                 .IsDischarged = True
                 .UpdateDischarge()
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
+        Private Sub UpdateNurseNotesPhysicianConfirmed(ByVal intNurseNotesID As Integer)
+            Dim oBR As New Common.BussinessRules.EMR
+            With oBR
+                .NurseNotesID = intNurseNotesID
+                .IsPhysicianConfirmed = True
+                .LastUpdatedBy = MyBase.LoggedOnUserID.Trim
+                .UpdateNurseNotesPhysicianConfirmed()
             End With
             oBR.Dispose()
             oBR = Nothing

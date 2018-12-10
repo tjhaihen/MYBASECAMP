@@ -46,6 +46,7 @@ Namespace QIS.Web
 
         Public Const FORMAT_DATE As String = "dd-MMM-yyyy"
         Public Const FORMAT_DATE_CAL As String = "dd-MM-yyyy"
+        Public Const FORMAT_DATE_CHART As String = "dd-MMM"
         Public Const FORMAT_CURRENCY As String = "#,##0.00"
 
         Public Const MSG_ACCESS_DENIED As String = "Access Denied<br/>You might not have permission to view this directory or page.<br/>If you believe you should be able to view this directory or page, please contact your System Administrator."

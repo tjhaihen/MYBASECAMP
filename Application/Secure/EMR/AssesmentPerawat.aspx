@@ -283,22 +283,48 @@
                                     <Tabs>
                                         <telerik:RadTab Text="Asesmen Keperawatan">
                                         </telerik:RadTab>
+                                        <telerik:RadTab Text="Catatan Perawat">
+                                        </telerik:RadTab>
+                                        <telerik:RadTab Text="CPPT">
+                                        </telerik:RadTab>
                                     </Tabs>
                                 </telerik:RadTabStrip>
                                 <telerik:RadMultiPage ID="RadMultiPage3" CssClass="RadMultiPage" runat="server" SelectedIndex="0">
-                                    <telerik:RadPageView ID="RadPageView5" runat="server">
-                                        <asp:Panel ID="pnlNurseAssesmentGrid" runat="server">
-                                            <table cellpadding="2" cellspacing="1" width="100%">
+                                    <telerik:RadPageView ID="rpvAsesmenKeperawatan" runat="server">
+                                        <asp:Panel ID="pnlNurseAssesment" runat="server">
+                                            <table class="ToolbarM" cellpadding="1" cellspacing="0" border="0" width="100%">
+                                                <tr>
+                                                    <td class="left padding-LR-5">
+                                                        <asp:LinkButton runat="server" ID="lbtnBack" ToolTip="Kembali ke Daftar Pasien" CausesValidation="false"
+                                                            Width="48"><img src="/qistoollib/images/tbback.png" alt="" border="0" /></asp:LinkButton>
+                                                        <asp:LinkButton runat="server" ID="lbtnNewSOAP" ToolTip="Tambah" CausesValidation="false"
+                                                            Width="48" Visible="false"><img src="/qistoollib/images/tbnew.png" alt="" border="0" /></asp:LinkButton>
+                                                        <asp:LinkButton runat="server" ID="lbtnSaveSOAP" ToolTip="Simpan" CausesValidation="false"
+                                                            Width="48"><img src="/qistoollib/images/tbsave.png" alt="" border="0" /></asp:LinkButton>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="hseparator" style="width: 100%;">
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td>
                                                         <asp:DataGrid ID="grdNurseAssessment" runat="server" BorderWidth="0" GridLines="None"
-                                                            Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="false" ShowFooter="false"
+                                                            Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
                                                             AutoGenerateColumns="false">
                                                             <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
                                                             <ItemStyle CssClass="gridItemStyle" />
                                                             <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
                                                             <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
                                                             <Columns>
+                                                                <asp:TemplateColumn runat="server" HeaderText="" ItemStyle-Width="30" ItemStyle-VerticalAlign="Top">
+                                                                    <ItemTemplate>
+                                                                        <asp:Label runat="server" ID="_lblPengkajianID" Text='<%# DataBinder.Eval(Container.DataItem, "PengkajianID")%>'
+                                                                            Visible="false"></asp:Label>
+                                                                        <asp:ImageButton runat="server" ID="_ibtnEdit" ImageUrl="/qistoollib/images/edit.png"
+                                                                            CommandName="Revise" ToolTip="Revisi" />
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
                                                                 <asp:TemplateColumn runat="server" HeaderText="Tipe Asesmen" ItemStyle-Width="150"
                                                                     ItemStyle-VerticalAlign="Top">
                                                                     <ItemTemplate>
@@ -314,29 +340,11 @@
                                                                 <asp:TemplateColumn runat="server" HeaderText="Dibuat Oleh" ItemStyle-Width="250"
                                                                     ItemStyle-VerticalAlign="Top">
                                                                     <ItemTemplate>
-                                                                        <%# DataBinder.Eval(Container.DataItem, "CreatedByName")%>
+                                                                        <%# DataBinder.Eval(Container.DataItem, "UserName")%>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateColumn>
                                                             </Columns>
                                                         </asp:DataGrid>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </asp:Panel>
-                                        <asp:Panel ID="pnlNurseAssesment" runat="server">
-                                            <table class="ToolbarM" cellpadding="1" cellspacing="0" border="0" width="100%">
-                                                <tr>
-                                                    <td class="left padding-LR-5">
-                                                        <asp:LinkButton runat="server" ID="lbtnBack" ToolTip="Kembali ke Daftar Pasien" CausesValidation="false"
-                                                            Width="48"><img src="/qistoollib/images/tbback.png" alt="" border="0" /></asp:LinkButton>
-                                                        <asp:LinkButton runat="server" ID="lbtnNewSOAP" ToolTip="Tambah" CausesValidation="false"
-                                                            Width="48" Visible="false"><img src="/qistoollib/images/tbnew.png" alt="" border="0" /></asp:LinkButton>
-                                                        <asp:LinkButton runat="server" ID="lbtnSaveSOAP" ToolTip="Simpan" CausesValidation="false"
-                                                            Width="48"><img src="/qistoollib/images/tbsave.png" alt="" border="0" /></asp:LinkButton>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="hseparator" style="width: 100%;">
                                                     </td>
                                                 </tr>
                                             </table>
@@ -1111,6 +1119,302 @@
                                                                 </td>
                                                             </tr>
                                                         </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </asp:Panel>
+                                    </telerik:RadPageView>
+                                    <telerik:RadPageView ID="rpvCatatanPerawat" runat="server">
+                                        <asp:Panel ID="pnlNurseNotes" runat="server">
+                                            <table class="ToolbarM" cellpadding="1" cellspacing="0" border="0" width="100%">
+                                                <tr>
+                                                    <td class="left padding-LR-5">
+                                                        <asp:LinkButton runat="server" ID="lbtnBackNotes" ToolTip="Kembali ke Daftar Pasien" CausesValidation="false"
+                                                            Width="48"><img src="/qistoollib/images/tbback.png" alt="" border="0" /></asp:LinkButton>
+                                                        <asp:LinkButton runat="server" ID="lbtnNewNotes" ToolTip="Tambah" CausesValidation="false"
+                                                            Width="48"><img src="/qistoollib/images/tbnew.png" alt="" border="0" /></asp:LinkButton>
+                                                        <asp:LinkButton runat="server" ID="lbtnSaveNotes" ToolTip="Simpan" CausesValidation="false"
+                                                            Width="48"><img src="/qistoollib/images/tbsave.png" alt="" border="0" /></asp:LinkButton>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="hseparator" style="width: 100%;">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <asp:DataGrid ID="grdNurseNotes" runat="server" BorderWidth="0" GridLines="None"
+                                                            Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
+                                                            AutoGenerateColumns="false">
+                                                            <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
+                                                            <ItemStyle CssClass="gridItemStyle" />
+                                                            <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
+                                                            <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
+                                                            <Columns>
+                                                                <asp:TemplateColumn runat="server" HeaderText="" ItemStyle-Width="30" ItemStyle-VerticalAlign="Top">
+                                                                    <ItemTemplate>
+                                                                        <asp:Label runat="server" ID="_lblNurseNotesID" Text='<%# DataBinder.Eval(Container.DataItem, "ID")%>'
+                                                                            Visible="false"></asp:Label>
+                                                                        <asp:ImageButton runat="server" ID="_ibtnEdit" ImageUrl="/qistoollib/images/edit.png"
+                                                                            CommandName="Revise" ToolTip="Revisi" Visible='<%# NOT DataBinder.Eval(Container.DataItem, "IsRevised") AND NOT DataBinder.Eval(Container.DataItem, "IsPhysicianConfirmed")%>' />
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                                <asp:TemplateColumn runat="server" HeaderText="Informasi Kunjungan" ItemStyle-Width="250"
+                                                                    ItemStyle-VerticalAlign="Top">
+                                                                    <ItemTemplate>
+                                                                        <table width="100%">
+                                                                            <tr>
+                                                                                <td style="width: 50px;" valign="top">
+                                                                                    Tanggal
+                                                                                </td>
+                                                                                <td valign="top">
+                                                                                    :&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "CreatedDate"), "dd-MMM-yyyy hh:mm")%>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td colspan="2" valign="top">
+                                                                                    <asp:Panel runat="server" ID="_pnlRevised" Visible='<%# DataBinder.Eval(Container.DataItem, "IsRevised")%>'>
+                                                                                        <table cellpadding="2" cellspacing="1" style="background-color: Red;">
+                                                                                            <tr>
+                                                                                                <td style="color: White;">
+                                                                                                    REVISED
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="txtweak" style="background-color: White;">
+                                                                                                    on
+                                                                                                    <%# Format(DataBinder.Eval(Container.DataItem, "LastUpdatedDate"), "dd-MMM-yyyy hh:mm")%><br />
+                                                                                                    by
+                                                                                                    <%# DataBinder.Eval(Container.DataItem, "LastUpdatedByUserName")%>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </asp:Panel>
+                                                                                    <asp:Panel runat="server" ID="_pnlCreated" Visible='<%# NOT DataBinder.Eval(Container.DataItem, "IsRevised")%>'>
+                                                                                        <table cellpadding="2" cellspacing="1" style="background-color: Olive;">
+                                                                                            <tr>
+                                                                                                <td style="color: White;">
+                                                                                                    CREATED
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="txtweak" style="background-color: White;">
+                                                                                                    on
+                                                                                                    <%# Format(DataBinder.Eval(Container.DataItem, "CreatedDate"), "dd-MMM-yyyy hh:mm")%><br />
+                                                                                                    by
+                                                                                                    <%# DataBinder.Eval(Container.DataItem, "CreatedByUserName")%>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </asp:Panel>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                                <asp:TemplateColumn runat="server" HeaderText="Catatan Perawat" ItemStyle-VerticalAlign="Top">
+                                                                    <ItemTemplate>
+                                                                        <asp:TextBox ID="_txtNurseNotes" runat="server" TextMode="MultiLine" Font-Names="Segoe-UI,Arial"
+                                                                            Width="100%" Height="100" ReadOnly="true" Text='<%# DataBinder.Eval(Container.DataItem, "NurseNotes")%>'></asp:TextBox>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                                <asp:TemplateColumn runat="server" HeaderText="Konfirmasi Dokter" ItemStyle-Width="100"
+                                                                    ItemStyle-VerticalAlign="Top">
+                                                                    <ItemTemplate>
+                                                                        <asp:CheckBox ID="_chkIsPhysicianConfirmed" runat="server" Enabled="false" Checked='<%# DataBinder.Eval(Container.DataItem, "IsPhysicianConfirmed")%>' />
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                            </Columns>
+                                                        </asp:DataGrid>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="hseparator" style="width: 100%;">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <table cellpadding="2" cellspacing="1" width="100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <table cellpadding="2" cellspacing="1" width="100%">
+                                                                        <tr>
+                                                                            <td style="width: 200; background-color: #30CD06; color: #ffffff;">
+                                                                                Catatan Perawat
+                                                                            </td>
+                                                                            <td>
+                                                                                <asp:TextBox ID="txtNurseNotesID" runat="server" Visible="false"></asp:TextBox>
+                                                                                <asp:TextBox ID="txtNurseNotes" runat="server" TextMode="Multiline" Width="554" Height="100"></asp:TextBox>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="width: 200; background-color: #30CD06; color: #ffffff;">
+                                                                                Konfirmasi Dokter
+                                                                            </td>
+                                                                            <td>
+                                                                                <asp:CheckBox ID="chkIsPhysicianConfirmed" runat="server" Enabled="false" />
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </asp:Panel>
+                                    </telerik:RadPageView>
+                                    <telerik:RadPageView ID="rpvCPPT" runat="server">
+                                        <asp:Panel ID="pnlCPPT" runat="server">
+                                            <table cellpadding="2" cellspacing="1" width="100%" style="background-color: #DFE9F5;">
+                                                <tr>
+                                                    <td class="rheader" style="background-color: #ffffff;">
+                                                        Catatan Medis
+                                                    </td>
+                                                    <td class="rheader" style="background-color: #ffffff;">
+                                                        Catatan Perawat
+                                                    </td>
+                                                    <td class="rheader" style="background-color: #ffffff;">
+                                                        Catatan Unit Lainnya
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td valign="top" class="rheader" style="background-color: #ffffff;">
+                                                        <asp:DataGrid ID="grdCatatanMedis" runat="server" BorderWidth="0" GridLines="None"
+                                                            Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="false" ShowFooter="false"
+                                                            AutoGenerateColumns="false">
+                                                            <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
+                                                            <ItemStyle CssClass="gridItemStyle" />
+                                                            <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
+                                                            <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
+                                                            <Columns>
+                                                                <asp:TemplateColumn runat="server" HeaderText="Informasi Kunjungan" ItemStyle-Width="250"
+                                                                    ItemStyle-VerticalAlign="Top">
+                                                                    <ItemTemplate>
+                                                                        <table width="100%">
+                                                                            <tr>
+                                                                                <td style="width: 50px; font-weight: bold;" valign="top">
+                                                                                    Tanggal
+                                                                                </td>
+                                                                                <td valign="top" style="font-weight: bold;">
+                                                                                    :&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "CreatedDate"), "dd-MMM-yyyy hh:mm")%>
+                                                                                </td>
+                                                                                <td style="width: 150;" align="right">
+                                                                                    <asp:Panel runat="server" ID="_pnlRevised" Visible='<%# DataBinder.Eval(Container.DataItem, "IsRevised")%>'>
+                                                                                        <table cellpadding="2" cellspacing="1" style="background-color: Red;">
+                                                                                            <tr>
+                                                                                                <td style="color: White;">
+                                                                                                    REVISED
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </asp:Panel>
+                                                                                    <asp:Panel runat="server" ID="_pnlCreated" Visible='<%# NOT DataBinder.Eval(Container.DataItem, "IsRevised")%>'>
+                                                                                        <table cellpadding="2" cellspacing="1" style="background-color: Olive;">
+                                                                                            <tr>
+                                                                                                <td style="color: White;">
+                                                                                                    CREATED
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </asp:Panel>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td style="width: 50px; font-weight: bold;" valign="top">
+                                                                                    Dokter
+                                                                                </td>
+                                                                                <td valign="top" style="font-weight: bold;" colspan="2">
+                                                                                    :&nbsp;<%# DataBinder.Eval(Container.DataItem, "PhysicianName")%>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td style="width: 50px; font-weight: bold;" valign="top">
+                                                                                    Asesmen
+                                                                                </td>
+                                                                                <td valign="top" style="font-weight: bold;" colspan="2">
+                                                                                    :&nbsp;<b><%# DataBinder.Eval(Container.DataItem, "AssessmentTypeName")%></b>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td valign="top" colspan="3">
+                                                                                    <asp:TextBox ID="_txtSOAPNotes" runat="server" TextMode="MultiLine" Text='<%# DataBinder.Eval(Container.DataItem, "SOAPNotes") %>'
+                                                                                        Width="100%" Height="150" ReadOnly="true" Font-Names="Segoe UI" BorderStyle="None"></asp:TextBox>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                            </Columns>
+                                                        </asp:DataGrid>
+                                                    </td>
+                                                    <td valign="top" class="rheader" style="background-color: #ffffff;">
+                                                        <asp:DataGrid ID="grdCatatanPerawat" runat="server" BorderWidth="0" GridLines="None"
+                                                            Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="false" ShowFooter="false"
+                                                            AutoGenerateColumns="false">
+                                                            <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
+                                                            <ItemStyle CssClass="gridItemStyle" />
+                                                            <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
+                                                            <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
+                                                            <Columns>
+                                                                <asp:TemplateColumn runat="server" HeaderText="Informasi Kunjungan" ItemStyle-Width="250"
+                                                                    ItemStyle-VerticalAlign="Top">
+                                                                    <ItemTemplate>
+                                                                        <table width="100%">
+                                                                            <tr>
+                                                                                <td style="width: 50px; font-weight: bold;" valign="top">
+                                                                                    Tanggal
+                                                                                </td>
+                                                                                <td valign="top" style="font-weight: bold;">
+                                                                                    :&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "CreatedDate"), "dd-MMM-yyyy hh:mm")%>
+                                                                                </td>
+                                                                                <td style="width: 150;" align="right">
+                                                                                    <asp:Panel runat="server" ID="_pnlRevised" Visible='<%# DataBinder.Eval(Container.DataItem, "IsRevised")%>'>
+                                                                                        <table cellpadding="2" cellspacing="1" style="background-color: Red;">
+                                                                                            <tr>
+                                                                                                <td style="color: White;">
+                                                                                                    REVISED
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </asp:Panel>
+                                                                                    <asp:Panel runat="server" ID="_pnlCreated" Visible='<%# NOT DataBinder.Eval(Container.DataItem, "IsRevised")%>'>
+                                                                                        <table cellpadding="2" cellspacing="1" style="background-color: Olive;">
+                                                                                            <tr>
+                                                                                                <td style="color: White;">
+                                                                                                    CREATED
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </asp:Panel>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td style="width: 50px; font-weight: bold;" valign="top">
+                                                                                    Perawat
+                                                                                </td>
+                                                                                <td valign="top" style="font-weight: bold;">
+                                                                                    :&nbsp;<%# DataBinder.Eval(Container.DataItem, "LastUpdatedByUserName")%>
+                                                                                </td>
+                                                                                <td valign="top" style="font-weight: bold; text-align: right;">
+                                                                                    <asp:CheckBox ID="_chkIsPhysicianConfirmed" runat="server" Enabled="false" Text="Konfirmasi Dokter" Checked='<%# DataBinder.Eval(Container.DataItem, "IsPhysicianConfirmed")%>' />                                                                                    
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td colspan="3">
+                                                                                    <asp:TextBox ID="_txtNurseNotes" runat="server" TextMode="MultiLine" Text='<%# DataBinder.Eval(Container.DataItem, "NurseNotes") %>'
+                                                                                        Width="100%" Height="150" ReadOnly="true" Font-Names="Segoe UI" BorderStyle="None"></asp:TextBox>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                            </Columns>
+                                                        </asp:DataGrid>
+                                                    </td>
+                                                    <td class="rheader" style="background-color: #ffffff;">
+                                                        <asp:DataGrid ID="grdCatatanUnitLainnya" runat="server">
+                                                        </asp:DataGrid>
                                                     </td>
                                                 </tr>
                                             </table>

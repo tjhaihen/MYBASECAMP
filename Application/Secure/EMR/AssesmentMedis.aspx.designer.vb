@@ -69,6 +69,15 @@ Namespace QIS.Web.EMR
         Protected WithEvents lblTotalPasienRawatInap As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
+        '''lbtnBackToPatientList control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lbtnBackToPatientList As Global.System.Web.UI.WebControls.LinkButton
+
+        '''<summary>
         '''txtLinkParamedicID control.
         '''</summary>
         '''<remarks>
@@ -447,15 +456,6 @@ Namespace QIS.Web.EMR
         Protected WithEvents RadPageView5 As Global.Telerik.Web.UI.RadPageView
 
         '''<summary>
-        '''lbtnBack control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents lbtnBack As Global.System.Web.UI.WebControls.LinkButton
-
-        '''<summary>
         '''lbtnNewSOAP control.
         '''</summary>
         '''<remarks>
@@ -708,15 +708,6 @@ Namespace QIS.Web.EMR
         Protected WithEvents RadPageView7 As Global.Telerik.Web.UI.RadPageView
 
         '''<summary>
-        '''lbtnBackIE control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents lbtnBackIE As Global.System.Web.UI.WebControls.LinkButton
-
-        '''<summary>
         '''lbtnNewIE control.
         '''</summary>
         '''<remarks>
@@ -832,6 +823,15 @@ Namespace QIS.Web.EMR
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents grdCatatanMedis As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''grdCatatanPerawatNurseNotes control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdCatatanPerawatNurseNotes As Global.System.Web.UI.WebControls.DataGrid
 
         '''<summary>
         '''grdCatatanPerawat control.

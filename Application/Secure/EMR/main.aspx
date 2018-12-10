@@ -60,7 +60,7 @@
         <asp:Panel ID="pnlDashboard" runat="server">
             <tr>
                 <td width="100%" valign="top">
-                    <table style="margin: 0 30 0 0;">
+                    <table cellspacing="2" cellpadding="3" style="margin: 0 30 0 0; background-color: #ffffff;">
                         <tr>
                             <td>
                                 <table width="200" cellpadding="10" cellspacing="0">
@@ -119,6 +119,38 @@
                                 </asp:Panel>
                             </td>
                         </tr>
+                        <asp:Panel ID="pnlChart" runat="server">
+                            <tr>
+                                <td colspan="3" style="background-color: #eeeeee;">
+                                    <asp:Chart ID="chtMyPatient" runat="server" Width="640">
+                                        <Series>
+                                            <asp:Series Name="Categories" ChartType="Column" ChartArea="MainChartArea" IsValueShownAsLabel="true">
+                                            </asp:Series>
+                                        </Series>
+                                        <ChartAreas>
+                                            <asp:ChartArea Name="MainChartArea">
+                                            </asp:ChartArea>
+                                        </ChartAreas>
+                                    </asp:Chart>
+                                </td>
+                                <td style="background-color: #eeeeee;">
+                                    <asp:Chart ID="chtPatientByBusinessPartner" runat="server" Width="400">
+                                        <Legends>
+                                            <asp:Legend Name="Legends" LegendStyle="Column">
+                                            </asp:Legend>
+                                        </Legends>
+                                        <Series>
+                                            <asp:Series Name="Categories" ChartType="Doughnut" ChartArea="MainChartArea" IsValueShownAsLabel="true">
+                                            </asp:Series>
+                                        </Series>
+                                        <ChartAreas>
+                                            <asp:ChartArea Name="MainChartArea">
+                                            </asp:ChartArea>
+                                        </ChartAreas>
+                                    </asp:Chart>
+                                </td>
+                            </tr>
+                        </asp:Panel>
                     </table>
                 </td>
             </tr>
