@@ -133,6 +133,34 @@ Namespace QIS.Common.BussinessRules
             End Try
         End Function
 
+        Public Function UpdateSOAPNotes() As Boolean
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "UPDATE EMRPatientResume SET " + _
+                                        "SOAPNotes=@SOAPNotes, LastUpdatedBy=@LastUpdatedBy, LastUpdatedDate=GETDATE() " + _
+                                        "WHERE ID=@ID"
+            cmdToExecute.CommandType = CommandType.Text
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@ID", _ID)
+                cmdToExecute.Parameters.AddWithValue("@SOAPNotes", _SOAPNotes)
+                cmdToExecute.Parameters.AddWithValue("@LastUpdatedBy", _LastUpdatedBy)
+
+                ' // Open Connection
+                _mainConnection.Open()
+
+                ' // Execute Query
+                cmdToExecute.ExecuteNonQuery()
+
+                Return True
+            Catch ex As Exception
+                ExceptionManager.Publish(ex)
+            Finally
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+            End Try
+        End Function
+
         Public Function UpdateDischarge() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "spEMRPatientDischargeUpdate"
@@ -270,6 +298,45 @@ Namespace QIS.Common.BussinessRules
 
             Try
                 cmdToExecute.Parameters.AddWithValue("@DepartmentID", _DepartmentID)
+                If strSearch.Trim <> String.Empty Then
+                    cmdToExecute.Parameters.AddWithValue("@SearchText", strSearch)
+                End If
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function GetPatientTodayByUnit(ByVal strSearch As String, ByVal strUnitID As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            If strSearch.Trim = String.Empty Then
+                cmdToExecute.CommandText = "spEMRGetPatientTodayByUnit"
+            Else
+                cmdToExecute.CommandText = "spEMRGetPatientTodayByUnitSearch"
+            End If
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spEMRGetPatientTodayByUnit")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@DepartmentID", _DepartmentID)
+                cmdToExecute.Parameters.AddWithValue("@UnitID", strUnitID)
                 If strSearch.Trim <> String.Empty Then
                     cmdToExecute.Parameters.AddWithValue("@SearchText", strSearch)
                 End If

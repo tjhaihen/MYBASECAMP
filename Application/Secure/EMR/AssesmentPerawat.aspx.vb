@@ -130,6 +130,69 @@ Namespace QIS.Web.EMR
             UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim)
         End Sub
 
+        Private Sub txtttvTinggiBadan_TextChanged(sender As Object, e As System.EventArgs) Handles txtttvTinggiBadan.TextChanged
+            txtttvIndexMassaTubuh.Text = CountBMI(CDec(txtttvTinggiBadan.Text.Trim), CDec(txtttvBeratBadan.Text.Trim)).ToString.Trim
+            commonFunction.Focus(Me, txtttvIndexMassaTubuh.ClientID)
+        End Sub
+
+        Private Sub txtttvBeratBadan_TextChanged(sender As Object, e As System.EventArgs) Handles txtttvBeratBadan.TextChanged
+            txtttvIndexMassaTubuh.Text = CountBMI(CDec(txtttvTinggiBadan.Text.Trim), CDec(txtttvBeratBadan.Text.Trim)).ToString.Trim
+            commonFunction.Focus(Me, txtttvIndexMassaTubuh.ClientID)
+        End Sub
+
+        Private Sub rblNyeriSkala_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles rblNyeriSkala.SelectedIndexChanged
+            txtNyeriSkala.Text = rblNyeriSkala.SelectedValue.Trim
+            commonFunction.Focus(Me, txtNyeriSkala.ClientID)
+        End Sub
+
+        Private Sub ddlSkorPerubahanBeratBadan_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlSkorPerubahanBeratBadan.SelectedIndexChanged
+            Dim intPenurunanBeratBadan As Integer = 0
+            Dim oBR As New Common.BussinessRules.CommonCode
+            With oBR
+                .GroupCode = Common.Constants.GroupCode.NAStatusPerubahanBeratBadan_SCode
+                .Code = ddlSkorPerubahanBeratBadan.SelectedValue.Trim
+                If .SelectOne.Rows.Count > 0 Then
+                    intPenurunanBeratBadan = CInt(.Value.Trim)
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+
+            txtSkorNutrisi.Text = CountNutritionScore(intPenurunanBeratBadan, CInt(rblIsTidakNafsuMakan.SelectedValue.Trim)).ToString.Trim
+            commonFunction.Focus(Me, txtSkorNutrisi.ClientID)
+        End Sub
+
+        Private Sub rblIsTidakNafsuMakan_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles rblIsTidakNafsuMakan.SelectedIndexChanged
+            Dim intPenurunanBeratBadan As Integer = 0
+            Dim oBR As New Common.BussinessRules.CommonCode
+            With oBR
+                .GroupCode = Common.Constants.GroupCode.NAStatusPerubahanBeratBadan_SCode
+                .Code = ddlSkorPerubahanBeratBadan.SelectedValue.Trim
+                If .SelectOne.Rows.Count > 0 Then
+                    intPenurunanBeratBadan = CInt(.Value.Trim)
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+
+            txtSkorNutrisi.Text = CountNutritionScore(intPenurunanBeratBadan, CInt(rblIsTidakNafsuMakan.SelectedValue.Trim)).ToString.Trim
+            commonFunction.Focus(Me, txtSkorNutrisi.ClientID)
+        End Sub
+
+        Private Sub ddlDepartmentFilter_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlDepartmentFilter.SelectedIndexChanged
+            commonFunction.SetDDL_Table(ddlServiceUnit, "ProfileUnit", MyBase.LoggedOnProfileID.Trim + "^" + ddlDepartmentFilter.SelectedValue.Trim)
+            UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim)
+        End Sub
+
+        Private Sub ddlServiceUnit_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlServiceUnit.SelectedIndexChanged
+            UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim)
+        End Sub
+
+        Private Sub RadTabStrip3_TabClick(sender As Object, e As Telerik.Web.UI.RadTabStripEventArgs) Handles RadTabStrip3.TabClick
+            UpdateViewGridCatatanMedis()
+            UpdateViewGridCatatanPerawat()
+        End Sub
+
 #End Region
 
 #Region " Support functions for navigation bar (Controls) "
@@ -167,6 +230,7 @@ Namespace QIS.Web.EMR
             commonFunction.SetDDL_Table(ddlAgamaPasien, "StandardField", Common.Constants.StandardField.Agama_SField)
             commonFunction.SetDDL_Table(ddlCaraBelajarDisukai, "CommonCode", Common.Constants.GroupCode.NACaraBelajar_SCode)
             commonFunction.SetDDL_Table(ddlRoomCode, "Room", String.Empty)
+            commonFunction.SetDDL_Table(ddlServiceUnit, "ProfileUnit", MyBase.LoggedOnProfileID.Trim + "^" + ddlDepartmentFilter.SelectedValue.Trim)
         End Sub
 
         Private Sub PrepareScreen()
@@ -291,7 +355,7 @@ Namespace QIS.Web.EMR
             Dim oBR As New Common.BussinessRules.EMR
             With oBR
                 .DepartmentID = ddlDepartmentFilter.SelectedValue.Trim
-                dt = .GetPatientToday(strSearch)
+                dt = .GetPatientTodayByUnit(strSearch, ddlServiceUnit.SelectedValue.Trim)
 
                 grdTodayPatient.DataSource = dt
                 grdTodayPatient.DataBind()
@@ -906,54 +970,6 @@ Namespace QIS.Web.EMR
         End Sub
 #End Region
 
-        Private Sub txtttvTinggiBadan_TextChanged(sender As Object, e As System.EventArgs) Handles txtttvTinggiBadan.TextChanged
-            txtttvIndexMassaTubuh.Text = CountBMI(CDec(txtttvTinggiBadan.Text.Trim), CDec(txtttvBeratBadan.Text.Trim)).ToString.Trim
-            commonFunction.Focus(Me, txtttvIndexMassaTubuh.ClientID)
-        End Sub
-
-        Private Sub txtttvBeratBadan_TextChanged(sender As Object, e As System.EventArgs) Handles txtttvBeratBadan.TextChanged
-            txtttvIndexMassaTubuh.Text = CountBMI(CDec(txtttvTinggiBadan.Text.Trim), CDec(txtttvBeratBadan.Text.Trim)).ToString.Trim
-            commonFunction.Focus(Me, txtttvIndexMassaTubuh.ClientID)
-        End Sub
-
-        Private Sub rblNyeriSkala_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles rblNyeriSkala.SelectedIndexChanged
-            txtNyeriSkala.Text = rblNyeriSkala.SelectedValue.Trim
-            commonFunction.Focus(Me, txtNyeriSkala.ClientID)
-        End Sub
-
-        Private Sub ddlSkorPerubahanBeratBadan_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlSkorPerubahanBeratBadan.SelectedIndexChanged
-            Dim intPenurunanBeratBadan As Integer = 0
-            Dim oBR As New Common.BussinessRules.CommonCode
-            With oBR
-                .GroupCode = Common.Constants.GroupCode.NAStatusPerubahanBeratBadan_SCode
-                .Code = ddlSkorPerubahanBeratBadan.SelectedValue.Trim
-                If .SelectOne.Rows.Count > 0 Then
-                    intPenurunanBeratBadan = CInt(.Value.Trim)                
-                End If
-            End With
-            oBR.Dispose()
-            oBR = Nothing
-
-            txtSkorNutrisi.Text = CountNutritionScore(intPenurunanBeratBadan, CInt(rblIsTidakNafsuMakan.SelectedValue.Trim)).ToString.Trim
-            commonFunction.Focus(Me, txtSkorNutrisi.ClientID)
-        End Sub
-
-        Private Sub rblIsTidakNafsuMakan_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles rblIsTidakNafsuMakan.SelectedIndexChanged
-            Dim intPenurunanBeratBadan As Integer = 0
-            Dim oBR As New Common.BussinessRules.CommonCode
-            With oBR
-                .GroupCode = Common.Constants.GroupCode.NAStatusPerubahanBeratBadan_SCode
-                .Code = ddlSkorPerubahanBeratBadan.SelectedValue.Trim
-                If .SelectOne.Rows.Count > 0 Then
-                    intPenurunanBeratBadan = CInt(.Value.Trim)
-                End If
-            End With
-            oBR.Dispose()
-            oBR = Nothing
-
-            txtSkorNutrisi.Text = CountNutritionScore(intPenurunanBeratBadan, CInt(rblIsTidakNafsuMakan.SelectedValue.Trim)).ToString.Trim
-            commonFunction.Focus(Me, txtSkorNutrisi.ClientID)
-        End Sub
     End Class
 
 End Namespace

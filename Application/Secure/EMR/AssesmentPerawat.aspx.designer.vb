@@ -105,6 +105,15 @@ Namespace QIS.Web.EMR
         Protected WithEvents ddlDepartmentFilter As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
+        '''ddlServiceUnit control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlServiceUnit As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
         '''grdTodayPatient control.
         '''</summary>
         '''<remarks>

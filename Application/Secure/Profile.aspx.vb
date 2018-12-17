@@ -36,6 +36,7 @@ Namespace QIS.Web.Secure
 
                 prepareScreen(True)
                 SetDataGridProfile()
+                SetDataGridProfileUnit()
                 DataBind()
             End If
         End Sub
@@ -70,6 +71,29 @@ Namespace QIS.Web.Secure
             _deleteProfileMenu(True)
         End Sub
 #End Region
+
+#Region " Profile Unit "
+        Private Sub btnProfileUnitAdd_Click(sender As Object, e As System.EventArgs) Handles btnProfileUnitAdd.Click
+            _updateProfileUnit(False)
+        End Sub
+
+        Private Sub btnProfileUnitAddAll_Click(sender As Object, e As System.EventArgs) Handles btnProfileUnitAddAll.Click
+            _updateProfileUnit(True)
+        End Sub
+
+        Private Sub btnProfileUnitRemove_Click(sender As Object, e As System.EventArgs) Handles btnProfileUnitRemove.Click
+            _deleteProfileUnit(False)
+        End Sub
+
+        Private Sub btnProfileUnitRemoveAll_Click(sender As Object, e As System.EventArgs) Handles btnProfileUnitRemoveAll.Click
+            _deleteProfileUnit(True)
+        End Sub
+
+        Private Sub ddlDepartmentFilter_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlDepartmentFilter.SelectedIndexChanged
+            SetDataGridProfileUnit()
+        End Sub
+#End Region
+
 #End Region
 
 
@@ -117,13 +141,19 @@ Namespace QIS.Web.Secure
             SetEnableButton(False)
             SetDataGridProfile()
             SetDataGridProfileMenu()
+            SetDataGridProfileUnit()
         End Sub
 
         Private Sub SetEnableButton(ByVal isEnable As Boolean)
             btnProfileMenuAdd.Enabled = isEnable
             btnProfileMenuAddAll.Enabled = isEnable
             btnProfileMenuRemove.Enabled = isEnable
-            btnProfileMenuRemoveAll.Enabled = isEnable            
+            btnProfileMenuRemoveAll.Enabled = isEnable
+
+            btnProfileUnitAdd.Enabled = isEnable
+            btnProfileUnitAddAll.Enabled = isEnable
+            btnProfileUnitRemove.Enabled = isEnable
+            btnProfileUnitRemoveAll.Enabled = isEnable
         End Sub
 
         Private Sub SetDataGridProfile()
@@ -142,6 +172,16 @@ Namespace QIS.Web.Secure
             grdProfileMenu.DataBind()
             oPr.Dispose()
             oPr = Nothing
+        End Sub
+
+        Private Sub SetDataGridProfileUnit()
+            Dim oPu As New Common.BussinessRules.ProfileUnit
+            grdUnit.DataSource = oPu.SelectUnitNotInProfileUnitByProfileIDDepartmentID(txtProfileID.Text.Trim, ddlDepartmentFilter.SelectedValue.Trim)
+            grdUnit.DataBind()
+            grdProfileUnit.DataSource = oPu.SelectUnitByProfileIDDepartmentID(txtProfileID.Text.Trim, ddlDepartmentFilter.SelectedValue.Trim)
+            grdProfileUnit.DataBind()
+            oPu.Dispose()
+            oPu = Nothing
         End Sub
 #End Region
 
@@ -165,7 +205,8 @@ Namespace QIS.Web.Secure
             oProd.Dispose()
             oProd = Nothing
 
-            SetDataGridProfileMenu()            
+            SetDataGridProfileMenu()
+            SetDataGridProfileUnit()
         End Sub
 
         Private Sub _delete()
@@ -185,6 +226,7 @@ Namespace QIS.Web.Secure
                 Exit Sub
             End If
 
+            SetDataGridProfileUnit()
             SetDataGridProfileMenu()
             SetDataGridProfile()
         End Sub
@@ -207,6 +249,26 @@ Namespace QIS.Web.Secure
             oPr = Nothing
 
             SetDataGridProfileMenu()
+        End Sub
+
+        Private Sub _deleteProfileUnit(ByVal isRemoveAll As Boolean)
+            Dim oPr As New Common.BussinessRules.ProfileUnit
+            With oPr
+                For Each item As DataGridItem In grdProfileUnit.Items
+                    Dim chkSelect As CheckBox = CType(item.FindControl("chkSelect"), CheckBox)
+                    Dim lblProfileUnitID As Label = CType(item.FindControl("_lblProfileUnitID"), Label)
+                    .ProfileUnitID = lblProfileUnitID.Text.Trim
+                    If isRemoveAll Then
+                        .Delete()
+                    Else
+                        If chkSelect.Checked Then .Delete()
+                    End If
+                Next
+            End With
+            oPr.Dispose()
+            oPr = Nothing
+
+            SetDataGridProfileUnit()
         End Sub
 
         Private Sub _update()
@@ -243,6 +305,7 @@ Namespace QIS.Web.Secure
                 'prepareScreen(True)
                 SetDataGridProfile()
                 SetDataGridProfileMenu()
+                SetDataGridProfileUnit()
             Else
                 commonFunction.MsgBox(Me, Common.Constants.MessageBoxText.Validate_IsSystem)
                 Exit Sub
@@ -273,7 +336,29 @@ Namespace QIS.Web.Secure
             oPr = Nothing
             SetDataGridProfileMenu()
         End Sub
+
+        Private Sub _updateProfileUnit(ByVal isAddAll As Boolean)
+            Dim oPr As New Common.BussinessRules.ProfileUnit
+            With oPr
+                For Each item As DataGridItem In grdUnit.Items
+                    Dim chkSelect As CheckBox = CType(item.FindControl("chkSelect"), CheckBox)
+                    Dim lblUnitID As Label = CType(item.FindControl("_lblUnitID"), Label)
+                    .ProfileID = txtProfileID.Text.Trim
+                    .UnitID = lblUnitID.Text.Trim
+                    .DepartmentID = ddlDepartmentFilter.SelectedValue.Trim                    
+                    If isAddAll Then
+                        .Insert()
+                    Else
+                        If chkSelect.Checked Then .Insert()
+                    End If
+                Next
+            End With
+            oPr.Dispose()
+            oPr = Nothing
+            SetDataGridProfileUnit()
+        End Sub
 #End Region
+
     End Class
 
 End Namespace

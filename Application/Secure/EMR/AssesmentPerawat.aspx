@@ -102,17 +102,19 @@
                                                     Cari Pasien
                                                 </td>
                                                 <td>
-                                                    <asp:TextBox ID="txtSearchPatient" runat="server" Width="300"></asp:TextBox>
+                                                    <asp:TextBox ID="txtSearchPatient" runat="server" Width="200"></asp:TextBox>
                                                     <asp:Button ID="btnSearchPatient" runat="server" Text="Cari" Width="100" />
                                                 </td>
                                                 <td class="right">
                                                     Departemen
                                                 </td>
                                                 <td>
-                                                    <asp:DropDownList ID="ddlDepartmentFilter" runat="server" Width="200">
+                                                    <asp:DropDownList ID="ddlDepartmentFilter" runat="server" Width="150" AutoPostBack="true">
                                                         <asp:ListItem Value="OUTPATIENT" Text="RAWAT JALAN"></asp:ListItem>
                                                         <asp:ListItem Value="EMERGENCY" Text="RAWAT DARURAT"></asp:ListItem>
                                                         <asp:ListItem Value="INPATIENT" Text="RAWAT INAP"></asp:ListItem>
+                                                    </asp:DropDownList>
+                                                    <asp:DropDownList ID="ddlServiceUnit" runat="server" Width="150" AutoPostBack="true">
                                                     </asp:DropDownList>
                                                 </td>
                                             </tr>
@@ -1129,8 +1131,8 @@
                                             <table class="ToolbarM" cellpadding="1" cellspacing="0" border="0" width="100%">
                                                 <tr>
                                                     <td class="left padding-LR-5">
-                                                        <asp:LinkButton runat="server" ID="lbtnBackNotes" ToolTip="Kembali ke Daftar Pasien" CausesValidation="false"
-                                                            Width="48"><img src="/qistoollib/images/tbback.png" alt="" border="0" /></asp:LinkButton>
+                                                        <asp:LinkButton runat="server" ID="lbtnBackNotes" ToolTip="Kembali ke Daftar Pasien"
+                                                            CausesValidation="false" Width="48"><img src="/qistoollib/images/tbback.png" alt="" border="0" /></asp:LinkButton>
                                                         <asp:LinkButton runat="server" ID="lbtnNewNotes" ToolTip="Tambah" CausesValidation="false"
                                                             Width="48"><img src="/qistoollib/images/tbnew.png" alt="" border="0" /></asp:LinkButton>
                                                         <asp:LinkButton runat="server" ID="lbtnSaveNotes" ToolTip="Simpan" CausesValidation="false"
@@ -1394,10 +1396,11 @@
                                                                                     Perawat
                                                                                 </td>
                                                                                 <td valign="top" style="font-weight: bold;">
-                                                                                    :&nbsp;<%# DataBinder.Eval(Container.DataItem, "LastUpdatedByUserName")%>
+                                                                                    :&nbsp;<%# DataBinder.Eval(Container.DataItem, "CreatedByUserName")%>
                                                                                 </td>
                                                                                 <td valign="top" style="font-weight: bold; text-align: right;">
-                                                                                    <asp:CheckBox ID="_chkIsPhysicianConfirmed" runat="server" Enabled="false" Text="Konfirmasi Dokter" Checked='<%# DataBinder.Eval(Container.DataItem, "IsPhysicianConfirmed")%>' />                                                                                    
+                                                                                    <asp:CheckBox ID="_chkIsPhysicianConfirmed" runat="server" Enabled="false" Text="Konfirmasi Dokter"
+                                                                                        Checked='<%# DataBinder.Eval(Container.DataItem, "IsPhysicianConfirmed")%>' />
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>

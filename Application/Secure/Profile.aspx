@@ -166,6 +166,98 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td class="Heading1">
+                                            Profile Unit
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="hseparator" style="width: 100%;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 100%;">
+                                            <table>
+                                                <tr>
+                                                    <td class="right">
+                                                    Departemen
+                                                </td>
+                                                <td>
+                                                    <asp:DropDownList ID="ddlDepartmentFilter" runat="server" Width="200" AutoPostBack="true">
+                                                        <asp:ListItem Value="OUTPATIENT" Text="RAWAT JALAN"></asp:ListItem>
+                                                        <asp:ListItem Value="EMERGENCY" Text="RAWAT DARURAT"></asp:ListItem>
+                                                        <asp:ListItem Value="INPATIENT" Text="RAWAT INAP"></asp:ListItem>
+                                                    </asp:DropDownList>
+                                                </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 100%;">
+                                            <table width="100%" cellspacing="1">
+                                                <tr>
+                                                    <td valign="top" style="width: 40%;">
+                                                        <asp:DataGrid ID="grdUnit" runat="server" BorderWidth="0" GridLines="None" Width="100%"
+                                                            CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false" AutoGenerateColumns="false">
+                                                            <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
+                                                            <ItemStyle CssClass="gridItemStyle" />
+                                                            <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
+                                                            <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
+                                                            <Columns>
+                                                                <asp:TemplateColumn runat="server" ItemStyle-Width="50">
+                                                                    <ItemTemplate>
+                                                                        <asp:CheckBox ID="chkSelect" runat="server" />
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                                <asp:TemplateColumn runat="server" HeaderText="Unit Name">
+                                                                    <ItemTemplate>
+                                                                        <asp:Label runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "UnitID") %>'
+                                                                            ID="_lblUnitID" Visible="false" />
+                                                                        <%# DataBinder.Eval(Container.DataItem, "UnitName")%>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                            </Columns>
+                                                        </asp:DataGrid>
+                                                    </td>
+                                                    <td valign="top" class="center">
+                                                        <asp:Button ID="btnProfileUnitAdd" runat="server" Text="Add >" CssClass="sbttn" Width="100px" /><br />
+                                                        <asp:Button ID="btnProfileUnitAddAll" runat="server" Text="Add All >>" CssClass="sbttn"
+                                                            Width="100px" /><br />
+                                                        <br />
+                                                        <asp:Button ID="btnProfileUnitRemoveAll" runat="server" Text="<< Remove All" CssClass="sbttn"
+                                                            Width="100px" /><br />
+                                                        <asp:Button ID="btnProfileUnitRemove" runat="server" Text="< Remove" CssClass="sbttn"
+                                                            Width="100px" />
+                                                    </td>
+                                                    <td valign="top" style="width: 40%;">
+                                                        <asp:DataGrid ID="grdProfileUnit" runat="server" BorderWidth="0" GridLines="None"
+                                                            Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
+                                                            AutoGenerateColumns="false">
+                                                            <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
+                                                            <ItemStyle CssClass="gridItemStyle" />
+                                                            <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
+                                                            <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
+                                                            <Columns>
+                                                                <asp:TemplateColumn runat="server" ItemStyle-Width="50">
+                                                                    <ItemTemplate>
+                                                                        <asp:CheckBox ID="chkSelect" runat="server" />
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                                <asp:TemplateColumn runat="server" HeaderText="Unit Name">
+                                                                    <ItemTemplate>
+                                                                        <asp:Label runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "ProfileUnitID") %>'
+                                                                            ID="_lblProfileUnitID" Visible="false" />
+                                                                        <%# DataBinder.Eval(Container.DataItem, "UnitName") %>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                            </Columns>
+                                                        </asp:DataGrid>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td class="hseparator" style="width: 100%;">
                                         </td>
                                     </tr>
