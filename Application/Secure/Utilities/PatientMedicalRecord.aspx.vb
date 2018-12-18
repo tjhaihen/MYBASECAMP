@@ -131,6 +131,7 @@ Namespace QIS.Web.Secure
                     Dim nmFile As String
                     Try
                         .MRN = txtMRN.Text.Trim
+                        .RegistrationNo = txtRegistrationNo.Text.Trim
                         .fileName = fileName.Trim
                         .fileExtension = fileExt.Trim
                         .fileDescription = txtFileDescription.Text.Trim

@@ -25,6 +25,12 @@ Namespace QIS.Common.BussinessRules
         Private _CreatedDate, _LastUpdatedDate As DateTime
 
         Private _ComplainText, _InterventionText, _EvaluationText, _ParamedicID As String
+        Private _AssessmentTypeSCode, _SOAPNotes, _ObjectiveText, _MeasurableTargetText As String
+
+        '// for NurseNotes (Catatan Perawat)
+        Private _NurseNotesID As Integer
+        Private _NurseNotes As String
+        Private _IsPhysicianConfirmed As Boolean
 
 #End Region
 
@@ -50,6 +56,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@MRN", _MRN)
                 cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
                 cmdToExecute.Parameters.AddWithValue("@PhysicianID", _PhysicianID)
+                cmdToExecute.Parameters.AddWithValue("@AssessmentTypeSCode", _AssessmentTypeSCode)
                 cmdToExecute.Parameters.AddWithValue("@ChiefComplaint", _ChiefComplaint)
                 cmdToExecute.Parameters.AddWithValue("@HistoryOfPresentIllness", _HistoryOfPresentIllness)
                 cmdToExecute.Parameters.AddWithValue("@MainDiagnosisText", _MainDiagnosisText)
@@ -62,6 +69,9 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@LastUpdatedBy", _LastUpdatedBy)
                 cmdToExecute.Parameters.AddWithValue("@IsDischarged", _IsDischarged)
                 cmdToExecute.Parameters.AddWithValue("@TherapyHISOrderNo", _TherapyHISOrderNo)
+                cmdToExecute.Parameters.AddWithValue("@SOAPNotes", _SOAPNotes)
+                cmdToExecute.Parameters.AddWithValue("@ObjectiveText", _ObjectiveText)
+                cmdToExecute.Parameters.AddWithValue("@MeasurableTargetText", _MeasurableTargetText)
 
                 ' // Open Connection
                 _mainConnection.Open()
@@ -91,6 +101,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@MRN", _MRN)
                 cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
                 cmdToExecute.Parameters.AddWithValue("@PhysicianID", _PhysicianID)
+                cmdToExecute.Parameters.AddWithValue("@AssessmentTypeSCode", _AssessmentTypeSCode)
                 cmdToExecute.Parameters.AddWithValue("@ChiefComplaint", _ChiefComplaint)
                 cmdToExecute.Parameters.AddWithValue("@HistoryOfPresentIllness", _HistoryOfPresentIllness)
                 cmdToExecute.Parameters.AddWithValue("@MainDiagnosisText", _MainDiagnosisText)
@@ -103,6 +114,37 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@LastUpdatedBy", _LastUpdatedBy)
                 cmdToExecute.Parameters.AddWithValue("@IsDischarged", _IsDischarged)
                 cmdToExecute.Parameters.AddWithValue("@TherapyHISOrderNo", _TherapyHISOrderNo)
+                cmdToExecute.Parameters.AddWithValue("@SOAPNotes", _SOAPNotes)
+                cmdToExecute.Parameters.AddWithValue("@ObjectiveText", _ObjectiveText)
+                cmdToExecute.Parameters.AddWithValue("@MeasurableTargetText", _MeasurableTargetText)
+
+                ' // Open Connection
+                _mainConnection.Open()
+
+                ' // Execute Query
+                cmdToExecute.ExecuteNonQuery()
+
+                Return True
+            Catch ex As Exception
+                ExceptionManager.Publish(ex)
+            Finally
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+            End Try
+        End Function
+
+        Public Function UpdateSOAPNotes() As Boolean
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "UPDATE EMRPatientResume SET " + _
+                                        "SOAPNotes=@SOAPNotes, LastUpdatedBy=@LastUpdatedBy, LastUpdatedDate=GETDATE() " + _
+                                        "WHERE ID=@ID"
+            cmdToExecute.CommandType = CommandType.Text
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@ID", _ID)
+                cmdToExecute.Parameters.AddWithValue("@SOAPNotes", _SOAPNotes)
+                cmdToExecute.Parameters.AddWithValue("@LastUpdatedBy", _LastUpdatedBy)
 
                 ' // Open Connection
                 _mainConnection.Open()
@@ -278,6 +320,45 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
+        Public Function GetPatientTodayByUnit(ByVal strSearch As String, ByVal strUnitID As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            If strSearch.Trim = String.Empty Then
+                cmdToExecute.CommandText = "spEMRGetPatientTodayByUnit"
+            Else
+                cmdToExecute.CommandText = "spEMRGetPatientTodayByUnitSearch"
+            End If
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spEMRGetPatientTodayByUnit")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@DepartmentID", _DepartmentID)
+                cmdToExecute.Parameters.AddWithValue("@UnitID", strUnitID)
+                If strSearch.Trim <> String.Empty Then
+                    cmdToExecute.Parameters.AddWithValue("@SearchText", strSearch)
+                End If
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
         Public Function GetPatientResumeByRegistrationNo() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "spEMRGetPatientResumeByRegistrationNo"
@@ -342,6 +423,39 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
+        Public Function GetPatientResumeFirstAssessmentByRegistrationNo() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spEMRGetPatientResumeFirstAssessmentByRegistrationNo"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spEMRGetPatientResumeFirstAssessmentByRegistrationNo")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@MRN", _MRN)
+                cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
         Public Function GetPatientResumeByID() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "spEMRGetPatientResumeByID"
@@ -362,6 +476,7 @@ Namespace QIS.Common.BussinessRules
                 adapter.Fill(toReturn)
 
                 If toReturn.Rows.Count > 0 Then
+                    _AssessmentTypeSCode = CType(toReturn.Rows(0)("AssessmentTypeSCode"), String)
                     _ChiefComplaint = CType(toReturn.Rows(0)("ChiefComplaint"), String)
                     _HistoryOfPresentIllness = CType(toReturn.Rows(0)("HistoryOfPresentIllness"), String)
                     _MainDiagnosisText = CType(toReturn.Rows(0)("MainDiagnosisText"), String)
@@ -370,6 +485,233 @@ Namespace QIS.Common.BussinessRules
                     _TherapyText = CType(toReturn.Rows(0)("TherapyText"), String)
                     _TherapyStopDate = CType(toReturn.Rows(0)("TherapyStopDate"), String)
                     _Notes = CType(toReturn.Rows(0)("Notes"), String)
+                    _SOAPNotes = CType(toReturn.Rows(0)("SOAPNotes"), String)
+                    _ObjectiveText = CType(toReturn.Rows(0)("ObjectiveText"), String)
+                    _MeasurableTargetText = CType(toReturn.Rows(0)("MeasurableTargetText"), String)
+                    _ID = CType(toReturn.Rows(0)("ID"), Integer)
+                End If
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function GetPatientPhysicianIDChartOutpatient() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spEMRGetPatientByPhysicianChartOutpatient"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spEMRGetPatientByPhysicianChartOutpatient")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@PhysicianID", _PhysicianID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function GetPatientPhysicianIDBusinessPartnerChartOutpatient() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spEMRGetPatientByPhysicianBusinessPartnerChartOutpatient"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spEMRGetPatientByPhysicianBusinessPartnerChartOutpatient")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@PhysicianID", _PhysicianID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+#End Region
+#End Region
+
+#Region " Nurse Notes "
+#Region " Insert, Update"
+        Public Function InsertNurseNotes() As Boolean
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spEMRNurseNotesInsert"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@DepartmentID", _DepartmentID)
+                cmdToExecute.Parameters.AddWithValue("@ServiceUnitID", _ServiceUnitID)
+                cmdToExecute.Parameters.AddWithValue("@MRN", _MRN)
+                cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
+                cmdToExecute.Parameters.AddWithValue("@NurseNotes", _NurseNotes)
+                cmdToExecute.Parameters.AddWithValue("@CreatedBy", _CreatedBy)
+                cmdToExecute.Parameters.AddWithValue("@LastUpdatedBy", _LastUpdatedBy)                
+
+                ' // Open Connection
+                _mainConnection.Open()
+
+                ' // Execute Query
+                cmdToExecute.ExecuteNonQuery()
+
+                Return True
+            Catch ex As Exception
+                ExceptionManager.Publish(ex)
+            Finally
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+            End Try
+        End Function
+
+        Public Function UpdateNurseNotes() As Boolean
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spEMRNurseNotesUpdate"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@ID", _NurseNotesID)
+                cmdToExecute.Parameters.AddWithValue("@DepartmentID", _DepartmentID)
+                cmdToExecute.Parameters.AddWithValue("@ServiceUnitID", _ServiceUnitID)
+                cmdToExecute.Parameters.AddWithValue("@MRN", _MRN)
+                cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
+                cmdToExecute.Parameters.AddWithValue("@NurseNotes", _NurseNotes)
+                cmdToExecute.Parameters.AddWithValue("@CreatedBy", _CreatedBy)
+                cmdToExecute.Parameters.AddWithValue("@LastUpdatedBy", _LastUpdatedBy)
+
+                ' // Open Connection
+                _mainConnection.Open()
+
+                ' // Execute Query
+                cmdToExecute.ExecuteNonQuery()
+
+                Return True
+            Catch ex As Exception
+                ExceptionManager.Publish(ex)
+            Finally
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+            End Try
+        End Function
+
+        Public Function UpdateNurseNotesPhysicianConfirmed() As Boolean
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spEMRNurseNotesUpdatePhysicianConfirmed"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@ID", _NurseNotesID)
+                cmdToExecute.Parameters.AddWithValue("@IsPhysicianConfirmed", _IsPhysicianConfirmed)
+                cmdToExecute.Parameters.AddWithValue("@LastUpdatedBy", _LastUpdatedBy)
+
+                ' // Open Connection
+                _mainConnection.Open()
+
+                ' // Execute Query
+                cmdToExecute.ExecuteNonQuery()
+
+                Return True
+            Catch ex As Exception
+                ExceptionManager.Publish(ex)
+            Finally
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+            End Try
+        End Function
+#End Region
+
+#Region " Select "
+        Public Function GetNurseNotesByRegistrationNo() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spEMRGetNurseNotesByRegistrationNo"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spEMRGetNurseNotesByRegistrationNo")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function GetNurseNotesByID() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spEMRGetNurseNotesByID"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spEMRGetNurseNotesByID")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@ID", _NurseNotesID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _NurseNotes = CType(toReturn.Rows(0)("NurseNotes"), String)
+                    _IsPhysicianConfirmed = CType(toReturn.Rows(0)("IsPhysicianConfirmed"), Boolean)
                     _ID = CType(toReturn.Rows(0)("ID"), Integer)
                 End If
             Catch ex As Exception
@@ -687,6 +1029,15 @@ Namespace QIS.Common.BussinessRules
             End Set
         End Property
 
+        Public Property [AssessmentTypeSCode]() As String
+            Get
+                Return _AssessmentTypeSCode
+            End Get
+            Set(ByVal Value As String)
+                _AssessmentTypeSCode = Value
+            End Set
+        End Property
+
         Public Property [ChiefComplaint]() As String
             Get
                 Return _ChiefComplaint
@@ -756,6 +1107,33 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _Notes = Value
+            End Set
+        End Property
+
+        Public Property [SOAPNotes]() As String
+            Get
+                Return _SOAPNotes
+            End Get
+            Set(ByVal Value As String)
+                _SOAPNotes = Value
+            End Set
+        End Property
+
+        Public Property [ObjectiveText]() As String
+            Get
+                Return _ObjectiveText
+            End Get
+            Set(ByVal Value As String)
+                _ObjectiveText = Value
+            End Set
+        End Property
+
+        Public Property [MeasurableTargetText]() As String
+            Get
+                Return _MeasurableTargetText
+            End Get
+            Set(ByVal Value As String)
+                _MeasurableTargetText = Value
             End Set
         End Property
 
@@ -837,6 +1215,33 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _ParamedicID = Value
+            End Set
+        End Property
+
+        Public Property [NurseNotesID]() As Integer
+            Get
+                Return _NurseNotesID
+            End Get
+            Set(ByVal Value As Integer)
+                _NurseNotesID = Value
+            End Set
+        End Property
+
+        Public Property [NurseNotes]() As String
+            Get
+                Return _NurseNotes
+            End Get
+            Set(ByVal Value As String)
+                _NurseNotes = Value
+            End Set
+        End Property
+
+        Public Property [IsPhysicianConfirmed]() As Boolean
+            Get
+                Return _IsPhysicianConfirmed
+            End Get
+            Set(ByVal Value As Boolean)
+                _IsPhysicianConfirmed = Value
             End Set
         End Property
 #End Region

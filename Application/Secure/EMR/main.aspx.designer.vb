@@ -33,6 +33,87 @@ Namespace QIS.Web.EMR
         Protected WithEvents RadMenu As Global.QIS.RadMenu
 
         '''<summary>
+        '''pnlDashboard control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlDashboard As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''lblTotalPasienIGD control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalPasienIGD As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalPasienRawatJalan control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalPasienRawatJalan As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalPasienRawatInap control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalPasienRawatInap As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''pnlInfoForPhysician control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlInfoForPhysician As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''pnlChart control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlChart As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''chtMyPatient control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chtMyPatient As Global.System.Web.UI.DataVisualization.Charting.Chart
+
+        '''<summary>
+        '''chtPatientByBusinessPartner control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chtPatientByBusinessPartner As Global.System.Web.UI.DataVisualization.Charting.Chart
+
+        '''<summary>
+        '''pnlPatientIntervention control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlPatientIntervention As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
         '''txtLinkParamedicID control.
         '''</summary>
         '''<remarks>
@@ -166,6 +247,87 @@ Namespace QIS.Web.EMR
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents RadPageView4 As Global.Telerik.Web.UI.RadPageView
+
+        '''<summary>
+        '''txtMedicalNoHistory control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtMedicalNoHistory As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''btnShowHistory control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnShowHistory As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''imgPBPatientHistory control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents imgPBPatientHistory As Global.System.Web.UI.WebControls.Image
+
+        '''<summary>
+        '''lblPBPatientNameHistory control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblPBPatientNameHistory As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblPBPatientGenderHistory control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblPBPatientGenderHistory As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblPBMRNHistory control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblPBMRNHistory As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblPBAddressHistory control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblPBAddressHistory As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblPBPatientDOBHistory control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblPBPatientDOBHistory As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''grdPatientResumeHistoryMR control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdPatientResumeHistoryMR As Global.System.Web.UI.WebControls.DataGrid
 
         '''<summary>
         '''pnlPatientRecord control.

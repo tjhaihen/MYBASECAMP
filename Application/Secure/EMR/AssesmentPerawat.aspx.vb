@@ -62,6 +62,26 @@ Namespace QIS.Web.EMR
             End Select
         End Sub
 
+        Private Sub grdNurseAssessment_ItemCommand(source As Object, e As System.Web.UI.WebControls.DataGridCommandEventArgs) Handles grdNurseAssessment.ItemCommand
+            Select Case e.CommandName
+                Case "Revise"
+                    Dim _lblPengkajianID As Label = CType(e.Item.FindControl("_lblPengkajianID"), Label)
+                    txtPengkajianID.Text = _lblPengkajianID.Text.Trim
+                    If txtPengkajianID.Text = String.Empty Then txtPengkajianID.Text = "0"
+                    OpenNurseAssesment(CInt(txtPengkajianID.Text.Trim))
+            End Select
+        End Sub
+
+        Private Sub grdNurseNotes_ItemCommand(source As Object, e As System.Web.UI.WebControls.DataGridCommandEventArgs) Handles grdNurseNotes.ItemCommand
+            Select Case e.CommandName
+                Case "Revise"
+                    Dim _lblNurseNotesID As Label = CType(e.Item.FindControl("_lblNurseNotesID"), Label)
+                    txtNurseNotesID.Text = _lblNurseNotesID.Text.Trim
+                    If txtNurseNotesID.Text = String.Empty Then txtNurseNotesID.Text = "0"
+                    OpenNurseNotes(CInt(txtNurseNotesID.Text.Trim))
+            End Select
+        End Sub
+
         Private Sub lbtnBack_Click(sender As Object, e As System.EventArgs) Handles lbtnBack.Click
             PrepareScreenNurseAssesment()
             pnlPatientList.Visible = True
@@ -84,10 +104,94 @@ Namespace QIS.Web.EMR
             End If
         End Sub
 
+        Private Sub lbtnBackNotes_Click(sender As Object, e As System.EventArgs) Handles lbtnBackNotes.Click
+            PrepareScreenNurseAssesment()
+            pnlPatientList.Visible = True
+            pnlPatientRecord.Visible = False
+            UpdateViewGridTodayPatient(String.Empty)
+        End Sub
+
+        Private Sub lbtnNewNotes_Click(sender As Object, e As System.EventArgs) Handles lbtnNewNotes.Click
+            PrepareScreenNurseNotes()
+            commonFunction.Focus(Me, txtNurseNotes.ClientID)
+        End Sub
+
+        Private Sub lbtnSaveNotes_Click(sender As Object, e As System.EventArgs) Handles lbtnSaveNotes.Click
+            If txtNurseNotesID.Text.Trim = String.Empty Or txtNurseNotesID.Text = "0" Or IsNumeric(txtNurseNotesID.Text.Trim) = False Then
+                InsertNurseNotes()
+                PrepareScreenNurseNotes()
+            Else
+                UpdateNurseNotes()
+                PrepareScreenNurseNotes()
+            End If
+        End Sub
+
         Private Sub btnSearchPatient_Click(sender As Object, e As System.EventArgs) Handles btnSearchPatient.Click
             UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim)
         End Sub
 
+        Private Sub txtttvTinggiBadan_TextChanged(sender As Object, e As System.EventArgs) Handles txtttvTinggiBadan.TextChanged
+            txtttvIndexMassaTubuh.Text = CountBMI(CDec(txtttvTinggiBadan.Text.Trim), CDec(txtttvBeratBadan.Text.Trim)).ToString.Trim
+            commonFunction.Focus(Me, txtttvIndexMassaTubuh.ClientID)
+        End Sub
+
+        Private Sub txtttvBeratBadan_TextChanged(sender As Object, e As System.EventArgs) Handles txtttvBeratBadan.TextChanged
+            txtttvIndexMassaTubuh.Text = CountBMI(CDec(txtttvTinggiBadan.Text.Trim), CDec(txtttvBeratBadan.Text.Trim)).ToString.Trim
+            commonFunction.Focus(Me, txtttvIndexMassaTubuh.ClientID)
+        End Sub
+
+        Private Sub rblNyeriSkala_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles rblNyeriSkala.SelectedIndexChanged
+            txtNyeriSkala.Text = rblNyeriSkala.SelectedValue.Trim
+            commonFunction.Focus(Me, txtNyeriSkala.ClientID)
+        End Sub
+
+        Private Sub ddlSkorPerubahanBeratBadan_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlSkorPerubahanBeratBadan.SelectedIndexChanged
+            Dim intPenurunanBeratBadan As Integer = 0
+            Dim oBR As New Common.BussinessRules.CommonCode
+            With oBR
+                .GroupCode = Common.Constants.GroupCode.NAStatusPerubahanBeratBadan_SCode
+                .Code = ddlSkorPerubahanBeratBadan.SelectedValue.Trim
+                If .SelectOne.Rows.Count > 0 Then
+                    intPenurunanBeratBadan = CInt(.Value.Trim)
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+
+            txtSkorNutrisi.Text = CountNutritionScore(intPenurunanBeratBadan, CInt(rblIsTidakNafsuMakan.SelectedValue.Trim)).ToString.Trim
+            commonFunction.Focus(Me, txtSkorNutrisi.ClientID)
+        End Sub
+
+        Private Sub rblIsTidakNafsuMakan_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles rblIsTidakNafsuMakan.SelectedIndexChanged
+            Dim intPenurunanBeratBadan As Integer = 0
+            Dim oBR As New Common.BussinessRules.CommonCode
+            With oBR
+                .GroupCode = Common.Constants.GroupCode.NAStatusPerubahanBeratBadan_SCode
+                .Code = ddlSkorPerubahanBeratBadan.SelectedValue.Trim
+                If .SelectOne.Rows.Count > 0 Then
+                    intPenurunanBeratBadan = CInt(.Value.Trim)
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+
+            txtSkorNutrisi.Text = CountNutritionScore(intPenurunanBeratBadan, CInt(rblIsTidakNafsuMakan.SelectedValue.Trim)).ToString.Trim
+            commonFunction.Focus(Me, txtSkorNutrisi.ClientID)
+        End Sub
+
+        Private Sub ddlDepartmentFilter_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlDepartmentFilter.SelectedIndexChanged
+            commonFunction.SetDDL_Table(ddlServiceUnit, "ProfileUnit", MyBase.LoggedOnProfileID.Trim + "^" + ddlDepartmentFilter.SelectedValue.Trim)
+            UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim)
+        End Sub
+
+        Private Sub ddlServiceUnit_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlServiceUnit.SelectedIndexChanged
+            UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim)
+        End Sub
+
+        Private Sub RadTabStrip3_TabClick(sender As Object, e As Telerik.Web.UI.RadTabStripEventArgs) Handles RadTabStrip3.TabClick
+            UpdateViewGridCatatanMedis()
+            UpdateViewGridCatatanPerawat()
+        End Sub
 
 #End Region
 
@@ -101,6 +205,7 @@ Namespace QIS.Web.EMR
         End Function
 
         Private Sub prepareDDL()
+            commonFunction.SetDDL_Table(ddlAssessmentType, "CommonCode", Common.Constants.GroupCode.EMRAssessmentType_SCode)
             commonFunction.SetDDL_Table(ddlAsalInformasi, "CommonCode", Common.Constants.GroupCode.NAAsalInformasi_SCode)
             commonFunction.SetDDL_Table(ddlAsalInformasiHubungan, "CommonCode", Common.Constants.GroupCode.NAHubungan_SCode)
             commonFunction.SetDDL_Table(ddlJenisAlergi, "CommonCode", Common.Constants.GroupCode.NAJenisAlergi_SCode)
@@ -125,6 +230,7 @@ Namespace QIS.Web.EMR
             commonFunction.SetDDL_Table(ddlAgamaPasien, "StandardField", Common.Constants.StandardField.Agama_SField)
             commonFunction.SetDDL_Table(ddlCaraBelajarDisukai, "CommonCode", Common.Constants.GroupCode.NACaraBelajar_SCode)
             commonFunction.SetDDL_Table(ddlRoomCode, "Room", String.Empty)
+            commonFunction.SetDDL_Table(ddlServiceUnit, "ProfileUnit", MyBase.LoggedOnProfileID.Trim + "^" + ddlDepartmentFilter.SelectedValue.Trim)
         End Sub
 
         Private Sub PrepareScreen()
@@ -133,7 +239,7 @@ Namespace QIS.Web.EMR
             pnlPatientList.Visible = True
             pnlPatientRecord.Visible = False
             txtSearchPatient.Text = String.Empty
-            UpdateViewGridTodayPatient(String.Empty)
+            UpdateViewGridTodayPatient(String.Empty)            
         End Sub
 
         Private Sub PrepareScreenNurseAssesment()
@@ -218,6 +324,15 @@ Namespace QIS.Web.EMR
             txtReferToHospitalName.Text = String.Empty
             rblIsDeath.SelectedValue = "0"
             txtDeathTime.Text = String.Empty
+
+            CheckFirstAssessmentByRegistrationNo()
+        End Sub
+
+        Private Sub PrepareScreenNurseNotes()
+            txtNurseNotesID.Text = String.Empty
+            txtNurseNotes.Text = String.Empty
+            chkIsPhysicianConfirmed.Checked = False
+            UpdateViewGridNurseNotes()
         End Sub
 
         Private Function CountBMI(ByVal decTinggiBadan As Decimal, ByVal decBeratBadan As Decimal) As Decimal
@@ -240,7 +355,7 @@ Namespace QIS.Web.EMR
             Dim oBR As New Common.BussinessRules.EMR
             With oBR
                 .DepartmentID = ddlDepartmentFilter.SelectedValue.Trim
-                dt = .GetPatientToday(strSearch)
+                dt = .GetPatientTodayByUnit(strSearch, ddlServiceUnit.SelectedValue.Trim)
 
                 grdTodayPatient.DataSource = dt
                 grdTodayPatient.DataBind()
@@ -248,6 +363,69 @@ Namespace QIS.Web.EMR
             oBR.Dispose()
             oBR = Nothing
         End Sub
+
+        Private Sub UpdateViewGridNurseAssessment()
+            Dim oBr As New Common.BussinessRules.NurseAssesment
+            With oBr
+                .RegistrationNo = lblPBRegistrationNo.Text.Trim
+                grdNurseAssessment.DataSource = .GetNurseAssesmentByRegistrationNo()
+                grdNurseAssessment.DataBind()
+            End With
+            oBr.Dispose()
+            oBr = Nothing
+        End Sub
+
+        Private Sub UpdateViewGridNurseNotes()
+            Dim oBr As New Common.BussinessRules.EMR
+            With oBr
+                .RegistrationNo = lblPBRegistrationNo.Text.Trim
+                grdNurseNotes.DataSource = .GetNurseNotesByRegistrationNo()
+                grdNurseNotes.DataBind()
+            End With
+            oBr.Dispose()
+            oBr = Nothing
+        End Sub
+
+        Private Sub UpdateViewGridCatatanMedis()
+            Dim oBR As New Common.BussinessRules.EMR
+            With oBR
+                .RegistrationNo = lblPBRegistrationNo.Text.Trim
+                grdCatatanMedis.DataSource = .GetPatientResumeByRegistrationNo()
+                grdCatatanMedis.DataBind()
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
+        Private Sub UpdateViewGridCatatanPerawat()
+            Dim oBR As New Common.BussinessRules.EMR
+            With oBR
+                .RegistrationNo = lblPBRegistrationNo.Text.Trim
+                grdCatatanPerawat.DataSource = .GetNurseNotesByRegistrationNo()
+                grdCatatanPerawat.DataBind()
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
+        Private Function CheckFirstAssessmentByRegistrationNo() As Boolean
+            Dim bolFA As Boolean = False
+            Dim oBr As New Common.BussinessRules.NurseAssesment
+            With oBr
+                .RegistrationNo = lblPBRegistrationNo.Text.Trim
+                If .GetNurseAssessmentFirstAssessmentByRegistrationNo.Rows.Count > 0 Then
+                    ddlAssessmentType.SelectedIndex = 1
+                    bolFA = True
+                Else
+                    ddlAssessmentType.SelectedIndex = 0
+                    bolFA = False
+                End If
+            End With
+            oBr.Dispose()
+            oBr = Nothing
+
+            Return bolFA
+        End Function
 #End Region
 
 #Region " C,R,U,D "
@@ -294,7 +472,7 @@ Namespace QIS.Web.EMR
                         imgPBPatient.ImageUrl = "/qistoollib/images/person-male.png"
                     End If
                     pnlNurseAssesment.Visible = True
-                    OpenNurseAssesment(CInt(PengkajianID))
+                    'OpenNurseAssesment(CInt(PengkajianID))
                 Else
                     pnlPatientList.Visible = True
                     pnlPatientRecord.Visible = False
@@ -309,12 +487,17 @@ Namespace QIS.Web.EMR
                     lblPBServiceUnitID.Text = String.Empty
                     lblPBServiceUnitName.Text = String.Empty
                     lblPBBusinessPartnerName.Text = String.Empty
-                    pnlNurseAssesment.Visible = False
-                    PrepareScreenNurseAssesment()
+                    pnlNurseAssesment.Visible = False                    
                 End If
             End With
             oBR.Dispose()
             oBR = Nothing
+
+            PrepareScreenNurseAssesment()
+            UpdateViewGridNurseAssessment()
+            UpdateViewGridNurseNotes()
+            UpdateViewGridCatatanMedis()
+            UpdateViewGridCatatanPerawat()
         End Sub
 
         Private Sub OpenNurseAssesment(ByVal PengkajianID As Integer)
@@ -324,6 +507,7 @@ Namespace QIS.Web.EMR
                 If .GetNurseAssesmentByID.Rows.Count > 0 Then
                     'ddlDepartmentFilter.SelectedValue = .DepartmentID.Trim
                     'lblPBRegistrationNo.Text = .RegistrationNo.Trim
+                    ddlAssessmentType.SelectedValue = .AssessmentTypeSCode.Trim
                     ddlAsalInformasi.SelectedValue = .GCAsalInformasi.Trim
                     txtAsalInformasiNama.Text = .AsalInformasiNama.Trim
                     ddlAsalInformasiHubungan.SelectedValue = .GCAsalInformasiHubungan.Trim
@@ -536,6 +720,10 @@ Namespace QIS.Web.EMR
         End Sub
 
         Private Sub InsertNurseAssesment()
+            If CheckFirstAssessmentByRegistrationNo() = True And ddlAssessmentType.SelectedValue = "01" Then
+                commonFunction.MsgBox(Me, "Sudah ada asesmen Awal. Silahkan lanjutkan dengan memilih tipe asesmen Lanjutan.")
+                Exit Sub
+            End If
             Dim oBR As New Common.BussinessRules.NurseAssesment
             With oBR
                 .DepartmentID = ddlDepartmentFilter.SelectedValue.Trim
@@ -543,6 +731,7 @@ Namespace QIS.Web.EMR
                 .GCAsalInformasi = ddlAsalInformasi.SelectedValue.Trim
                 .AsalInformasiNama = txtAsalInformasiNama.Text.Trim
                 .GCAsalInformasiHubungan = ddlAsalInformasiHubungan.SelectedValue.Trim
+                .AssessmentTypeSCode = ddlAssessmentType.SelectedValue.Trim
                 .KeluhanUtama = txtKeluhanUtama.Text.Trim
                 .RiwayatKeluhanSaatIni = txtRiwayatKeluhanSaatIni.Text.Trim
                 .IsRiwayatAlergi = CBool(rblIsRiwayatAlergi.SelectedValue.Trim)
@@ -629,6 +818,8 @@ Namespace QIS.Web.EMR
             End With
             oBR.Dispose()
             oBR = Nothing
+
+            UpdateViewGridNurseAssessment()
         End Sub
 
         Private Sub UpdateNurseAssesment()
@@ -725,57 +916,60 @@ Namespace QIS.Web.EMR
             End With
             oBR.Dispose()
             oBR = Nothing
+
+            UpdateViewGridNurseAssessment()
+        End Sub
+
+        Private Sub OpenNurseNotes(ByVal NurseNotesID As Integer)
+            Dim oBR As New Common.BussinessRules.EMR
+            With oBR
+                .NurseNotesID = NurseNotesID
+                If .GetNurseNotesByID.Rows.Count > 0 Then
+                    txtNurseNotes.Text = .NurseNotes.Trim
+                    chkIsPhysicianConfirmed.Checked = .IsPhysicianConfirmed
+                Else
+                    txtNurseNotes.Text = String.Empty
+                    chkIsPhysicianConfirmed.Checked = False
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
+        Private Sub InsertNurseNotes()
+            Dim oBR As New Common.BussinessRules.EMR
+            With oBR
+                .DepartmentID = ddlDepartmentFilter.SelectedValue.Trim
+                .ServiceUnitID = lblPBServiceUnitID.Text.Trim
+                .RegistrationNo = lblPBRegistrationNo.Text.Trim
+                .MRN = lblPBMRN.Text.Trim
+                .NurseNotes = txtNurseNotes.Text.Trim
+                .CreatedBy = MyBase.LoggedOnUserID.Trim
+                .LastUpdatedBy = MyBase.LoggedOnUserID.Trim
+                .InsertNurseNotes()
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
+        Private Sub UpdateNurseNotes()
+            Dim oBR As New Common.BussinessRules.EMR
+            With oBR
+                .NurseNotesID = CInt(txtNurseNotesID.Text.Trim)
+                .DepartmentID = ddlDepartmentFilter.SelectedValue.Trim
+                .ServiceUnitID = lblPBServiceUnitID.Text.Trim
+                .RegistrationNo = lblPBRegistrationNo.Text.Trim
+                .MRN = lblPBMRN.Text.Trim
+                .NurseNotes = txtNurseNotes.Text.Trim
+                .CreatedBy = MyBase.LoggedOnUserID.Trim
+                .LastUpdatedBy = MyBase.LoggedOnUserID.Trim
+                .UpdateNurseNotes()
+            End With
+            oBR.Dispose()
+            oBR = Nothing
         End Sub
 #End Region
 
-        Private Sub txtttvTinggiBadan_TextChanged(sender As Object, e As System.EventArgs) Handles txtttvTinggiBadan.TextChanged
-            txtttvIndexMassaTubuh.Text = CountBMI(CDec(txtttvTinggiBadan.Text.Trim), CDec(txtttvBeratBadan.Text.Trim)).ToString.Trim
-            commonFunction.Focus(Me, txtttvIndexMassaTubuh.ClientID)
-        End Sub
-
-        Private Sub txtttvBeratBadan_TextChanged(sender As Object, e As System.EventArgs) Handles txtttvBeratBadan.TextChanged
-            txtttvIndexMassaTubuh.Text = CountBMI(CDec(txtttvTinggiBadan.Text.Trim), CDec(txtttvBeratBadan.Text.Trim)).ToString.Trim
-            commonFunction.Focus(Me, txtttvIndexMassaTubuh.ClientID)
-        End Sub
-
-        Private Sub rblNyeriSkala_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles rblNyeriSkala.SelectedIndexChanged
-            txtNyeriSkala.Text = rblNyeriSkala.SelectedValue.Trim
-            commonFunction.Focus(Me, txtNyeriSkala.ClientID)
-        End Sub
-
-        Private Sub ddlSkorPerubahanBeratBadan_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlSkorPerubahanBeratBadan.SelectedIndexChanged
-            Dim intPenurunanBeratBadan As Integer = 0
-            Dim oBR As New Common.BussinessRules.CommonCode
-            With oBR
-                .GroupCode = Common.Constants.GroupCode.NAStatusPerubahanBeratBadan_SCode
-                .Code = ddlSkorPerubahanBeratBadan.SelectedValue.Trim
-                If .SelectOne.Rows.Count > 0 Then
-                    intPenurunanBeratBadan = CInt(.Value.Trim)                
-                End If
-            End With
-            oBR.Dispose()
-            oBR = Nothing
-
-            txtSkorNutrisi.Text = CountNutritionScore(intPenurunanBeratBadan, CInt(rblIsTidakNafsuMakan.SelectedValue.Trim)).ToString.Trim
-            commonFunction.Focus(Me, txtSkorNutrisi.ClientID)
-        End Sub
-
-        Private Sub rblIsTidakNafsuMakan_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles rblIsTidakNafsuMakan.SelectedIndexChanged
-            Dim intPenurunanBeratBadan As Integer = 0
-            Dim oBR As New Common.BussinessRules.CommonCode
-            With oBR
-                .GroupCode = Common.Constants.GroupCode.NAStatusPerubahanBeratBadan_SCode
-                .Code = ddlSkorPerubahanBeratBadan.SelectedValue.Trim
-                If .SelectOne.Rows.Count > 0 Then
-                    intPenurunanBeratBadan = CInt(.Value.Trim)
-                End If
-            End With
-            oBR.Dispose()
-            oBR = Nothing
-
-            txtSkorNutrisi.Text = CountNutritionScore(intPenurunanBeratBadan, CInt(rblIsTidakNafsuMakan.SelectedValue.Trim)).ToString.Trim
-            commonFunction.Focus(Me, txtSkorNutrisi.ClientID)
-        End Sub
     End Class
 
 End Namespace

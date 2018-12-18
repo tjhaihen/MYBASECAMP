@@ -234,6 +234,38 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
+        Public Function SelectByUserIDWorkTimeDateSubmitted() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "SELECT * FROM WorkTimeHd WHERE userID=@userID AND workTimeDate=@workTimeDate AND isSubmitted=1"
+            cmdToExecute.CommandType = CommandType.Text
+
+            Dim toReturn As DataTable = New DataTable("WorkTimeHd")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@userID", _userID)
+                cmdToExecute.Parameters.AddWithValue("@worktimeDate", _worktimeDate)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
         Public Function UpdateSubmit() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "UPDATE WorkTimeHd " + _

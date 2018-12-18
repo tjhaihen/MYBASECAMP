@@ -105,6 +105,15 @@ Namespace QIS.Web.EMR
         Protected WithEvents ddlDepartmentFilter As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
+        '''ddlServiceUnit control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlServiceUnit As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
         '''grdTodayPatient control.
         '''</summary>
         '''<remarks>
@@ -267,13 +276,13 @@ Namespace QIS.Web.EMR
         Protected WithEvents RadMultiPage3 As Global.Telerik.Web.UI.RadMultiPage
 
         '''<summary>
-        '''RadPageView5 control.
+        '''rpvAsesmenKeperawatan control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents RadPageView5 As Global.Telerik.Web.UI.RadPageView
+        Protected WithEvents rpvAsesmenKeperawatan As Global.Telerik.Web.UI.RadPageView
 
         '''<summary>
         '''pnlNurseAssesment control.
@@ -310,6 +319,24 @@ Namespace QIS.Web.EMR
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents lbtnSaveSOAP As Global.System.Web.UI.WebControls.LinkButton
+
+        '''<summary>
+        '''grdNurseAssessment control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdNurseAssessment As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''ddlAssessmentType control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlAssessmentType As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
         '''txtPengkajianID control.
@@ -1039,5 +1066,131 @@ Namespace QIS.Web.EMR
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents txtDeathTime As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''rpvCatatanPerawat control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents rpvCatatanPerawat As Global.Telerik.Web.UI.RadPageView
+
+        '''<summary>
+        '''pnlNurseNotes control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlNurseNotes As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''lbtnBackNotes control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lbtnBackNotes As Global.System.Web.UI.WebControls.LinkButton
+
+        '''<summary>
+        '''lbtnNewNotes control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lbtnNewNotes As Global.System.Web.UI.WebControls.LinkButton
+
+        '''<summary>
+        '''lbtnSaveNotes control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lbtnSaveNotes As Global.System.Web.UI.WebControls.LinkButton
+
+        '''<summary>
+        '''grdNurseNotes control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdNurseNotes As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''txtNurseNotesID control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtNurseNotesID As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''txtNurseNotes control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtNurseNotes As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''chkIsPhysicianConfirmed control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsPhysicianConfirmed As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''rpvCPPT control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents rpvCPPT As Global.Telerik.Web.UI.RadPageView
+
+        '''<summary>
+        '''pnlCPPT control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlCPPT As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''grdCatatanMedis control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdCatatanMedis As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''grdCatatanPerawat control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdCatatanPerawat As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''grdCatatanUnitLainnya control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdCatatanUnitLainnya As Global.System.Web.UI.WebControls.DataGrid
     End Class
 End Namespace

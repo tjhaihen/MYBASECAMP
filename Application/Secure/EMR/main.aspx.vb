@@ -15,7 +15,6 @@ Imports System.Math
 Imports System.IO
 Imports Microsoft.VisualBasic
 
-
 Imports System.Data.SqlTypes
 
 Namespace QIS.Web.EMR
@@ -158,6 +157,10 @@ Namespace QIS.Web.EMR
         Private Sub btnSearchPatient_Click(sender As Object, e As System.EventArgs) Handles btnSearchPatient.Click
             UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim)
         End Sub
+
+        Private Sub btnShowHistory_Click(sender As Object, e As System.EventArgs) Handles btnShowHistory.Click
+            OpenPatientHistory(txtMedicalNoHistory.Text.Trim)
+        End Sub
 #End Region
 
 #Region " Support functions for navigation bar (Controls) "
@@ -176,10 +179,15 @@ Namespace QIS.Web.EMR
             pnlPatientRecord.Visible = False
             txtSearchPatient.Text = String.Empty
             UpdateViewGridTodayPatient(String.Empty)
+            PrepareScreenDashboard()
 
             chkIsCreateOrder.Checked = True
             chkIsRealized.Checked = False
             lblTherapyHISOrderNo.Text = String.Empty
+
+            pnlInfoForPhysician.Visible = chkIsPhysician.Checked
+            pnlPatientIntervention.Visible = Not chkIsPhysician.Checked
+            pnlChart.Visible = chkIsPhysician.Checked
         End Sub
 
         Private Sub PrepareScreenPatientResume()
@@ -208,6 +216,46 @@ Namespace QIS.Web.EMR
             UpdateViewGridPatientIntervention()
         End Sub
 
+        Private Sub PrepareScreenPatientHistory()
+            txtMedicalNoHistory.Text = String.Empty
+            UpdateViewGridPatientResumeHistoryMR()
+        End Sub
+
+        Private Sub PrepareScreenDashboard()
+            Dim dt As New DataTable
+            Dim oBR As New Common.BussinessRules.EMR
+            With oBR
+                .PhysicianID = txtLinkParamedicID.Text.Trim
+                .DepartmentID = "OUTPATIENT"
+                If chkIsPhysician.Checked Then
+                    dt = .GetPatientPhysicianIDToday(String.Empty)
+                Else
+                    dt = .GetPatientToday(String.Empty)
+                End If
+                lblTotalPasienRawatJalan.Text = dt.Rows.Count.ToString.Trim
+
+                .DepartmentID = "EMERGENCY"
+                If chkIsPhysician.Checked Then
+                    dt = .GetPatientPhysicianIDToday(String.Empty)
+                Else
+                    dt = .GetPatientToday(String.Empty)
+                End If
+                lblTotalPasienIGD.Text = dt.Rows.Count.ToString.Trim
+
+                .DepartmentID = "INPATIENT"
+                If chkIsPhysician.Checked Then
+                    dt = .GetPatientPhysicianIDToday(String.Empty)
+                Else
+                    dt = .GetPatientToday(String.Empty)
+                End If
+                lblTotalPasienRawatInap.Text = dt.Rows.Count.ToString.Trim
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+
+            UpdateViewChartData()
+        End Sub
+
         Private Sub UpdateViewGridTodayPatient(ByVal strSearch As String)
             Dim dt As New DataTable
             Dim oBR As New Common.BussinessRules.EMR
@@ -234,6 +282,17 @@ Namespace QIS.Web.EMR
                 .MRN = lblPBMRN.Text.Trim
                 grdPatientResume.DataSource = .GetPatientResumeByMRN()
                 grdPatientResume.DataBind()
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
+        Private Sub UpdateViewGridPatientResumeHistoryMR()
+            Dim oBR As New Common.BussinessRules.EMR
+            With oBR
+                .MRN = txtMedicalNoHistory.Text.Trim
+                grdPatientResumeHistoryMR.DataSource = .GetPatientResumeByMRN()
+                grdPatientResumeHistoryMR.DataBind()
             End With
             oBR.Dispose()
             oBR = Nothing
@@ -281,6 +340,27 @@ Namespace QIS.Web.EMR
             End With
             oBR.Dispose()
             oBR = Nothing
+        End Sub
+
+        Private Sub UpdateViewChartData()
+            chtMyPatient.Titles.Add("Jumlah Pasien Rawat Jalan " + MonthName(Today.Month) + " " + Today.Year.ToString.Trim)
+            chtPatientByBusinessPartner.Titles.Add("Jumlah Pasien Rawat Jalan " + MonthName(Today.Month) + " " + Today.Year.ToString.Trim + " Berdasarkan Jenis Penjamin")
+
+            Dim oBr As New Common.BussinessRules.EMR
+            Dim dtP As New DataTable
+            Dim dtB As New DataTable
+            With oBr
+                oBr.PhysicianID = txtLinkParamedicID.Text.Trim
+                dtP = oBr.GetPatientPhysicianIDChartOutpatient()
+                dtB = oBr.GetPatientPhysicianIDBusinessPartnerChartOutpatient()
+
+                chtMyPatient.Series("Categories").Points.DataBindXY(dtP.Rows, "RegistrationDate", dtP.Rows, "RegistrationCount")
+                chtPatientByBusinessPartner.Series("Categories").Points.DataBindXY(dtB.Rows, "CustomerType", dtB.Rows, "RegistrationCount")
+
+                chtMyPatient.ChartAreas(0).AxisX.LabelStyle.Format = commonFunction.FORMAT_DATE_CHART
+            End With
+            oBr.Dispose()
+            oBr = Nothing
         End Sub
 #End Region
 
@@ -384,6 +464,41 @@ Namespace QIS.Web.EMR
             End With
             oBR.Dispose()
             oBR = Nothing
+        End Sub
+
+        Private Sub OpenPatientHistory(ByVal strMRN As String)
+            Dim strFormattedMRN As String = String.Empty
+            strFormattedMRN = Right("00000000" + strMRN.Replace("-", "").Trim, 8).Trim
+            strFormattedMRN = Left(strFormattedMRN, 2) + "-" + Mid(strFormattedMRN, 3, 2) + "-" + Mid(strFormattedMRN, 5, 2) + "-" + Right(strFormattedMRN, 2)
+            txtMedicalNoHistory.Text = strFormattedMRN
+
+            Dim oBR As New Common.BussinessRules.Patient
+            With oBR
+                .MRN = txtMedicalNoHistory.Text.Trim
+                If .SelectOne.Rows.Count > 0 Then
+                    lblPBPatientNameHistory.Text = .patientName.Trim
+                    lblPBPatientGenderHistory.Text = .gender.Trim
+                    lblPBMRNHistory.Text = .MRN.Trim
+                    lblPBPatientDOBHistory.Text = Format(.dateOfBirth, commonFunction.FORMAT_DATE)
+                    lblPBAddressHistory.Text = .address.Trim
+                    If lblPBPatientGenderHistory.Text = "P" Then
+                        imgPBPatientHistory.ImageUrl = "/qistoollib/images/person-female.png"
+                    Else
+                        imgPBPatientHistory.ImageUrl = "/qistoollib/images/person-male.png"
+                    End If
+                Else
+                    lblPBPatientNameHistory.Text = String.Empty
+                    lblPBPatientGenderHistory.Text = String.Empty
+                    lblPBMRNHistory.Text = String.Empty
+                    lblPBPatientDOBHistory.Text = String.Empty
+                    lblPBAddressHistory.Text = String.Empty
+                    commonFunction.MsgBox(Me, "Nomor Rekam Medis tidak terdaftar. Silahkan masukkan Nomor Rekam Medis yang benar.")
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+
+            UpdateViewGridPatientResumeHistoryMR()
         End Sub
 
         Private Sub InsertPatientResume()

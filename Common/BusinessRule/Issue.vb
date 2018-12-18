@@ -516,6 +516,40 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
+
+        Public Function SelectIssueOutstandingByUserID(ByVal IsUrgentIssues As Boolean) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "SELECT * FROM issue WHERE userIDassignedTo=@UserID AND issueStatusSCode<>'003'"
+            If IsUrgentIssues = True Then
+                cmdToExecute.CommandText += " AND isUrgent=1"
+            End If
+            cmdToExecute.CommandType = CommandType.Text
+
+            Dim toReturn As DataTable = New DataTable("IssueOutstandingByUserID")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@UserID", _userIDassignedTo)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
 #End Region
 
 #Region " Class Property Declarations "

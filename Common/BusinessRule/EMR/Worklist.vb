@@ -14,8 +14,8 @@ Namespace QIS.Common.BussinessRules
         Private _OrderNo, _TransactionNo, _RegistrationNo, _MRN As String
         Private _ModuleID, _ServiceUnitID, _SupportingUnitID, _CreatedBy, _LastUpdatedBy As String
         Private _ClinicalNotes, _PrescriptionNotes As String
-        Private _IsValidate, _IsAutoPayment, _IsClosed, _IsServiced As Boolean
-        Private _ItemID, _StatusID As String
+        Private _IsValidate, _IsAutoPayment, _IsClosed, _IsServiced, _IsCito As Boolean
+        Private _ItemID, _StatusID, _StatusName As String
         Private _OrderDate, _PlannedDate, _RealizationDate, _CreateDate, _LastUpdatedDate As DateTime
 #End Region
 
@@ -28,6 +28,45 @@ Namespace QIS.Common.BussinessRules
         End Sub
 
 #Region " Insert, Update "
+        Public Function InsertTransactionOrderHD() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spEMRTransactionOrderHd"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spEMRTransactionOrderHd")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
+                cmdToExecute.Parameters.AddWithValue("@TransactionNo", _TransactionNo)
+                cmdToExecute.Parameters.AddWithValue("@DepartmentID", _ModuleID)
+                cmdToExecute.Parameters.AddWithValue("@ServiceUnitUnitID", _SupportingUnitID)                
+                cmdToExecute.Parameters.AddWithValue("@CreatedBy", _CreatedBy)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _TransactionNo = CType(toReturn.Rows(0)("TransactionNo"), String)
+                End If
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
         Public Function InsertHD() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
 
@@ -47,6 +86,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@KdPMedis", _SupportingUnitID)
                 cmdToExecute.Parameters.AddWithValue("@Validasi", _IsValidate)
                 cmdToExecute.Parameters.AddWithValue("@CatatanKlinis", _ClinicalNotes)
+                cmdToExecute.Parameters.AddWithValue("@IsCito", _IsCito)
                 cmdToExecute.Parameters.AddWithValue("@UsrInsert", _CreatedBy)
                 cmdToExecute.Parameters.AddWithValue("@UsrUpdate", _LastUpdatedBy)
 
@@ -81,8 +121,40 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@KdLayan", _ItemID)
                 cmdToExecute.Parameters.AddWithValue("@Resep", _PrescriptionNotes)
                 cmdToExecute.Parameters.AddWithValue("@KdStatus", _StatusID)
+                cmdToExecute.Parameters.AddWithValue("@Cito", _IsCito)
                 cmdToExecute.Parameters.AddWithValue("@UsrInsert", _CreatedBy)
-                cmdToExecute.Parameters.AddWithValue("@UsrUpdate", _LastUpdatedBy)                
+                cmdToExecute.Parameters.AddWithValue("@UsrUpdate", _LastUpdatedBy)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                cmdToExecute.ExecuteNonQuery()
+
+                Return True
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+            End Try
+        End Function
+
+        Public Function InsertPatientResumeJobOrder(ByVal intPatientResumeID As Integer) As Boolean
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+
+            cmdToExecute.CommandText = "spEMRInsertPatientResumeJobOrder"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            ' // Use base class' connection object
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@PatientResumeID", intPatientResumeID)
+                cmdToExecute.Parameters.AddWithValue("@JobOrderNo", _OrderNo)
+                cmdToExecute.Parameters.AddWithValue("@CreatedBy", _CreatedBy)
 
                 ' // Open connection.
                 _mainConnection.Open()
@@ -134,8 +206,175 @@ Namespace QIS.Common.BussinessRules
 #End Region
 
 #Region " Select One "
-        Public Overrides Function SelectOne(Optional ByVal recStatus As QISRecStatus = QISRecStatus.CurrentRecord) As DataTable
-            
+        Public Function SelectOrderHd() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "GetJobOrderHd"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("GetJobOrderHd")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@OrderNo", _OrderNo)
+                '//soon... PatientResumeID
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _OrderNo = CType(toReturn.Rows(0)("JobOrderNo"), String)
+                    _TransactionNo = CType(toReturn.Rows(0)("TransactionNo"), String)
+                    _SupportingUnitID = CType(toReturn.Rows(0)("DiagnosticSupportUnitID"), String)
+                    _ClinicalNotes = CType(toReturn.Rows(0)("ClinicalNotes"), String)
+                    _IsCito = CType(toReturn.Rows(0)("IsCito"), Boolean)
+                    _StatusName = CType(toReturn.Rows(0)("StatusName"), String)
+                End If
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+#End Region
+
+#Region " Custom "
+        Public Function GetJobOrderListByRegistrationNo() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "GetJobOrderListByRegistrationNo"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("GetJobOrderListByRegistrationNo")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
+                '//soon... PatientResumeID
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function GetJobOrderListByPatientResumeID(ByVal intPatientResumeID As Integer) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "GetJobOrderListByPatientResumeID"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("GetJobOrderListByPatientResumeID")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@PatientResumeID", intPatientResumeID)
+                '//soon... PatientResumeID
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function GetJobOrderDetailByPatientResumeID(ByVal intPatientResumeID As Integer) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "GetJobOrderDetailByPatientResumeID"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("GetJobOrderDetailByPatientResumeID")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@PatientResumeID", intPatientResumeID)
+                '//soon... PatientResumeID
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function GetJobOrderDetailByPatientResumeIDByUnitID(ByVal intPatientResumeID As Integer, ByVal strUnitID As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "GetJobOrderDetailByPatientResumeIDByUnitID"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("GetJobOrderDetailByPatientResumeIDByUnitID")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@PatientResumeID", intPatientResumeID)
+                cmdToExecute.Parameters.AddWithValue("@DiagnosticSupportUnitiD", strUnitID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
         End Function
 #End Region
 
@@ -309,6 +548,15 @@ Namespace QIS.Common.BussinessRules
             End Set
         End Property
 
+        Public Property [StatusName]() As String
+            Get
+                Return _StatusName
+            End Get
+            Set(ByVal Value As String)
+                _StatusName = Value
+            End Set
+        End Property
+
         Public Property [IsValidate]() As Boolean
             Get
                 Return _IsValidate
@@ -342,6 +590,15 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As Boolean)
                 _IsServiced = Value
+            End Set
+        End Property
+
+        Public Property [IsCito]() As Boolean
+            Get
+                Return _IsCito
+            End Get
+            Set(ByVal Value As Boolean)
+                _IsCito = Value
             End Set
         End Property
 

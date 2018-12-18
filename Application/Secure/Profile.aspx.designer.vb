@@ -168,6 +168,69 @@ Namespace QIS.Web.Secure
         Protected WithEvents grdProfileMenu As Global.System.Web.UI.WebControls.DataGrid
 
         '''<summary>
+        '''ddlDepartmentFilter control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlDepartmentFilter As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''grdUnit control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdUnit As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''btnProfileUnitAdd control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnProfileUnitAdd As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''btnProfileUnitAddAll control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnProfileUnitAddAll As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''btnProfileUnitRemoveAll control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnProfileUnitRemoveAll As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''btnProfileUnitRemove control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnProfileUnitRemove As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''grdProfileUnit control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdProfileUnit As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
         '''grdProfile control.
         '''</summary>
         '''<remarks>

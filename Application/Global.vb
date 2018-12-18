@@ -46,6 +46,7 @@ Namespace QIS.Web
 
         Public Const FORMAT_DATE As String = "dd-MMM-yyyy"
         Public Const FORMAT_DATE_CAL As String = "dd-MM-yyyy"
+        Public Const FORMAT_DATE_CHART As String = "dd-MMM"
         Public Const FORMAT_CURRENCY As String = "#,##0.00"
 
         Public Const MSG_ACCESS_DENIED As String = "Access Denied<br/>You might not have permission to view this directory or page.<br/>If you believe you should be able to view this directory or page, please contact your System Administrator."
@@ -226,6 +227,12 @@ Namespace QIS.Web
                 Case "ProjectUser"
                     Dim oTbl As New Common.BussinessRules.ProjectUser
                     tblToApply = oTbl.SelectProjectByUserID(keyField.Trim)
+                Case "ProfileUnit"
+                    Dim oTbl As New Common.BussinessRules.ProfileUnit
+                    Dim strKeyField() As String = keyField.Trim.Split(CChar("^"))
+                    Dim strKeyField1 As String = strKeyField(0)
+                    Dim strKeyField2 As String = strKeyField(1)
+                    tblToApply = oTbl.SelectUnitByProfileIDDepartmentID(strKeyField1.Trim, strKeyField2.Trim)
                 Case "MonthInYear"
                     Dim tblMonth As New DataTable
                     With tblMonth
@@ -275,6 +282,9 @@ Namespace QIS.Web
                 Case "Room"
                     Dim oTbl As New Common.BussinessRules.Utility
                     tblToApply = oTbl.GetRoom()
+                Case "DiagnosticSupportUnit"
+                    Dim oTbl As New Common.BussinessRules.Utility
+                    tblToApply = oTbl.GetDiagnosticSupportUnit()
                 Case "StandardField"
                     Dim oTbl As New Common.BussinessRules.CommonCode
                     tblToApply = oTbl.SelectStandardFieldByKdField(keyField.Trim)
@@ -325,6 +335,9 @@ Namespace QIS.Web
                             Case "UserSite"
                                 _strText = Common.ProcessNull.GetString(rgRows(i - 1)("SiteName"))
                                 _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("SiteID"))
+                            Case "ProfileUnit"
+                                _strText = Common.ProcessNull.GetString(rgRows(i - 1)("UnitName"))
+                                _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("UnitID"))
                             Case "ProjectUser"
                                 _strText = Common.ProcessNull.GetString(rgRows(i - 1)("ProjectAliasName"))
                                 _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("ProjectID"))
@@ -373,6 +386,9 @@ Namespace QIS.Web
                             Case "Room"
                                 _strText = Common.ProcessNull.GetString(rgRows(i - 1)("NmRuang"))
                                 _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("KdRuang"))
+                            Case "DiagnosticSupportUnit"
+                                _strText = Common.ProcessNull.GetString(rgRows(i - 1)("DiagnosticSupportName"))
+                                _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("DiagnosticSupportID"))
                             Case "StandardField"
                                 _strText = Common.ProcessNull.GetString(rgRows(i - 1)("NmKdUser"))
                                 _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("KdUser"))

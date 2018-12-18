@@ -60,6 +60,54 @@
             <td valign="top" style="width: 120px;">
                 <table width="150" style="height: 60px;">
                     <tr>
+                        <td colspan="2">
+                            <table width="100%" style="background-color: #f0f0f0; color: #000000; font-size: 9pt;" cellspacing="0" cellpadding="1">
+                                <tr>
+                                    <td colspan="3">
+                                        <b>My Tasks</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 100%;" class="hseparator" colspan="3">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <asp:CheckBox ID="chkWorktime" runat="server" Enabled="false" />
+                                    </td>
+                                    <td>
+                                        Today Worktime
+                                    </td>
+                                    <td class="right">
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <asp:CheckBox ID="chkAssignments" runat="server" Enabled="false" />
+                                    </td>
+                                    <td>
+                                        Assignments
+                                    </td>
+                                    <td class="right">
+                                        <asp:Label ID="lblAssignmentsTotal" runat="server"></asp:Label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <asp:CheckBox ID="chkUrgents" runat="server" Enabled="false" />
+                                    </td>
+                                    <td style="color: red;">
+                                        Urgents
+                                    </td>
+                                    <td class="right" style="color: red;">
+                                        <asp:Label ID="lblUrgentsTotal" runat="server"></asp:Label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
                         <td valign="middle" style="width: 34;">
                             <asp:ImageButton ID="ibtnMyProjects" runat="server" ImageUrl="/qistoollib/images/myprojects.png"
                                 alt="My Projects" />
@@ -140,8 +188,6 @@
                                                 <td class="Heading3" style="width: 300; height: 30; background-color: #A9E2F3;">
                                                     <%# DataBinder.Eval(Container.DataItem, "ProjectGroupName") %>
                                                 </td>
-                                                <td style="background-image: url('/qistoollib/images/timeline_dot.png'); background-repeat: repeat-x;">
-                                                </td>
                                                 <td class="center" style="width: 200; height: 30; background-color: #eeeeee; font-size: 18pt;">
                                                     <table cellspacing="1" class="gridHeaderStyle">
                                                         <tr>
@@ -173,6 +219,8 @@
                                                             </td>
                                                         </tr>
                                                     </table>
+                                                </td>
+                                                <td style="background-image: url('/qistoollib/images/timeline_dot.png'); background-repeat: repeat-x;">
                                                 </td>
                                             </tr>
                                             <tr>
