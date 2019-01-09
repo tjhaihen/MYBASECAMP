@@ -78,6 +78,15 @@ Namespace QIS.Web.EMR
         Protected WithEvents pnlInfoForPhysician As Global.System.Web.UI.WebControls.Panel
 
         '''<summary>
+        '''pnlInfoForNotPhysician control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlInfoForNotPhysician As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
         '''pnlChart control.
         '''</summary>
         '''<remarks>
@@ -103,6 +112,24 @@ Namespace QIS.Web.EMR
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents chtPatientByBusinessPartner As Global.System.Web.UI.DataVisualization.Charting.Chart
+
+        '''<summary>
+        '''chtMyPatientRI control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chtMyPatientRI As Global.System.Web.UI.DataVisualization.Charting.Chart
+
+        '''<summary>
+        '''chtPatientByBusinessPartnerRI control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chtPatientByBusinessPartnerRI As Global.System.Web.UI.DataVisualization.Charting.Chart
 
         '''<summary>
         '''pnlPatientIntervention control.

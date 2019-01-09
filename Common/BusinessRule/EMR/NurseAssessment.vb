@@ -13,7 +13,7 @@ Namespace QIS.Common.BussinessRules
 #Region " Class Member Declarations "
         Private _PengkajianID As Integer
         Private _DepartmentID, _RegistrationNo, _RoomCode, _PenjaminBayarCode As String
-        Private _AssessmentTypeSCode As String
+        Private _AssessmentTypeSCode, _Triage As String
         Private _GCAsalInformasi, _GCAsalInformasiHubungan, _GCJenisAlergi, _GCKesadaran, _GCttvNadiDenyut, _GCNyeriMetode, _GCNyeriKualitas,
             _GCNyeriKarakteristik, _GCNyeriBerkurang, _GCNyeriBertambah, _GCAktivitasMobilisasi, _GCStatusPsikologi,
             _GCStatusMental, _GCStatusPernikahan, _GCStatusTempatTinggal, _GCPekerjaan, _GCPenjaminBayar,
@@ -22,7 +22,10 @@ Namespace QIS.Common.BussinessRules
         Private _AsalInformasiNama, _KeluhanUtama, _RiwayatKeluhanSaatIni, _ReaksiAlergi, _NyeriLokasi, _NyeriDurasi, _NyeriSkala,
             _NyeriBerkurangKeterangan, _NyeriBertambahKeterangan, _KategoriResikoJatuh, _StatusPsikologiKeterangan, _StatusMentalKeterangan,
             _HamilGravidKeterangan, _HamilParaKeterangan, _HamilAbortusKeterangan, _HambatanLainnya, _BahasaLainnya,
-            _BahasaDaerah, _BudayaPasien, _PerluPenterjemah, _InformasiDiinginkanKeteragan, _ReferToHospitalName, _DeathTime As String
+            _BahasaDaerah, _BudayaPasien, _PerluPenterjemah,
+            _isInformasiDiagnosa, _isInformasiNyeri, _isInformasiDietNutrisi, _isInformasiAlatMedis, _isInformasiTerapi,
+            _InformasiDiinginkanKeteragan,
+            _ReferToHospitalName, _DeathTime As String
         Private _IsRiwayatAlergi, _IsNyeri, _IsResikoDekubitas, _IsHubunganKeluargaPasienBaik, _IsBeribadahTeratur,
             _IsTidakNafsuMakan, _IsPerluKonsultasiGizi, _IsHamil, _IsBersediaMenerimaInformasi, _IsHambatanEdukasi,
             _IsHambatanPendengaran, _IsHambatanPenglihatan, _IsHambatanKognitif, _IsHambatanFisik, _IsHambatanBudaya, _IsHambatanEmosi,
@@ -31,6 +34,8 @@ Namespace QIS.Common.BussinessRules
         Private _NyeriSkalaNum, _SkorNutrisi As Integer
         Private _DeathDate, _CreatedDate, _LastUpdatedDate As DateTime
         Private _CreatedBy, _LastUpdatedBy As String
+        Private _TglDatang, _TglLayan, _TglDisposisi As Date
+        Private _JamDatang, _JamLayan, _JamDisposisi, _keadaanKeluar, _caraKeluar As String
 
 #End Region
 
@@ -55,6 +60,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
                 cmdToExecute.Parameters.AddWithValue("@RoomCode", _RoomCode)
                 cmdToExecute.Parameters.AddWithValue("@PenjaminBayarCode", _PenjaminBayarCode)
+                cmdToExecute.Parameters.AddWithValue("@Triage", _Triage)
                 cmdToExecute.Parameters.AddWithValue("@AssessmentTypeSCode", _AssessmentTypeSCode)
 
                 cmdToExecute.Parameters.AddWithValue("@GCAsalInformasi", _GCAsalInformasi)
@@ -80,6 +86,12 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@GCBahasaPasien", _GCBahasaPasien)
                 cmdToExecute.Parameters.AddWithValue("@GCAgamaPasien", _GCAgamaPasien)
                 cmdToExecute.Parameters.AddWithValue("@GCCaraBelajarDisukai", _GCCaraBelajarDisukai)
+
+                cmdToExecute.Parameters.AddWithValue("@isInformasiDiagnosa", _isInformasiDiagnosa)
+                cmdToExecute.Parameters.AddWithValue("@isInformasiNyeri", _isInformasiNyeri)
+                cmdToExecute.Parameters.AddWithValue("@isInformasiDietNutrisi", _isInformasiDietNutrisi)
+                cmdToExecute.Parameters.AddWithValue("@isInformasiAlatMedis", _isInformasiAlatMedis)
+                cmdToExecute.Parameters.AddWithValue("@isInformasiTerapi", _isInformasiTerapi)
                 cmdToExecute.Parameters.AddWithValue("@GCInformasiDiinginkan", _GCInformasiDiinginkan)
 
                 cmdToExecute.Parameters.AddWithValue("@AsalInformasiNama", _AsalInformasiNama)
@@ -142,9 +154,6 @@ Namespace QIS.Common.BussinessRules
 
                 cmdToExecute.Parameters.AddWithValue("@NyeriSkalaNum", _NyeriSkalaNum)
                 cmdToExecute.Parameters.AddWithValue("@SkorNutrisi", _SkorNutrisi)
-                'cmdToExecute.Parameters.AddWithValue("@DeathDate", _DeathDate)
-                'cmdToExecute.Parameters.AddWithValue("@CreatedDate", _CreatedDate)
-                'cmdToExecute.Parameters.AddWithValue("@LastUpdatedDate", _LastUpdatedDate)
                 cmdToExecute.Parameters.AddWithValue("@CreatedBy", _CreatedBy)
                 cmdToExecute.Parameters.AddWithValue("@LastUpdatedBy", _LastUpdatedBy)
 
@@ -221,7 +230,14 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@BahasaDaerah", _BahasaDaerah)
                 cmdToExecute.Parameters.AddWithValue("@BudayaPasien", _BudayaPasien)
                 cmdToExecute.Parameters.AddWithValue("@PerluPenterjemah", _PerluPenterjemah)
+
+                cmdToExecute.Parameters.AddWithValue("@isInformasiDiagnosa", _isInformasiDiagnosa)
+                cmdToExecute.Parameters.AddWithValue("@isInformasiNyeri", _isInformasiNyeri)
+                cmdToExecute.Parameters.AddWithValue("@isInformasiDietNutrisi", _isInformasiDietNutrisi)
+                cmdToExecute.Parameters.AddWithValue("@isInformasiAlatMedis", _isInformasiAlatMedis)
+                cmdToExecute.Parameters.AddWithValue("@isInformasiTerapi", _isInformasiTerapi)
                 cmdToExecute.Parameters.AddWithValue("@InformasiDiinginkanKeteragan", _InformasiDiinginkanKeteragan)
+
                 cmdToExecute.Parameters.AddWithValue("@ReferToHospitalName", _ReferToHospitalName)
                 cmdToExecute.Parameters.AddWithValue("@DeathTime", _DeathTime)
 
@@ -264,6 +280,47 @@ Namespace QIS.Common.BussinessRules
                 'cmdToExecute.Parameters.AddWithValue("@DeathDate", _DeathDate)
                 'cmdToExecute.Parameters.AddWithValue("@LastUpdatedDate", _LastUpdatedDate)
                 cmdToExecute.Parameters.AddWithValue("@LastUpdatedBy", _LastUpdatedBy)
+
+                ' // Open Connection
+                _mainConnection.Open()
+
+                ' // Execute Query
+                cmdToExecute.ExecuteNonQuery()
+
+                Return True
+            Catch ex As Exception
+                ExceptionManager.Publish(ex)
+            Finally
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+            End Try
+        End Function
+
+        Public Function UpdateRegistration(ByVal keluar As Boolean) As Boolean
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            If keluar Then
+                cmdToExecute.CommandText = "spEMRNurseRegistrationUpdateDisposisi"
+            Else
+                cmdToExecute.CommandText = "spEMRNurseRegistrationUpdate"
+            End If
+
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
+                cmdToExecute.Parameters.AddWithValue("@TglDatang", _TglDatang)
+                cmdToExecute.Parameters.AddWithValue("@TglLayan", _TglLayan)
+                cmdToExecute.Parameters.AddWithValue("@JamDatang", _JamDatang)
+                cmdToExecute.Parameters.AddWithValue("@JamLayan", _JamLayan)
+                cmdToExecute.Parameters.AddWithValue("@Triage", _Triage)
+                If keluar Then
+                    cmdToExecute.Parameters.AddWithValue("@tgldisposisi", _TglDisposisi)
+                    cmdToExecute.Parameters.AddWithValue("@jamdisposisi", _JamDisposisi)
+                    cmdToExecute.Parameters.AddWithValue("@kdnkeluar", _keadaanKeluar)
+                    cmdToExecute.Parameters.AddWithValue("@carakeluar", _caraKeluar)
+                End If
+
 
                 ' // Open Connection
                 _mainConnection.Open()
@@ -368,6 +425,11 @@ Namespace QIS.Common.BussinessRules
                     _PengkajianID = CType(toReturn.Rows(0)("PengkajianID"), Integer)
                     _DepartmentID = CType(toReturn.Rows(0)("DepartmentID"), String)
                     _RegistrationNo = CType(toReturn.Rows(0)("RegistrationNo"), String)
+                    _Triage = CType(toReturn.Rows(0)("triage"), String)
+                    _JamDatang = CType(toReturn.Rows(0)("jamkejadian"), String)
+                    _JamLayan = CType(toReturn.Rows(0)("jamlayan"), String)
+                    _TglDatang = CType(toReturn.Rows(0)("tglkejadian"), Date)
+                    _TglLayan = CType(toReturn.Rows(0)("tgllayan"), Date)
                     _AssessmentTypeSCode = CType(toReturn.Rows(0)("AssessmentTypeSCode"), String)
                     _RoomCode = CType(toReturn.Rows(0)("RoomCode"), String)
                     _PenjaminBayarCode = CType(toReturn.Rows(0)("PenjaminBayarCode"), String)
@@ -394,6 +456,11 @@ Namespace QIS.Common.BussinessRules
                     _GCBahasaPasien = CType(toReturn.Rows(0)("GCBahasaPasien"), String)
                     _GCAgamaPasien = CType(toReturn.Rows(0)("GCAgamaPasien"), String)
                     _GCCaraBelajarDisukai = CType(toReturn.Rows(0)("GCCaraBelajarDisukai"), String)
+                    _isInformasiDiagnosa = CType(toReturn.Rows(0)("isInformasiDiagnosa"), Boolean)
+                    _isInformasiNyeri = CType(toReturn.Rows(0)("isInformasiNyeri"), Boolean)
+                    _isInformasiDietNutrisi = CType(toReturn.Rows(0)("isInformasiDietNutrisi"), Boolean)
+                    _isInformasiAlatMedis = CType(toReturn.Rows(0)("isInformasiAlatMedis"), Boolean)
+                    _isInformasiTerapi = CType(toReturn.Rows(0)("isInformasiTerapi"), Boolean)
                     _GCInformasiDiinginkan = CType(toReturn.Rows(0)("GCInformasiDiinginkan"), String)
                     _AsalInformasiNama = CType(toReturn.Rows(0)("AsalInformasiNama"), String)
                     _KeluhanUtama = CType(toReturn.Rows(0)("KeluhanUtama"), String)
@@ -452,11 +519,10 @@ Namespace QIS.Common.BussinessRules
                     _ttvIndexMasaTubuh = CType(toReturn.Rows(0)("ttvIndexMasaTubuh"), Decimal)
                     _NyeriSkalaNum = CType(toReturn.Rows(0)("NyeriSkalaNum"), Integer)
                     _SkorNutrisi = CType(toReturn.Rows(0)("SkorNutrisi"), Integer)
-                    '_DeathDate = CType(toReturn.Rows(0)("DeathDate"), DateTime)
-                    '_CreatedDate = CType(toReturn.Rows(0)("CreatedDate"), DateTime)
-                    '_LastUpdatedDate = CType(toReturn.Rows(0)("LastUpdatedDate"), DateTime)
-                    '_CreatedBy = CType(toReturn.Rows(0)("CreatedBy"), String)
-                    '_LastUpdatedBy = CType(toReturn.Rows(0)("LastUpdatedBy"), String)
+                    _JamDisposisi = CType(toReturn.Rows(0)("jamkeluar"), String)
+                    _TglDisposisi = CType(toReturn.Rows(0)("tglkeluar"), Date)
+                    _keadaanKeluar = CType(toReturn.Rows(0)("kdkeadaankeluar"), String)
+                    _caraKeluar = CType(toReturn.Rows(0)("kdcarakeluar"), String)
                 End If
             Catch ex As Exception
                 ' // some error occured. Bubble it to caller and encapsulate Exception object
@@ -506,7 +572,14 @@ Namespace QIS.Common.BussinessRules
 #End Region
 
 #Region " Class Property Declarations "
-
+        Public Property [Triage]() As String
+            Get
+                Return _Triage
+            End Get
+            Set(value As String)
+                _Triage = value
+            End Set
+        End Property
         Public Property [PengkajianID]() As Integer
             Get
                 Return _PengkajianID
@@ -1332,6 +1405,110 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _LastUpdatedBy = Value
+            End Set
+        End Property
+        Public Property [TglDatang]() As Date
+            Get
+                Return _TglDatang
+            End Get
+            Set(value As Date)
+                _TglDatang = value
+            End Set
+        End Property
+        Public Property [TglLayan]() As Date
+            Get
+                Return _TglLayan
+            End Get
+            Set(value As Date)
+                _TglLayan = value
+            End Set
+        End Property
+        Public Property [JamDatang]() As String
+            Get
+                Return _JamDatang
+            End Get
+            Set(value As String)
+                _JamDatang = value
+            End Set
+        End Property
+        Public Property [JamLayan]() As String
+            Get
+                Return _JamLayan
+            End Get
+            Set(value As String)
+                _JamLayan = value
+            End Set
+        End Property
+        Public Property [isInformasiDiagnosa]() As Boolean
+            Get
+                Return _isInformasiDiagnosa
+            End Get
+            Set(ByVal Value As Boolean)
+                _isInformasiDiagnosa = Value
+            End Set
+        End Property
+        Public Property [isInformasiNyeri]() As Boolean
+            Get
+                Return _isInformasiNyeri
+            End Get
+            Set(ByVal Value As Boolean)
+                _isInformasiNyeri = Value
+            End Set
+        End Property
+        Public Property [isInformasiDietNutrisi]() As Boolean
+            Get
+                Return _isInformasiDietNutrisi
+            End Get
+            Set(ByVal Value As Boolean)
+                _isInformasiDietNutrisi = Value
+            End Set
+        End Property
+        Public Property [isInformasiAlatMedis]() As Boolean
+            Get
+                Return _isInformasiAlatMedis
+            End Get
+            Set(ByVal Value As Boolean)
+                _isInformasiAlatMedis = Value
+            End Set
+        End Property
+        Public Property [isInformasiTerapi]() As Boolean
+            Get
+                Return _isInformasiTerapi
+            End Get
+            Set(ByVal Value As Boolean)
+                _isInformasiTerapi = Value
+            End Set
+        End Property
+        Public Property [TglDisposisi]() As Date
+            Get
+                Return _TglDisposisi
+            End Get
+            Set(value As Date)
+                _TglDisposisi = value
+            End Set
+        End Property
+        Public Property [JamDisposisi]() As String
+            Get
+                Return _JamDisposisi
+            End Get
+            Set(value As String)
+                _JamDisposisi = value
+            End Set
+        End Property
+        Public Property [KeadaanKeluar]() As String
+            Get
+                Return _keadaanKeluar
+            End Get
+            Set(value As String)
+                _keadaanKeluar = value
+            End Set
+        End Property
+        Public Property [CaraKeluar]() As String
+            Get
+                Return _caraKeluar
+            End Get
+            Set(value As String)
+                _caraKeluar = value
             End Set
         End Property
 #End Region

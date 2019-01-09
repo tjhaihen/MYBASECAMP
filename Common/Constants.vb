@@ -45,8 +45,11 @@
             Public Const Pekerjaan_SField As String = "PEKERJAAN"
             Public Const JenisInstansi_SField As String = "JNINSTANSI"
             Public Const Pendidikan_SField As String = "PDDN"
+            Public Const Triage_SField As String = "TRIAGE"
             Public Const Agama_SField As String = "AGAMA"
             Public Const Kesadaran_SField As String = "KDNDATANG"
+            Public Const KeadaanKeluar_SField As String = "KDNKELUAR"
+            Public Const CaraKeluar_SField As String = "CARAKELUAR"
         End Class
 
         Public NotInheritable Class ArrSeparator

@@ -2,6 +2,8 @@
 <%@ Register TagPrefix="Module" TagName="RadMenu" Src="../../incl/RadMenu.ascx" %>
 <%@ Register TagPrefix="Module" TagName="CSSToolbar" Src="../../incl/CSSToolbar.ascx" %>
 <%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
+<%@ Register TagPrefix="Module" TagName="Calendar" Src="../../incl/calendar.ascx" %>
+<%@ Register TagPrefix="ew" Namespace="eWorld.UI" Assembly="eWorld.UI, Version=1.9.0.0, Culture=neutral, PublicKeyToken=24d65337282035f2" %>
 
 <%@ Page Language="vb" AutoEventWireup="false" CodeBehind="AssesmentPerawat.aspx.vb"
     Inherits="QIS.Web.EMR.AssesmentPerawat" %>
@@ -82,7 +84,7 @@
                                 <telerik:RadTabStrip RenderMode="Lightweight" ID="RadTabStrip2" runat="server" MultiPageID="RadMultiPage2"
                                     Skin="Windows7" SelectedIndex="0" AutoPostBack="true">
                                     <Tabs>
-                                        <telerik:RadTab Text="Pasien Hari Ini">
+                                        <telerik:RadTab Text="Pasien">
                                         </telerik:RadTab>
                                         <telerik:RadTab Text="Data Rekam Medis" Visible="false">
                                         </telerik:RadTab>
@@ -93,10 +95,10 @@
                                         <table cellpadding="2" width="100%">
                                             <tr>
                                                 <td class="right">
-                                                    Tanggal
+                                                   Tanggal
                                                 </td>
                                                 <td>
-                                                    <asp:TextBox ID="txtTodayDate" runat="server" Width="100" ReadOnly="true" CssClass="txtReadOnly"></asp:TextBox>
+                                                   <Module:Calendar ID="calTgl" runat="server" DontResetDate="true"></Module:Calendar>
                                                 </td>
                                                 <td class="right">
                                                     Cari Pasien
@@ -285,6 +287,8 @@
                                     <Tabs>
                                         <telerik:RadTab Text="Asesmen Keperawatan">
                                         </telerik:RadTab>
+                                        <telerik:RadTab Text="Keperawatan">
+                                        </telerik:RadTab>
                                         <telerik:RadTab Text="Catatan Perawat">
                                         </telerik:RadTab>
                                         <telerik:RadTab Text="CPPT">
@@ -396,6 +400,48 @@
                                                         </table>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td class="hseparator" style="width: 100%;" colspan="4">
+                                                    </td>
+                                                </tr>
+                                                <asp:Panel runat="server" ID="_pnlTriage" Visible="false">
+                                                <tr>
+                                                    <td colspan="4">
+                                                        <table cellpadding="2" cellspacing="1" width="100%">
+                                                            <tr>
+                                                                <td style="width: 200; background-color: #30CD06; color: #ffffff;">
+                                                                   Triage
+                                                                </td>
+                                                                <td>
+                                                                    <asp:dropdownlist id="ddlKdTriage" runat="server" width="150"></asp:dropdownlist>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width: 200; background-color: #30CD06; color: #ffffff;">
+                                                                    Tanggal Kejadian  
+                                                                </td>
+                                                                <td>
+                                                                   <module:Calendar id="calTglDatang" runat="server" dontresetdate="true"></module:Calendar>
+                                                                   &nbsp;
+                                                                   <ew:maskedtextbox id="txtJamDatang" runat="server" autopostback="False" width="40" />
+                                                                </td>
+                                                            </tr>
+                                                             <tr>
+                                                                <td style="width: 200; background-color: #30CD06; color: #ffffff;">
+                                                                    Tanggal Layan  
+                                                                </td>
+                                                                <td>
+                                                                   <module:Calendar id="calTglLayan" runat="server" dontresetdate="true"></module:Calendar>
+                                                                   &nbsp;
+                                                                   <ew:maskedtextbox id="txtJamLayan" runat="server" autopostback="False" width="40" />
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                </asp:panel>
                                                 <tr>
                                                     <td class="hseparator" style="width: 100%;" colspan="4">
                                                     </td>
@@ -578,7 +624,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td rowspan="8" style="width: 200; background-color: #30CD06; color: #ffffff;">
+                                                                <td rowspan="19" style="width: 200; background-color: #30CD06; color: #ffffff;">
                                                                     Penilaian Nyeri
                                                                 </td>
                                                                 <td style="width: 150; background-color: #F0F0F0;">
@@ -609,10 +655,124 @@
                                                                     Metode
                                                                 </td>
                                                                 <td>
-                                                                    <asp:DropDownList ID="ddlNyeriMetode" runat="server" Width="150">
+                                                                    <asp:DropDownList ID="ddlNyeriMetode" runat="server" Width="150" AutoPostBack="True">
                                                                     </asp:DropDownList>
                                                                 </td>
                                                             </tr>
+                                                            <asp:Panel ID="pnlNRS" runat="server" Visible = "false">
+                                                             <tr>
+                                                                <td style="width: 150; background-color: #F0F0F0;">
+                                                                    Jenis Nyeri
+                                                                </td>
+                                                                <td>
+                                                                    <asp:DropDownList ID="ddlNRS" runat="server" Width="250" AutoPostBack ="True">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                            </asp:Panel>
+                                                            <asp:Panel ID="pnlWajah" runat="server" Visible = "false">
+                                                             <tr>
+                                                                <td style="width: 150; background-color: #F0F0F0;">
+                                                                    Wajah
+                                                                </td>
+                                                                <td>
+                                                                    <asp:DropDownList ID="ddlWajah" runat="server" Width="250" AutoPostBack ="True">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                            </asp:Panel>
+                                                             <asp:Panel ID="pnlGerakBawah" runat="server" Visible = "false">
+                                                             <tr>
+                                                                <td style="width: 150; background-color: #F0F0F0;">
+                                                                    Anggota Gerak Bawah
+                                                                </td>
+                                                                <td>
+                                                                    <asp:DropDownList ID="ddlGerakBawah" runat="server" Width="250" AutoPostBack ="True">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width: 150; background-color: #F0F0F0;">
+                                                                    Aktivitas
+                                                                </td>
+                                                                <td>
+                                                                    <asp:DropDownList ID="ddlAktivitas" runat="server" Width="250" AutoPostBack ="True">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                            </asp:Panel>
+                                                            <asp:Panel ID="pnlTangis" runat="server" Visible = "false">
+                                                             <tr>
+                                                                <td style="width: 150; background-color: #F0F0F0;">
+                                                                    Menangis
+                                                                </td>
+                                                                <td>
+                                                                    <asp:DropDownList ID="ddlTangis" runat="server" Width="250" AutoPostBack ="True">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                            </asp:Panel>
+                                                            <asp:Panel ID="pnlBicara" runat="server" Visible = "false">
+                                                            <tr>
+                                                                <td style="width: 150; background-color: #F0F0F0;">
+                                                                    Bicara atau Bersuara
+                                                                </td>
+                                                                <td>
+                                                                    <asp:DropDownList ID="ddlBicara" runat="server" Width="250" AutoPostBack ="True">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                            </asp:Panel>
+                                                             <asp:Panel ID="pnlPola" runat="server" Visible = "false">
+                                                             <tr>
+                                                                <td style="width: 150; background-color: #F0F0F0;">
+                                                                    Pola Napas
+                                                                </td>
+                                                                <td>
+                                                                    <asp:DropDownList ID="ddlNapas" runat="server" Width="250" AutoPostBack ="True">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width: 150; background-color: #F0F0F0;">
+                                                                    Tungkai
+                                                                </td>
+                                                                <td>
+                                                                    <asp:DropDownList ID="ddlTungkai" runat="server" Width="250" AutoPostBack ="True">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width: 150; background-color: #F0F0F0;">
+                                                                    Tingkat Kesadaran
+                                                                </td>
+                                                                <td>
+                                                                    <asp:DropDownList ID="ddlSadar" runat="server" Width="250" AutoPostBack ="True">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                            </asp:Panel>
+                                                            <asp:Panel ID="pnlGerakan" runat="server" Visible = "false">
+                                                             <tr>
+                                                                <td style="width: 150; background-color: #F0F0F0;">
+                                                                    Extremitas Atas
+                                                                </td>
+                                                                <td>
+                                                                    <asp:DropDownList ID="ddlGerak" runat="server" Width="250" AutoPostBack ="True">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width: 150; background-color: #F0F0F0;">
+                                                                    Kompensasi Terhadap Ventilator /
+                                                                    Vokalisasi
+                                                                </td>
+                                                                <td>
+                                                                    <asp:DropDownList ID="ddlKompensasi" runat="server" Width="250" AutoPostBack ="True">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                            </asp:Panel>
                                                             <tr>
                                                                 <td style="width: 150; background-color: #F0F0F0;">
                                                                     Kualitas Nyeri
@@ -1039,19 +1199,90 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td style="width: 150; background-color: #F0F0F0;">
+                                                                <td rowspan="2" style="width: 150; background-color: #F0F0F0;">
                                                                     Informasi yang Diinginkan
                                                                 </td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtInformasiDiinginkan" runat="server" Width="302"></asp:TextBox>
+                                                                    <table width="100%">
+                                                                        <tr>
+                                                                            <td>
+                                                                                <asp:CheckBox ID="chkIsDiagnosa" runat="server" Text="Diagnosa Penyakit" />
+                                                                            </td>
+                                                                            <td>
+                                                                                <asp:CheckBox ID="chkIsDietNutrisi" runat="server" Text="Diet dan Nutrisi" />
+                                                                            </td>
+                                                                            <td>
+                                                                                <asp:CheckBox ID="chkIsTerapi" runat="server" Text="Terapi" />
+                                                                            </td>
+                                                                       </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <asp:CheckBox ID="chkIsNyeri" runat="server" Text="Manajemen Nyeri" />
+                                                                            </td>
+                                                                            <td>
+                                                                                <asp:CheckBox ID="chkIsAlatMedis" runat="server" Text="Penggunaan Alat Medis" />
+                                                                            </td>
+                                                                            <td>
+                                                                                <asp:TextBox ID="txtInformasiDiinginkan" runat="server" Width="150"></asp:TextBox>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
                                                                 </td>
                                                             </tr>
-                                                        </table>
+                                                         </table>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="hseparator" style="width: 100%;" colspan="4">
                                                     </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="hseparator" style="width: 100%;" colspan="4">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                     <td colspan="4">
+                                                        <table cellpadding="2" cellspacing="1" width="100%">
+                                                            <tr>
+                                                                <td rowspan="5" style="width: 200; background-color: #30CD06; color: #ffffff;">
+                                                                    Disposisi Pasien
+                                                                </td>
+                                                                <td>
+                                                                    <asp:CheckBox ID="chkKeluar" runat="server" Text="Disposisi" AutoPostBack="True" />
+                                                                </td>
+                                                            </tr>
+                                                           <asp:Panel ID="pnlDisposisi" runat="server" Visible = "false">
+                                                            <tr>
+                                                                <td style="width: 150; background-color: #F0F0F0;">
+                                                                    Tanggal / Jam
+                                                                </td>
+                                                                <td>
+                                                                    <module:Calendar id="calTglDisposisi" runat="server" dontresetdate="true"></module:Calendar>
+                                                                    &nbsp;
+                                                                    <ew:maskedtextbox id="txtJamDisposisi" runat="server" style="text-align: center;"
+                                                                        width="23%" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td  style="width: 150; background-color: #F0F0F0;">
+                                                                    Keadaan Keluar
+                                                                </td>
+                                                                <td>
+                                                                    <asp:dropdownlist id="ddlKdnKlr" runat="server" ></asp:dropdownlist>
+                                                                </td>
+                                                             </tr>
+                                                            <tr>
+                                                                <td  style="width: 150; background-color: #F0F0F0;">
+                                                                    Cara Keluar
+                                                                </td>
+                                                                <td>
+                                                                    <asp:dropdownlist id="ddlCrKlr" runat="server"></asp:dropdownlist>
+                                                                </td>
+                                                             </tr>
+                                                             </asp:Panel>
+                                                        </table>
+                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4">
@@ -1126,6 +1357,41 @@
                                             </table>
                                         </asp:Panel>
                                     </telerik:RadPageView>
+                                    <telerik:RadPageView ID="rpvKeperawatan" runat="server">
+                                        <asp:Panel ID="Panel1" runat="server">
+                                            <table cellpadding="2" cellspacing="1" width="100%" style="background-color: #DFE9F5;">
+                                                <tr>
+                                                   <td valign="top" class="rheader" style="background-color: #ffffff;">
+                                                        <asp:DataGrid ID="DataGrid1" runat="server" BorderWidth="0" GridLines="None"
+                                                            Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="false" ShowFooter="false"
+                                                            AutoGenerateColumns="false">
+                                                            <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
+                                                            <ItemStyle CssClass="gridItemStyle" />
+                                                            <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
+                                                            <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
+                                                            <Columns>
+                                                                <asp:TemplateColumn runat="server" HeaderText="Informasi Kunjungan" ItemStyle-Width="250"
+                                                                    ItemStyle-VerticalAlign="Top">
+                                                                    <ItemTemplate>
+                                                                        <table width="100%">
+                                                                            <tr>
+                                                                                <td style="width: 50px; font-weight: bold;" valign="top">
+                                                                                        Unit
+                                                                                </td>
+                                                                                <td valign="top" style="font-weight: bold;" colspan="2">
+                                                                                         :&nbsp;<%# DataBinder.Eval(Container.DataItem, "ServiceUnitName")%></td>
+                                                                            </tr>
+                                                                         
+                                                                        </table>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                            </Columns>
+                                                        </asp:DataGrid>
+                                                    </td> 
+                                                </tr>
+                                            </table>
+                                        </asp:Panel>
+                                    </telerik:RadPageView>
                                     <telerik:RadPageView ID="rpvCatatanPerawat" runat="server">
                                         <asp:Panel ID="pnlNurseNotes" runat="server">
                                             <table class="ToolbarM" cellpadding="1" cellspacing="0" border="0" width="100%">
@@ -1170,8 +1436,7 @@
                                                                                     Tanggal
                                                                                 </td>
                                                                                 <td valign="top">
-                                                                                    :&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "CreatedDate"), "dd-MMM-yyyy hh:mm")%>
-                                                                                </td>
+                                                                                    :&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "CreatedDate"), "dd-MMM-yyyy hh:mm")%></td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td colspan="2" valign="top">
@@ -1240,6 +1505,16 @@
                                                             <tr>
                                                                 <td>
                                                                     <table cellpadding="2" cellspacing="1" width="100%">
+                                                                       <tr>
+                                                                            <td style="width: 200; background-color: #30CD06; color: #ffffff;">
+                                                                                Tanggal Pemeriksaan  
+                                                                            </td>
+                                                                            <td>
+                                                                               <module:Calendar id="calTglCP" runat="server" dontresetdate="true"></module:Calendar>
+                                                                               &nbsp;
+                                                                               <ew:maskedtextbox id="txtJamCP" runat="server" autopostback="False" width="40" />
+                                                                            </td>
+                                                                        </tr>
                                                                         <tr>
                                                                             <td style="width: 200; background-color: #30CD06; color: #ffffff;">
                                                                                 Catatan Perawat
@@ -1299,8 +1574,7 @@
                                                                                     Tanggal
                                                                                 </td>
                                                                                 <td valign="top" style="font-weight: bold;">
-                                                                                    :&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "CreatedDate"), "dd-MMM-yyyy hh:mm")%>
-                                                                                </td>
+                                                                                    :&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "CreatedDate"), "dd-MMM-yyyy hh:mm")%></td>
                                                                                 <td style="width: 150;" align="right">
                                                                                     <asp:Panel runat="server" ID="_pnlRevised" Visible='<%# DataBinder.Eval(Container.DataItem, "IsRevised")%>'>
                                                                                         <table cellpadding="2" cellspacing="1" style="background-color: Red;">
@@ -1324,19 +1598,24 @@
                                                                             </tr>
                                                                             <tr>
                                                                                 <td style="width: 50px; font-weight: bold;" valign="top">
+                                                                                        Unit
+                                                                                </td>
+                                                                                <td valign="top" style="font-weight: bold;" colspan="2">
+                                                                                         :&nbsp;<%# DataBinder.Eval(Container.DataItem, "ServiceUnitName")%></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td style="width: 50px; font-weight: bold;" valign="top">
                                                                                     Dokter
                                                                                 </td>
                                                                                 <td valign="top" style="font-weight: bold;" colspan="2">
-                                                                                    :&nbsp;<%# DataBinder.Eval(Container.DataItem, "PhysicianName")%>
-                                                                                </td>
+                                                                                    :&nbsp;<%# DataBinder.Eval(Container.DataItem, "PhysicianName")%></td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td style="width: 50px; font-weight: bold;" valign="top">
                                                                                     Asesmen
                                                                                 </td>
                                                                                 <td valign="top" style="font-weight: bold;" colspan="2">
-                                                                                    :&nbsp;<b><%# DataBinder.Eval(Container.DataItem, "AssessmentTypeName")%></b>
-                                                                                </td>
+                                                                                    :&nbsp;<b><%# DataBinder.Eval(Container.DataItem, "AssessmentTypeName")%></b></td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td valign="top" colspan="3">
@@ -1368,8 +1647,7 @@
                                                                                     Tanggal
                                                                                 </td>
                                                                                 <td valign="top" style="font-weight: bold;">
-                                                                                    :&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "CreatedDate"), "dd-MMM-yyyy hh:mm")%>
-                                                                                </td>
+                                                                                    :&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "CreatedDate"), "dd-MMM-yyyy hh:mm")%></td>
                                                                                 <td style="width: 150;" align="right">
                                                                                     <asp:Panel runat="server" ID="_pnlRevised" Visible='<%# DataBinder.Eval(Container.DataItem, "IsRevised")%>'>
                                                                                         <table cellpadding="2" cellspacing="1" style="background-color: Red;">
@@ -1396,8 +1674,7 @@
                                                                                     Perawat
                                                                                 </td>
                                                                                 <td valign="top" style="font-weight: bold;">
-                                                                                    :&nbsp;<%# DataBinder.Eval(Container.DataItem, "CreatedByUserName")%>
-                                                                                </td>
+                                                                                    :&nbsp;<%# DataBinder.Eval(Container.DataItem, "CreatedByUserName")%></td>
                                                                                 <td valign="top" style="font-weight: bold; text-align: right;">
                                                                                     <asp:CheckBox ID="_chkIsPhysicianConfirmed" runat="server" Enabled="false" Text="Konfirmasi Dokter"
                                                                                         Checked='<%# DataBinder.Eval(Container.DataItem, "IsPhysicianConfirmed")%>' />

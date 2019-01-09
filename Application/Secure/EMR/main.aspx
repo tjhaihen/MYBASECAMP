@@ -118,6 +118,23 @@
                                     </table>
                                 </asp:Panel>
                             </td>
+                            <td>
+                                <asp:Panel ID="pnlInfoForNotPhysician" runat="server">
+                                    <table width="400" cellpadding="1" cellspacing="0">
+                                        <tr>
+                                            <td rowspan="2" style="background-color: #cccccc; color: #ffffff; width: 40; text-align: center;
+                                                font-weight: bold;">
+                                                <img src="/qistoollib/images/warning.png" width="32" />
+                                            </td>
+                                            <td style="background-color: #eeeeee; color: #000000;">
+                                                Untuk Asesmen Pasien silahkan menggunakan menu<br />
+                                                <strong>Asesmen > Asesmen Perawat</strong> atau klik <a href="AssesmentPerawat.aspx"
+                                                    style="color: Blue">disini</a>.
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </asp:Panel>
+                            </td>
                         </tr>
                         <asp:Panel ID="pnlChart" runat="server">
                             <tr>
@@ -135,6 +152,36 @@
                                 </td>
                                 <td style="background-color: #eeeeee;">
                                     <asp:Chart ID="chtPatientByBusinessPartner" runat="server" Width="400">
+                                        <Legends>
+                                            <asp:Legend Name="Legends" LegendStyle="Column">
+                                            </asp:Legend>
+                                        </Legends>
+                                        <Series>
+                                            <asp:Series Name="Categories" ChartType="Doughnut" ChartArea="MainChartArea" IsValueShownAsLabel="true">
+                                            </asp:Series>
+                                        </Series>
+                                        <ChartAreas>
+                                            <asp:ChartArea Name="MainChartArea">
+                                            </asp:ChartArea>
+                                        </ChartAreas>
+                                    </asp:Chart>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td colspan="3" style="background-color: #eeeeee;">
+                                    <asp:Chart ID="chtMyPatientRI" runat="server" Width="640">
+                                        <Series>
+                                            <asp:Series Name="Categories" ChartType="Column" ChartArea="MainChartArea" IsValueShownAsLabel="true">
+                                            </asp:Series>
+                                        </Series>
+                                        <ChartAreas>
+                                            <asp:ChartArea Name="MainChartArea">
+                                            </asp:ChartArea>
+                                        </ChartAreas>
+                                    </asp:Chart>
+                                </td>
+                                <td style="background-color: #eeeeee;">
+                                    <asp:Chart ID="chtPatientByBusinessPartnerRI" runat="server" Width="400">
                                         <Legends>
                                             <asp:Legend Name="Legends" LegendStyle="Column">
                                             </asp:Legend>

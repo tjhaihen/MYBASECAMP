@@ -69,13 +69,13 @@ Namespace QIS.Web.EMR
         Protected WithEvents RadPageView3 As Global.Telerik.Web.UI.RadPageView
 
         '''<summary>
-        '''txtTodayDate control.
+        '''calTgl control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents txtTodayDate As Global.System.Web.UI.WebControls.TextBox
+        Protected WithEvents calTgl As Global.QIS.Web.Calendar
 
         '''<summary>
         '''txtSearchPatient control.
@@ -375,6 +375,60 @@ Namespace QIS.Web.EMR
         Protected WithEvents ddlAsalInformasiHubungan As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
+        '''_pnlTriage control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents _pnlTriage As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''ddlKdTriage control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlKdTriage As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''calTglDatang control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents calTglDatang As Global.QIS.Web.Calendar
+
+        '''<summary>
+        '''txtJamDatang control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtJamDatang As Global.eWorld.UI.MaskedTextBox
+
+        '''<summary>
+        '''calTglLayan control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents calTglLayan As Global.QIS.Web.Calendar
+
+        '''<summary>
+        '''txtJamLayan control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtJamLayan As Global.eWorld.UI.MaskedTextBox
+
+        '''<summary>
         '''txtKeluhanUtama control.
         '''</summary>
         '''<remarks>
@@ -553,6 +607,168 @@ Namespace QIS.Web.EMR
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents ddlNyeriMetode As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''pnlNRS control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlNRS As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''ddlNRS control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlNRS As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''pnlWajah control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlWajah As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''ddlWajah control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlWajah As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''pnlGerakBawah control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlGerakBawah As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''ddlGerakBawah control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlGerakBawah As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''ddlAktivitas control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlAktivitas As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''pnlTangis control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlTangis As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''ddlTangis control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlTangis As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''pnlBicara control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlBicara As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''ddlBicara control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlBicara As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''pnlPola control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlPola As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''ddlNapas control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlNapas As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''ddlTungkai control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlTungkai As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''ddlSadar control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlSadar As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''pnlGerakan control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlGerakan As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''ddlGerak control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlGerak As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''ddlKompensasi control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlKompensasi As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
         '''ddlNyeriKualitas control.
@@ -960,6 +1176,51 @@ Namespace QIS.Web.EMR
         Protected WithEvents ddlCaraBelajarDisukai As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
+        '''chkIsDiagnosa control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsDiagnosa As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''chkIsDietNutrisi control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsDietNutrisi As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''chkIsTerapi control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsTerapi As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''chkIsNyeri control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsNyeri As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''chkIsAlatMedis control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsAlatMedis As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
         '''txtInformasiDiinginkan control.
         '''</summary>
         '''<remarks>
@@ -967,6 +1228,60 @@ Namespace QIS.Web.EMR
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents txtInformasiDiinginkan As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''chkKeluar control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkKeluar As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''pnlDisposisi control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlDisposisi As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''calTglDisposisi control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents calTglDisposisi As Global.QIS.Web.Calendar
+
+        '''<summary>
+        '''txtJamDisposisi control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtJamDisposisi As Global.eWorld.UI.MaskedTextBox
+
+        '''<summary>
+        '''ddlKdnKlr control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlKdnKlr As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''ddlCrKlr control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlCrKlr As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
         '''chkIsKIE control.
@@ -1068,6 +1383,33 @@ Namespace QIS.Web.EMR
         Protected WithEvents txtDeathTime As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
+        '''rpvKeperawatan control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents rpvKeperawatan As Global.Telerik.Web.UI.RadPageView
+
+        '''<summary>
+        '''Panel1 control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Panel1 As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''DataGrid1 control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents DataGrid1 As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
         '''rpvCatatanPerawat control.
         '''</summary>
         '''<remarks>
@@ -1120,6 +1462,24 @@ Namespace QIS.Web.EMR
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents grdNurseNotes As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''calTglCP control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents calTglCP As Global.QIS.Web.Calendar
+
+        '''<summary>
+        '''txtJamCP control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtJamCP As Global.eWorld.UI.MaskedTextBox
 
         '''<summary>
         '''txtNurseNotesID control.

@@ -2,6 +2,7 @@
 <%@ Register TagPrefix="Module" TagName="RadMenu" Src="../../incl/RadMenu.ascx" %>
 <%@ Register TagPrefix="Module" TagName="CSSToolbar" Src="../../incl/CSSToolbar.ascx" %>
 <%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
+<%@ Register TagPrefix="Module" TagName="Calendar" Src="../../incl/calendar.ascx" %>
 
 <%@ Page Language="vb" AutoEventWireup="false" CodeBehind="AssesmentMedis.aspx.vb"
     Inherits="QIS.Web.EMR.AssesmentMedis" %>
@@ -57,7 +58,7 @@
     <form id="Form1" runat="server">
     <table width="100%" cellpadding="2" cellspacing="0">
         <tr>
-            <td width="100%" valign="top" colspan="3">
+            <td width="100%" valign="top">
                 <!-- BEGIN PAGE HEADER -->
                 <Module:RadMenu ID="RadMenu" runat="server" />
                 <!-- END PAGE HEADER -->
@@ -68,7 +69,7 @@
                 <table width="100%">
                     <tr>
                         <td class="rheader">
-                            Asesmen Medis
+                Asesmen Medis
                         </td>
                     </tr>
                     <tr>
@@ -164,12 +165,12 @@
                                                 <table cellpadding="2" width="100%">
                                                     <tr>
                                                         <td class="right">
-                                                            Tanggal
+                                                             Tanggal
                                                         </td>
                                                         <td>
-                                                            <asp:TextBox ID="txtTodayDate" runat="server" Width="100" ReadOnly="true" CssClass="txtReadOnly"></asp:TextBox>
+                                                            <Module:Calendar ID="calTgl" runat="server" DontResetDate="true"></Module:Calendar>
                                                         </td>
-                                                        <td class="right">
+                                                         <td class="right">
                                                             Cari Pasien
                                                         </td>
                                                         <td>
@@ -1208,8 +1209,10 @@
                                                                                             <table cellpadding="0" cellspacing="0">
                                                                                                 <tr>
                                                                                                     <td>
-                                                                                                        <asp:LinkButton runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "JobOrderNo") %>'
-                                                                                                            ID="_lbtnJobOrderNo" CommandName="SelectJobOrder" ForeColor="Blue"></asp:LinkButton>
+                                                                                                       <asp:LinkButton runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "JobOrderNo") %>'
+                                                                                                            ID="_lbtnJobOrderNo" CommandName="SelectJobOrder" ForeColor="Blue"
+                                                                                                            enabled='<%# iif(DataBinder.Eval(Container.DataItem, "DiagnosticSupportUnitName")="Farmasi", "False", "True") %>'>
+                                                                                                        </asp:LinkButton>
                                                                                                     </td>
                                                                                                 </tr>
                                                                                                 <tr>
@@ -2038,6 +2041,14 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td style="width: 50px; font-weight: bold;" valign="top">
+                                                                                        Unit
+                                                                                    </td>
+                                                                                   <td valign="top" style="font-weight: bold;" colspan="2">
+                                                                                         :&nbsp;<%# DataBinder.Eval(Container.DataItem, "ServiceUnitName")%>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td style="width: 50px; font-weight: bold;" valign="top">
                                                                                         Dokter
                                                                                     </td>
                                                                                     <td valign="top" style="font-weight: bold;" colspan="2">
@@ -2107,10 +2118,18 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td style="width: 50px; font-weight: bold;" valign="top">
+                                                                                        Unit
+                                                                                    </td>
+                                                                                   <td valign="top" style="font-weight: bold;" colspan="2">
+                                                                                         :&nbsp;<%# DataBinder.Eval(Container.DataItem, "ServiceUnitName")%>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td style="width: 50px; font-weight: bold;" valign="top">
                                                                                         Perawat
                                                                                     </td>
                                                                                     <td valign="top" style="font-weight: bold;">
-                                                                                        :&nbsp;<%# DataBinder.Eval(Container.DataItem, "LastUpdatedByUserName")%>
+                                                                                        :&nbsp;<%# DataBinder.Eval(Container.DataItem, "CreatedByUserName")%>
                                                                                     </td>
                                                                                     <td valign="top" style="font-weight: bold; text-align: right;">
                                                                                         <asp:TextBox ID="_txtNurseNotesID" runat="server" Visible="false" Text='<%# DataBinder.Eval(Container.DataItem, "ID") %>'></asp:TextBox>
