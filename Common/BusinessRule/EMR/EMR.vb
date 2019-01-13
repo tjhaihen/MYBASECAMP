@@ -15,6 +15,7 @@ Namespace QIS.Common.BussinessRules
         Private _ServiceUnitID, _ServiceUnitName, _MRN, _PatientName, _PatientGender, _PatientPhone, _PatientMobile As String
         Private _RegistrationTime, _BusinessPartnerName As String
         Private _RegistrationDate, _PatientDOB As Date
+        Private _TransactionDate As Date
 
         Private _ID, _RevisedSourceID As Integer
         Private _ChiefComplaint, _HistoryOfPresentIllness As String
@@ -29,8 +30,9 @@ Namespace QIS.Common.BussinessRules
 
         '// for NurseNotes (Catatan Perawat)
         Private _NurseNotesID As Integer
-        Private _NurseNotes As String
+        Private _NurseNotes, _journalTime As String
         Private _IsPhysicianConfirmed As Boolean
+        Private _journalDate As Date
 
 #End Region
 
@@ -204,6 +206,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@DepartmentID", _DepartmentID)
                 cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
                 cmdToExecute.Parameters.AddWithValue("@TransactionNo", _TransactionNo)
+                'cmdToExecute.Parameters.AddWithValue("@TransactionDate", TransactionDate)
 
                 ' // Open connection.
                 _mainConnection.Open()
@@ -243,7 +246,7 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function GetPatientPhysicianIDToday(ByVal strSearch As String) As DataTable
+        Public Function GetPatientPhysicianIDToday(ByVal strSearch As String, ByVal tanggal As Date) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             If strSearch.Trim = String.Empty Then
                 cmdToExecute.CommandText = "spEMRGetPatientByPhysicianToday"
@@ -260,6 +263,7 @@ Namespace QIS.Common.BussinessRules
             Try
                 cmdToExecute.Parameters.AddWithValue("@DepartmentID", _DepartmentID)
                 cmdToExecute.Parameters.AddWithValue("@PhysicianID", _PhysicianID)
+                cmdToExecute.Parameters.AddWithValue("@RegistrationDate", tanggal)
                 If strSearch.Trim <> String.Empty Then
                     cmdToExecute.Parameters.AddWithValue("@SearchText", strSearch)
                 End If
@@ -282,7 +286,7 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function GetPatientToday(ByVal strSearch As String) As DataTable
+        Public Function GetPatientToday(ByVal strSearch As String, ByVal Tanggal As Date) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             If strSearch.Trim = String.Empty Then
                 cmdToExecute.CommandText = "spEMRGetPatientToday"
@@ -298,6 +302,7 @@ Namespace QIS.Common.BussinessRules
 
             Try
                 cmdToExecute.Parameters.AddWithValue("@DepartmentID", _DepartmentID)
+                cmdToExecute.Parameters.AddWithValue("@RegistrationDate", Tanggal)
                 If strSearch.Trim <> String.Empty Then
                     cmdToExecute.Parameters.AddWithValue("@SearchText", strSearch)
                 End If
@@ -320,7 +325,7 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function GetPatientTodayByUnit(ByVal strSearch As String, ByVal strUnitID As String) As DataTable
+        Public Function GetPatientTodayByUnit(ByVal strSearch As String, ByVal strUnitID As String, ByVal Tanggal As Date) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             If strSearch.Trim = String.Empty Then
                 cmdToExecute.CommandText = "spEMRGetPatientTodayByUnit"
@@ -337,6 +342,7 @@ Namespace QIS.Common.BussinessRules
             Try
                 cmdToExecute.Parameters.AddWithValue("@DepartmentID", _DepartmentID)
                 cmdToExecute.Parameters.AddWithValue("@UnitID", strUnitID)
+                cmdToExecute.Parameters.AddWithValue("@RegistrationDate", Tanggal)
                 If strSearch.Trim <> String.Empty Then
                     cmdToExecute.Parameters.AddWithValue("@SearchText", strSearch)
                 End If
@@ -564,6 +570,68 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
+
+        Public Function GetPatientPhysicianIDChartInpatient() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spEMRGetPatientByPhysicianChartInpatient"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spEMRGetPatientByPhysicianChartInpatient")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@PhysicianID", _PhysicianID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function GetPatientPhysicianIDBusinessPartnerChartInpatient() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spEMRGetPatientByPhysicianBusinessPartnerChartInpatient"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spEMRGetPatientByPhysicianBusinessPartnerChartInpatient")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@PhysicianID", _PhysicianID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
 #End Region
 #End Region
 
@@ -579,6 +647,8 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@DepartmentID", _DepartmentID)
                 cmdToExecute.Parameters.AddWithValue("@ServiceUnitID", _ServiceUnitID)
                 cmdToExecute.Parameters.AddWithValue("@MRN", _MRN)
+                cmdToExecute.Parameters.AddWithValue("@JournalDate", _journalDate)
+                cmdToExecute.Parameters.AddWithValue("@JournalTime", _journalTime)
                 cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
                 cmdToExecute.Parameters.AddWithValue("@NurseNotes", _NurseNotes)
                 cmdToExecute.Parameters.AddWithValue("@CreatedBy", _CreatedBy)
@@ -610,6 +680,8 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@DepartmentID", _DepartmentID)
                 cmdToExecute.Parameters.AddWithValue("@ServiceUnitID", _ServiceUnitID)
                 cmdToExecute.Parameters.AddWithValue("@MRN", _MRN)
+                cmdToExecute.Parameters.AddWithValue("@JournalDate", _journalDate)
+                cmdToExecute.Parameters.AddWithValue("@JournalTime", _journalTime)
                 cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
                 cmdToExecute.Parameters.AddWithValue("@NurseNotes", _NurseNotes)
                 cmdToExecute.Parameters.AddWithValue("@CreatedBy", _CreatedBy)
@@ -713,6 +785,8 @@ Namespace QIS.Common.BussinessRules
                     _NurseNotes = CType(toReturn.Rows(0)("NurseNotes"), String)
                     _IsPhysicianConfirmed = CType(toReturn.Rows(0)("IsPhysicianConfirmed"), Boolean)
                     _ID = CType(toReturn.Rows(0)("ID"), Integer)
+                    _journalDate = CType(toReturn.Rows(0)("JournalDate"), Date)
+                    _journalTime = CType(toReturn.Rows(0)("JournalTime"), String)
                 End If
             Catch ex As Exception
                 ' // some error occured. Bubble it to caller and encapsulate Exception object
@@ -875,7 +949,14 @@ Namespace QIS.Common.BussinessRules
 #End Region
 
 #Region " Class Property Declarations "
-
+        Public Property [TransactionDate] As Date
+            Get
+                Return _TransactionDate
+            End Get
+            Set(value As Date)
+                _TransactionDate = value
+            End Set
+        End Property
         Public Property [ID]() As Integer
             Get
                 Return _ID
@@ -1242,6 +1323,22 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As Boolean)
                 _IsPhysicianConfirmed = Value
+            End Set
+        End Property
+        Public Property [JournalDate]() As Date
+            Get
+                Return _journalDate
+            End Get
+            Set(value As Date)
+                _journalDate = value
+            End Set
+        End Property
+        Public Property [JournalTime]() As String
+            Get
+                Return _journalTime
+            End Get
+            Set(value As String)
+                _journalTime = value
             End Set
         End Property
 #End Region

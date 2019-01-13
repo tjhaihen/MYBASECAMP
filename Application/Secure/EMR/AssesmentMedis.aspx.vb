@@ -51,7 +51,7 @@ Namespace QIS.Web.EMR
 
 #Region " Main Menu "
         Private Sub ddlDepartmentFilter_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlDepartmentFilter.SelectedIndexChanged
-            UpdateViewGridTodayPatient(String.Empty)
+            UpdateViewGridTodayPatient(String.Empty, calTgl.selectedDate)
         End Sub
 
         Private Sub grdTodayPatient_ItemCommand(source As Object, e As System.Web.UI.WebControls.DataGridCommandEventArgs) Handles grdTodayPatient.ItemCommand
@@ -68,7 +68,7 @@ Namespace QIS.Web.EMR
         End Sub
 
         Private Sub btnSearchPatient_Click(sender As Object, e As System.EventArgs) Handles btnSearchPatient.Click
-            UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim)
+            UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim, calTgl.selectedDate)
         End Sub
 
         Private Sub btnShowHistory_Click(sender As Object, e As System.EventArgs) Handles btnShowHistory.Click
@@ -120,7 +120,7 @@ Namespace QIS.Web.EMR
             pnlPatientList.Visible = True
             pnlPatientRecord.Visible = False
             lbtnBackToPatientList.Visible = False
-            UpdateViewGridTodayPatient(String.Empty)
+            UpdateViewGridTodayPatient(String.Empty, calTgl.selectedDate)
         End Sub
 
         Private Sub lbtnNewSOAP_Click(sender As Object, e As System.EventArgs) Handles lbtnNewSOAP.Click
@@ -156,7 +156,7 @@ Namespace QIS.Web.EMR
             PrepareScreenPatientResume()
             pnlPatientList.Visible = True
             pnlPatientRecord.Visible = False
-            UpdateViewGridTodayPatient(String.Empty)
+            UpdateViewGridTodayPatient(String.Empty, calTgl.selectedDate)
         End Sub
 
         Private Sub btnGenerateSOAPNotes_Click(sender As Object, e As System.EventArgs) Handles btnGenerateSOAPNotes.Click
@@ -273,6 +273,12 @@ Namespace QIS.Web.EMR
             UpdateViewGridJobOrderEntry()
             UpdateViewGridJobOrderList()
         End Sub
+
+        Private Sub btnJobOrderRemove_Click(sender As Object, e As System.EventArgs) Handles btnJobOrderRemove.Click
+            UpdateWorklistJobOrder()
+            UpdateViewGridJobOrderEntry()
+            UpdateViewGridJobOrderList()
+        End Sub
 #End Region
 
 #Region " Patient Intervention "
@@ -331,12 +337,13 @@ Namespace QIS.Web.EMR
         End Sub
 
         Private Sub PrepareScreen()
-            txtTodayDate.Text = Format(Date.Today, commonFunction.FORMAT_DATE)
+            ' txtTodayDate.Text = Format(Date.Today, commonFunction.FORMAT_DATE)
 
             pnlPatientList.Visible = True
             pnlPatientRecord.Visible = False
             txtSearchPatient.Text = String.Empty
-            UpdateViewGridTodayPatient(String.Empty)
+            calTgl.selectedDate = Date.Now
+            UpdateViewGridTodayPatient(String.Empty, calTgl.selectedDate)
             PrepareScreenDashboard()
 
             chkIsCreateOrder.Checked = True
@@ -346,7 +353,7 @@ Namespace QIS.Web.EMR
             lbtnBackToPatientList.Visible = False
         End Sub
 
-        Private Sub UpdateViewGridTodayPatient(ByVal strSearch As String)
+        Private Sub UpdateViewGridTodayPatient(ByVal strSearch As String, ByVal tanggal As Date)
             Dim dt As New DataTable
             Dim oBR As New Common.BussinessRules.EMR
             With oBR
@@ -354,9 +361,9 @@ Namespace QIS.Web.EMR
                 .PhysicianID = txtLinkParamedicID.Text.Trim
 
                 If chkIsPhysician.Checked Then
-                    dt = .GetPatientPhysicianIDToday(strSearch)
+                    dt = .GetPatientPhysicianIDToday(strSearch, tanggal)
                 Else
-                    dt = .GetPatientToday(strSearch)
+                    dt = .GetPatientToday(strSearch, tanggal)
                 End If
 
                 grdTodayPatient.DataSource = dt
@@ -372,15 +379,15 @@ Namespace QIS.Web.EMR
             With oBR
                 .PhysicianID = txtLinkParamedicID.Text.Trim
                 .DepartmentID = "OUTPATIENT"
-                dt = .GetPatientPhysicianIDToday(String.Empty)
+                dt = .GetPatientPhysicianIDToday(String.Empty, calTgl.selectedDate)
                 lblTotalPasienRawatJalan.Text = dt.Rows.Count.ToString.Trim
 
                 .DepartmentID = "EMERGENCY"
-                dt = .GetPatientPhysicianIDToday(String.Empty)
+                dt = .GetPatientPhysicianIDToday(String.Empty, calTgl.selectedDate)
                 lblTotalPasienIGD.Text = dt.Rows.Count.ToString.Trim
 
                 .DepartmentID = "INPATIENT"
-                dt = .GetPatientPhysicianIDToday(String.Empty)
+                dt = .GetPatientPhysicianIDToday(String.Empty, calTgl.selectedDate)
                 lblTotalPasienRawatInap.Text = dt.Rows.Count.ToString.Trim
             End With
             oBR.Dispose()
@@ -839,6 +846,9 @@ Namespace QIS.Web.EMR
         End Sub
 
         Private Sub UpdateSOAPNotes()
+            If txtID.Text = String.Empty Then
+                txtID.Text = CStr(0D)
+            End If
             Dim oBR As New Common.BussinessRules.EMR
             With oBR
                 .ID = CInt(txtID.Text.Trim)
@@ -871,8 +881,36 @@ Namespace QIS.Web.EMR
             Me.Validate()
             If Not Me.IsValid Then Exit Function
 
-            Dim oBR As New Common.BussinessRules.Worklist
-            With oBR
+            If ddlDepartmentFilter.SelectedValue.Trim = "INPATIENT" Then
+                If txtJobOrderNo.Text.Trim = String.Empty And txtTransactionNo.Text.Trim = String.Empty Then
+                    '// New Record
+                    Dim oBR As New Common.BussinessRules.Worklist
+                    With oBR
+                        '//Transaction Header
+                        .RegistrationNo = lblPBRegistrationNo.Text.Trim
+                        Select Case ddlDepartmentFilter.SelectedValue.Trim
+                            Case "OUTPATIENT"
+                                .ModuleID = "RJ"
+                            Case "EMERGENCY"
+                                .ModuleID = "RD"
+                            Case "INPATIENT"
+                                .ModuleID = "RI"
+                        End Select
+                        .SupportingUnitID = ddlDiagnosticSupportUnit.SelectedValue.Trim
+                        .CreatedBy = "EMRModule"
+                        .LastUpdatedBy = "EMRModule"
+                        .InsertTransactionOrderHD()
+
+                        txtTransactionNo.Text = .InsertTransactionOrderHD()
+                        lblPBTransactionNo.Text = txtTransactionNo.Text
+                    End With
+                    oBR.Dispose()
+                    oBR = Nothing
+                End If
+            End If
+
+            Dim oBR2 As New Common.BussinessRules.Worklist
+            With oBR2
                 '//Header
                 strOrderNoToReturn = .NewOrderNo()
                 .OrderNo = strOrderNoToReturn.Trim
@@ -906,8 +944,9 @@ Namespace QIS.Web.EMR
                 End If
             End With
 
-            oBR.Dispose()
-            oBR = Nothing
+            oBR2.Dispose()
+            oBR2 = Nothing
+
 
             Return strOrderNoToReturn.Trim
         End Function
@@ -934,6 +973,13 @@ Namespace QIS.Web.EMR
                     txtJobOrderNo.Text = .OrderNo.Trim
                     txtTransactionNo.Text = .TransactionNo.Trim
                     lblJobOrderStatus.Text = .StatusName.Trim
+                    If lblJobOrderStatus.Text = "SELESAI" Then
+                        btnJobOrderAdd.Enabled = False
+                        btnJobOrderRemove.Enabled = False
+                    Else
+                        btnJobOrderAdd.Enabled = True
+                        btnJobOrderRemove.Enabled = True
+                    End If
                 Else
                     txtClinicalNotes.Text = String.Empty
                     txtJobOrderNo.Text = String.Empty
@@ -958,7 +1004,6 @@ Namespace QIS.Web.EMR
                 With oBR
                     '//Transaction Header
                     .RegistrationNo = lblPBRegistrationNo.Text.Trim
-                    .TransactionNo = lblPBTransactionNo.Text.Trim
                     Select Case ddlDepartmentFilter.SelectedValue.Trim
                         Case "OUTPATIENT"
                             .ModuleID = "RJ"
@@ -970,33 +1015,39 @@ Namespace QIS.Web.EMR
                     .SupportingUnitID = ddlDiagnosticSupportUnit.SelectedValue.Trim
                     .CreatedBy = "EMRModule"
                     .LastUpdatedBy = "EMRModule"
-                    .InsertTransactionOrderHD()
 
-                    '//Order Header
-                    strOrderNoToReturn = .NewOrderNo()
-                    .OrderNo = strOrderNoToReturn.Trim
+                    If ddlDepartmentFilter.SelectedValue.Trim <> "INPATIENT" Then
+                        txtTransactionNo.Text = lblPBTransactionNo.Text.Trim
+                    End If
+                    If ddlDepartmentFilter.SelectedValue.Trim = "INPATIENT" Then
+                        txtTransactionNo.Text = .InsertTransactionOrderHD()
+                    End If
 
-                    .MRN = lblPBMRN.Text.Trim
-                    .ServiceUnitID = lblPBServiceUnitID.Text.Trim
-                    .ClinicalNotes = "Order menggunakan EMR"
-                    .IsCito = chkIsCito.Checked
+                    If txtTransactionNo.Text.Trim <> String.Empty Then
+                        '//Order Header
+                        strOrderNoToReturn = .NewOrderNo()
+                        .OrderNo = strOrderNoToReturn.Trim
+                        .TransactionNo = txtTransactionNo.Text
+                        .MRN = lblPBMRN.Text.Trim
+                        .ServiceUnitID = lblPBServiceUnitID.Text.Trim
+                        .ClinicalNotes = "Order menggunakan EMR"
+                        .IsCito = chkIsCito.Checked
 
-                    .InsertHD()
+                        .InsertHD()
 
-                    '// Order Detail
-                    .PrescriptionNotes = String.Empty
-                    .StatusID = "01" '// Order
+                        '// Order Detail
+                        .PrescriptionNotes = String.Empty
+                        .StatusID = "01" '// Order
 
-                    For Each item As DataGridItem In grdItem.Items
-                        Dim chkSelect As CheckBox = CType(item.FindControl("chkSelect"), CheckBox)
-                        Dim _lblItemID As Label = CType(item.FindControl("_lblItemID"), Label)
+                        For Each item As DataGridItem In grdItem.Items
+                            Dim chkSelect As CheckBox = CType(item.FindControl("chkSelect"), CheckBox)
+                            Dim _lblItemID As Label = CType(item.FindControl("_lblItemID"), Label)
 
-                        .ItemID = _lblItemID.Text.Trim
+                            .ItemID = _lblItemID.Text.Trim
 
-                        If chkSelect.Checked Then .InsertDT()
-                    Next
-
-                    txtTransactionNo.Text = .TransactionNo.Trim
+                            If chkSelect.Checked Then .InsertDT()
+                        Next
+                    End If
                 End With
 
                 oBR.Dispose()
@@ -1032,7 +1083,28 @@ Namespace QIS.Web.EMR
             Return strOrderNoToReturn.Trim
         End Function
 
+        Private Function UpdateWorklistJobOrder() As String
+            Dim oBR As New Common.BussinessRules.Worklist
+            With oBR
+                .OrderNo = txtJobOrderNo.Text.Trim
+                .LastUpdatedBy = MyBase.LoggedOnUserID.Trim
+                For Each item As DataGridItem In grdItemOrder.Items
+                    Dim chkSelect As CheckBox = CType(item.FindControl("chkSelect"), CheckBox)
+                    Dim _lblItemID As Label = CType(item.FindControl("_lblItemID"), Label)
+
+                    .ItemID = _lblItemID.Text.Trim
+
+                    If chkSelect.Checked Then .UpdateCancelDT()
+                Next
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Function
+
         Private Sub InsertPatientResumeJobOrder()
+            If txtID.Text = String.Empty Then
+                txtID.Text = CStr(0D)
+            End If
             Dim oBR As New Common.BussinessRules.Worklist
             With oBR
                 .OrderNo = txtJobOrderNo.Text.Trim
@@ -1126,6 +1198,7 @@ Namespace QIS.Web.EMR
 
 #End Region
 
+       
     End Class
 
 End Namespace

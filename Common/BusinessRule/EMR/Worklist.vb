@@ -28,7 +28,7 @@ Namespace QIS.Common.BussinessRules
         End Sub
 
 #Region " Insert, Update "
-        Public Function InsertTransactionOrderHD() As DataTable
+        Public Function InsertTransactionOrderHD() As String
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "spEMRTransactionOrderHd"
             cmdToExecute.CommandType = CommandType.StoredProcedure
@@ -40,9 +40,9 @@ Namespace QIS.Common.BussinessRules
 
             Try
                 cmdToExecute.Parameters.AddWithValue("@RegistrationNo", _RegistrationNo)
-                cmdToExecute.Parameters.AddWithValue("@TransactionNo", _TransactionNo)
+                'cmdToExecute.Parameters.AddWithValue("@TransactionNo", _TransactionNo)
                 cmdToExecute.Parameters.AddWithValue("@DepartmentID", _ModuleID)
-                cmdToExecute.Parameters.AddWithValue("@ServiceUnitUnitID", _SupportingUnitID)                
+                cmdToExecute.Parameters.AddWithValue("@ServiceUnitUnitID", _SupportingUnitID)
                 cmdToExecute.Parameters.AddWithValue("@CreatedBy", _CreatedBy)
 
                 ' // Open connection.
@@ -64,7 +64,7 @@ Namespace QIS.Common.BussinessRules
                 adapter.Dispose()
             End Try
 
-            Return toReturn
+            Return _TransactionNo
         End Function
 
         Public Function InsertHD() As Boolean
@@ -245,6 +245,43 @@ Namespace QIS.Common.BussinessRules
             End Try
 
             Return toReturn
+        End Function
+
+        Public Function getOrderValid() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand()
+            cmdToExecute.CommandText = "getNoBuktiRI"
+
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("hdtansaksi")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            ' // Use base class' connection object
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.Add(New SqlParameter("@nobukti", _TransactionNo))
+                cmdToExecute.Parameters.Add(New SqlParameter("@noreg", _RegistrationNo))
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _TransactionNo = (CType(toReturn.Rows(0)("nobukti"), String))
+                End If
+                Return toReturn
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
         End Function
 #End Region
 

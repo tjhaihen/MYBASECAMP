@@ -105,12 +105,12 @@
                                         <table cellspacing="1" width="100%">
                                             <tr>
                                                 <td valign="middle" class="Heading3 center" style="background-color: #A1C934; padding-left: 0;
-                                                    font-size: 16pt;">
+                                                    font-size: 20pt;">
                                                     <%# DataBinder.Eval(Container.DataItem, "ClassName")%>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td valign="middle" class="center" style="font-size: 18pt; height: 60;">
+                                                <td valign="middle" class="center" style="font-size: 24pt; height: 60;">
                                                     <%# DataBinder.Eval(Container.DataItem, "TotalAvailable")%>
                                                 </td>
                                             </tr>

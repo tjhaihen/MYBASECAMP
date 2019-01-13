@@ -1,4 +1,4 @@
-﻿Option Strict On
+﻿Option Strict Off
 Option Explicit On
 
 Imports System
@@ -39,6 +39,12 @@ Namespace QIS.Web.EMR
 
 #Region " Control Events "
         Private Sub Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+            Dim timeMaskFormat = Common.Constants.MaskFormat.TIME_MASK
+            txtJamDatang.Mask = timeMaskFormat
+            txtJamLayan.Mask = timeMaskFormat
+            txtJamCP.Mask = timeMaskFormat
+            txtJamDisposisi.Mask = timeMaskFormat
+
             If Not Me.IsPostBack Then
                 ReadQueryString()
 
@@ -86,7 +92,7 @@ Namespace QIS.Web.EMR
             PrepareScreenNurseAssesment()
             pnlPatientList.Visible = True
             pnlPatientRecord.Visible = False
-            UpdateViewGridTodayPatient(String.Empty)
+            UpdateViewGridTodayPatient(String.Empty, calTgl.selectedDate)
         End Sub
 
         Private Sub lbtnNewSOAP_Click(sender As Object, e As System.EventArgs) Handles lbtnNewSOAP.Click
@@ -108,7 +114,7 @@ Namespace QIS.Web.EMR
             PrepareScreenNurseAssesment()
             pnlPatientList.Visible = True
             pnlPatientRecord.Visible = False
-            UpdateViewGridTodayPatient(String.Empty)
+            UpdateViewGridTodayPatient(String.Empty, calTgl.selectedDate)
         End Sub
 
         Private Sub lbtnNewNotes_Click(sender As Object, e As System.EventArgs) Handles lbtnNewNotes.Click
@@ -127,7 +133,7 @@ Namespace QIS.Web.EMR
         End Sub
 
         Private Sub btnSearchPatient_Click(sender As Object, e As System.EventArgs) Handles btnSearchPatient.Click
-            UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim)
+            UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim, calTgl.selectedDate)
         End Sub
 
         Private Sub txtttvTinggiBadan_TextChanged(sender As Object, e As System.EventArgs) Handles txtttvTinggiBadan.TextChanged
@@ -180,12 +186,17 @@ Namespace QIS.Web.EMR
         End Sub
 
         Private Sub ddlDepartmentFilter_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlDepartmentFilter.SelectedIndexChanged
+            If ddlDepartmentFilter.SelectedValue = "EMERGENCY" Then
+                _pnlTriage.Visible = True
+            Else
+                _pnlTriage.Visible = False
+            End If
             commonFunction.SetDDL_Table(ddlServiceUnit, "ProfileUnit", MyBase.LoggedOnProfileID.Trim + "^" + ddlDepartmentFilter.SelectedValue.Trim)
-            UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim)
+            UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim, calTgl.selectedDate)
         End Sub
 
         Private Sub ddlServiceUnit_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlServiceUnit.SelectedIndexChanged
-            UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim)
+            UpdateViewGridTodayPatient(txtSearchPatient.Text.Trim, calTgl.selectedDate)
         End Sub
 
         Private Sub RadTabStrip3_TabClick(sender As Object, e As Telerik.Web.UI.RadTabStripEventArgs) Handles RadTabStrip3.TabClick
@@ -193,10 +204,145 @@ Namespace QIS.Web.EMR
             UpdateViewGridCatatanPerawat()
         End Sub
 
-#End Region
+        Private Sub chkKeluar_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkKeluar.CheckedChanged
+            If chkKeluar.Checked Then
+                pnlDisposisi.Visible = True
+            Else
+                pnlDisposisi.Visible = False
+            End If
+        End Sub
 
-#Region " Support functions for navigation bar (Controls) "
+        Private Sub ddlNyeriMetode_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlNyeriMetode.SelectedIndexChanged
+            txtNyeriSkala.Text = String.Empty
+            If ddlNyeriMetode.SelectedItem.Text = "FLACC" Then
+                pnlWajah.Visible = True
+                commonFunction.SetDDL_Table(ddlWajah, "CommonCode", "FLACCWAJAH")
+                pnlGerakBawah.Visible = True
+                commonFunction.SetDDL_Table(ddlGerakBawah, "CommonCode", "FLACCLE")
+                commonFunction.SetDDL_Table(ddlAktivitas, "CommonCode", "FLACCAKTIVITAS")
+                pnlTangis.Visible = True
+                commonFunction.SetDDL_Table(ddlTangis, "CommonCode", "FLACCTANGIS")
+                commonFunction.SetDDL_Table(ddlBicara, "CommonCode", "FLACCBICARA")
+                pnlPola.Visible = False
+                pnlGerakan.Visible = False
+                pnlNRS.Visible = False
+            ElseIf ddlNyeriMetode.SelectedItem.Text = "NIPS" Then
+                pnlWajah.Visible = True
+                commonFunction.SetDDL_Table(ddlWajah, "CommonCode", "NIPSWAJAH")
+                pnlTangis.Visible = True
+                commonFunction.SetDDL_Table(ddlTangis, "CommonCode", "NIPSTANGIS")
+                pnlPola.Visible = True
+                commonFunction.SetDDL_Table(ddlNapas, "CommonCode", "NIPSNAPAS")
+                commonFunction.SetDDL_Table(ddlTungkai, "CommonCode", "NIPSTUNGKAI")
+                commonFunction.SetDDL_Table(ddlSadar, "CommonCode", "NIPSSADAR")
+                pnlGerakBawah.Visible = False
+                pnlGerakan.Visible = False
+                pnlNRS.Visible = False
+            ElseIf ddlNyeriMetode.SelectedItem.Text = "Skala BPS" Then
+                pnlWajah.Visible = True
+                commonFunction.SetDDL_Table(ddlWajah, "CommonCode", "BPSWAJAH")
+                pnlGerakan.Visible = True
+                commonFunction.SetDDL_Table(ddlGerak, "CommonCode", "BPSGERAKATAS")
+                commonFunction.SetDDL_Table(ddlKompensasi, "CommonCode", "BPSGERAKATAS")
+                pnlGerakBawah.Visible = False
+                pnlTangis.Visible = False
+                pnlPola.Visible = False
+                pnlNRS.Visible = False
+            ElseIf ddlNyeriMetode.SelectedItem.Text = "NRS" Then
+                pnlNRS.Visible = True
+                commonFunction.SetDDL_Table(ddlNRS, "CommonCode", "NRS")
+                pnlWajah.Visible = False
+                pnlGerakBawah.Visible = False
+                pnlTangis.Visible = False
+                pnlPola.Visible = False
+                pnlGerakan.Visible = False
+            Else
+                pnlWajah.Visible = False
+                pnlGerakBawah.Visible = False
+                pnlTangis.Visible = False
+                pnlPola.Visible = False
+                pnlGerakan.Visible = False
+                pnlNRS.Visible = False
+            End If
+        End Sub
 
+        Private Sub ddlWajah_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlWajah.SelectedIndexChanged, ddlGerakBawah.SelectedIndexChanged
+            If txtNyeriSkala.Text = String.Empty Then
+                txtNyeriSkala.Text = ddlWajah.SelectedValue.Trim
+            Else
+                txtNyeriSkala.Text = CStr(CDec(txtNyeriSkala.Text) + CDec(ddlWajah.SelectedValue))
+            End If
+        End Sub
+        Private Sub dddlGerakBawah_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlGerakBawah.SelectedIndexChanged
+            If txtNyeriSkala.Text = String.Empty Then
+                txtNyeriSkala.Text = CDec(ddlGerakBawah.SelectedValue)
+            Else
+                txtNyeriSkala.Text = CStr(CDec(txtNyeriSkala.Text) + CDec(ddlGerakBawah.SelectedValue))
+            End If
+        End Sub
+        Private Sub ddlAktivitas_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlAktivitas.SelectedIndexChanged
+            If txtNyeriSkala.Text = String.Empty Then
+                txtNyeriSkala.Text = CDec(ddlAktivitas.SelectedValue)
+            Else
+                txtNyeriSkala.Text = CStr(CDec(txtNyeriSkala.Text) + CDec(ddlAktivitas.SelectedValue))
+            End If
+        End Sub
+        Private Sub ddlTangis_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlTangis.SelectedIndexChanged
+            If txtNyeriSkala.Text = String.Empty Then
+                txtNyeriSkala.Text = CDec(ddlTangis.SelectedValue)
+            Else
+                txtNyeriSkala.Text = CStr(CDec(txtNyeriSkala.Text) + CDec(ddlTangis.SelectedValue))
+            End If
+        End Sub
+        Private Sub ddlBicara_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlBicara.SelectedIndexChanged
+            If txtNyeriSkala.Text = String.Empty Then
+                txtNyeriSkala.Text = CDec(ddlBicara.SelectedValue)
+            Else
+                txtNyeriSkala.Text = CStr(CDec(txtNyeriSkala.Text) + CDec(ddlBicara.SelectedValue))
+            End If
+        End Sub
+        Private Sub ddlNapas_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlNapas.SelectedIndexChanged
+            If txtNyeriSkala.Text = String.Empty Then
+                txtNyeriSkala.Text = CDec(ddlNapas.SelectedValue)
+            Else
+                txtNyeriSkala.Text = CStr(CDec(txtNyeriSkala.Text) + CDec(ddlNapas.SelectedValue))
+            End If
+        End Sub
+        Private Sub ddlTungkai_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlTungkai.SelectedIndexChanged
+            If txtNyeriSkala.Text = String.Empty Then
+                txtNyeriSkala.Text = CDec(ddlTungkai.SelectedValue)
+            Else
+                txtNyeriSkala.Text = CStr(CDec(txtNyeriSkala.Text) + CDec(ddlTungkai.SelectedValue))
+            End If
+        End Sub
+        Private Sub ddlSadar_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlSadar.SelectedIndexChanged
+            If txtNyeriSkala.Text = String.Empty Then
+                txtNyeriSkala.Text = CDec(ddlSadar.SelectedValue)
+            Else
+                txtNyeriSkala.Text = CStr(CDec(txtNyeriSkala.Text) + CDec(ddlSadar.SelectedValue))
+            End If
+        End Sub
+        Private Sub ddlGerak_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlGerak.SelectedIndexChanged
+            If txtNyeriSkala.Text = String.Empty Then
+                txtNyeriSkala.Text = CDec(ddlGerak.SelectedValue)
+            Else
+                txtNyeriSkala.Text = CStr(CDec(txtNyeriSkala.Text) + CDec(ddlGerak.SelectedValue))
+            End If
+        End Sub
+        Private Sub ddlKompensasi_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlKompensasi.SelectedIndexChanged
+            If txtNyeriSkala.Text = String.Empty Then
+                txtNyeriSkala.Text = CDec(ddlKompensasi.SelectedValue)
+            Else
+                txtNyeriSkala.Text = CStr(CDec(txtNyeriSkala.Text) + CDec(ddlKompensasi.SelectedValue))
+            End If
+        End Sub
+        Private Sub ddlNRS_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlNRS.SelectedIndexChanged
+            If txtNyeriSkala.Text = String.Empty Then
+                txtNyeriSkala.Text = CDec(ddlNRS.SelectedValue)
+            Else
+                txtNyeriSkala.Text = CStr(CDec(txtNyeriSkala.Text) + CDec(ddlNRS.SelectedValue))
+            End If
+        End Sub
 #End Region
 
 #Region " Private Functions "
@@ -231,18 +377,35 @@ Namespace QIS.Web.EMR
             commonFunction.SetDDL_Table(ddlCaraBelajarDisukai, "CommonCode", Common.Constants.GroupCode.NACaraBelajar_SCode)
             commonFunction.SetDDL_Table(ddlRoomCode, "Room", String.Empty)
             commonFunction.SetDDL_Table(ddlServiceUnit, "ProfileUnit", MyBase.LoggedOnProfileID.Trim + "^" + ddlDepartmentFilter.SelectedValue.Trim)
+            commonFunction.SetDDL_Table(ddlKdTriage, "StandardField", Common.Constants.StandardField.Triage_SField)
+            commonFunction.SetDDL_Table(ddlKdnKlr, "StandardField", Common.Constants.StandardField.KeadaanKeluar_SField)
+            commonFunction.SetDDL_Table(ddlCrKlr, "StandardField", Common.Constants.StandardField.CaraKeluar_SField)
         End Sub
 
         Private Sub PrepareScreen()
-            txtTodayDate.Text = Format(Date.Today, commonFunction.FORMAT_DATE)
+            calTgl.selectedDate = Date.Now
             pnlNurseAssesment.Visible = False
             pnlPatientList.Visible = True
             pnlPatientRecord.Visible = False
             txtSearchPatient.Text = String.Empty
-            UpdateViewGridTodayPatient(String.Empty)            
+
+            UpdateViewGridTodayPatient(String.Empty, calTgl.selectedDate)
         End Sub
 
         Private Sub PrepareScreenNurseAssesment()
+            calTglDatang.selectedDate = Date.Now
+            calTglLayan.selectedDate = Date.Now
+            calTglCP.selectedDate = Date.Now
+            txtJamDatang.Text = Format(Date.Now, commonFunction.FORMAT_TIME)
+            txtJamLayan.Text = Format(Date.Now, commonFunction.FORMAT_TIME)
+            txtJamCP.Text = Format(Date.Now, commonFunction.FORMAT_TIME)
+            If ddlDepartmentFilter.SelectedValue = "EMERGENCY" Then
+                _pnlTriage.Visible = True
+            Else
+                _pnlTriage.Visible = False
+            End If
+            ddlKdTriage.SelectedIndex = 0
+
             txtPengkajianID.Text = String.Empty
             ddlAsalInformasi.SelectedIndex = 0
             txtAsalInformasiNama.Text = String.Empty
@@ -312,6 +475,11 @@ Namespace QIS.Web.EMR
             txtBudayaPasien.Text = String.Empty
             txtPerluPenterjemah.Text = String.Empty
             ddlCaraBelajarDisukai.SelectedIndex = 0
+            chkIsDiagnosa.Checked = False
+            chkIsNyeri.Checked = False
+            chkIsDietNutrisi.Checked = False
+            chkIsAlatMedis.Checked = False
+            chkIsTerapi.Checked = False
             txtInformasiDiinginkan.Text = String.Empty
             chkIsKIE.Checked = False
             chkIsObatPulang.Checked = False
@@ -325,10 +493,20 @@ Namespace QIS.Web.EMR
             rblIsDeath.SelectedValue = "0"
             txtDeathTime.Text = String.Empty
 
+            chkKeluar.Checked = False
+            pnlDisposisi.Visible = False
+
+            calTglDisposisi.selectedDate = Date.Now
+            txtJamDisposisi.Text = Format(Date.Now, commonFunction.FORMAT_TIME)
+            ddlKdnKlr.SelectedIndex = 0
+            ddlCrKlr.SelectedIndex = 0
+
             CheckFirstAssessmentByRegistrationNo()
         End Sub
 
         Private Sub PrepareScreenNurseNotes()
+            calTglCP.selectedDate = Date.Now
+            txtJamCP.Text = Format(Date.Now, commonFunction.FORMAT_TIME)
             txtNurseNotesID.Text = String.Empty
             txtNurseNotes.Text = String.Empty
             chkIsPhysicianConfirmed.Checked = False
@@ -350,12 +528,12 @@ Namespace QIS.Web.EMR
             Return intNutritionScore
         End Function
 
-        Private Sub UpdateViewGridTodayPatient(ByVal strSearch As String)
+        Private Sub UpdateViewGridTodayPatient(ByVal strSearch As String, ByVal Tanggal As Date)
             Dim dt As New DataTable
             Dim oBR As New Common.BussinessRules.EMR
             With oBR
                 .DepartmentID = ddlDepartmentFilter.SelectedValue.Trim
-                dt = .GetPatientTodayByUnit(strSearch, ddlServiceUnit.SelectedValue.Trim)
+                dt = .GetPatientTodayByUnit(strSearch, ddlServiceUnit.SelectedValue.Trim, Tanggal)
 
                 grdTodayPatient.DataSource = dt
                 grdTodayPatient.DataBind()
@@ -505,8 +683,13 @@ Namespace QIS.Web.EMR
             With oBR
                 .PengkajianID = PengkajianID
                 If .GetNurseAssesmentByID.Rows.Count > 0 Then
-                    'ddlDepartmentFilter.SelectedValue = .DepartmentID.Trim
-                    'lblPBRegistrationNo.Text = .RegistrationNo.Trim
+                    If .DepartmentID = "EMERGENCY" Then
+                        ddlKdTriage.SelectedValue = .Triage.Trim
+                        calTglDatang.selectedDate = .TglDatang
+                        calTglLayan.selectedDate = .TglLayan
+                        txtJamDatang.Text = .JamDatang
+                        txtJamLayan.Text = .JamLayan
+                    End If
                     ddlAssessmentType.SelectedValue = .AssessmentTypeSCode.Trim
                     ddlAsalInformasi.SelectedValue = .GCAsalInformasi.Trim
                     txtAsalInformasiNama.Text = .AsalInformasiNama.Trim
@@ -616,6 +799,11 @@ Namespace QIS.Web.EMR
                     txtBudayaPasien.Text = .BudayaPasien.Trim
                     txtPerluPenterjemah.Text = .PerluPenterjemah.Trim
                     ddlCaraBelajarDisukai.SelectedValue = .GCCaraBelajarDisukai.Trim
+                    chkIsDiagnosa.Checked = .isInformasiDiagnosa
+                    chkIsNyeri.Checked = .isInformasiNyeri
+                    chkIsDietNutrisi.Checked = .isInformasiDietNutrisi
+                    chkIsAlatMedis.Checked = .isInformasiAlatMedis
+                    chkIsTerapi.Checked = .isInformasiTerapi
                     txtInformasiDiinginkan.Text = .InformasiDiinginkanKeteragan.Trim
                     chkIsKIE.Checked = .IsKIE
                     chkIsObatPulang.Checked = .IsObatPulang
@@ -632,7 +820,15 @@ Namespace QIS.Web.EMR
                         rblIsDeath.SelectedValue = "0"
                     End If
                     txtDeathTime.Text = .DeathTime.Trim
+                    calTglDisposisi.selectedDate = .TglDisposisi
+                    txtJamDisposisi.Text = .JamDisposisi.Trim
+                    ddlKdnKlr.SelectedValue = .KeadaanKeluar.Trim
+                    ddlCrKlr.SelectedValue = .CaraKeluar.Trim
                 Else
+                    calTglDisposisi.selectedDate = Date.Now
+                    txtJamDisposisi.Text = Format(Date.Now, commonFunction.FORMAT_TIME)
+                    ddlKdnKlr.SelectedIndex = 0
+                    ddlCrKlr.SelectedIndex = 0
                     ddlAsalInformasi.SelectedIndex = 0
                     txtAsalInformasiNama.Text = String.Empty
                     ddlAsalInformasiHubungan.SelectedIndex = 0
@@ -701,6 +897,11 @@ Namespace QIS.Web.EMR
                     txtBudayaPasien.Text = String.Empty
                     txtPerluPenterjemah.Text = String.Empty
                     ddlCaraBelajarDisukai.SelectedIndex = 0
+                    chkIsDiagnosa.Checked = False
+                    chkIsNyeri.Checked = False
+                    chkIsDietNutrisi.Checked = False
+                    chkIsAlatMedis.Checked = False
+                    chkIsTerapi.Checked = False
                     txtInformasiDiinginkan.Text = String.Empty
                     chkIsKIE.Checked = False
                     chkIsObatPulang.Checked = False
@@ -731,6 +932,7 @@ Namespace QIS.Web.EMR
                 .GCAsalInformasi = ddlAsalInformasi.SelectedValue.Trim
                 .AsalInformasiNama = txtAsalInformasiNama.Text.Trim
                 .GCAsalInformasiHubungan = ddlAsalInformasiHubungan.SelectedValue.Trim
+                .Triage = ddlKdTriage.SelectedValue.Trim
                 .AssessmentTypeSCode = ddlAssessmentType.SelectedValue.Trim
                 .KeluhanUtama = txtKeluhanUtama.Text.Trim
                 .RiwayatKeluhanSaatIni = txtRiwayatKeluhanSaatIni.Text.Trim
@@ -800,6 +1002,11 @@ Namespace QIS.Web.EMR
                 .PerluPenterjemah = txtPerluPenterjemah.Text.Trim
                 .GCCaraBelajarDisukai = ddlCaraBelajarDisukai.SelectedValue.Trim
                 .GCInformasiDiinginkan = String.Empty
+                .isInformasiDiagnosa = chkIsDiagnosa.Checked
+                .isInformasiNyeri = chkIsNyeri.Checked
+                .isInformasiDietNutrisi = chkIsDietNutrisi.Checked
+                .isInformasiAlatMedis = chkIsAlatMedis.Checked
+                .isInformasiTerapi = chkIsTerapi.Checked
                 .InformasiDiinginkanKeteragan = txtInformasiDiinginkan.Text.Trim
                 .IsKIE = chkIsKIE.Checked
                 .IsObatPulang = chkIsObatPulang.Checked
@@ -814,7 +1021,22 @@ Namespace QIS.Web.EMR
                 .DeathTime = txtDeathTime.Text.Trim
                 .CreatedBy = MyBase.LoggedOnUserID.Trim
                 .LastUpdatedBy = MyBase.LoggedOnUserID.Trim
-                .Insert()
+               
+                If .Insert() Then
+                    .TglDatang = calTglDatang.selectedDate
+                    .TglLayan = calTglLayan.selectedDate
+                    .JamDatang = txtJamDatang.Text.Trim
+                    .JamLayan = txtJamLayan.Text.Trim
+
+                    If chkKeluar.Checked Then
+                        .TglDisposisi = calTglDisposisi.selectedDate
+                        .JamDisposisi = txtJamDisposisi.Text.Trim
+                        .KeadaanKeluar = ddlKdnKlr.SelectedValue.Trim
+                        .CaraKeluar = ddlCrKlr.SelectedValue.Trim
+                    End If
+
+                    .UpdateRegistration(chkKeluar.Checked)
+                End If
             End With
             oBR.Dispose()
             oBR = Nothing
@@ -899,6 +1121,11 @@ Namespace QIS.Web.EMR
                 .PerluPenterjemah = txtPerluPenterjemah.Text.Trim
                 .GCCaraBelajarDisukai = ddlCaraBelajarDisukai.SelectedValue.Trim
                 .GCInformasiDiinginkan = String.Empty
+                .isInformasiDiagnosa = chkIsDiagnosa.Checked
+                .isInformasiNyeri = chkIsNyeri.Checked
+                .isInformasiDietNutrisi = chkIsDietNutrisi.Checked
+                .isInformasiAlatMedis = chkIsAlatMedis.Checked
+                .isInformasiTerapi = chkIsTerapi.Checked
                 .InformasiDiinginkanKeteragan = txtInformasiDiinginkan.Text.Trim
                 .IsKIE = chkIsKIE.Checked
                 .IsObatPulang = chkIsObatPulang.Checked
@@ -912,7 +1139,21 @@ Namespace QIS.Web.EMR
                 .IsDeath = CBool(rblIsDeath.SelectedValue.Trim)
                 .DeathTime = txtDeathTime.Text.Trim
                 .LastUpdatedBy = MyBase.LoggedOnUserID.Trim
-                .Update()
+
+                If .Update() Then
+                    .TglDatang = calTglDatang.selectedDate
+                    .TglLayan = calTglLayan.selectedDate
+                    .JamDatang = txtJamDatang.Text.Trim
+                    .JamLayan = txtJamLayan.Text.Trim
+
+                    If chkKeluar.Checked Then
+                        .TglDisposisi = calTglDisposisi.selectedDate
+                        .JamDisposisi = txtJamDisposisi.Text.Trim
+                        .KeadaanKeluar = ddlKdnKlr.SelectedValue.Trim
+                        .CaraKeluar = ddlCrKlr.SelectedValue.Trim
+                    End If
+                    .UpdateRegistration(chkKeluar.Checked)
+                End If
             End With
             oBR.Dispose()
             oBR = Nothing
@@ -927,9 +1168,13 @@ Namespace QIS.Web.EMR
                 If .GetNurseNotesByID.Rows.Count > 0 Then
                     txtNurseNotes.Text = .NurseNotes.Trim
                     chkIsPhysicianConfirmed.Checked = .IsPhysicianConfirmed
+                    calTglCP.selectedDate = .JournalDate
+                    txtJamCP.Text = .JournalTime.Trim
                 Else
                     txtNurseNotes.Text = String.Empty
                     chkIsPhysicianConfirmed.Checked = False
+                    calTglCP.selectedDate = Date.Now
+                    txtJamCP.Text = Format(Date.Now, commonFunction.FORMAT_TIME)
                 End If
             End With
             oBR.Dispose()
@@ -944,6 +1189,8 @@ Namespace QIS.Web.EMR
                 .RegistrationNo = lblPBRegistrationNo.Text.Trim
                 .MRN = lblPBMRN.Text.Trim
                 .NurseNotes = txtNurseNotes.Text.Trim
+                .JournalDate = calTglCP.selectedDate
+                .JournalTime = txtJamCP.Text.Trim
                 .CreatedBy = MyBase.LoggedOnUserID.Trim
                 .LastUpdatedBy = MyBase.LoggedOnUserID.Trim
                 .InsertNurseNotes()
@@ -960,6 +1207,8 @@ Namespace QIS.Web.EMR
                 .ServiceUnitID = lblPBServiceUnitID.Text.Trim
                 .RegistrationNo = lblPBRegistrationNo.Text.Trim
                 .MRN = lblPBMRN.Text.Trim
+                .JournalDate = calTglCP.selectedDate
+                .JournalTime = txtJamCP.Text.Trim
                 .NurseNotes = txtNurseNotes.Text.Trim
                 .CreatedBy = MyBase.LoggedOnUserID.Trim
                 .LastUpdatedBy = MyBase.LoggedOnUserID.Trim

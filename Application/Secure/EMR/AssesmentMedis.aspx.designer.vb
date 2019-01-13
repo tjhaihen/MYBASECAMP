@@ -159,13 +159,13 @@ Namespace QIS.Web.EMR
         Protected WithEvents RadPageView3 As Global.Telerik.Web.UI.RadPageView
 
         '''<summary>
-        '''txtTodayDate control.
+        '''calTgl control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents txtTodayDate As Global.System.Web.UI.WebControls.TextBox
+        Protected WithEvents calTgl As Global.QIS.Web.Calendar
 
         '''<summary>
         '''txtSearchPatient control.

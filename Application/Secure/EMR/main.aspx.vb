@@ -186,7 +186,9 @@ Namespace QIS.Web.EMR
             lblTherapyHISOrderNo.Text = String.Empty
 
             pnlInfoForPhysician.Visible = chkIsPhysician.Checked
-            pnlPatientIntervention.Visible = Not chkIsPhysician.Checked
+            pnlInfoForNotPhysician.Visible = Not chkIsPhysician.Checked
+            pnlPatientIntervention.Visible = False
+            ' pnlPatientIntervention.Visible = Not chkIsPhysician.Checked
             pnlChart.Visible = chkIsPhysician.Checked
         End Sub
 
@@ -228,25 +230,25 @@ Namespace QIS.Web.EMR
                 .PhysicianID = txtLinkParamedicID.Text.Trim
                 .DepartmentID = "OUTPATIENT"
                 If chkIsPhysician.Checked Then
-                    dt = .GetPatientPhysicianIDToday(String.Empty)
+                    dt = .GetPatientPhysicianIDToday(String.Empty, Date.Now)
                 Else
-                    dt = .GetPatientToday(String.Empty)
+                    dt = .GetPatientToday(String.Empty, Date.Now)
                 End If
                 lblTotalPasienRawatJalan.Text = dt.Rows.Count.ToString.Trim
 
                 .DepartmentID = "EMERGENCY"
                 If chkIsPhysician.Checked Then
-                    dt = .GetPatientPhysicianIDToday(String.Empty)
+                    dt = .GetPatientPhysicianIDToday(String.Empty, Date.Now)
                 Else
-                    dt = .GetPatientToday(String.Empty)
+                    dt = .GetPatientToday(String.Empty, Date.Now)
                 End If
                 lblTotalPasienIGD.Text = dt.Rows.Count.ToString.Trim
 
                 .DepartmentID = "INPATIENT"
                 If chkIsPhysician.Checked Then
-                    dt = .GetPatientPhysicianIDToday(String.Empty)
+                    dt = .GetPatientPhysicianIDToday(String.Empty, Date.Now)
                 Else
-                    dt = .GetPatientToday(String.Empty)
+                    dt = .GetPatientToday(String.Empty, Date.Now)
                 End If
                 lblTotalPasienRawatInap.Text = dt.Rows.Count.ToString.Trim
             End With
@@ -264,9 +266,9 @@ Namespace QIS.Web.EMR
                 .PhysicianID = txtLinkParamedicID.Text.Trim
 
                 If chkIsPhysician.Checked Then
-                    dt = .GetPatientPhysicianIDToday(strSearch)
+                    dt = .GetPatientPhysicianIDToday(strSearch, Date.Now)
                 Else
-                    dt = .GetPatientToday(strSearch)
+                    dt = .GetPatientToday(strSearch, Date.Now)
                 End If
 
                 grdTodayPatient.DataSource = dt
@@ -358,6 +360,22 @@ Namespace QIS.Web.EMR
                 chtPatientByBusinessPartner.Series("Categories").Points.DataBindXY(dtB.Rows, "CustomerType", dtB.Rows, "RegistrationCount")
 
                 chtMyPatient.ChartAreas(0).AxisX.LabelStyle.Format = commonFunction.FORMAT_DATE_CHART
+            End With
+
+            chtMyPatientRI.Titles.Add("Jumlah Pasien Rawat Inap " + MonthName(Today.Month) + " " + Today.Year.ToString.Trim)
+            chtPatientByBusinessPartnerRI.Titles.Add("Jumlah Pasien Rawat Inap " + MonthName(Today.Month) + " " + Today.Year.ToString.Trim + " Berdasarkan Jenis Penjamin")
+
+            Dim dtPRI As New DataTable
+            Dim dtBRI As New DataTable
+            With oBr
+                oBr.PhysicianID = txtLinkParamedicID.Text.Trim
+                dtPRI = oBr.GetPatientPhysicianIDChartInpatient()
+                dtBRI = oBr.GetPatientPhysicianIDBusinessPartnerChartInpatient()
+
+                chtMyPatientRI.Series("Categories").Points.DataBindXY(dtPRI.Rows, "RegistrationDate", dtPRI.Rows, "RegistrationCount")
+                chtPatientByBusinessPartnerRI.Series("Categories").Points.DataBindXY(dtBRI.Rows, "CustomerType", dtBRI.Rows, "RegistrationCount")
+
+                chtMyPatientRI.ChartAreas(0).AxisX.LabelStyle.Format = commonFunction.FORMAT_DATE_CHART
             End With
             oBr.Dispose()
             oBr = Nothing
