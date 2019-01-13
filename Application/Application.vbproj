@@ -264,6 +264,27 @@
       <DependentUpon>CommonCode.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\EMRTracking\Dashboard.aspx.designer.vb">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\EMRTracking\Dashboard.aspx.vb">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\EMRTracking\LocationList.aspx.designer.vb">
+      <DependentUpon>LocationList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\EMRTracking\LocationList.aspx.vb">
+      <DependentUpon>LocationList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\EMRTracking\Mutation.aspx.designer.vb">
+      <DependentUpon>Mutation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\EMRTracking\Mutation.aspx.vb">
+      <DependentUpon>Mutation.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Secure\EMR\AssesmentMedis.aspx.designer.vb">
       <DependentUpon>AssesmentMedis.aspx</DependentUpon>
     </Compile>
@@ -454,6 +475,9 @@
     <Content Include="Secure\Budget\BudgetPurchasing.aspx" />
     <Content Include="Secure\ChangePassword.aspx" />
     <Content Include="Secure\CommonCode.aspx" />
+    <Content Include="Secure\EMRTracking\Dashboard.aspx" />
+    <Content Include="Secure\EMRTracking\LocationList.aspx" />
+    <Content Include="Secure\EMRTracking\Mutation.aspx" />
     <Content Include="Secure\EMR\AssesmentMedis.aspx" />
     <Content Include="Secure\EMR\AssesmentPerawat.aspx" />
     <Content Include="Secure\EMR\main.aspx" />
@@ -561,7 +585,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

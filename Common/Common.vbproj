@@ -133,6 +133,9 @@
     <Compile Include="BusinessRule\DrugInteraction\DrugGenericMtx.vb" />
     <Compile Include="BusinessRule\DrugInteraction\DrugInteractionDt.vb" />
     <Compile Include="BusinessRule\DrugInteraction\DrugInteractionHd.vb" />
+    <Compile Include="BusinessRule\EMRTracking\EMRlocation.vb" />
+    <Compile Include="BusinessRule\EMRTracking\EMRlocationGroup.vb" />
+    <Compile Include="BusinessRule\EMRTracking\EMRTrackingHistory.vb" />
     <Compile Include="BusinessRule\EMR\EMR.vb" />
     <Compile Include="BusinessRule\EMR\NurseAssessment.vb" />
     <Compile Include="BusinessRule\EMR\Patient.vb" />

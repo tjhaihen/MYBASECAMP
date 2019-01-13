@@ -13,6 +13,7 @@
             Public Const FileDirectory_SCode As String = "FILEDIR"
             Public Const ResponseType_SCode As String = "RESPONSETYPE"
             Public Const System_SCode As String = "SYSTEM"
+            Public Const Tracking_SCode As String = "TRACKING"
             Public Const Delimiter_SCode As String = "DELIMITER"
 
             Public Const EMRAssessmentType_SCode As String = "ASSESSMENTTYPE"
@@ -156,6 +157,11 @@
             Public Const SystemSetting_DBOHIS As String = "DBOHIS"
             Public Const SystemSetting_HISPHUNITID As String = "HISPHUNITID"
             Public Const SystemSetting_HISPHITEMID As String = "HISPHITEMID"
+        End Class
+
+        Public NotInheritable Class Tracking
+            Public Const Tracking_IN As String = "IN"
+            Public Const Tracking_RM As String = "RM"
         End Class
 
         Public NotInheritable Class FileDirectoryType

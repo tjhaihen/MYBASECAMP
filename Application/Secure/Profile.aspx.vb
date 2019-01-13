@@ -175,13 +175,15 @@ Namespace QIS.Web.Secure
         End Sub
 
         Private Sub SetDataGridProfileUnit()
-            Dim oPu As New Common.BussinessRules.ProfileUnit
-            grdUnit.DataSource = oPu.SelectUnitNotInProfileUnitByProfileIDDepartmentID(txtProfileID.Text.Trim, ddlDepartmentFilter.SelectedValue.Trim)
-            grdUnit.DataBind()
-            grdProfileUnit.DataSource = oPu.SelectUnitByProfileIDDepartmentID(txtProfileID.Text.Trim, ddlDepartmentFilter.SelectedValue.Trim)
-            grdProfileUnit.DataBind()
-            oPu.Dispose()
-            oPu = Nothing
+            If Common.Methods.GetCommonCode(Common.Constants.SystemSetting.SystemSetting_SYSEMR, Common.Constants.GroupCode.System_SCode).Trim = "1" Then
+                Dim oPu As New Common.BussinessRules.ProfileUnit
+                grdUnit.DataSource = oPu.SelectUnitNotInProfileUnitByProfileIDDepartmentID(txtProfileID.Text.Trim, ddlDepartmentFilter.SelectedValue.Trim)
+                grdUnit.DataBind()
+                grdProfileUnit.DataSource = oPu.SelectUnitByProfileIDDepartmentID(txtProfileID.Text.Trim, ddlDepartmentFilter.SelectedValue.Trim)
+                grdProfileUnit.DataBind()
+                oPu.Dispose()
+                oPu = Nothing
+            End If            
         End Sub
 #End Region
 

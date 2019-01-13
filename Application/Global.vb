@@ -292,6 +292,9 @@ Namespace QIS.Web
                     Dim oTbl As New Common.BussinessRules.CommonCode
                     oTbl.GroupCode = keyField.Trim
                     tblToApply = oTbl.SelectByGroupCode()
+                Case "EMRLocation"
+                    Dim oTbl As New Common.BussinessRules.EMRlocation
+                    tblToApply = oTbl.SelectAll()
                 Case Else
                     Dim oTbl As New Common.BussinessRules.CommonCode
                     oTbl.GroupCode = keyField.Trim
@@ -395,6 +398,9 @@ Namespace QIS.Web
                             Case "CommonCodeCode"
                                 _strText = Common.ProcessNull.GetString(rgRows(i - 1)("Caption"))
                                 _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("Code"))
+                            Case "EMRLocation"
+                                _strText = Common.ProcessNull.GetString(rgRows(i - 1)("LocationName"))
+                                _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("LocationCode"))
                             Case Else
                                 _strText = Common.ProcessNull.GetString(rgRows(i - 1)("Caption"))
                                 _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("Value"))
