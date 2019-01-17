@@ -41,12 +41,31 @@ Namespace QIS.Web.EMRTracking
             _openPatientData(txtMedicalNo.Text.Trim)            
         End Sub
 
+        Private Sub ibtnHistory_Click(sender As Object, e As System.Web.UI.ImageClickEventArgs) Handles ibtnHistory.Click
+            pnlHistory.Visible = True
+            pnlSummary.Visible = False
+        End Sub
+
+        Private Sub ibtnSummary_Click(sender As Object, e As System.Web.UI.ImageClickEventArgs) Handles ibtnSummary.Click
+            pnlHistory.Visible = False
+            pnlSummary.Visible = True
+            GetLocationGroup()
+        End Sub
+
         Protected Sub repLocationGroup_ItemDataBound(sender As Object, e As System.Web.UI.WebControls.RepeaterItemEventArgs)
             If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
                 Dim row As DataRowView = CType(e.Item.DataItem, DataRowView)
 
                 Dim pnlHEXColor As Panel = CType(e.Item.FindControl("pnlHEXColor"), Panel)
                 pnlHEXColor.BackColor = System.Drawing.ColorTranslator.FromHtml(row("HEXColorID").ToString.Trim)
+
+                Dim _lblTotalMRNCount As Label = CType(e.Item.FindControl("_lblTotalMRNCount"), Label)
+                Dim oBRSummary As New Common.BussinessRules.EMRTrackingHistory
+                If oBRSummary.SelectSummaryByLocationGroup(row("locationGroupCode").ToString.Trim).Rows.Count > 0 Then
+                    _lblTotalMRNCount.Text = oBRSummary.MRNCount.ToString.Trim
+                Else
+                    _lblTotalMRNCount.Text = "0"
+                End If
 
                 Dim oBR As New Common.BussinessRules.EMRTrackingHistory
                 Dim _grdLocation As DataGrid = CType(e.Item.FindControl("_grdLocation"), DataGrid)
@@ -55,6 +74,20 @@ Namespace QIS.Web.EMRTracking
                 oBR.Dispose()
                 oBR = Nothing
             End If
+        End Sub
+
+        Protected Sub _grdLocation_ItemCommand(sender As Object, e As System.Web.UI.WebControls.DataGridCommandEventArgs)
+            Select Case e.CommandName
+                Case "SelectByLocation"
+                    Dim _lbtnLocationName As LinkButton = CType(e.Item.FindControl("_lbtnLocationName"), LinkButton)
+                    lblLocationNameSelected.Text = _lbtnLocationName.Text.Trim
+                    Dim oBR As New Common.BussinessRules.EMRTrackingHistory
+                    oBR.LocationCode = _lbtnLocationName.ToolTip.Trim
+                    grdMRNByLocation.DataSource = oBR.SelectByLocation
+                    grdMRNByLocation.DataBind()
+                    oBR.Dispose()
+                    oBR = Nothing
+            End Select
         End Sub
 #End Region
 
@@ -69,6 +102,9 @@ Namespace QIS.Web.EMRTracking
         End Function
 
         Private Sub prepareScreen(ByVal isNew As Boolean)
+            pnlHistory.Visible = True
+            pnlSummary.Visible = False
+            lblLocationNameSelected.Text = String.Empty
             commonFunction.Focus(Me, txtMedicalNo.ClientID)
         End Sub
 
@@ -87,6 +123,16 @@ Namespace QIS.Web.EMRTracking
             repLocationGroup.DataBind()
             oBr.Dispose()
             oBr = Nothing
+
+            Dim oBrSummary As New Common.BussinessRules.EMRTrackingHistory
+            If oBrSummary.SelectSummary.Rows.Count > 0 Then
+                lblTotalMRN.Text = oBrSummary.TotalMRNCount.ToString.Trim
+                lblTotalMRNout.Text = oBrSummary.TotalMRNoutCount.ToString.Trim
+                lblLastMedicalNo.Text = oBrSummary.LastMedicalNo.Trim
+                lblLastPatientName.Text = oBrSummary.LastPatientName.Trim
+            End If
+            oBrSummary.Dispose()
+            oBrSummary = Nothing
         End Sub
 #End Region
 

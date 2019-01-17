@@ -186,6 +186,42 @@ Namespace QIS.Web.EMRTracking
         Protected WithEvents pnlSummary As Global.System.Web.UI.WebControls.Panel
 
         '''<summary>
+        '''lblTotalMRN control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalMRN As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalMRNout control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalMRNout As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblLastMedicalNo control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblLastMedicalNo As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblLastPatientName control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblLastPatientName As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''repLocationGroup control.
         '''</summary>
         '''<remarks>
@@ -193,6 +229,24 @@ Namespace QIS.Web.EMRTracking
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents repLocationGroup As Global.System.Web.UI.WebControls.Repeater
+
+        '''<summary>
+        '''lblLocationNameSelected control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblLocationNameSelected As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''grdMRNByLocation control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdMRNByLocation As Global.System.Web.UI.WebControls.DataGrid
 
         '''<summary>
         '''mdlCopyRight control.

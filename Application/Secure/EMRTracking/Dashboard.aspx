@@ -235,7 +235,28 @@
                                     </asp:Panel>
                                     <asp:Panel ID="pnlSummary" runat="server">
                                         <tr class="rbody">
-                                            <td valign="top" width="80%">
+                                            <td valign="top" width="100%" colspan="2">
+                                                <table cellspacing="5" cellpadding="2">
+                                                    <tr>
+                                                        <td style="width: 150; background-color: #ACE8DC;">
+                                                            <strong>Total Berkas:<br />
+                                                                <div class="Heading3"><asp:Label ID="lblTotalMRN" runat="server"></asp:Label></div></strong>
+                                                        </td>
+                                                        <td style="width: 150; background-color: #F8C1BA;">
+                                                            <strong>Total Berkas Keluar:<br />
+                                                                <div class="Heading3"><asp:Label ID="lblTotalMRNout" runat="server"></asp:Label></div></strong>
+                                                        </td>
+                                                        <td style="width: 250; background-color: #FAEBA6;">
+                                                            <strong>Nomor Rekam Medis terakhir:</strong><br />
+                                                                <asp:Label ID="lblLastMedicalNo" runat="server"></asp:Label><br />
+                                                                <asp:Label ID="lblLastPatientName" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr class="rbody">
+                                            <td valign="top" width="70%">
                                                 <asp:Repeater ID="repLocationGroup" runat="server" OnItemDataBound="repLocationGroup_ItemDataBound">
                                                     <HeaderTemplate>
                                                         <ul id="ulRepLocationGroup">
@@ -246,12 +267,14 @@
                                                                 <div class="Heading3">
                                                                     <%# DataBinder.Eval(Container.DataItem, "LocationGroupName")%>
                                                                 </div>
-                                                                <div class="Heading2">
-                                                                    <asp:Label ID="_lblTotalMRNCount" runat="server"></asp:Label>
+                                                                <div style="text-align: right; font-weight: bold;">
+                                                                    Total:&nbsp;<asp:Label ID="_lblTotalMRNCount" runat="server"></asp:Label>
                                                                 </div>
+                                                                <div class="hseparator"></div>
                                                                 <div>
-                                                                    <asp:DataGrid ID="_grdLocation" runat="server" BorderWidth="0" GridLines="Horizontal" Width="100%"
-                                                                        CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false" AutoGenerateColumns="false">
+                                                                    <asp:DataGrid ID="_grdLocation" runat="server" BorderWidth="0" GridLines="Horizontal"
+                                                                        Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
+                                                                        AutoGenerateColumns="false" OnItemCommand="_grdLocation_ItemCommand">
                                                                         <HeaderStyle HorizontalAlign="Left" />
                                                                         <ItemStyle />
                                                                         <AlternatingItemStyle />
@@ -259,17 +282,19 @@
                                                                         <Columns>
                                                                             <asp:TemplateColumn runat="server" HeaderText="Lokasi">
                                                                                 <ItemTemplate>
-                                                                                    <%# DataBinder.Eval(Container.DataItem, "locationName")%>
+                                                                                    <asp:LinkButton ID="_lbtnLocationName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "locationName")%>'
+                                                                                        ToolTip='<%# DataBinder.Eval(Container.DataItem, "locationCode")%>' CommandName="SelectByLocation"></asp:LinkButton>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateColumn>
-                                                                            <asp:TemplateColumn runat="server" HeaderText="#Berkas" HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right">
+                                                                            <asp:TemplateColumn runat="server" HeaderText="#Berkas" HeaderStyle-HorizontalAlign="Right"
+                                                                                ItemStyle-HorizontalAlign="Right">
                                                                                 <ItemTemplate>
                                                                                     <%# DataBinder.Eval(Container.DataItem, "MRNcount")%>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateColumn>
                                                                         </Columns>
                                                                     </asp:DataGrid>
-                                                                </div>
+                                                                </div>                                                                
                                                             </asp:Panel>
                                                         </li>
                                                     </ItemTemplate>
@@ -278,8 +303,54 @@
                                                     </FooterTemplate>
                                                 </asp:Repeater>
                                             </td>
-                                            <td>
-                                            
+                                            <td valign="top" width=20%">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <td>
+                                                            <b><asp:Label ID="lblLocationNameSelected" runat="server"></asp:Label></b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:DataGrid ID="grdMRNByLocation" runat="server" BorderWidth="0" GridLines="none"
+                                                                Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
+                                                                AutoGenerateColumns="false">
+                                                                <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
+                                                                <ItemStyle CssClass="gridItemStyle" />
+                                                                <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
+                                                                <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
+                                                                <Columns>
+                                                                    <asp:TemplateColumn runat="server" HeaderText="#" ItemStyle-VerticalAlign="Top">
+                                                                        <ItemTemplate>
+                                                                            <%# DataBinder.Eval(Container.DataItem, "RowNumber")%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateColumn>
+                                                                    <asp:TemplateColumn runat="server" HeaderText="Pasien" ItemStyle-VerticalAlign="Top">
+                                                                        <ItemTemplate>
+                                                                            <table cellpadding="0" cellspacing="0">
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <strong><%# DataBinder.Eval(Container.DataItem, "medicalNo")%></strong>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <%# DataBinder.Eval(Container.DataItem, "PatientName")%>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>                                                                            
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateColumn>
+                                                                    <asp:TemplateColumn runat="server" HeaderText="Petugas" ItemStyle-VerticalAlign="Top">
+                                                                        <ItemTemplate>
+                                                                            <%# DataBinder.Eval(Container.DataItem, "UserNameProcess")%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateColumn>
+                                                                </Columns>
+                                                            </asp:DataGrid>
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             </td>
                                         </tr>
                                     </asp:Panel>

@@ -21,6 +21,9 @@ Namespace QIS.Common.BussinessRules
         Private _cityOfBirth, _cfDateOfBirth, _sex, _bloodType, _bloodRhesus, _religion As String
         Private _streetName, _county, _district, _city, _zipCodeID, _phoneNo1, _phoneNo2, _mobilePhone1, _mobilePhone2 As String
         Private _currentLocationName As String
+
+        Private _MRNCount, _TotalMRNCount, _TotalMRNoutCount As Integer
+        Private _LastMedicalNo, _LastPatientName As String
 #End Region
 
         Public Sub New()
@@ -151,7 +154,7 @@ Namespace QIS.Common.BussinessRules
             cmdToExecute.Connection = _mainConnection
 
             Try
-                cmdToExecute.Parameters.AddWithValue("@MRN", _MRN)
+                cmdToExecute.Parameters.AddWithValue("@LocationCode", _locationCode)
 
                 ' // Open connection.
                 _mainConnection.Open()
@@ -189,6 +192,78 @@ Namespace QIS.Common.BussinessRules
 
                 ' // Execute query.
                 adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function SelectSummaryByLocationGroup(ByVal strLocationGroupCode As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spEMRSummayByLocationGroup"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spEMRSummayByLocationGroup")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@LocationGroupCode", strLocationGroupCode)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _locationGroupName = CType(toReturn.Rows(0)("locationGroupName"), String)
+                    _MRNCount = CType(toReturn.Rows(0)("MRNCount"), Integer)
+                End If
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function SelectSummary() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spEMRTrackingHistorySummary"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spEMRTrackingHistorySummary")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _TotalMRNCount = CType(toReturn.Rows(0)("TotalMRNCount"), Integer)
+                    _TotalMRNoutCount = CType(toReturn.Rows(0)("TotalMRNoutCount"), Integer)
+                    _LastMedicalNo = CType(toReturn.Rows(0)("LastMedicalNo"), String)
+                    _LastPatientName = CType(toReturn.Rows(0)("LastPatientName"), String)
+                End If
             Catch ex As Exception
                 ' // some error occured. Bubble it to caller and encapsulate Exception object
                 ExceptionManager.Publish(ex)
@@ -484,6 +559,51 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _currentLocationName = Value
+            End Set
+        End Property
+
+        Public Property [MRNCount]() As Integer
+            Get
+                Return _MRNCount
+            End Get
+            Set(ByVal Value As Integer)
+                _MRNCount = Value
+            End Set
+        End Property
+
+        Public Property [TotalMRNCount]() As Integer
+            Get
+                Return _TotalMRNCount
+            End Get
+            Set(ByVal Value As Integer)
+                _TotalMRNCount = Value
+            End Set
+        End Property
+
+        Public Property [TotalMRNoutCount]() As Integer
+            Get
+                Return _TotalMRNoutCount
+            End Get
+            Set(ByVal Value As Integer)
+                _TotalMRNoutCount = Value
+            End Set
+        End Property
+
+        Public Property [LastMedicalNo]() As String
+            Get
+                Return _LastMedicalNo
+            End Get
+            Set(ByVal Value As String)
+                _LastMedicalNo = Value
+            End Set
+        End Property
+
+        Public Property [LastPatientName]() As String
+            Get
+                Return _LastPatientName
+            End Get
+            Set(ByVal Value As String)
+                _LastPatientName = Value
             End Set
         End Property
 #End Region
