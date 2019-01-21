@@ -192,7 +192,7 @@
                                                                 <Columns>
                                                                     <asp:TemplateColumn runat="server" HeaderText="Tanggal dan Jam Mutasi">
                                                                         <ItemTemplate>
-                                                                            <%# Format(DataBinder.Eval(Container.DataItem, "processDate"), "dd-MMM-yyyy hh:mm")%>
+                                                                            <%# Format(DataBinder.Eval(Container.DataItem, "processDate"), "dd-MMM-yyyy HH:mm")%>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateColumn>
                                                                     <asp:TemplateColumn runat="server" HeaderText="Kelompok Lokasi">
