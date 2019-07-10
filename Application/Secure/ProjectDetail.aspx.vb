@@ -303,6 +303,7 @@ Namespace QIS.Web
                         .ReportCode = Common.Constants.ReportID.IssueTicketForm_ReportID
                         .AddParameters(_lbtnIssueID.Text.Trim)
                         .AddParameters(MyBase.LoggedOnUserID.Trim)
+                        '.UrlPrint(Context.Request.Url.Host)
                         Response.Write(.UrlPrintPreview(Context.Request.Url.Host))
                     End With
                     oRpt.Dispose()

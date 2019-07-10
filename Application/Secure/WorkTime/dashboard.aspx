@@ -48,9 +48,9 @@
 </head>
 <body>
     <form id="Form1" runat="server">
-    <table width="100%" cellpadding="2" cellspacing="0" style="height: 100%;">
+    <table width="100%" cellpadding="2" cellspacing="0">
         <tr>
-            <td width="100%" valign="top" colspan="3">
+            <td valign="top" style="width: 100%;">
                 <!-- BEGIN PAGE HEADER -->
                 <Module:RadMenu ID="RadMenu" runat="server" />
                 <!-- END PAGE HEADER -->
@@ -109,10 +109,12 @@
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <li>
-                                                        <asp:Panel ID="pnlHEXColor" runat="server" Width="100%" BackColor="#606060" ForeColor="#FFFFFF" CssClass="center" Visible='<%# DataBinder.Eval(Container.DataItem, "IsChecked")=0 %>'>
+                                                        <asp:Panel ID="pnlHEXColor" runat="server" Width="100%" BackColor="#606060" ForeColor="#FFFFFF"
+                                                            CssClass="center" Visible='<%# DataBinder.Eval(Container.DataItem, "IsChecked")=0 %>'>
                                                             <%# Left(Format(DataBinder.Eval(Container.DataItem, "DateInMonth"), "{0:dd/MM/yyyy}"),2) %>
                                                         </asp:Panel>
-                                                        <asp:Panel ID="pnlHEXColorFilled" runat="server" Width="100%" BackColor="#017BCD" ForeColor="#FFFFFF" CssClass="center" Visible='<%# DataBinder.Eval(Container.DataItem, "IsChecked") %>'>
+                                                        <asp:Panel ID="pnlHEXColorFilled" runat="server" Width="100%" BackColor="#017BCD"
+                                                            ForeColor="#FFFFFF" CssClass="center" Visible='<%# DataBinder.Eval(Container.DataItem, "IsChecked") %>'>
                                                             <%# Left(Format(DataBinder.Eval(Container.DataItem, "DateInMonth"), "{0:dd/MM/yyyy}"),2) %>
                                                         </asp:Panel>
                                                     </li>
@@ -131,7 +133,7 @@
             </td>
         </tr>
         <tr>
-            <td valign="bottom" colspan="3">
+            <td valign="bottom">
                 <!-- BEGIN PAGE FOOTER-->
                 <Module:Copyright ID="mdlCopyRight" runat="server" pathprefix=".."></Module:Copyright>
                 <!-- END PAGE FOOTER-->
