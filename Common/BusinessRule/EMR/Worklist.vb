@@ -467,6 +467,23 @@ Namespace QIS.Common.BussinessRules
                 End Try
             End Get
         End Property
+        Public ReadOnly Property [NewNoJO](ByVal Modul As String) As String
+            Get
+                Dim retval As String = ""
+                Try
+                    If Modul = "OUTPATIENT" Then
+                        retval = QIS.Basecamp.Common.Helper.GenerateTransactionNo(_mainConnection, QIS.Basecamp.Common.Constants.TransactionCode.ORDER_PENUNJANG_MEDIS_PASIEN_RJ, New SqlDateTime(DateTime.Now))
+                    ElseIf Modul = "EMERGENCY" Then
+                        retval = QIS.Basecamp.Common.Helper.GenerateTransactionNo(_mainConnection, QIS.Basecamp.Common.Constants.TransactionCode.ORDER_PENUNJANG_MEDIS_PASIEN_RD, New SqlDateTime(DateTime.Now))
+                    ElseIf "INPATIENT" Then
+                        retval = QIS.Basecamp.Common.Helper.GenerateTransactionNo(_mainConnection, QIS.Basecamp.Common.Constants.TransactionCode.ORDER_PENUNJANG_MEDIS_PASIEN_RI, New SqlDateTime(DateTime.Now))
+                    End If
+                Catch ex As Exception
+                    ExceptionManager.Publish(ex)
+                End Try
+                Return retval
+            End Get
+        End Property
 
         Public Property [OrderNo]() As String
             Get

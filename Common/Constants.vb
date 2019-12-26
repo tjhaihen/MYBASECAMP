@@ -160,6 +160,7 @@
             Public Const SystemSetting_DBOHIS As String = "DBOHIS"
             Public Const SystemSetting_HISPHUNITID As String = "HISPHUNITID"
             Public Const SystemSetting_HISPHITEMID As String = "HISPHITEMID"
+            Public Const SystemSetting_VERSIAPP As String = "VER"
         End Class
 
         Public NotInheritable Class Tracking

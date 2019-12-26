@@ -667,11 +667,11 @@ Namespace QIS.Web.EMR
             oBR.Dispose()
             oBR = Nothing
 
-            If DepartmentID.Trim = "OUTPATIENT" Then
-                RadTabStrip3.Tabs.Item(4).Visible = False
-            Else
-                RadTabStrip3.Tabs.Item(4).Visible = True
-            End If
+            'If DepartmentID.Trim = "OUTPATIENT" Then
+            '    RadTabStrip3.Tabs.Item(4).Visible = False
+            'Else
+            '    RadTabStrip3.Tabs.Item(4).Visible = True
+            'End If
 
             PrepareScreenPatientResume()
             PrepareScreenPatientIntervention()
@@ -912,7 +912,11 @@ Namespace QIS.Web.EMR
             Dim oBR2 As New Common.BussinessRules.Worklist
             With oBR2
                 '//Header
-                strOrderNoToReturn = .NewOrderNo()
+                If Common.Methods.GetCommonCode(Common.Constants.SystemSetting.SystemSetting_VERSIAPP, Common.Constants.GroupCode.System_SCode).Trim = "1" Then
+                    strOrderNoToReturn = .NewNoJO(ddlDepartmentFilter.SelectedValue.Trim)
+                Else
+                    strOrderNoToReturn = .NewOrderNo()
+                End If
                 .OrderNo = strOrderNoToReturn.Trim
 
                 .TransactionNo = lblPBTransactionNo.Text.Trim
