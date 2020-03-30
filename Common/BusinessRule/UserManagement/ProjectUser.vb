@@ -138,18 +138,39 @@ Namespace QIS.Common.BussinessRules
             Dim cmdToExecute As SqlCommand = New SqlCommand
             If IsAssignedOnly = False Then
                 cmdToExecute.CommandText = "SELECT DISTINCT pg.sequence, pg.projectGroupID, pg.projectGroupName " + _
+                                        "FROM ( " + _
+                                        "SELECT pg.sequence, pg.projectGroupID, pg.projectGroupName " + _
                                         "FROM projectUser up " + _
                                         "INNER JOIN Project p ON up.projectID=p.projectID " + _
                                         "INNER JOIN ProjectGroup pg ON p.projectGroupID=pg.projectGroupID " + _
                                         "WHERE up.UserID=@UserID " + _
+                                        "UNION ALL " + _
+                                        "SELECT pg.sequence, pg.projectGroupID, pg.projectGroupName " + _
+                                        "FROM userProfile up " + _
+                                        "INNER JOIN projectProfile pp ON up.profileID = pp.profileID " + _
+                                        "INNER JOIN Project p ON pp.projectID=p.projectID " + _
+                                        "INNER JOIN ProjectGroup pg ON p.projectGroupID=pg.projectGroupID " + _
+                                        "WHERE up.UserID=@UserID " + _
+                                        ") pg " + _
                                         "ORDER BY pg.sequence, pg.projectGroupID, pg.projectGroupName ASC"
             Else
                 cmdToExecute.CommandText = "SELECT DISTINCT pg.sequence, pg.projectGroupID, pg.projectGroupName " + _
+                                        "FROM ( " + _
+                                        "SELECT pg.sequence, pg.projectGroupID, pg.projectGroupName " + _
                                         "FROM projectUser up " + _
                                         "INNER JOIN Project p ON up.projectID=p.projectID " + _
                                         "INNER JOIN ProjectGroup pg ON p.projectGroupID=pg.projectGroupID " + _
                                         "WHERE up.UserID=@UserID AND up.projectID IN " + _
                                         "(SELECT DISTINCT projectID FROM Issue WHERE UserIDAssignedTo=@UserID) " + _
+                                        "UNION ALL " + _
+                                        "SELECT pg.sequence, pg.projectGroupID, pg.projectGroupName " + _
+                                        "FROM userProfile up " + _
+                                        "INNER JOIN projectProfile pp ON up.profileID = pp.profileID " + _
+                                        "INNER JOIN Project p ON pp.projectID=p.projectID " + _
+                                        "INNER JOIN ProjectGroup pg ON p.projectGroupID=pg.projectGroupID " + _
+                                        "WHERE up.UserID=@UserID AND pp.projectID IN " + _
+                                        "(SELECT DISTINCT projectID FROM Issue WHERE UserIDAssignedTo=@UserID) " + _
+                                        ") pg " + _
                                         "ORDER BY pg.sequence, pg.projectGroupID, pg.projectGroupName ASC"
             End If
             cmdToExecute.CommandType = CommandType.Text
@@ -183,10 +204,11 @@ Namespace QIS.Common.BussinessRules
         Public Function SelectProjectByProjectGroupID(ByVal ProjectGroupID As String, ByVal UserID As String, Optional ByVal IsAssignedOnly As Boolean = False) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             If IsAssignedOnly = False Then
-                cmdToExecute.CommandText = "SELECT b.* FROM ( " + _
+                cmdToExecute.CommandText = "SELECT DISTINCT b.* FROM ( " + _
                                         "SELECT a.*, progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
                                         "ELSE(100) END " + _
-                                        "FROM (SELECT up.*, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, " + _
+                                        "FROM (" + _
+                                        "SELECT up.projectUserID, up.projectID, up.userID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, " + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
                                         "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID), " + _
@@ -194,24 +216,58 @@ Namespace QIS.Common.BussinessRules
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode='003') " + _
                                         "FROM projectUser up " + _
                                         "INNER JOIN Project p ON up.projectID=p.projectID " + _
-                                        "WHERE p.projectGroupID=@projectGroupID AND up.UserID=@UserID) a) b " + _
-                                        "ORDER BY b.progress ASC"
-            Else
-                cmdToExecute.CommandText = "SELECT b.* FROM ( " + _
+                                        "WHERE p.projectGroupID=@projectGroupID AND up.UserID=@UserID) a " + _
+                                        "UNION ALL " + _
                                         "SELECT a.*, progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
                                         "ELSE(100) END " + _
-                                        "FROM (SELECT up.*, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, " + _
+                                        "FROM (" + _
+                                        "SELECT pp.projectProfileID, pp.projectID, pp.profileID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
+                                        "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
+                                        "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode<>'003'), " + _
+                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode='003') " + _
+                                        "FROM userProfile up " + _
+                                        "INNER JOIN projectProfile pp ON up.ProfileID = pp.ProfileID " + _
+                                        "INNER JOIN Project p ON pp.projectID=p.projectID " + _
+                                        "WHERE p.projectGroupID=@projectGroupID AND up.UserID=@UserID) a " + _
+                                        ") b " + _
+                                        "ORDER BY b.progress ASC"
+            Else
+                cmdToExecute.CommandText = "SELECT DISTINCT b.* FROM ( " + _
+                                        "SELECT a.*, progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(100) END " + _
+                                        "FROM (" + _
+                                        "SELECT up.projectUserID, up.projectID, up.userID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, " + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
                                         "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode<>'003' AND UserIDAssignedTo=@UserID), " + _
-                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode='003' AND UserIDAssignedTo=@UserID) " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode<>'003'), " + _
+                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='003') " + _
                                         "FROM projectUser up " + _
-                                        "INNER JOIN Project p ON up.projectID=p.projectID AND up.projectID IN " + _
+                                        "INNER JOIN Project p ON up.projectID=p.projectID " + _
+                                        "WHERE p.projectGroupID=@projectGroupID AND up.UserID=@UserID AND up.projectID IN " + _
                                         "(SELECT DISTINCT projectID FROM Issue WHERE UserIDAssignedTo=@UserID) " + _
-                                        "WHERE p.projectGroupID=@projectGroupID AND up.UserID=@UserID) a) b " + _
+                                        ") a " + _
+                                        "UNION ALL " + _
+                                        "SELECT a.*, progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(100) END " + _
+                                        "FROM (" + _
+                                        "SELECT pp.projectProfileID, pp.projectID, pp.profileID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
+                                        "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
+                                        "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode<>'003'), " + _
+                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='003') " + _
+                                        "FROM userProfile up " + _
+                                        "INNER JOIN projectProfile pp ON up.ProfileID = pp.ProfileID " + _
+                                        "INNER JOIN Project p ON pp.projectID=p.projectID " + _
+                                        "WHERE p.projectGroupID=@projectGroupID AND up.UserID=@UserID AND pp.projectID IN " + _
+                                        "(SELECT DISTINCT projectID FROM Issue WHERE UserIDAssignedTo=@UserID) " + _
+                                        ") a " + _
+                                        ") b " + _
                                         "ORDER BY b.progress ASC"
-            End If            
+            End If
             cmdToExecute.CommandType = CommandType.Text
             Dim toReturn As DataTable = New DataTable("projectByProjectGroupID")
             Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)

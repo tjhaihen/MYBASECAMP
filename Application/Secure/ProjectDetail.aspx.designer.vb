@@ -591,6 +591,33 @@ Namespace QIS.Web
         Protected WithEvents Response_chkIsShared As Global.System.Web.UI.WebControls.CheckBox
 
         '''<summary>
+        '''Response_ddlIssueStatus control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_ddlIssueStatus As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''Response_chkIsUpdateStatus control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_chkIsUpdateStatus As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''Response_ddlIssueConfirmStatus control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_ddlIssueConfirmStatus As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
         '''Response_btnSaveAndNew control.
         '''</summary>
         '''<remarks>

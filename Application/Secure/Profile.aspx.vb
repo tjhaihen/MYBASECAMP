@@ -72,6 +72,24 @@ Namespace QIS.Web.Secure
         End Sub
 #End Region
 
+#Region " Profile Project "
+        Private Sub btnProfileProjectAdd_Click(sender As Object, e As System.EventArgs) Handles btnProfileProjectAdd.Click
+            _updateProfileProject(False)
+        End Sub
+
+        Private Sub btnProfileProjectAddAll_Click(sender As Object, e As System.EventArgs) Handles btnProfileProjectAddAll.Click
+            _updateProfileProject(True)
+        End Sub
+
+        Private Sub btnProfileProjectRemove_Click(sender As Object, e As System.EventArgs) Handles btnProfileProjectRemove.Click
+            _deleteProfileProject(False)
+        End Sub
+
+        Private Sub btnProfileProjectRemoveAll_Click(sender As Object, e As System.EventArgs) Handles btnProfileProjectRemoveAll.Click
+            _deleteProfileProject(True)
+        End Sub
+#End Region
+
 #Region " Profile Unit "
         Private Sub btnProfileUnitAdd_Click(sender As Object, e As System.EventArgs) Handles btnProfileUnitAdd.Click
             _updateProfileUnit(False)
@@ -141,6 +159,7 @@ Namespace QIS.Web.Secure
             SetEnableButton(False)
             SetDataGridProfile()
             SetDataGridProfileMenu()
+            SetDataGridProfileProject()
             SetDataGridProfileUnit()
         End Sub
 
@@ -170,6 +189,16 @@ Namespace QIS.Web.Secure
             grdMenu.DataBind()
             grdProfileMenu.DataSource = oPr.SelectMenuByProfileID(txtProfileID.Text.Trim)
             grdProfileMenu.DataBind()
+            oPr.Dispose()
+            oPr = Nothing
+        End Sub
+
+        Private Sub SetDataGridProfileProject()
+            Dim oPr As New Common.BussinessRules.ProjectProfile
+            grdProject.DataSource = oPr.SelectProjectNotInUserProjectByUserID(txtProfileID.Text.Trim)
+            grdProject.DataBind()
+            grdProjectProfile.DataSource = oPr.SelectProjectByProfileID(txtProfileID.Text.Trim)
+            grdProjectProfile.DataBind()
             oPr.Dispose()
             oPr = Nothing
         End Sub
@@ -208,6 +237,7 @@ Namespace QIS.Web.Secure
             oProd = Nothing
 
             SetDataGridProfileMenu()
+            SetDataGridProfileProject()
             SetDataGridProfileUnit()
         End Sub
 
@@ -251,6 +281,26 @@ Namespace QIS.Web.Secure
             oPr = Nothing
 
             SetDataGridProfileMenu()
+        End Sub
+
+        Private Sub _deleteProfileProject(ByVal isRemoveAll As Boolean)
+            Dim oPr As New Common.BussinessRules.ProjectProfile
+            With oPr
+                For Each item As DataGridItem In grdProjectProfile.Items
+                    Dim chkSelect As CheckBox = CType(item.FindControl("chkSelect"), CheckBox)
+                    Dim lblProjectProfileID As Label = CType(item.FindControl("_lblProjectProfileID"), Label)
+                    .ProjectProfileID = lblProjectProfileID.Text.Trim
+                    If isRemoveAll Then
+                        .Delete()
+                    Else
+                        If chkSelect.Checked Then .Delete()
+                    End If
+                Next
+            End With
+            oPr.Dispose()
+            oPr = Nothing
+
+            SetDataGridProfileProject()
         End Sub
 
         Private Sub _deleteProfileUnit(ByVal isRemoveAll As Boolean)
@@ -337,6 +387,27 @@ Namespace QIS.Web.Secure
             oPr.Dispose()
             oPr = Nothing
             SetDataGridProfileMenu()
+        End Sub
+
+        Private Sub _updateProfileProject(ByVal isAddAll As Boolean)
+            Dim oPr As New Common.BussinessRules.ProjectProfile
+            With oPr
+                For Each item As DataGridItem In grdProject.Items
+                    Dim chkSelect As CheckBox = CType(item.FindControl("chkSelect"), CheckBox)
+                    Dim lblProjectID As Label = CType(item.FindControl("_lblProjectID"), Label)
+                    .ProfileID = txtProfileID.Text.Trim
+                    .ProjectID = lblProjectID.Text.Trim
+                    If isAddAll Then
+                        .Insert()
+                    Else
+                        If chkSelect.Checked Then .Insert()
+                    End If
+                Next
+            End With
+            oPr.Dispose()
+            oPr = Nothing
+
+            SetDataGridProfileProject()
         End Sub
 
         Private Sub _updateProfileUnit(ByVal isAddAll As Boolean)

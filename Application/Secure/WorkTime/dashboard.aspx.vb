@@ -46,12 +46,12 @@ Namespace QIS.Web.WorkTime
             End If
         End Sub
 
-        Private Sub ddlMonth_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlMonth.SelectedIndexChanged
+        Private Sub txtYear_TextChanged(sender As Object, e As System.EventArgs) Handles txtYear.TextChanged
             UpdateViewGridActivePeople()
         End Sub
 
-        Private Sub txtYear_TextChanged(sender As Object, e As System.EventArgs) Handles txtYear.TextChanged
-            GetDateInMonth()
+        Private Sub ddlMonth_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlMonth.SelectedIndexChanged
+            UpdateViewGridActivePeople()
         End Sub
 
         Private Sub grdActivePeople_ItemDataBound(sender As Object, e As System.Web.UI.WebControls.DataGridItemEventArgs) Handles grdActivePeople.ItemDataBound
@@ -73,18 +73,32 @@ Namespace QIS.Web.WorkTime
                 .VisibleButton(CSSToolbarItem.tidNew) = False
                 .VisibleButton(CSSToolbarItem.tidSave) = False
                 .VisibleButton(CSSToolbarItem.tidDelete) = False
+                .VisibleButton(CSSToolbarItem.tidApprove) = False
                 .VisibleButton(CSSToolbarItem.tidVoid) = False
                 .VisibleButton(CSSToolbarItem.tidPrint) = False
                 .VisibleButton(CSSToolbarItem.tidPrevious) = False
                 .VisibleButton(CSSToolbarItem.tidNext) = False
                 .VisibleButton(CSSToolbarItem.tidRefresh) = True
+                .VisibleButton(CSSToolbarItem.tidDownload) = True
             End With
         End Sub
 
         Private Sub mdlToolbar_commandBarClick(ByVal sender As Object, ByVal e As CSSToolbarItem) Handles CSSToolbar.CSSToolbarItemClick
             Select Case e
                 Case CSSToolbarItem.tidRefresh
+                    UpdateViewGridActivePeople()
 
+                Case CSSToolbarItem.tidDownload
+                    Dim oRPT As New Common.BussinessRules.MyReport
+                    oRPT.AddParameters(txtYear.Text.Trim)
+                    oRPT.AddParameters(ddlMonth.SelectedValue.Trim)
+                    oRPT.ReportCode = Common.Constants.ReportID.Worktime_ReportID
+                    oRPT.GetReportDataByReportCode()
+                    If oRPT.ReportFormat = "XLS" Then
+                        oRPT.ExportToExcel(oRPT.generateReportDataTable, Response)
+                    End If
+                    oRPT.Dispose()
+                    oRPT = Nothing
             End Select
         End Sub
 #End Region
@@ -101,20 +115,12 @@ Namespace QIS.Web.WorkTime
         Private Sub PrepareScreen()
             txtYear.Text = Date.Today.Year.ToString.Trim
             ddlMonth.SelectedValue = Date.Today.Month.ToString.Trim
-            GetDateInMonth()
             UpdateViewGridActivePeople()
-        End Sub
-
-        Private Sub GetDateInMonth()
-            Dim oPU As New Common.BussinessRules.Utility
-            
-            oPU.Dispose()
-            oPU = Nothing
         End Sub
 
         Private Sub UpdateViewGridActivePeople()
             Dim oRsrc As New Common.BussinessRules.User
-            grdActivePeople.DataSource = oRsrc.SelectActiveUserPerson
+            grdActivePeople.DataSource = oRsrc.SelectActiveUserPerson(txtYear.Text.Trim, ddlMonth.SelectedValue.Trim)
             grdActivePeople.DataBind()
             oRsrc.Dispose()
             oRsrc = Nothing
@@ -124,6 +130,7 @@ Namespace QIS.Web.WorkTime
 #Region " C,R,U,D "
         
 #End Region
+
     End Class
 
 End Namespace

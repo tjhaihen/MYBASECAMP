@@ -155,6 +155,7 @@
     <Compile Include="BusinessRule\UserManagement\Profile.vb" />
     <Compile Include="BusinessRule\UserManagement\ProfileMenu.vb" />
     <Compile Include="BusinessRule\UserManagement\ProfileUnit.vb" />
+    <Compile Include="BusinessRule\UserManagement\ProjectProfile.vb" />
     <Compile Include="BusinessRule\UserManagement\ProjectUser.vb" />
     <Compile Include="BusinessRule\UserManagement\Site.vb" />
     <Compile Include="BusinessRule\UserManagement\User.vb" />

@@ -382,7 +382,7 @@ Namespace QIS.Common.BussinessRules
             End Try
         End Function
 
-        Public Function SelectActiveUserPerson() As DataTable
+        Public Function SelectActiveUserPerson(ByVal strYear As String, ByVal strMonth As String) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "SELECT u.userID, u.userName, u.password, u.authorizePassword, u.isActive, " & _
                                         "p.salutation, p.firstName, p.middleName, p.lastName, p.academicTitle, " & _
@@ -392,11 +392,16 @@ Namespace QIS.Common.BussinessRules
                                         "(SELECT caption FROM CommonCode WHERE groupCode='SEX' AND code=p.sexSCode) AS SexName, " & _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='SEX' AND code=p.genderSCode) AS GenderName, " & _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='RELIGION' AND code=p.religionSCode) AS ReligionName, " & _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='NATIONALITY' AND code=p.nationalitySCode) AS NationalityName " & _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='NATIONALITY' AND code=p.nationalitySCode) AS NationalityName, " & _
+                                        "(SELECT SUM(worktimeInHour) FROM worktimeDt d INNER JOIN worktimeHd h ON d.worktimeHdID = h.worktimeHdID " & _
+                                            "WHERE h.userID = u.userID AND h.IsSubmitted = 1 " & _
+                                            "AND CONVERT(VARCHAR(6),h.worktimeDate,112) = @Year + RIGHT('0' + @Month,2)) AS TotalSumWorktime, " & _
+                                        "(SELECT COUNT(worktimeHdID) FROM worktimeHd h WHERE h.userID = u.userID AND h.IsSubmitted = 1 " & _
+                                            "AND CONVERT(VARCHAR(6),h.worktimeDate,112) = @Year + RIGHT('0' + @Month,2)) AS TotalCountWorktime " & _
                                         "FROM [User] u " & _
                                         "INNER JOIN Person p ON u.PersonID=p.PersonID " & _
                                         "WHERE u.IsActive = 1 " & _
-                                        "ORDER BY u.Username"
+                                        "ORDER BY p.firstName"
             cmdToExecute.CommandType = CommandType.Text
             Dim toReturn As DataTable = New DataTable("User")
             Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
@@ -405,6 +410,9 @@ Namespace QIS.Common.BussinessRules
             cmdToExecute.Connection = _mainConnection
 
             Try
+                cmdToExecute.Parameters.AddWithValue("@Year", strYear)
+                cmdToExecute.Parameters.AddWithValue("@Month", strMonth)
+
                 ' // Open connection.
                 _mainConnection.Open()
 

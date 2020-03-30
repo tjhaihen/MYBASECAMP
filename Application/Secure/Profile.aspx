@@ -166,6 +166,153 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td class="hseparator" style="width: 100%;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="Heading1">
+                                            Profile Project
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="hseparator" style="width: 100%;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 100%;">
+                                            <table width="100%" cellspacing="1">
+                                                <tr>
+                                                    <td valign="top" style="width: 40%;">
+                                                        <asp:DataGrid ID="grdProject" runat="server" BorderWidth="0" GridLines="None" Width="100%"
+                                                            CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false" AutoGenerateColumns="false">
+                                                            <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
+                                                            <ItemStyle CssClass="gridItemStyle" />
+                                                            <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
+                                                            <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
+                                                            <Columns>
+                                                                <asp:TemplateColumn runat="server" ItemStyle-Width="50">
+                                                                    <ItemTemplate>
+                                                                        <asp:CheckBox ID="chkSelect" runat="server" />
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                                <asp:TemplateColumn runat="server" HeaderText="Project Name">
+                                                                    <ItemTemplate>
+                                                                        <asp:Label runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "ProjectID") %>'
+                                                                            ID="_lblProjectID" Visible="false" />
+                                                                        <%# DataBinder.Eval(Container.DataItem, "ProjectName")%>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                            </Columns>
+                                                        </asp:DataGrid>
+                                                    </td>
+                                                    <td valign="top" class="center">
+                                                        <asp:Button ID="btnProfileProjectAdd" runat="server" Text="Add >" CssClass="sbttn" Width="100px" /><br />
+                                                        <asp:Button ID="btnProfileProjectAddAll" runat="server" Text="Add All >>" CssClass="sbttn"
+                                                            Width="100px" /><br />
+                                                        <br />
+                                                        <asp:Button ID="btnProfileProjectRemoveAll" runat="server" Text="<< Remove All" CssClass="sbttn"
+                                                            Width="100px" /><br />
+                                                        <asp:Button ID="btnProfileProjectRemove" runat="server" Text="< Remove" CssClass="sbttn"
+                                                            Width="100px" />
+                                                    </td>
+                                                    <td valign="top" style="width: 40%;">
+                                                        <asp:DataGrid ID="grdProjectProfile" runat="server" BorderWidth="0" GridLines="None"
+                                                            Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
+                                                            AutoGenerateColumns="false">
+                                                            <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
+                                                            <ItemStyle CssClass="gridItemStyle" />
+                                                            <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
+                                                            <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
+                                                            <Columns>
+                                                                <asp:TemplateColumn runat="server" ItemStyle-Width="50">
+                                                                    <ItemTemplate>
+                                                                        <asp:CheckBox ID="chkSelect" runat="server" />
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                                <asp:TemplateColumn runat="server" HeaderText="Project Name">
+                                                                    <ItemTemplate>
+                                                                        <asp:Label runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "projectProfileID") %>'
+                                                                            ID="_lblProjectProfileID" Visible="false" />
+                                                                        <%# DataBinder.Eval(Container.DataItem, "ProjectName") %>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                            </Columns>
+                                                        </asp:DataGrid>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="hseparator" style="width: 100%;">
+                                        </td>
+                                    </tr>
+                                    <tr class="rbody">
+                                        <td valign="top">
+                                            <asp:DataGrid ID="grdUser" runat="server" BorderWidth="0" GridLines="None" Width="100%"
+                                                CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false" AutoGenerateColumns="false">
+                                                <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
+                                                <ItemStyle CssClass="gridItemStyle" />
+                                                <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
+                                                <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
+                                                <Columns>
+                                                    <asp:TemplateColumn runat="server" ItemStyle-Width="50">
+                                                        <ItemTemplate>
+                                                            <asp:ImageButton ID="_ibtnEdit" runat="server" ImageUrl="/qistoollib/images/edit.png"
+                                                                ImageAlign="AbsMiddle" CommandName="Edit" CausesValidation="false" />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateColumn>
+                                                    <asp:TemplateColumn runat="server" HeaderText="Username">
+                                                        <ItemTemplate>
+                                                            <asp:Label runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Username") %>'
+                                                                ID="_lblUsername" />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateColumn>
+                                                    <asp:TemplateColumn runat="server" HeaderText="Fisrt Name">
+                                                        <ItemTemplate>
+                                                            <%# DataBinder.Eval(Container.DataItem, "FirstName") %>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateColumn>
+                                                    <asp:TemplateColumn runat="server" HeaderText="Middle Name">
+                                                        <ItemTemplate>
+                                                            <%# DataBinder.Eval(Container.DataItem, "MiddleName") %>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateColumn>
+                                                    <asp:TemplateColumn runat="server" HeaderText="Last Name">
+                                                        <ItemTemplate>
+                                                            <%# DataBinder.Eval(Container.DataItem, "LastName") %>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateColumn>
+                                                    <asp:TemplateColumn runat="server" HeaderText="Gender">
+                                                        <ItemTemplate>
+                                                            <%# DataBinder.Eval(Container.DataItem, "GenderName") %>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateColumn>
+                                                    <asp:TemplateColumn runat="server" HeaderText="Phone">
+                                                        <ItemTemplate>
+                                                            <%# DataBinder.Eval(Container.DataItem, "Phone")%>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateColumn>
+                                                    <asp:TemplateColumn runat="server" HeaderText="Mobile">
+                                                        <ItemTemplate>
+                                                            <%# DataBinder.Eval(Container.DataItem, "Mobile") %>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateColumn>
+                                                    <asp:TemplateColumn runat="server" HeaderText="Is Active?">
+                                                        <ItemTemplate>
+                                                            <asp:CheckBox ID="_chkIsActive" runat="server" Checked='<%# DataBinder.Eval(Container.DataItem, "IsActive") %>'
+                                                                Enabled="false" />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateColumn>
+                                                </Columns>
+                                            </asp:DataGrid>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="hseparator" style="width: 100%;">
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td class="Heading1">
                                             Profile Unit
                                         </td>

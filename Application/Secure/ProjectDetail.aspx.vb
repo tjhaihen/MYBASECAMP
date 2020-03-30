@@ -445,6 +445,8 @@ Namespace QIS.Web
             commonFunction.SetDDL_Table(ddlIssuePriority, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, True, "Not Set")
             commonFunction.SetDDL_Table(ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, True, "Not Set")
             commonFunction.SetDDL_Table(Response_ddlResponseType, "CommonCode", Common.Constants.GroupCode.ResponseType_SCode, False)
+            commonFunction.SetDDL_Table(Response_ddlIssueStatus, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "Not Set")
+            commonFunction.SetDDL_Table(Response_ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, True, "Not Set")
             commonFunction.SetDDL_Table(ddlUserIDAssignedTo, "User", String.Empty, True, "Not Set")
         End Sub
 
@@ -645,9 +647,13 @@ Namespace QIS.Web
                 If .SelectOne.Rows.Count > 0 Then
                     Response_lblDepartmentName.Text = .DepartmentName.Trim
                     Response_lblIssueDescription.Text = .IssueDescription.Trim
+                    Response_ddlIssueStatus.SelectedValue = .IssueStatusSCode.Trim
+                    Response_ddlIssueConfirmStatus.SelectedValue = .IssueConfirmStatusSCode.Trim
                 Else
                     Response_lblDepartmentName.Text = String.Empty
                     Response_lblIssueDescription.Text = String.Empty
+                    Response_ddlIssueStatus.SelectedIndex = 0
+                    Response_ddlIssueConfirmStatus.SelectedIndex = 0
                 End If
             End With
             oBR.Dispose()
@@ -698,6 +704,19 @@ Namespace QIS.Web
             oBR = Nothing
         End Sub
 
+        Private Sub _updateIssueStatus(ByVal IssueID As String)
+            Dim oBR As New Common.BussinessRules.Issue
+            With oBR
+                .IssueID = IssueID.Trim
+                .IssueStatusSCode = Response_ddlIssueStatus.SelectedValue.Trim
+                .IssueConfirmStatusSCode = Response_ddlIssueConfirmStatus.SelectedValue.Trim
+                .userIDupdate = MyBase.LoggedOnUserID.Trim
+                .UpdateStatus()
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
         Private Sub _updateIssueResponse()
             Page.Validate()
             If Not Page.IsValid Then Exit Sub
@@ -718,10 +737,13 @@ Namespace QIS.Web
                 .userIDupdate = MyBase.LoggedOnUserID.Trim
                 If fNew Then
                     If .Insert() Then
+                        _updateIssueStatus(Response_lblIssueID.Text.Trim)
                         Response_lblResponseID.Text = .ResponseID.Trim
                     End If
                 Else
-                    .Update()
+                    If .Update() Then
+                        _updateIssueStatus(Response_lblIssueID.Text.Trim)
+                    End If
                 End If
             End With
             oBR.Dispose()

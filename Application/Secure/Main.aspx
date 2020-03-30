@@ -30,9 +30,9 @@
             display: inline-block; /* FF3.6; Chrome10+ */                     
             *display: inline;
             background: #eeeeee;
-            width: 280px;
+            width: 300px;
             height: 150px;
-            margin: 5px;
+            margin: 3px;
         }
         #ulRepProjectGroup
         {
@@ -252,12 +252,12 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>
+                                                                        <td class="txtlessstrong">
                                                                             <%# DataBinder.Eval(Container.DataItem, "ProjectName") %>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td class="txtlessstrong" colspan="2">
+                                                                        <td class="txtweak" colspan="2">
                                                                             <%# DataBinder.Eval(Container.DataItem, "ProjectDescription") %>
                                                                         </td>
                                                                     </tr>

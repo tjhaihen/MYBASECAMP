@@ -55,7 +55,7 @@
         <tr>
             <td width="100%" valign="top" colspan="3">
                 <!-- BEGIN PAGE HEADER -->
-                <Module:RadMenu ID="RadMenu" runat="server" />
+                <module:radmenu id="RadMenu" runat="server" />
                 <!-- END PAGE HEADER -->
             </td>
         </tr>
@@ -140,7 +140,7 @@
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <Module:CSSToolbar ID="CSSToolbar" runat="server"></Module:CSSToolbar>
+                                                    <module:csstoolbar id="CSSToolbar" runat="server"></module:csstoolbar>
                                                 </td>
                                             </tr>
                                         </table>
@@ -296,7 +296,7 @@
                                                         Reported Date
                                                     </td>
                                                     <td style="background: #ffffff;">
-                                                        <Module:Calendar ID="calReportedDate" runat="server" DontResetDate="true" />
+                                                        <module:calendar id="calReportedDate" runat="server" dontresetdate="true" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -329,9 +329,9 @@
                                                         <asp:DropDownList ID="ddlIssuePriority" runat="server" Width="200">
                                                         </asp:DropDownList>
                                                     </td>
-                                                    <td style="width: 120; background: #ffffff;" class="right">
+                                                    <td style="width: 100; background: #ffffff;" class="right">
                                                     </td>
-                                                    <td style="background: #ffffff;">
+                                                    <td style="width: 140; background: #ffffff;">
                                                         <asp:CheckBox ID="chkIsUrgent" runat="server" Text="Urgent Issue" ForeColor="Red" />
                                                     </td>
                                                 </tr>
@@ -343,11 +343,11 @@
                                                         <asp:DropDownList ID="ddlUserIDAssignedTo" runat="server" Width="200">
                                                         </asp:DropDownList>
                                                     </td>
-                                                    <td style="width: 120; background: #ffffff;" class="right">
+                                                    <td style="width: 100; background: #ffffff;" class="right">
                                                         Target Date
                                                     </td>
-                                                    <td style="background: #ffffff;">
-                                                        <Module:Calendar ID="calTargetDate" runat="server" DontResetDate="true" />
+                                                    <td style="width: 140; background: #ffffff;">
+                                                        <module:calendar id="calTargetDate" runat="server" dontresetdate="true" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -547,7 +547,7 @@
                                                         Response Date
                                                     </td>
                                                     <td style="background: #ffffff;">
-                                                        <Module:Calendar ID="Response_calResponseDate" runat="server" DontResetDate="true" />
+                                                        <module:calendar id="Response_calResponseDate" runat="server" dontresetdate="true" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -555,8 +555,8 @@
                                                         Time Start
                                                     </td>
                                                     <td style="background: #ffffff;">
-                                                        <ew:MaskedTextBox ID="Response_txtResponseTimeStart" runat="server" Width="100">
-                                                        </ew:MaskedTextBox>
+                                                        <ew:maskedtextbox id="Response_txtResponseTimeStart" runat="server" width="100">
+                                                        </ew:maskedtextbox>
                                                         &nbsp;&nbsp;Duration
                                                         <asp:TextBox ID="Response_txtResponseDuration" runat="server" Width="60"></asp:TextBox>
                                                         Minutes
@@ -599,7 +599,30 @@
                                         <td style="width: 50%;" valign="top">
                                             <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                                 <tr>
-                                                    <td colspan="2">
+                                                    <td class="right" style="background: #ffffff;">
+                                                        Issue Status
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:DropDownList ID="Response_ddlIssueStatus" runat="server" Width="200">
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                    <td style="width: 200px; background: #ffffff;">
+                                                        <asp:CheckBox ID="Response_chkIsUpdateStatus" runat="server" Text="Update Issue & Confirm Status upon saving?" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #ffffff;">
+                                                        Confirmed?
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:DropDownList ID="Response_ddlIssueConfirmStatus" runat="server" Width="200">
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3">
                                                         <asp:Button ID="Response_btnSaveAndNew" runat="server" Text="Save & New" CssClass="sbttn"
                                                             Width="100" />
                                                         <asp:Button ID="Response_btnSaveAndClose" runat="server" Text="Save & Close" CssClass="sbttn"
@@ -714,7 +737,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="txtweak">
+                                                    <td class="txtlessstrong">
                                                         Response(s):
                                                         <%# DataBinder.Eval(Container.DataItem, "totalResponse")%>
                                                     </td>
@@ -770,7 +793,7 @@
                                             <div>
                                                 <%# DataBinder.Eval(Container.DataItem, "userNameAssignedTo")%>
                                                 <br />
-                                                Target:&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "targetDate"), "dd-MMM-yyyy")%></div>                                            
+                                                <div class="txtweak">Target Date:<br /><%# Format(DataBinder.Eval(Container.DataItem, "targetDate"), "dd-MMM-yyyy")%></div>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Status" ItemStyle-Width="80">
@@ -793,7 +816,7 @@
         <tr>
             <td valign="bottom" colspan="3">
                 <!-- BEGIN PAGE FOOTER-->
-                <Module:Copyright ID="mdlCopyRight" runat="server" pathprefix=".."></Module:Copyright>
+                <module:copyright id="mdlCopyRight" runat="server" pathprefix=".."></module:copyright>
                 <!-- END PAGE FOOTER-->
             </td>
         </tr>
