@@ -704,7 +704,7 @@ Namespace QIS.Web.EMR
                     ddlJenisAlergi.SelectedValue = .GCJenisAlergi.Trim
                     txtReaksiAlergi.Text = .ReaksiAlergi.Trim
                     ddlKesadaran.SelectedValue = .GCKesadaran.Trim
-                    txtttvTekananDarah.Text = .ttvTekananDarah.ToString.Trim
+                    txtttvTekananDarah.Text = .ttvTekananDarah.Trim
                     txtttvNadi.Text = .ttvNadi.ToString.Trim
                     ddlttvNadiDenyut.SelectedValue = .GCttvNadiDenyut.Trim
                     txtttvSuhu.Text = .ttvSuhu.ToString.Trim
@@ -822,8 +822,8 @@ Namespace QIS.Web.EMR
                     txtDeathTime.Text = .DeathTime.Trim
                     calTglDisposisi.selectedDate = .TglDisposisi
                     txtJamDisposisi.Text = .JamDisposisi.Trim
-                    ddlKdnKlr.SelectedValue = .KeadaanKeluar.Trim
-                    ddlCrKlr.SelectedValue = .CaraKeluar.Trim
+                    ddlKdnKlr.SelectedItem.Value = .KeadaanKeluar.Trim
+                    ddlCrKlr.SelectedItem.Value = .CaraKeluar.Trim
                 Else
                     calTglDisposisi.selectedDate = Date.Now
                     txtJamDisposisi.Text = Format(Date.Now, commonFunction.FORMAT_TIME)
@@ -940,7 +940,7 @@ Namespace QIS.Web.EMR
                 .GCJenisAlergi = ddlJenisAlergi.SelectedValue.Trim
                 .ReaksiAlergi = txtReaksiAlergi.Text.Trim
                 .GCKesadaran = ddlKesadaran.SelectedValue.Trim
-                .ttvTekananDarah = CDec(IIf(IsNumeric(txtttvTekananDarah.Text.Trim) = True, CDec(txtttvTekananDarah.Text.Trim), 0).ToString.Trim)
+                .ttvTekananDarah = txtttvTekananDarah.Text.Trim 'CDec(IIf(IsNumeric(txtttvTekananDarah.Text.Trim) = True, CDec(txtttvTekananDarah.Text.Trim), 0).ToString.Trim)
                 .ttvNadi = CDec(IIf(IsNumeric(txtttvNadi.Text.Trim) = True, CDec(txtttvNadi.Text.Trim), 0).ToString.Trim)
                 .GCttvNadiDenyut = ddlttvNadiDenyut.SelectedValue.Trim
                 .ttvSuhu = CDec(IIf(IsNumeric(txtttvSuhu.Text.Trim) = True, CDec(txtttvSuhu.Text.Trim), 0).ToString.Trim)
@@ -1059,7 +1059,7 @@ Namespace QIS.Web.EMR
                 .GCJenisAlergi = ddlJenisAlergi.SelectedValue.Trim
                 .ReaksiAlergi = txtReaksiAlergi.Text.Trim
                 .GCKesadaran = ddlKesadaran.SelectedValue.Trim
-                .ttvTekananDarah = CDec(IIf(IsNumeric(txtttvTekananDarah.Text.Trim) = True, CDec(txtttvTekananDarah.Text.Trim), 0).ToString.Trim)
+                .ttvTekananDarah = txtttvTekananDarah.Text.Trim 'CDec(IIf(IsNumeric(txtttvTekananDarah.Text.Trim) = True, CDec(txtttvTekananDarah.Text.Trim), 0).ToString.Trim)
                 .ttvNadi = CDec(IIf(IsNumeric(txtttvNadi.Text.Trim) = True, CDec(txtttvNadi.Text.Trim), 0).ToString.Trim)
                 .GCttvNadiDenyut = ddlttvNadiDenyut.SelectedValue.Trim
                 .ttvSuhu = CDec(IIf(IsNumeric(txtttvSuhu.Text.Trim) = True, CDec(txtttvSuhu.Text.Trim), 0).ToString.Trim)
@@ -1145,6 +1145,7 @@ Namespace QIS.Web.EMR
                     .TglLayan = calTglLayan.selectedDate
                     .JamDatang = txtJamDatang.Text.Trim
                     .JamLayan = txtJamLayan.Text.Trim
+                    .Triage = ddlKdTriage.SelectedValue.Trim
 
                     If chkKeluar.Checked Then
                         .TglDisposisi = calTglDisposisi.selectedDate

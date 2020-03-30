@@ -12,7 +12,7 @@ Namespace QIS.Common.BussinessRules
 
 #Region " Class Member Declarations "
         Private _PengkajianID As Integer
-        Private _DepartmentID, _RegistrationNo, _RoomCode, _PenjaminBayarCode As String
+        Private _DepartmentID, _RegistrationNo, _RoomCode, _PenjaminBayarCode, _ttvTekananDarah As String
         Private _AssessmentTypeSCode, _Triage As String
         Private _GCAsalInformasi, _GCAsalInformasiHubungan, _GCJenisAlergi, _GCKesadaran, _GCttvNadiDenyut, _GCNyeriMetode, _GCNyeriKualitas,
             _GCNyeriKarakteristik, _GCNyeriBerkurang, _GCNyeriBertambah, _GCAktivitasMobilisasi, _GCStatusPsikologi,
@@ -30,7 +30,7 @@ Namespace QIS.Common.BussinessRules
             _IsTidakNafsuMakan, _IsPerluKonsultasiGizi, _IsHamil, _IsBersediaMenerimaInformasi, _IsHambatanEdukasi,
             _IsHambatanPendengaran, _IsHambatanPenglihatan, _IsHambatanKognitif, _IsHambatanFisik, _IsHambatanBudaya, _IsHambatanEmosi,
             _IsHambatanBahasa, _IsKIE, _IsObatPulang, _IsFotoRadiologi, _IsLaboratorium, _IsEKG, _IsKIEAPS, _IsTTDAPS, _IsDeath As Boolean
-        Private _ttvTekananDarah, _ttvNadi, _ttvSuhu, _ttvPernafasan, _ttvBeratBadan, _ttvTinggiBadan, _ttvIndexMasaTubuh As Decimal
+        Private _ttvNadi, _ttvSuhu, _ttvPernafasan, _ttvBeratBadan, _ttvTinggiBadan, _ttvIndexMasaTubuh As Decimal
         Private _NyeriSkalaNum, _SkorNutrisi As Integer
         Private _DeathDate, _CreatedDate, _LastUpdatedDate As DateTime
         Private _CreatedBy, _LastUpdatedBy As String
@@ -510,7 +510,7 @@ Namespace QIS.Common.BussinessRules
                     _IsKIEAPS = CType(toReturn.Rows(0)("IsKIEAPS"), Boolean)
                     _IsTTDAPS = CType(toReturn.Rows(0)("IsTTDAPS"), Boolean)
                     _IsDeath = CType(toReturn.Rows(0)("IsDeath"), Boolean)
-                    _ttvTekananDarah = CType(toReturn.Rows(0)("ttvTekananDarah"), Decimal)
+                    _ttvTekananDarah = CType(toReturn.Rows(0)("ttvTekananDarah"), String)
                     _ttvNadi = CType(toReturn.Rows(0)("ttvNadi"), Decimal)
                     _ttvSuhu = CType(toReturn.Rows(0)("ttvSuhu"), Decimal)
                     _ttvPernafasan = CType(toReturn.Rows(0)("ttvPernafasan"), Decimal)
@@ -1282,11 +1282,11 @@ Namespace QIS.Common.BussinessRules
             End Set
         End Property
 
-        Public Property [ttvTekananDarah]() As Decimal
+        Public Property [ttvTekananDarah]() As String
             Get
                 Return _ttvTekananDarah
             End Get
-            Set(ByVal Value As Decimal)
+            Set(ByVal Value As string)
                 _ttvTekananDarah = Value
             End Set
         End Property

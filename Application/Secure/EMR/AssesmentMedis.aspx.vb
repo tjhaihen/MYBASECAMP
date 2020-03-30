@@ -899,7 +899,6 @@ Namespace QIS.Web.EMR
                         .SupportingUnitID = ddlDiagnosticSupportUnit.SelectedValue.Trim
                         .CreatedBy = "EMRModule"
                         .LastUpdatedBy = "EMRModule"
-                        .InsertTransactionOrderHD()
 
                         txtTransactionNo.Text = .InsertTransactionOrderHD()
                         lblPBTransactionNo.Text = txtTransactionNo.Text
@@ -912,14 +911,13 @@ Namespace QIS.Web.EMR
             Dim oBR2 As New Common.BussinessRules.Worklist
             With oBR2
                 '//Header
-                If Common.Methods.GetCommonCode(Common.Constants.SystemSetting.SystemSetting_VERSIAPP, Common.Constants.GroupCode.System_SCode).Trim = "1" Then
+                If Common.Methods.GetCommonCode(Common.Constants.SystemSetting.SystemSetting_VERSIAPP, "VersiAPP").Trim = "1" Then
                     strOrderNoToReturn = .NewNoJO(ddlDepartmentFilter.SelectedValue.Trim)
                 Else
                     strOrderNoToReturn = .NewOrderNo()
                 End If
                 .OrderNo = strOrderNoToReturn.Trim
 
-                .TransactionNo = lblPBTransactionNo.Text.Trim
                 .RegistrationNo = lblPBRegistrationNo.Text.Trim
                 .MRN = lblPBMRN.Text.Trim
                 Select Case ddlDepartmentFilter.SelectedValue.Trim
@@ -936,6 +934,8 @@ Namespace QIS.Web.EMR
                 .IsCito = False
                 .CreatedBy = MyBase.LoggedOnUserID.Trim
                 .LastUpdatedBy = MyBase.LoggedOnUserID.Trim
+                txtTransactionNo.Text = .InsertTransactionOrderHD()
+                .TransactionNo = txtTransactionNo.Text 'lblPBTransactionNo.Text.Trim
 
                 '// Detail
                 .ItemID = Common.Methods.GetCommonCode(Common.Constants.SystemSetting.SystemSetting_HISPHITEMID, Common.Constants.GroupCode.System_SCode).Trim
@@ -1029,7 +1029,12 @@ Namespace QIS.Web.EMR
 
                     If txtTransactionNo.Text.Trim <> String.Empty Then
                         '//Order Header
-                        strOrderNoToReturn = .NewOrderNo()
+                        If Common.Methods.GetCommonCode(Common.Constants.SystemSetting.SystemSetting_VERSIAPP, "VersiAPP").Trim = "1" Then
+                            strOrderNoToReturn = .NewNoJO(ddlDepartmentFilter.SelectedValue.Trim)
+                        Else
+                            strOrderNoToReturn = .NewOrderNo()
+                        End If
+                        'strOrderNoToReturn = .NewOrderNo()
                         .OrderNo = strOrderNoToReturn.Trim
                         .TransactionNo = txtTransactionNo.Text
                         .MRN = lblPBMRN.Text.Trim
