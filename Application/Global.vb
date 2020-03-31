@@ -228,6 +228,9 @@ Namespace QIS.Web
                 Case "ProjectUser"
                     Dim oTbl As New Common.BussinessRules.ProjectUser
                     tblToApply = oTbl.SelectProjectByUserID(keyField.Trim)
+                Case "ProjectNotInPatchProject"
+                    Dim oTbl As New Common.BussinessRules.Project
+                    tblToApply = oTbl.SelectProjectNotInPatchProject(keyField.Trim)
                 Case "ProfileUnit"
                     Dim oTbl As New Common.BussinessRules.ProfileUnit
                     Dim strKeyField() As String = keyField.Trim.Split(CChar("^"))
@@ -343,6 +346,9 @@ Namespace QIS.Web
                                 _strText = Common.ProcessNull.GetString(rgRows(i - 1)("UnitName"))
                                 _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("UnitID"))
                             Case "ProjectUser"
+                                _strText = Common.ProcessNull.GetString(rgRows(i - 1)("ProjectAliasName"))
+                                _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("ProjectID"))
+                            Case "ProjectNotInPatchProject"
                                 _strText = Common.ProcessNull.GetString(rgRows(i - 1)("ProjectAliasName"))
                                 _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("ProjectID"))
                             Case "MonthInYear"

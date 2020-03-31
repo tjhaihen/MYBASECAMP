@@ -68,6 +68,14 @@ Namespace QIS.Web
             Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/IssueStudy.aspx')</script>")
         End Sub
 
+        Private Sub txtPatchNo_TextChanged(sender As Object, e As System.EventArgs) Handles txtPatchNo.TextChanged
+            txtPatchNo.Text = _openValidatePatch(txtPatchNo.Text.Trim, txtPatchNo)
+        End Sub
+
+        Private Sub Response_txtPatchNo_TextChanged(sender As Object, e As System.EventArgs) Handles Response_txtPatchNo.TextChanged
+            Response_txtPatchNo.Text = _openValidatePatch(Response_txtPatchNo.Text.Trim, Response_txtPatchNo)
+        End Sub
+
         Private Sub btnUploadIssue_Click(sender As Object, e As System.EventArgs) Handles btnUploadIssue.Click
             Dim oBR As New Common.BussinessRules.Issue
             Dim MyConnection As System.Data.OleDb.OleDbConnection
@@ -634,6 +642,7 @@ Namespace QIS.Web
                     End If
                     calTargetDate.selectedDate = .targetDate
                     chkIsUrgent.Checked = .isUrgent
+                    txtPatchNo.Text = .PatchNo.Trim
                 End If
             End With
             oBR.Dispose()
@@ -649,16 +658,40 @@ Namespace QIS.Web
                     Response_lblIssueDescription.Text = .IssueDescription.Trim
                     Response_ddlIssueStatus.SelectedValue = .IssueStatusSCode.Trim
                     Response_ddlIssueConfirmStatus.SelectedValue = .IssueConfirmStatusSCode.Trim
+                    Response_txtPatchNo.Text = .PatchNo.Trim
+                    Response_chkIsSpecific.Checked = .isSpecific
                 Else
                     Response_lblDepartmentName.Text = String.Empty
                     Response_lblIssueDescription.Text = String.Empty
                     Response_ddlIssueStatus.SelectedIndex = 0
                     Response_ddlIssueConfirmStatus.SelectedIndex = 0
+                    Response_txtPatchNo.Text = String.Empty
+                    Response_chkIsSpecific.Checked = False
                 End If
             End With
             oBR.Dispose()
             oBR = Nothing
         End Sub
+
+        Private Function _openValidatePatch(ByVal strPatchNo As String, ByVal txtPatch As TextBox) As String
+            Dim strPatchNoToReturn As String = String.Empty
+            Dim oPatch As New Common.BussinessRules.Patch
+            With oPatch
+                .PatchNo = strPatchNo.Trim
+                If .SelectOne.Rows.Count = 0 Then
+                    commonFunction.MsgBox(Me, "Patch No. Not Found. Please try again and input a valid Patch No.")
+                    strPatchNoToReturn = String.Empty
+                    commonFunction.Focus(Me, txtPatch.ClientID)
+                Else
+                    strPatchNoToReturn = .PatchNo.Trim
+                    commonFunction.Focus(Me, txtPatch.ClientID)
+                End If
+            End With
+            oPatch.Dispose()
+            oPatch = Nothing
+
+            Return strPatchNoToReturn.Trim
+        End Function
 
         Private Sub _updateIssue()
             Page.Validate()
@@ -690,6 +723,8 @@ Namespace QIS.Web
                 .userIDassignedTo = ddlUserIDAssignedTo.SelectedValue.Trim
                 .targetDate = calTargetDate.selectedDate
                 .isUrgent = chkIsUrgent.Checked
+                .PatchNo = txtPatchNo.Text.Trim
+                .isSpecific = chkIsSpecific.Checked
                 .userIDinsert = MyBase.LoggedOnUserID.Trim
                 .userIDupdate = MyBase.LoggedOnUserID.Trim
                 If fNew Then
@@ -710,6 +745,8 @@ Namespace QIS.Web
                 .IssueID = IssueID.Trim
                 .IssueStatusSCode = Response_ddlIssueStatus.SelectedValue.Trim
                 .IssueConfirmStatusSCode = Response_ddlIssueConfirmStatus.SelectedValue.Trim
+                .PatchNo = Response_txtPatchNo.Text.Trim
+                .isSpecific = Response_chkIsSpecific.Checked
                 .userIDupdate = MyBase.LoggedOnUserID.Trim
                 .UpdateStatus()
             End With
@@ -737,12 +774,16 @@ Namespace QIS.Web
                 .userIDupdate = MyBase.LoggedOnUserID.Trim
                 If fNew Then
                     If .Insert() Then
-                        _updateIssueStatus(Response_lblIssueID.Text.Trim)
+                        If Response_chkIsUpdateStatus.Checked Then
+                            _updateIssueStatus(Response_lblIssueID.Text.Trim)
+                        End If                        
                         Response_lblResponseID.Text = .ResponseID.Trim
                     End If
                 Else
                     If .Update() Then
-                        _updateIssueStatus(Response_lblIssueID.Text.Trim)
+                        If Response_chkIsUpdateStatus.Checked Then
+                            _updateIssueStatus(Response_lblIssueID.Text.Trim)
+                        End If                        
                     End If
                 End If
             End With

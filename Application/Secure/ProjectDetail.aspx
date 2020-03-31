@@ -369,6 +369,20 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td class="right" style="background: #ffffff;">
+                                                        Patch No.
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:TextBox ID="txtPatchNo" runat="server" Width="200" AutoPostBack="true">
+                                                        </asp:TextBox>
+                                                    </td>
+                                                    <td style="width: 100; background: #ffffff;" class="right">
+                                                    </td>
+                                                    <td style="width: 140; background: #ffffff;">
+                                                        <asp:CheckBox ID="chkIsSpecific" runat="server" Text="Is Specific Project?" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td colspan="4">
                                                         <asp:Button ID="btnSaveAndNew" runat="server" Text="Save & New" CssClass="sbttn"
                                                             Width="100" />
@@ -619,6 +633,18 @@
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td style="background: #ffffff;">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #ffffff;">
+                                                        Patch No.
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:TextBox ID="Response_txtPatchNo" runat="server" Width="200" AutoPostBack="true">
+                                                        </asp:TextBox>
+                                                    </td>
+                                                    <td style="width: 200px; background: #ffffff;">
+                                                        <asp:CheckBox ID="Response_chkIsSpecific" runat="server" Text="Is Specific Project?" />
                                                     </td>
                                                 </tr>
                                                 <tr>

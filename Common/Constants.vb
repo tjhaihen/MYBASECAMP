@@ -81,6 +81,8 @@
             Public Const ClientIssue_ReportID As String = "1000"
             Public Const IssueTicketForm_ReportID As String = "2001"
             Public Const CustomerSupportWeeklyReport_ReportID As String = "3001"
+            Public Const PatchDashboard_ReportID As String = "5001"
+            Public Const PatchDetail_ReportID As String = "5002"
             Public Const Worktime_ReportID As String = "8001"
         End Class
 

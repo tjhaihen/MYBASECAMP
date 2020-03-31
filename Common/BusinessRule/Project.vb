@@ -205,6 +205,40 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Dispose()
             End Try
         End Function
+
+        Public Function SelectProjectNotInPatchProject(ByVal strPatchNo As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "SELECT p.*, (SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
+                                        "(SELECT projectGroupName FROM projectGroup WHERE projectGroupID=p.projectGroupID) AS projectGroupName FROM Project p " + _
+                                        "WHERE p.projectID NOT IN (SELECT projectID FROM PatchProject WHERE PatchNo=@PatchNo) " + _
+                                        "ORDER BY p.projectAliasName"
+            cmdToExecute.CommandType = CommandType.Text
+
+            Dim toReturn As DataTable = New DataTable("SelectProjectNotInPatchProject")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@PatchNo", strPatchNo)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
 #End Region
 
 #Region " Class Property Declarations "

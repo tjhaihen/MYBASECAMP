@@ -87,16 +87,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CrystalDecisions.CrystalReports.Engine">
-      <HintPath>..\..\..\_dll\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+      <HintPath>..\..\_dll\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Shared">
-      <HintPath>..\..\..\_dll\CrystalDecisions.Shared.dll</HintPath>
+      <HintPath>..\..\_dll\CrystalDecisions.Shared.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Web">
-      <HintPath>..\..\..\_dll\CrystalDecisions.Web.dll</HintPath>
+      <HintPath>..\..\_dll\CrystalDecisions.Web.dll</HintPath>
     </Reference>
     <Reference Include="eWorld.UI">
-      <HintPath>..\..\..\_dll\eWorld.UI.dll</HintPath>
+      <HintPath>..\..\_dll\eWorld.UI.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Conversion.v4.0" />
     <Reference Include="System">
@@ -122,7 +122,7 @@
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Telerik.Web.UI">
-      <HintPath>..\..\..\_dll\Telerik.Web.UI.dll</HintPath>
+      <HintPath>..\..\_dll\Telerik.Web.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -327,6 +327,20 @@
       <DependentUpon>Productivity.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\PatchManagement\PatchDashboard.aspx.designer.vb">
+      <DependentUpon>PatchDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\PatchManagement\PatchDashboard.aspx.vb">
+      <DependentUpon>PatchDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\PatchManagement\PatchList.aspx.designer.vb">
+      <DependentUpon>PatchList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\PatchManagement\PatchList.aspx.vb">
+      <DependentUpon>PatchList.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Secure\Progress.aspx.designer.vb">
       <DependentUpon>Progress.aspx</DependentUpon>
     </Compile>
@@ -484,6 +498,8 @@
     <Content Include="Secure\FollowUpIssue.aspx" />
     <Content Include="Secure\IssueStudy.aspx" />
     <Content Include="Secure\Mobile\Productivity.aspx" />
+    <Content Include="Secure\PatchManagement\PatchDashboard.aspx" />
+    <Content Include="Secure\PatchManagement\PatchList.aspx" />
     <Content Include="Secure\Progress.aspx" />
     <Content Include="Secure\Project.aspx" />
     <Content Include="Secure\GetImage.aspx" />
@@ -577,9 +593,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1450</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/mybasecamp/logon.aspx</IISUrl>
-          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost/mybasecamp/logon.aspx</IISAppRootUrl>
+          <IISUrl>http://localhost/mybasecamp/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

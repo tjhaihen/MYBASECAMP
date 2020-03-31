@@ -24,7 +24,7 @@
         }
     </script>
 </head>
-<body ms_positioning="GridLayout" onload="ffocus()">
+<body ms_positioning="GridLayout" onload="ffocus()" style="background: #F2F6FC;">
     <form id="frmLogin" runat="server">
     <table width="100%" cellpadding="2" cellspacing="0" style="height: 100%;">
         <tr>

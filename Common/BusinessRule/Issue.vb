@@ -17,9 +17,10 @@ Namespace QIS.Common.BussinessRules
         Private _userIDinsert, _userIDupdate As String
         Private _insertDate, _updateDate, _assignedDate As DateTime
         Private _targetDate, _finishDate As Date
-        Private _isUrgent As Boolean
+        Private _isUrgent, _isSpecific As Boolean
 
         Private _totalIssue, _totalOpen, _totalFinish As Decimal
+        Private _projectAliasName, _projectName As String
 #End Region
 
         Public Sub New()
@@ -34,10 +35,10 @@ Namespace QIS.Common.BussinessRules
         Public Overrides Function Insert() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "INSERT INTO Issue " + _
-                                        "(issueID, projectID, departmentName, issueDescription, keywords, issueTypeSCode, issueStatusSCode, pathcNo, " + _
+                                        "(issueID, projectID, departmentName, issueDescription, keywords, issueTypeSCode, issueStatusSCode, patchNo, isSpecific, " + _
                                         "issuePrioritySCode, issueConfirmStatusSCode, reportedBy, reportedDate, userIDassignedTo, isUrgent, userIDinsert, userIDupdate, insertDate, updateDate, assignedBy, assignedDate, targetDate) " + _
                                         "VALUES " + _
-                                        "(@issueID, @projectID, @departmentName, @issueDescription, @keywords, @issueTypeSCode, @issueStatusSCode, @patchNo, " + _
+                                        "(@issueID, @projectID, @departmentName, @issueDescription, @keywords, @issueTypeSCode, @issueStatusSCode, @patchNo, @isSpecific, " + _
                                         "@issuePrioritySCode, @issueConfirmStatusSCode, @reportedBy, @reportedDate, @userIDassignedTo, @isUrgent, @userIDinsert, @userIDupdate, GETDATE(), GETDATE(), @assignedBy, GETDATE(), @targetDate)"
             cmdToExecute.CommandType = CommandType.Text
             cmdToExecute.Connection = _mainConnection
@@ -63,6 +64,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@assignedBy", _assignedBy)
                 cmdToExecute.Parameters.AddWithValue("@targetDate", _targetDate)
                 cmdToExecute.Parameters.AddWithValue("@patchNo", _patchNo)
+                cmdToExecute.Parameters.AddWithValue("@isSpecific", _isSpecific)
 
                 ' // Open Connection
                 _mainConnection.Open()
@@ -86,7 +88,7 @@ Namespace QIS.Common.BussinessRules
                                         "SET departmentName=@departmentName, issueDescription=@issueDescription, keywords=@keywords, issueTypeSCode=@issueTypeSCode, " + _
                                         "issueStatusSCode=@issueStatusSCode, issuePrioritySCode=@issuePrioritySCode, issueConfirmStatusSCode=@issueConfirmStatusSCode, " + _
                                         "reportedBy=@reportedBy, reportedDate=@reportedDate, userIDassignedTo=@userIDassignedTo, isUrgent=@isUrgent, userIDupdate=@userIDupdate, updateDate=GETDATE(), " + _
-                                        "targetDate=@targetDate, patchNo=@patchNo " + _
+                                        "targetDate=@targetDate, patchNo=@patchNo, isSpecific=@isSpecific " + _
                                         "WHERE issueID=@issueID"
             cmdToExecute.CommandType = CommandType.Text
 
@@ -107,6 +109,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@targetDate", _targetDate)
                 cmdToExecute.Parameters.AddWithValue("@isUrgent", _isUrgent)
                 cmdToExecute.Parameters.AddWithValue("@patchNo", _patchNo)
+                cmdToExecute.Parameters.AddWithValue("@isSpecific", _isSpecific)
                 cmdToExecute.Parameters.AddWithValue("@userIDupdate", _userIDupdate)
 
                 ' // Open Connection
@@ -127,7 +130,7 @@ Namespace QIS.Common.BussinessRules
         Public Function UpdateAssigned() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "UPDATE Issue " + _
-                                        "SET assignedBy = @assignedBy, AssignedDate = GETDATE(), targetDate=@targetDate " + _
+                                        "SET assignedBy=@assignedBy, AssignedDate=GETDATE(), targetDate=@targetDate " + _
                                         "WHERE issueID=@issueID"
             cmdToExecute.CommandType = CommandType.Text
 
@@ -158,6 +161,7 @@ Namespace QIS.Common.BussinessRules
             cmdToExecute.CommandText = "UPDATE Issue " + _
                                         "SET issueStatusSCode=@issueStatusSCode,  " + _
                                         "issueConfirmStatusSCode=@issueConfirmStatusSCode, " + _
+                                        "patchNo=@patchNo, isSpecific=@isSpecific, " + _
                                         "userIDupdate=@userIDupdate, updateDate=GETDATE() " + _
                                         "WHERE issueID=@issueID"
             cmdToExecute.CommandType = CommandType.Text
@@ -168,6 +172,39 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@issueID", _issueID)
                 cmdToExecute.Parameters.AddWithValue("@issueStatusSCode", _issueStatusSCode)
                 cmdToExecute.Parameters.AddWithValue("@issueConfirmStatusSCode", _issueConfirmStatusSCode)
+                cmdToExecute.Parameters.AddWithValue("@patchNo", _patchNo)
+                cmdToExecute.Parameters.AddWithValue("@isSpecific", _isSpecific)
+                cmdToExecute.Parameters.AddWithValue("@userIDupdate", _userIDupdate)
+
+                ' // Open Connection
+                _mainConnection.Open()
+
+                ' // Execute Query
+                cmdToExecute.ExecuteNonQuery()
+
+                Return True
+            Catch ex As Exception
+                ExceptionManager.Publish(ex)
+            Finally
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+            End Try
+        End Function
+
+        Public Function UpdatePatchNo() As Boolean
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "UPDATE Issue " + _
+                                        "SET patchNo=@patchNo, isSpecific=@isSpecific, " + _
+                                        "userIDupdate=@userIDupdate, updateDate=GETDATE() " + _
+                                        "WHERE issueID=@issueID"
+            cmdToExecute.CommandType = CommandType.Text
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@issueID", _issueID)
+                cmdToExecute.Parameters.AddWithValue("@patchNo", _patchNo)
+                cmdToExecute.Parameters.AddWithValue("@isSpecific", _isSpecific)
                 cmdToExecute.Parameters.AddWithValue("@userIDupdate", _userIDupdate)
 
                 ' // Open Connection
@@ -260,6 +297,7 @@ Namespace QIS.Common.BussinessRules
                     _targetDate = CType(toReturn.Rows(0)("targetDate"), DateTime)
                     _finishDate = CType(toReturn.Rows(0)("finishDate"), DateTime)
                     _patchNo = CType(toReturn.Rows(0)("patchNo"), String)
+                    _isSpecific = CType(toReturn.Rows(0)("isSpecific"), Boolean)
                 End If
             Catch ex As Exception
                 ' // some error occured. Bubble it to caller and encapsulate Exception object
@@ -585,6 +623,110 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
+
+        Public Function SelectOneForInformation() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText =
+                    "SELECT i.*, p.ProjectAliasName, p.ProjectName " + _
+                    "FROM Issue i " + _
+                    "INNER JOIN Project p ON i.projectID = p.projectID " + _
+                    "WHERE issueID=@issueID"
+            cmdToExecute.CommandType = CommandType.Text
+
+            Dim toReturn As DataTable = New DataTable("SelectOneForInformation")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@issueID", _issueID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _issueID = CType(toReturn.Rows(0)("issueID"), String)
+                    _projectID = CType(toReturn.Rows(0)("ProjectID"), String)
+                    _departmentName = CType(toReturn.Rows(0)("departmentName"), String)
+                    _issueDescription = CType(toReturn.Rows(0)("issueDescription"), String)
+                    _keywords = CType(toReturn.Rows(0)("keywords"), String)
+                    _issueTypeSCode = CType(toReturn.Rows(0)("issueTypeSCode"), String)
+                    _issueStatusSCode = CType(toReturn.Rows(0)("issueStatusSCode"), String)
+                    _issuePrioritySCode = CType(toReturn.Rows(0)("issuePrioritySCode"), String)
+                    _issueConfirmStatusSCode = CType(toReturn.Rows(0)("issueConfirmStatusSCode"), String)
+                    _reportedBy = CType(toReturn.Rows(0)("reportedBy"), String)
+                    _reportedDate = CType(toReturn.Rows(0)("reportedDate"), DateTime)
+                    _userIDassignedTo = CType(toReturn.Rows(0)("userIDassignedTo"), String)
+                    _isUrgent = CType(toReturn.Rows(0)("isUrgent"), Boolean)
+                    _userIDinsert = CType(toReturn.Rows(0)("userIDinsert"), String)
+                    _userIDupdate = CType(toReturn.Rows(0)("userIDupdate"), String)
+                    _insertDate = CType(toReturn.Rows(0)("insertDate"), DateTime)
+                    _updateDate = CType(toReturn.Rows(0)("updateDate"), DateTime)
+                    _targetDate = CType(toReturn.Rows(0)("targetDate"), DateTime)
+                    _finishDate = CType(toReturn.Rows(0)("finishDate"), DateTime)
+                    _patchNo = CType(toReturn.Rows(0)("patchNo"), String)
+                    _projectAliasName = CType(toReturn.Rows(0)("projectAliasName"), String)
+                    _projectName = CType(toReturn.Rows(0)("projectName"), String)
+                End If
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function SelectByPatchNo() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            Dim strFilterOpenOnly As String = String.Empty
+            cmdToExecute.CommandText = "SELECT i.*, " + _
+                                        "p.ProjectAliasName, p.ProjectName, i.departmentName AS IssueDepartment, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUETYPE' AND code=i.issueTypeSCode) AS issueTypeName, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUESTATUS' AND code=i.issueStatusSCode) AS issueStatusName, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUEPRIORITY' AND code=i.issuePrioritySCode) AS issuePriorityName, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUECONFIRMSTS' AND code=i.issueConfirmStatusSCode) AS issueConfirmStatusName, " + _
+                                        "ISNULL((SELECT COUNT(responseID) FROM issueResponse WHERE issueID=i.issueID),0) AS totalResponse, " + _
+                                        "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDupdate)),'') AS userNameupdate, " + _
+                                        "isHasAttachment=CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID) > 0) THEN(1) ELSE(0) END " + _
+                                        "FROM Issue i " + _
+                                        "INNER JOIN Project p ON i.projectID = p.projectID " + _
+                                        "WHERE i.patchNo=@patchNo AND i.patchNo <> '' " + _
+                                        "ORDER BY i.projectID, i.issueID"
+            cmdToExecute.CommandType = CommandType.Text
+
+            Dim toReturn As DataTable = New DataTable("Issue")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@patchNo", _patchNo)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
 #End Region
 
 #Region " Class Property Declarations "
@@ -810,6 +952,33 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _patchNo = Value
+            End Set
+        End Property
+
+        Public Property [isSpecific]() As Boolean
+            Get
+                Return _isSpecific
+            End Get
+            Set(ByVal Value As Boolean)
+                _isSpecific = Value
+            End Set
+        End Property
+
+        Public Property [ProjectAliasName]() As String
+            Get
+                Return _projectAliasName
+            End Get
+            Set(ByVal Value As String)
+                _projectAliasName = Value
+            End Set
+        End Property
+
+        Public Property [ProjectName]() As String
+            Get
+                Return _projectName
+            End Get
+            Set(ByVal Value As String)
+                _projectName = Value
             End Set
         End Property
 #End Region

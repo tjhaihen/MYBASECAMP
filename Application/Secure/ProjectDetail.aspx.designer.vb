@@ -393,6 +393,24 @@ Namespace QIS.Web
         Protected WithEvents ddlIssueConfirmStatus As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
+        '''txtPatchNo control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtPatchNo As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''chkIsSpecific control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsSpecific As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
         '''btnSaveAndNew control.
         '''</summary>
         '''<remarks>
@@ -616,6 +634,24 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents Response_ddlIssueConfirmStatus As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''Response_txtPatchNo control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_txtPatchNo As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''Response_chkIsSpecific control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_chkIsSpecific As Global.System.Web.UI.WebControls.CheckBox
 
         '''<summary>
         '''Response_btnSaveAndNew control.
