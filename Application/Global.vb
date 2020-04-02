@@ -216,6 +216,9 @@ Namespace QIS.Web
                 Case "User"
                     Dim oTbl As New Common.BussinessRules.User
                     tblToApply = oTbl.SelectUserPerson()
+                Case "UserActive"
+                    Dim oTbl As New Common.BussinessRules.User
+                    tblToApply = oTbl.SelectActiveUserPerson(Year(Date.Today).ToString.Trim, Month(Date.Today).ToString.Trim)
                 Case "Site"
                     Dim oTbl As New Common.BussinessRules.Site
                     tblToApply = oTbl.SelectAllActive()
@@ -332,6 +335,9 @@ Namespace QIS.Web
                         Select Case ddlType
                             Case "User"
                                 _strText = Common.ProcessNull.GetString(rgRows(i - 1)("firstName"))
+                                _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("userID"))
+                            Case "UserActive"
+                                _strText = Common.ProcessNull.GetString(rgRows(i - 1)("fullName"))
                                 _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("userID"))
                             Case "Site"
                                 _strText = Common.ProcessNull.GetString(rgRows(i - 1)("SiteName"))
