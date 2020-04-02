@@ -218,6 +218,79 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
+
+        Public Function SelectByUserIDWorktimeDate(ByVal strUserID As String, ByVal dtDate As Date) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "SELECT d.*, p.projectAliasName, p.projectName, h.IsSubmitted FROM WorkTimeDt d " + _
+                "INNER JOIN Project p ON d.projectID = p.projectID " + _
+                "INNER JOIN WorkTimeHd h ON d.WorkTimeHdID = h.WorkTimeHdID " + _
+                "WHERE h.userID=@userID AND h.worktimeDate=@worktimeDate"
+            cmdToExecute.CommandType = CommandType.Text
+
+            Dim toReturn As DataTable = New DataTable("SelectByUserIDWorktimeDate")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@userID", strUserID)
+                cmdToExecute.Parameters.AddWithValue("@worktimeDate", dtDate)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function SelectByUserIDWorkTimeDateProjectIDIssueID(ByVal strUserID As String, ByVal dtWorktimeDate As Date) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "SELECT * FROM WorkTimeDt d " + _
+                    "INNER JOIN WorkTimeHd h ON d.worktimeHdID=h.worktimeHdID " + _
+                    "WHERE h.userID=@userID " + _
+                    "AND h.workTimeDate=@workTimeDate " + _
+                    "AND d.projectID=@projectID AND d.issueID=@issueID"
+            cmdToExecute.CommandType = CommandType.Text
+
+            Dim toReturn As DataTable = New DataTable("SelectByUserIDWorkTimeDateProjectIDIssueID")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@userID", strUserID)
+                cmdToExecute.Parameters.AddWithValue("@worktimeDate", dtWorktimeDate)
+                cmdToExecute.Parameters.AddWithValue("@projectID", _projectID)
+                cmdToExecute.Parameters.AddWithValue("@issueID", _issueID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
 #End Region
 
 #Region " Class Property Declarations "

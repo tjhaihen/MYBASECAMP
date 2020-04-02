@@ -19,7 +19,7 @@ Namespace QIS.Common.BussinessRules
         Private _targetDate, _finishDate As Date
         Private _isUrgent, _isSpecific As Boolean
 
-        Private _totalIssue, _totalOpen, _totalFinish As Decimal
+        Private _totalIssue, _totalOpen, _totalDevFinish, _totalFinish As Decimal
         Private _projectAliasName, _projectName As String
 #End Region
 
@@ -409,11 +409,13 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.CommandText = "SELECT " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID), " + _
                                         "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode<>'003'), " + _
+                                        "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode='002-1'), " + _
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode='003')"
             Else
                 cmdToExecute.CommandText = "SELECT " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo), " + _
                                         "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode<>'003'), " + _
+                                        "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode<>'002-1'), " + _
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode='003')"
             End If            
             cmdToExecute.CommandType = CommandType.Text
@@ -438,6 +440,7 @@ Namespace QIS.Common.BussinessRules
                 If toReturn.Rows.Count > 0 Then
                     _totalIssue = CType(toReturn.Rows(0)("totalIssue"), Decimal)
                     _totalOpen = CType(toReturn.Rows(0)("totalOpen"), Decimal)
+                    _totalDevFinish = CType(toReturn.Rows(0)("totalDevFinish"), Decimal)
                     _totalFinish = CType(toReturn.Rows(0)("totalFinish"), Decimal)
                 End If
             Catch ex As Exception
@@ -934,6 +937,15 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As Decimal)
                 _totalOpen = Value
+            End Set
+        End Property
+
+        Public Property [totalDevFinish]() As Decimal
+            Get
+                Return _totalDevFinish
+            End Get
+            Set(ByVal Value As Decimal)
+                _totalDevFinish = Value
             End Set
         End Property
 

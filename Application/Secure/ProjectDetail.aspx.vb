@@ -293,6 +293,7 @@ Namespace QIS.Web
                     Dim _lbtnIssueID As LinkButton = CType(e.Item.FindControl("_lbtnIssueID"), LinkButton)
                     pnlAddNew.Visible = True
                     pnlIssueResponse.Visible = False
+                    PrepareScreenAddNew()
                     lblIssueID.Text = _lbtnIssueID.Text.Trim
                     _openIssue()
                     SetDataGridIssueFile()
@@ -409,6 +410,7 @@ Namespace QIS.Web
         Private Sub SetDataGrid()
             Dim decTotalIssue As Decimal = 0D
             Dim decTotalOpen As Decimal = 0D
+            Dim decTotalDevFinish As Decimal = 0D
             Dim decTotalFinish As Decimal = 0D
             Dim decProgress As Decimal = 0D
 
@@ -421,6 +423,7 @@ Namespace QIS.Web
             If oBR.SelectSummaryByProjectID(chkIsMyAssignment.Checked).Rows.Count > 0 Then
                 decTotalIssue = oBR.totalIssue
                 decTotalOpen = oBR.totalOpen
+                decTotalDevFinish = oBR.totalDevFinish
                 decTotalFinish = oBR.totalFinish
 
                 If decTotalIssue = 0 Then
@@ -434,6 +437,7 @@ Namespace QIS.Web
 
             lblTotalIssue.Text = decTotalIssue.ToString.Trim
             lblTotalOpen.Text = decTotalOpen.ToString.Trim
+            lblTotalDevFinish.Text = decTotalDevFinish.ToString.Trim
             lblTotalFinish.Text = decTotalFinish.ToString.Trim
             lblProgress.Text = Format(decProgress, "##0")
         End Sub
@@ -478,6 +482,13 @@ Namespace QIS.Web
             ddlUserIDAssignedTo.SelectedValue = MyBase.LoggedOnUserID.Trim
             calTargetDate.selectedDate = Date.Today
             chkIsUrgent.Checked = False
+
+            txtPatchNo.Text = String.Empty
+            chkIsSpecific.Checked = False
+
+            chkIsIncludeInMyWorktime.Checked = False
+            txtWorktimeDtDescription.Text = String.Empty
+            txtWorkTimeInHour.Text = "0"
             commonFunction.Focus(Me, txtDepartmentName.ClientID)
         End Sub
 
@@ -488,6 +499,14 @@ Namespace QIS.Web
             Response_txtResponseDuration.Text = "0"
             Response_txtResponseDescription.Text = String.Empty
             Response_chkIsShared.Checked = False
+
+            Response_chkIsUpdateStatus.Checked = False
+            Response_txtPatchNo.Text = String.Empty
+            Response_chkIsSpecific.Checked = False
+
+            Response_chkIsIncludeInMyWorktime.Checked = False
+            Response_txtWorktimeDtDescription.Text = String.Empty
+            Response_txtWorkTimeInHour.Text = "0"
             commonFunction.Focus(Me, Response_txtResponseTimeStart.ClientID)
         End Sub
 
@@ -730,9 +749,16 @@ Namespace QIS.Web
                 If fNew Then
                     If .Insert() Then
                         lblIssueID.Text = .IssueID.Trim
+                        If chkIsIncludeInMyWorktime.Checked Then
+                            InsertWorkTimeHdFromAddEditIssue()
+                        End If
                     End If
                 Else
-                    .Update()                    
+                    If .Update() Then
+                        If chkIsIncludeInMyWorktime.Checked Then
+                            InsertWorkTimeHdFromAddEditIssue()
+                        End If
+                    End If
                 End If
             End With
             oBR.Dispose()
@@ -776,14 +802,22 @@ Namespace QIS.Web
                     If .Insert() Then
                         If Response_chkIsUpdateStatus.Checked Then
                             _updateIssueStatus(Response_lblIssueID.Text.Trim)
-                        End If                        
+                        End If
+
+                        If Response_chkIsIncludeInMyWorktime.Checked Then
+                            InsertWorkTimeHdFromAddEditResponse()
+                        End If
                         Response_lblResponseID.Text = .ResponseID.Trim
                     End If
                 Else
                     If .Update() Then
                         If Response_chkIsUpdateStatus.Checked Then
                             _updateIssueStatus(Response_lblIssueID.Text.Trim)
-                        End If                        
+                        End If
+
+                        If Response_chkIsIncludeInMyWorktime.Checked Then
+                            InsertWorkTimeHdFromAddEditResponse()
+                        End If
                     End If
                 End If
             End With
@@ -859,6 +893,156 @@ Namespace QIS.Web
             oFile.Dispose()
             oFile = Nothing
         End Sub
+
+#Region " Link to My Worktime "
+        Private Function IsWorkTimeSubmitted() As Boolean
+            Dim ToReturnIsWorkTimeSubmitted As Boolean = False
+            Dim oWTHd As New Common.BussinessRules.WorkTimeHd
+            oWTHd.UserID = MyBase.LoggedOnUserID.Trim
+            oWTHd.WorkTimeDate = Date.Today
+            If oWTHd.SelectByUserIDWorkTimeDateSubmitted.Rows.Count > 0 Then
+                ToReturnIsWorkTimeSubmitted = True
+            Else
+                ToReturnIsWorkTimeSubmitted = False
+            End If
+            oWTHd.Dispose()
+            oWTHd = Nothing
+
+            Return ToReturnIsWorkTimeSubmitted
+        End Function
+
+        Private Function IsAlreadyAddedToWorkTime(ByVal strIssueID As String) As Boolean
+            Dim ToReturnIsAlreadyAddedToWorkTime As Boolean = False
+            Dim oWTHd As New Common.BussinessRules.WorkTimeDt
+            oWTHd.ProjectID = lblProjectID.Text.Trim
+            oWTHd.IssueID = strIssueID.Trim
+            If oWTHd.SelectByUserIDWorkTimeDateProjectIDIssueID(MyBase.LoggedOnUserID.Trim, Date.Today).Rows.Count > 0 Then
+                ToReturnIsAlreadyAddedToWorkTime = True
+            Else
+                ToReturnIsAlreadyAddedToWorkTime = False
+            End If
+            oWTHd.Dispose()
+            oWTHd = Nothing
+
+            Return ToReturnIsAlreadyAddedToWorkTime
+        End Function
+
+        Private Sub InsertWorkTimeHdFromAddEditIssue()
+            '// SHOULD BE CHECKED IF EXISTS BY UserID + IssueID + ProjectID + WorkTimeDate
+            If IsWorkTimeSubmitted() = True Then
+                commonFunction.MsgBox(Me, "Add failed. You have Submitted your today Worktime.")
+                Exit Sub
+            End If
+
+            If IsAlreadyAddedToWorkTime(lblIssueID.Text.Trim) = True Then
+                commonFunction.MsgBox(Me, "Add failed. You have Add this Issue ID to your today Worktime.")
+                Exit Sub
+            End If
+
+            If txtWorktimeDtDescription.Text.Trim = String.Empty Then
+                commonFunction.MsgBox(Me, "Please type in Worktime Description.")
+                Exit Sub
+            End If
+
+            If IsNumeric(txtWorkTimeInHour.Text.Trim) = False Then
+                commonFunction.MsgBox(Me, "Working time must be a number.")
+                Exit Sub
+            End If
+
+            If CInt(txtWorkTimeInHour.Text.Trim) < 0 Then
+                commonFunction.MsgBox(Me, "Working time must be greater than or equal to 0.")
+                Exit Sub
+            End If
+
+            Dim isNew As Boolean = True
+            Dim oWTHd As New Common.BussinessRules.WorkTimeHd
+            oWTHd.UserID = MyBase.LoggedOnUserID.Trim
+            oWTHd.WorkTimeDate = Date.Today
+            isNew = oWTHd.SelectByUserIDWorkTimeDate.Rows.Count = 0
+            oWTHd.Remarks = "Follow Up Basecamp Issue"
+            oWTHd.IsSubmitted = False
+            If isNew Then
+                If oWTHd.Insert() Then
+                    InsertUpdateWorkTimeDtFromAddEditIssue(oWTHd.WorkTimeHdID.Trim)
+                End If
+            Else
+                InsertUpdateWorkTimeDtFromAddEditIssue(oWTHd.WorkTimeHdID.Trim)
+            End If
+
+            oWTHd.Dispose()
+            oWTHd = Nothing
+        End Sub
+
+        Private Sub InsertWorkTimeHdFromAddEditResponse()
+            '// SHOULD BE CHECKED IF EXISTS BY UserID + IssueID + ProjectID + WorkTimeDate
+            If IsWorkTimeSubmitted() = True Then
+                commonFunction.MsgBox(Me, "Add failed. You have Submitted your today Worktime.")
+                Exit Sub
+            End If
+
+            If IsAlreadyAddedToWorkTime(Response_lblIssueID.Text.Trim) = True Then
+                commonFunction.MsgBox(Me, "Add failed. You have Add this Issue ID to your today Worktime.")
+                Exit Sub
+            End If
+
+            If Response_txtWorktimeDtDescription.Text.Trim = String.Empty Then
+                commonFunction.MsgBox(Me, "Please type in Worktime Description.")
+                Exit Sub
+            End If
+
+            If IsNumeric(Response_txtWorkTimeInHour.Text.Trim) = False Then
+                commonFunction.MsgBox(Me, "Working time must be a number.")
+                Exit Sub
+            End If
+
+            If CInt(Response_txtWorkTimeInHour.Text.Trim) < 0 Then
+                commonFunction.MsgBox(Me, "Working time must be greater than or equal to 0.")
+                Exit Sub
+            End If
+
+            Dim isNew As Boolean = True
+            Dim oWTHd As New Common.BussinessRules.WorkTimeHd
+            oWTHd.UserID = MyBase.LoggedOnUserID.Trim
+            oWTHd.WorkTimeDate = Date.Today
+            isNew = oWTHd.SelectByUserIDWorkTimeDate.Rows.Count = 0
+            oWTHd.Remarks = "Follow Up Basecamp Issue"
+            oWTHd.IsSubmitted = False
+            If isNew Then
+                If oWTHd.Insert() Then
+                    InsertUpdateWorkTimeDtFromAddEditResponse(oWTHd.WorkTimeHdID.Trim)
+                End If
+            Else
+                InsertUpdateWorkTimeDtFromAddEditResponse(oWTHd.WorkTimeHdID.Trim)
+            End If
+
+            oWTHd.Dispose()
+            oWTHd = Nothing
+        End Sub
+
+        Private Sub InsertUpdateWorkTimeDtFromAddEditIssue(ByVal strWorktimeHdID As String)
+            Dim oWTDt As New Common.BussinessRules.WorkTimeDt
+            oWTDt.WorkTimeHdID = strWorktimeHdID.Trim
+            oWTDt.ProjectID = lblProjectID.Text.Trim
+            oWTDt.IssueID = lblIssueID.Text.Trim
+            oWTDt.DetailDescription = txtWorktimeDtDescription.Text.Trim
+            oWTDt.WorkTimeInHour = CInt(txtWorkTimeInHour.Text.Trim)
+            oWTDt.Insert()
+            oWTDt.Dispose()
+            oWTDt = Nothing
+        End Sub
+
+        Private Sub InsertUpdateWorkTimeDtFromAddEditResponse(ByVal strWorktimeHdID As String)
+            Dim oWTDt As New Common.BussinessRules.WorkTimeDt
+            oWTDt.WorkTimeHdID = strWorktimeHdID.Trim
+            oWTDt.ProjectID = lblProjectID.Text.Trim
+            oWTDt.IssueID = Response_lblIssueID.Text.Trim
+            oWTDt.DetailDescription = Response_txtWorktimeDtDescription.Text.Trim
+            oWTDt.WorkTimeInHour = CInt(Response_txtWorkTimeInHour.Text.Trim)
+            oWTDt.Insert()
+            oWTDt.Dispose()
+            oWTDt = Nothing
+        End Sub
+#End Region
 #End Region
 
     End Class

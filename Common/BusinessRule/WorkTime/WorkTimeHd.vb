@@ -197,7 +197,7 @@ Namespace QIS.Common.BussinessRules
             cmdToExecute.CommandText = "SELECT * FROM WorkTimeHd WHERE userID=@userID AND workTimeDate=@workTimeDate"
             cmdToExecute.CommandType = CommandType.Text
 
-            Dim toReturn As DataTable = New DataTable("WorkTimeHd")
+            Dim toReturn As DataTable = New DataTable("SelectByUserIDWorkTimeDate")
             Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
 
             cmdToExecute.Connection = _mainConnection
@@ -239,7 +239,7 @@ Namespace QIS.Common.BussinessRules
             cmdToExecute.CommandText = "SELECT * FROM WorkTimeHd WHERE userID=@userID AND workTimeDate=@workTimeDate AND isSubmitted=1"
             cmdToExecute.CommandType = CommandType.Text
 
-            Dim toReturn As DataTable = New DataTable("WorkTimeHd")
+            Dim toReturn As DataTable = New DataTable("SelectByUserIDWorkTimeDateSubmitted")
             Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
 
             cmdToExecute.Connection = _mainConnection

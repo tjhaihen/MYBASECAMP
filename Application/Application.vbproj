@@ -450,6 +450,13 @@
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Secure\WorkTime\card.aspx.designer.vb">
+      <DependentUpon>card.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\WorkTime\card.aspx.vb">
+      <DependentUpon>card.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Secure\WorkTime\dashboard.aspx.designer.vb">
       <DependentUpon>dashboard.aspx</DependentUpon>
     </Compile>
@@ -517,6 +524,7 @@
     <Content Include="Secure\Utilities\PhysicianScheduleInformation.aspx" />
     <Content Include="Secure\Utilities\TransactionNumbering\Default.aspx" />
     <Content Include="Secure\Web.config" />
+    <Content Include="Secure\WorkTime\card.aspx" />
     <Content Include="Secure\WorkTime\dashboard.aspx" />
     <Content Include="Secure\WorkTime\main.aspx" />
     <Content Include="Web.config">
@@ -601,7 +609,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

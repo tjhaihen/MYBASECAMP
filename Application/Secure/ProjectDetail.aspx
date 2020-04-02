@@ -55,7 +55,7 @@
         <tr>
             <td width="100%" valign="top" colspan="3">
                 <!-- BEGIN PAGE HEADER -->
-                <module:radmenu id="RadMenu" runat="server" />
+                <Module:RadMenu ID="RadMenu" runat="server" />
                 <!-- END PAGE HEADER -->
             </td>
         </tr>
@@ -140,7 +140,7 @@
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <module:csstoolbar id="CSSToolbar" runat="server"></module:csstoolbar>
+                                                    <Module:CSSToolbar ID="CSSToolbar" runat="server"></Module:CSSToolbar>
                                                 </td>
                                             </tr>
                                         </table>
@@ -177,6 +177,9 @@
                                     <td style="background: #ffffff; width: 100;" class="center">
                                         Total Open
                                     </td>
+                                    <td style="background: #ffffff; width: 120;" class="center">
+                                        Total Dev.Finish
+                                    </td>
                                     <td style="background: #ffffff; width: 100;" class="center">
                                         Total Finish
                                     </td>
@@ -195,6 +198,9 @@
                                         <asp:Label ID="lblTotalOpen" runat="server"></asp:Label>
                                     </td>
                                     <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
+                                        <asp:Label ID="lblTotalDevFinish" runat="server"></asp:Label>
+                                    </td>
+                                    <td style="background: #ffffff; width: 120; font-size: 24;" class="center">
                                         <asp:Label ID="lblTotalFinish" runat="server"></asp:Label>
                                     </td>
                                     <td style="background: #ffffff; width: 100; font-size: 24; font-weight: bold;" class="center">
@@ -296,7 +302,7 @@
                                                         Reported Date
                                                     </td>
                                                     <td style="background: #ffffff;">
-                                                        <module:calendar id="calReportedDate" runat="server" dontresetdate="true" />
+                                                        <Module:Calendar ID="calReportedDate" runat="server" DontResetDate="true" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -347,7 +353,7 @@
                                                         Target Date
                                                     </td>
                                                     <td style="width: 140; background: #ffffff;">
-                                                        <module:calendar id="calTargetDate" runat="server" dontresetdate="true" />
+                                                        <Module:Calendar ID="calTargetDate" runat="server" DontResetDate="true" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -369,17 +375,45 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="right" style="background: #ffffff;">
+                                                    <td class="right" style="background: #d6eaf8;">
                                                         Patch No.
                                                     </td>
-                                                    <td style="background: #ffffff;">
+                                                    <td style="background: #d6eaf8;">
                                                         <asp:TextBox ID="txtPatchNo" runat="server" Width="200" AutoPostBack="true">
                                                         </asp:TextBox>
                                                     </td>
-                                                    <td style="width: 100; background: #ffffff;" class="right">
+                                                    <td style="width: 100; background: #d6eaf8;" class="right">
                                                     </td>
-                                                    <td style="width: 140; background: #ffffff;">
+                                                    <td style="width: 140; background: #d6eaf8;">
                                                         <asp:CheckBox ID="chkIsSpecific" runat="server" Text="Is Specific Project?" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #f9e79f;">
+                                                    </td>
+                                                    <td style="background: #f9e79f;">
+                                                        <asp:CheckBox ID="chkIsIncludeInMyWorktime" runat="server" Text="Add to My today Worktime?" />
+                                                    </td>
+                                                    <td style="background: #f9e79f;" colspan="2">
+                                                        * for unsubmitted Worktime only
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #f9e79f;">
+                                                        Description
+                                                    </td>
+                                                    <td style="background: #f9e79f;">
+                                                        <asp:Label ID="lblWorktimeHdID" runat="server" Visible="true">
+                                                        </asp:Label>
+                                                        <asp:TextBox ID="txtWorktimeDtDescription" runat="server" Width="200">
+                                                        </asp:TextBox>
+                                                    </td>
+                                                    <td style="width: 100; background: #f9e79f;" class="right">
+                                                        <asp:TextBox ID="txtWorkTimeInHour" runat="server" Width="100%">
+                                                        </asp:TextBox>
+                                                    </td>
+                                                    <td style="width: 140; background: #f9e79f;">
+                                                        hour
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -561,7 +595,7 @@
                                                         Response Date
                                                     </td>
                                                     <td style="background: #ffffff;">
-                                                        <module:calendar id="Response_calResponseDate" runat="server" dontresetdate="true" />
+                                                        <Module:Calendar ID="Response_calResponseDate" runat="server" DontResetDate="true" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -569,8 +603,8 @@
                                                         Time Start
                                                     </td>
                                                     <td style="background: #ffffff;">
-                                                        <ew:maskedtextbox id="Response_txtResponseTimeStart" runat="server" width="100">
-                                                        </ew:maskedtextbox>
+                                                        <ew:MaskedTextBox ID="Response_txtResponseTimeStart" runat="server" Width="100">
+                                                        </ew:MaskedTextBox>
                                                         &nbsp;&nbsp;Duration
                                                         <asp:TextBox ID="Response_txtResponseDuration" runat="server" Width="60"></asp:TextBox>
                                                         Minutes
@@ -636,15 +670,43 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="right" style="background: #ffffff;">
+                                                    <td class="right" style="background: #d6eaf8;">
                                                         Patch No.
                                                     </td>
-                                                    <td style="background: #ffffff;">
+                                                    <td style="background: #d6eaf8;">
                                                         <asp:TextBox ID="Response_txtPatchNo" runat="server" Width="200" AutoPostBack="true">
                                                         </asp:TextBox>
                                                     </td>
-                                                    <td style="width: 200px; background: #ffffff;">
+                                                    <td style="width: 200px; background: #d6eaf8;">
                                                         <asp:CheckBox ID="Response_chkIsSpecific" runat="server" Text="Is Specific Project?" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #f9e79f;">
+                                                    </td>
+                                                    <td style="background: #f9e79f;">
+                                                        <asp:CheckBox ID="Response_chkIsIncludeInMyWorktime" runat="server" Text="Add to My today Worktime?" />
+                                                    </td>
+                                                    <td style="background: #f9e79f;" colspan="2">
+                                                        * for unsubmitted Worktime only
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #f9e79f;">
+                                                        Description
+                                                    </td>
+                                                    <td style="background: #f9e79f;">
+                                                        <asp:Label ID="Response_lblWorktimeHdID" runat="server" Visible="true">
+                                                        </asp:Label>
+                                                        <asp:TextBox ID="Response_txtWorktimeDtDescription" runat="server" Width="200">
+                                                        </asp:TextBox>
+                                                    </td>
+                                                    <td style="width: 100; background: #f9e79f;" class="right">
+                                                        <asp:TextBox ID="Response_txtWorkTimeInHour" runat="server" Width="100%">
+                                                        </asp:TextBox>
+                                                    </td>
+                                                    <td style="width: 140; background: #f9e79f;">
+                                                        hour
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -819,7 +881,9 @@
                                             <div>
                                                 <%# DataBinder.Eval(Container.DataItem, "userNameAssignedTo")%>
                                                 <br />
-                                                <div class="txtweak">Target Date:<br /><%# Format(DataBinder.Eval(Container.DataItem, "targetDate"), "dd-MMM-yyyy")%></div>
+                                                <div class="txtweak">
+                                                    Target Date:<br />
+                                                    <%# Format(DataBinder.Eval(Container.DataItem, "targetDate"), "dd-MMM-yyyy")%></div>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Status" ItemStyle-Width="80">
@@ -842,7 +906,7 @@
         <tr>
             <td valign="bottom" colspan="3">
                 <!-- BEGIN PAGE FOOTER-->
-                <module:copyright id="mdlCopyRight" runat="server" pathprefix=".."></module:copyright>
+                <Module:Copyright ID="mdlCopyRight" runat="server" pathprefix=".."></Module:Copyright>
                 <!-- END PAGE FOOTER-->
             </td>
         </tr>

@@ -177,7 +177,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <asp:Repeater ID="repMyProjectGroups" runat="server" OnItemDataBound="repMyProjectGroups_ItemDataBound">
+                            <asp:Repeater ID="repMyProjectGroups" runat="server">
                                 <HeaderTemplate>
                                     <ul id="ulRepProjectGroup">
                                 </HeaderTemplate>
@@ -277,6 +277,9 @@
                                                                                         Open
                                                                                     </td>
                                                                                     <td style="width: 50; background: #eeeeee;" class="center txtweak">
+                                                                                        Dev.Finish
+                                                                                    </td>
+                                                                                    <td style="width: 50; background: #eeeeee;" class="center txtweak">
                                                                                         Finish
                                                                                     </td>
                                                                                 </tr>
@@ -286,6 +289,9 @@
                                                                                     </td>
                                                                                     <td style="background: #eeeeee;" class="center">
                                                                                         <%# DataBinder.Eval(Container.DataItem, "totalOpen") %>
+                                                                                    </td>
+                                                                                    <td style="background: #eeeeee;" class="center">
+                                                                                        <%# DataBinder.Eval(Container.DataItem, "totalDevFinish") %>
                                                                                     </td>
                                                                                     <td style="background: #eeeeee;" class="center">
                                                                                         <%# DataBinder.Eval(Container.DataItem, "totalFinish") %>

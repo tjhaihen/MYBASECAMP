@@ -389,8 +389,8 @@ Namespace QIS.Common.BussinessRules
                                         "RTRIM(RTRIM(RTRIM(p.firstName) + ' ' + RTRIM(p.middleName)) + ' ' + RTRIM(p.lastName)) AS fullName, " & _
                                         "p.address1, p.address2, p.address3, p.city, p.postalCode, " & _
                                         "p.phone, p.mobile, p.fax, p.email, p.url, " & _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='SEX' AND code=p.sexSCode) AS SexName, " & _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='SEX' AND code=p.genderSCode) AS GenderName, " & _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='SEX' AND [value]=p.sexSCode) AS SexName, " & _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='SEX' AND [value]=p.genderSCode) AS GenderName, " & _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='RELIGION' AND code=p.religionSCode) AS ReligionName, " & _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='NATIONALITY' AND code=p.nationalitySCode) AS NationalityName, " & _
                                         "(SELECT SUM(worktimeInHour) FROM worktimeDt d INNER JOIN worktimeHd h ON d.worktimeHdID = h.worktimeHdID " & _

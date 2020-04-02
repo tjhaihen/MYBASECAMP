@@ -186,6 +186,15 @@ Namespace QIS.Web
         Protected WithEvents lblTotalOpen As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
+        '''lblTotalDevFinish control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalDevFinish As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''lblTotalFinish control.
         '''</summary>
         '''<remarks>
@@ -409,6 +418,42 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents chkIsSpecific As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''chkIsIncludeInMyWorktime control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsIncludeInMyWorktime As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''lblWorktimeHdID control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblWorktimeHdID As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''txtWorktimeDtDescription control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtWorktimeDtDescription As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''txtWorkTimeInHour control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtWorkTimeInHour As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
         '''btnSaveAndNew control.
@@ -652,6 +697,42 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents Response_chkIsSpecific As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''Response_chkIsIncludeInMyWorktime control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_chkIsIncludeInMyWorktime As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''Response_lblWorktimeHdID control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_lblWorktimeHdID As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''Response_txtWorktimeDtDescription control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_txtWorktimeDtDescription As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''Response_txtWorkTimeInHour control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_txtWorkTimeInHour As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
         '''Response_btnSaveAndNew control.
