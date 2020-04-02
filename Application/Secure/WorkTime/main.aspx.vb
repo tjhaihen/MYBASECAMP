@@ -88,7 +88,7 @@ Namespace QIS.Web.WorkTime
                 Case CSSToolbarItem.tidNew
                     PrepareScreenDt()
                 Case CSSToolbarItem.tidSave
-                    InsertUpdateWorkTimeDt()
+                    InsertUpdateWorkTimeHd()
                 Case CSSToolbarItem.tidApprove
                     UpdateSubmitWorkTimeHd()
             End Select
@@ -202,21 +202,21 @@ Namespace QIS.Web.WorkTime
             oWTHd.Remarks = txtRemarks.Text.Trim
             oWTHd.IsSubmitted = False
             If isNew Then
-                oWTHd.Insert()
-                lblWorkTimeHdID.Text = oWTHd.WorkTimeHdID.Trim
+                If oWTHd.Insert() Then
+                    lblWorkTimeHdID.Text = oWTHd.WorkTimeHdID.Trim
+                    InsertUpdateWorkTimeDt(oWTHd.WorkTimeHdID.Trim)
+                End If
             Else
-                oWTHd.Update()
+                If oWTHd.Update() Then
+                    InsertUpdateWorkTimeDt(lblWorkTimeHdID.Text.Trim)
+                End If
             End If
             oWTHd.Dispose()
             oWTHd = Nothing
         End Sub
 
-        Private Sub InsertUpdateWorkTimeDt()
-            Page.Validate()
-            If Not Page.IsValid Then Exit Sub
+        Private Sub InsertUpdateWorkTimeDt(ByVal strWorktimeHdID As String)
             Dim isNew As Boolean = True
-
-            InsertUpdateWorkTimeHd()
 
             Dim oWTDt As New Common.BussinessRules.WorkTimeDt
             oWTDt.WorkTimeDtID = lblWorkTimeDtID.Text.Trim
@@ -225,7 +225,7 @@ Namespace QIS.Web.WorkTime
             Else
                 isNew = True
             End If
-            oWTDt.WorkTimeHdID = lblWorkTimeHdID.Text.Trim
+            oWTDt.WorkTimeHdID = strWorktimeHdID.Trim
             oWTDt.ProjectID = ddlProject.SelectedValue.Trim
             oWTDt.IssueID = txtIssueID.Text.Trim
             oWTDt.DetailDescription = txtDetailDescription.Text.Trim
