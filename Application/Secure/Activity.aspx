@@ -3,12 +3,12 @@
 <%@ Register TagPrefix="Module" TagName="Copyright" Src="../incl/copyright.ascx" %>
 <%@ Register TagPrefix="Module" TagName="Calendar" Src="../incl/calendar.ascx" %>
 
-<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="Progress.aspx.vb" Inherits="QIS.Web.Secure.Progress" %>
+<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="Activity.aspx.vb" Inherits="QIS.Web.Secure.Activity" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-    <title>Progress</title>
+    <title>Activity</title>
     <link rel="title icon" href="/qistoollib/images/favicon.png" />
     <meta name="GENERATOR" content="Microsoft Visual Studio.NET 7.0" />
     <meta name="CODE_LANGUAGE" content="Visual Basic 7.0" />

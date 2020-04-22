@@ -150,9 +150,6 @@ Namespace QIS.Web
         Private Sub PrepareScreen()
             lblPageTitle.Text = "My Projects"
             chkIsMyAssignment.Checked = False
-            chkWorktime.Checked = False
-            chkAssignments.Checked = False
-            chkUrgents.Checked = False
             lblAssignmentsTotal.Text = "0"
             lblUrgentsTotal.Text = "0"
         End Sub
@@ -177,20 +174,8 @@ Namespace QIS.Web
             oBr.Dispose()
             oBr = Nothing
 
-            Dim oWT As New Common.BussinessRules.WorkTimeHd
-            With oWT
-                .UserID = MyBase.LoggedOnUserID.Trim
-                .WorkTimeDate = Today.Date
-                chkWorktime.Checked = (.SelectByUserIDWorkTimeDateSubmitted.Rows.Count > 0)
-            End With
-            oWT.Dispose()
-            oWT = Nothing
-
             lblAssignmentsTotal.Text = intAssignments.ToString.Trim
             lblUrgentsTotal.Text = intUrgents.ToString.Trim
-
-            chkAssignments.Checked = (lblAssignmentsTotal.Text = "0")
-            chkUrgents.Checked = (lblUrgentsTotal.Text = "0")
         End Sub
 
         Private Function GetProjectByProjectGroupID(ByVal ProjectGroupID As String, ByVal IsAssignedOnly As Boolean) As DataTable

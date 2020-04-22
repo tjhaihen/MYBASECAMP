@@ -60,43 +60,70 @@
             <td valign="top" style="width: 100%;">
                 <table width="100%">
                     <tr>
-                        <td class="Heading2" colspan="2">
+                        <td class="Heading2" colspan="3">
                             <asp:Label ID="lblPageTitle" runat="server" Text="Worktime Dashboard"></asp:Label>
                         </td>
                     </tr>
                     <tr>
-                        <td class="hseparator" colspan="2">
+                        <td class="hseparator" colspan="3">
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
+                        <td style="width: 200px;">
                             <Module:CSSToolbar ID="CSSToolbar" runat="server"></Module:CSSToolbar>
                         </td>
-                    </tr>
-                    <tr>
-                        <td class="hseparator" colspan="2">
-                        </td>
-                    </tr>
-                    <tr>
                         <td>
-                            <asp:TextBox ID="txtYear" runat="server" Width="150" AutoPostBack="true">
-                            </asp:TextBox>
-                            <asp:DropDownList ID="ddlMonth" runat="server" Width="150" AutoPostBack="true">
-                            </asp:DropDownList>
+                            <table>
+                                <tr>
+                                    <td>
+                                        Year
+                                    </td>
+                                    <td>
+                                        Month
+                                    </td>
+                                    <td>
+                                        Download
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <asp:TextBox ID="txtYear" runat="server" Width="150" AutoPostBack="true">
+                                        </asp:TextBox>
+                                    </td>
+                                    <td>
+                                        <asp:DropDownList ID="ddlMonth" runat="server" Width="150" AutoPostBack="true">
+                                        </asp:DropDownList>
+                                    </td>
+                                    <td>
+                                        <asp:DropDownList ID="ddlWorktimeTypeDownload" runat="server" Width="200" AutoPostBack="true">
+                                        </asp:DropDownList>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                         <td align="right">
                             <table cellspacing="1" cellpadding="2">
                                 <tr>
-                                    <td style="background: #606060; width: 20px;"></td>
-                                    <td>Not Submitted</td>
-                                    <td style="background: #017BCD; width: 20px;"></td>
-                                    <td>Submitted</td>
+                                    <td style="background: #606060; width: 20px;">
+                                    </td>
+                                    <td>
+                                        Not Submitted
+                                    </td>
+                                    <td style="background: #017BCD; width: 20px;">
+                                    </td>
+                                    <td>
+                                        Submitted
+                                    </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
+                        <td class="hseparator" colspan="3">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
                             <asp:DataGrid ID="grdActivePeople" runat="server" BorderWidth="0" GridLines="None"
                                 Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="True" ShowFooter="false"
                                 AutoGenerateColumns="false">

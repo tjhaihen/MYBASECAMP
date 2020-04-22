@@ -60,53 +60,102 @@
         </tr>
         <tr>
             <td valign="top" style="width: 120px;">
-                <table width="150" style="height: 60px;">
+                <table width="220" style="height: 60px;">
                     <tr>
                         <td valign="middle" style="width: 34;">
-                            <asp:ImageButton ID="ibtnMyProjects" runat="server" ImageUrl="/qistoollib/images/myprojects.png" alt="My Projects" />
+                            <asp:ImageButton ID="ibtnMyProjects" runat="server" ImageUrl="/qistoollib/images/myprojects.png"
+                                alt="My Projects" />
                         </td>
                         <td valign="middle">
                             <asp:LinkButton ID="lbtnMyProjects" runat="server" Text="My Projects" CausesValidation="false"></asp:LinkButton>
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 100%;" class="hseparator" colspan="2">
+                        <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
                     <tr>
                         <td valign="middle" style="width: 34;">
-                            <asp:ImageButton ID="ibtnMyAssignments" runat="server" ImageUrl="/qistoollib/images/myassignments.png" alt="My Assignments" />
+                            <asp:ImageButton ID="ibtnMyDay" runat="server" ImageUrl="/qistoollib/images/myday.png"
+                                alt="My Day" />
+                        </td>
+                        <td valign="middle">
+                            <asp:LinkButton ID="lbtnMyDay" runat="server" Text="My Day" CausesValidation="false"></asp:LinkButton>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 100%;" class="hseparator" colspan="3">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="middle" style="width: 34;">
+                            <asp:ImageButton ID="ibtnUrgents" runat="server" ImageUrl="/qistoollib/images/urgents.png"
+                                alt="Urgents" />
+                        </td>
+                        <td valign="middle">
+                            <asp:LinkButton ID="lbtnUrgents" runat="server" Text="Urgents" CausesValidation="false"></asp:LinkButton>
+                        </td>
+                        <td class="right" style="color: red;">
+                            <asp:Label ID="lblUrgentsTotal" runat="server"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 100%;" class="hseparator" colspan="3">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="middle" style="width: 34;">
+                            <asp:ImageButton ID="ibtnPlanned" runat="server" ImageUrl="/qistoollib/images/planned.png"
+                                alt="Planned" />
+                        </td>
+                        <td valign="middle">
+                            <asp:LinkButton ID="lbtnPlanned" runat="server" Text="Planned" CausesValidation="false"></asp:LinkButton>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 100%;" class="hseparator" colspan="3">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="middle" style="width: 34;">
+                            <asp:ImageButton ID="ibtnMyAssignments" runat="server" ImageUrl="/qistoollib/images/myassignments.png"
+                                alt="My Assignments" />
                         </td>
                         <td valign="middle">
                             <asp:LinkButton ID="lbtnMyAssignments" runat="server" Text="My Assignments" CausesValidation="false"></asp:LinkButton>
                         </td>
+                        <td class="right">
+                            <asp:Label ID="lblAssignmentsTotal" runat="server"></asp:Label>
+                        </td>
                     </tr>
                     <tr>
-                        <td style="width: 100%;" class="hseparator" colspan="2">
+                        <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
                     <tr>
                         <td valign="middle" style="width: 34;">
-                            <asp:ImageButton ID="ibtnFollowUpIssue" runat="server" ImageUrl="/qistoollib/images/followupissue.png" alt="Follow Up Issue" />
+                            <asp:ImageButton ID="ibtnFollowUpIssue" runat="server" ImageUrl="/qistoollib/images/followupissue.png"
+                                alt="Follow Up Issue" />
                         </td>
                         <td valign="middle">
                             <asp:LinkButton ID="lbtnFollowUpIssue" runat="server" Text="Follow Up Issue" CausesValidation="false"></asp:LinkButton>
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 100%;" class="hseparator" colspan="2">
+                        <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
                     <tr>
                         <td valign="middle" style="width: 34;">
-                            <asp:ImageButton ID="ibtnIssueStudy" runat="server" ImageUrl="/qistoollib/images/issuestudy.png" alt="Issue Study" />
+                            <asp:ImageButton ID="ibtnIssueStudy" runat="server" ImageUrl="/qistoollib/images/issuestudy.png"
+                                alt="Issue Study" />
                         </td>
                         <td valign="middle">
                             <asp:LinkButton ID="lbtnIssueStudy" runat="server" Text="Issue Study" CausesValidation="false"></asp:LinkButton>
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 100%;" class="hseparator" colspan="2">
+                        <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
                 </table>

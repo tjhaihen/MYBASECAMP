@@ -92,7 +92,7 @@ Namespace QIS.Web.WorkTime
                     Dim oRPT As New Common.BussinessRules.MyReport
                     oRPT.AddParameters(txtYear.Text.Trim)
                     oRPT.AddParameters(ddlMonth.SelectedValue.Trim)
-                    oRPT.ReportCode = Common.Constants.ReportID.Worktime_ReportID
+                    oRPT.ReportCode = ddlWorktimeTypeDownload.SelectedValue.Trim
                     oRPT.GetReportDataByReportCode()
                     If oRPT.ReportFormat = "XLS" Then
                         oRPT.ExportToExcel(oRPT.generateReportDataTable, Response)
@@ -110,6 +110,7 @@ Namespace QIS.Web.WorkTime
 
         Private Sub prepareDDL()
             commonFunction.SetDDL_Table(ddlMonth, "MonthInYear", String.Empty, False)
+            commonFunction.SetDDL_Table(ddlWorktimeTypeDownload, "CommonCode", Common.Constants.GroupCode.WorktimeReport_SCode, False)
         End Sub
 
         Private Sub PrepareScreen()

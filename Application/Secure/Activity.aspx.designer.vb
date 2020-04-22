@@ -12,7 +12,7 @@ Option Explicit On
 
 Namespace QIS.Web.Secure
 
-    Partial Public Class Progress
+    Partial Public Class Activity
 
         '''<summary>
         '''frm control.

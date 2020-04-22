@@ -452,6 +452,7 @@ Namespace QIS.Web
         End Sub
 
         Private Sub prepareDDL()
+            commonFunction.SetDDL_Table(ddlProductRoadmap, "CommonCode", Common.Constants.GroupCode.ProductRoadmap_SCode, True, "Not Set")
             commonFunction.SetDDL_Table(ddlIssueType, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, True, "Not Set")
             commonFunction.SetDDL_Table(ddlIssueStatus, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "Not Set")
             commonFunction.SetDDL_Table(ddlIssuePriority, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, True, "Not Set")
@@ -480,8 +481,10 @@ Namespace QIS.Web
             ddlIssuePriority.SelectedIndex = 0
             ddlIssueConfirmStatus.SelectedIndex = 0
             ddlUserIDAssignedTo.SelectedValue = MyBase.LoggedOnUserID.Trim
+            calEstStartDate.selectedDate = Date.Today
             calTargetDate.selectedDate = Date.Today
             chkIsUrgent.Checked = False
+            ddlProductRoadmap.SelectedIndex = 0
 
             txtPatchNo.Text = String.Empty
             chkIsSpecific.Checked = False
@@ -650,6 +653,7 @@ Namespace QIS.Web
                     txtKeywords.Text = .Keywords.Trim
                     calReportedDate.selectedDate = .ReportedDate
                     txtReportedBy.Text = .ReportedBy.Trim
+                    ddlProductRoadmap.SelectedValue = .ProductRoadmapSCode.Trim
                     ddlIssueType.SelectedValue = .IssueTypeSCode.Trim
                     ddlIssueStatus.SelectedValue = .IssueStatusSCode.Trim
                     ddlIssuePriority.SelectedValue = .IssuePrioritySCode.Trim
@@ -659,6 +663,7 @@ Namespace QIS.Web
                     Else
                         ddlUserIDAssignedTo.SelectedValue = .userIDassignedTo.Trim
                     End If
+                    calEstStartDate.selectedDate = .estStartDate
                     calTargetDate.selectedDate = .targetDate
                     chkIsUrgent.Checked = .isUrgent
                     txtPatchNo.Text = .PatchNo.Trim
@@ -735,15 +740,18 @@ Namespace QIS.Web
                 .Keywords = txtKeywords.Text.Trim
                 .ReportedDate = calReportedDate.selectedDate
                 .ReportedBy = txtReportedBy.Text.Trim
+                .ProductRoadmapSCode = ddlProductRoadmap.SelectedValue.Trim
                 .IssueTypeSCode = ddlIssueType.SelectedValue.Trim
                 .IssueStatusSCode = ddlIssueStatus.SelectedValue.Trim
                 .IssuePrioritySCode = ddlIssuePriority.SelectedValue.Trim
                 .IssueConfirmStatusSCode = ddlIssueConfirmStatus.SelectedValue.Trim
                 .userIDassignedTo = ddlUserIDAssignedTo.SelectedValue.Trim
+                .estStartDate = calEstStartDate.selectedDate
                 .targetDate = calTargetDate.selectedDate
                 .isUrgent = chkIsUrgent.Checked
                 .PatchNo = txtPatchNo.Text.Trim
                 .isSpecific = chkIsSpecific.Checked
+
                 .userIDinsert = MyBase.LoggedOnUserID.Trim
                 .userIDupdate = MyBase.LoggedOnUserID.Trim
                 If fNew Then

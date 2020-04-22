@@ -51,7 +51,7 @@
         </tr>
         <tr>
             <td valign="top" style="width: 120px;">
-                <table width="150" style="height: 60px;">
+                <table width="220" style="height: 60px;">
                     <tr>
                         <td valign="middle" style="width: 34;">
                             <asp:ImageButton ID="ibtnMyProjects" runat="server" ImageUrl="/qistoollib/images/myprojects.png"
@@ -62,7 +62,49 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 100%;" class="hseparator" colspan="2">
+                        <td style="width: 100%;" class="hseparator" colspan="3">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="middle" style="width: 34;">
+                            <asp:ImageButton ID="ibtnMyDay" runat="server" ImageUrl="/qistoollib/images/myday.png"
+                                alt="My Day" />
+                        </td>
+                        <td valign="middle">
+                            <asp:LinkButton ID="lbtnMyDay" runat="server" Text="My Day" CausesValidation="false"></asp:LinkButton>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 100%;" class="hseparator" colspan="3">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="middle" style="width: 34;">
+                            <asp:ImageButton ID="ibtnUrgents" runat="server" ImageUrl="/qistoollib/images/urgents.png"
+                                alt="Urgents" />
+                        </td>
+                        <td valign="middle">
+                            <asp:LinkButton ID="lbtnUrgents" runat="server" Text="Urgents" CausesValidation="false"></asp:LinkButton>
+                        </td>
+                        <td class="right" style="color: red;">
+                            <asp:Label ID="lblUrgentsTotal" runat="server"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 100%;" class="hseparator" colspan="3">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="middle" style="width: 34;">
+                            <asp:ImageButton ID="ibtnPlanned" runat="server" ImageUrl="/qistoollib/images/planned.png"
+                                alt="Planned" />
+                        </td>
+                        <td valign="middle">
+                            <asp:LinkButton ID="lbtnPlanned" runat="server" Text="Planned" CausesValidation="false"></asp:LinkButton>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
                     <tr>
@@ -73,9 +115,12 @@
                         <td valign="middle">
                             <asp:LinkButton ID="lbtnMyAssignments" runat="server" Text="My Assignments" CausesValidation="false"></asp:LinkButton>
                         </td>
+                        <td class="right">
+                            <asp:Label ID="lblAssignmentsTotal" runat="server"></asp:Label>
+                        </td>
                     </tr>
                     <tr>
-                        <td style="width: 100%;" class="hseparator" colspan="2">
+                        <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
                     <tr>
@@ -88,7 +133,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 100%;" class="hseparator" colspan="2">
+                        <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
                     <tr>
@@ -101,7 +146,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 100%;" class="hseparator" colspan="2">
+                        <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
                 </table>

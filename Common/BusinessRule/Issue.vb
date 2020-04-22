@@ -16,11 +16,12 @@ Namespace QIS.Common.BussinessRules
         Private _reportedDate As DateTime
         Private _userIDinsert, _userIDupdate As String
         Private _insertDate, _updateDate, _assignedDate As DateTime
-        Private _targetDate, _finishDate As Date
+        Private _estStartDate, _targetDate, _finishDate As Date
         Private _isUrgent, _isSpecific As Boolean
 
         Private _totalIssue, _totalOpen, _totalDevFinish, _totalFinish As Decimal
         Private _projectAliasName, _projectName As String
+        Private _productRoadmapSCode As String
 #End Region
 
         Public Sub New()
@@ -36,10 +37,12 @@ Namespace QIS.Common.BussinessRules
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "INSERT INTO Issue " + _
                                         "(issueID, projectID, departmentName, issueDescription, keywords, issueTypeSCode, issueStatusSCode, patchNo, isSpecific, " + _
-                                        "issuePrioritySCode, issueConfirmStatusSCode, reportedBy, reportedDate, userIDassignedTo, isUrgent, userIDinsert, userIDupdate, insertDate, updateDate, assignedBy, assignedDate, targetDate) " + _
+                                        "issuePrioritySCode, issueConfirmStatusSCode, reportedBy, reportedDate, userIDassignedTo, isUrgent, userIDinsert, userIDupdate, insertDate, updateDate, assignedBy, assignedDate, targetDate, " + _
+                                        "estStartDate, productRoadmapSCode) " + _
                                         "VALUES " + _
                                         "(@issueID, @projectID, @departmentName, @issueDescription, @keywords, @issueTypeSCode, @issueStatusSCode, @patchNo, @isSpecific, " + _
-                                        "@issuePrioritySCode, @issueConfirmStatusSCode, @reportedBy, @reportedDate, @userIDassignedTo, @isUrgent, @userIDinsert, @userIDupdate, GETDATE(), GETDATE(), @assignedBy, GETDATE(), @targetDate)"
+                                        "@issuePrioritySCode, @issueConfirmStatusSCode, @reportedBy, @reportedDate, @userIDassignedTo, @isUrgent, @userIDinsert, @userIDupdate, GETDATE(), GETDATE(), @assignedBy, GETDATE(), @targetDate, " + _
+                                        "@estStartDate, @productRoadmapSCode)"
             cmdToExecute.CommandType = CommandType.Text
             cmdToExecute.Connection = _mainConnection
 
@@ -65,6 +68,8 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@targetDate", _targetDate)
                 cmdToExecute.Parameters.AddWithValue("@patchNo", _patchNo)
                 cmdToExecute.Parameters.AddWithValue("@isSpecific", _isSpecific)
+                cmdToExecute.Parameters.AddWithValue("@estStartDate", _estStartDate)
+                cmdToExecute.Parameters.AddWithValue("@productRoadmapSCode", _productRoadmapSCode)
 
                 ' // Open Connection
                 _mainConnection.Open()
@@ -88,7 +93,8 @@ Namespace QIS.Common.BussinessRules
                                         "SET departmentName=@departmentName, issueDescription=@issueDescription, keywords=@keywords, issueTypeSCode=@issueTypeSCode, " + _
                                         "issueStatusSCode=@issueStatusSCode, issuePrioritySCode=@issuePrioritySCode, issueConfirmStatusSCode=@issueConfirmStatusSCode, " + _
                                         "reportedBy=@reportedBy, reportedDate=@reportedDate, userIDassignedTo=@userIDassignedTo, isUrgent=@isUrgent, userIDupdate=@userIDupdate, updateDate=GETDATE(), " + _
-                                        "targetDate=@targetDate, patchNo=@patchNo, isSpecific=@isSpecific " + _
+                                        "targetDate=@targetDate, patchNo=@patchNo, isSpecific=@isSpecific, " + _
+                                        "estStartDate=@estStartDate, productRoadmapSCode=@productRoadmapSCode " + _
                                         "WHERE issueID=@issueID"
             cmdToExecute.CommandType = CommandType.Text
 
@@ -110,6 +116,8 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@isUrgent", _isUrgent)
                 cmdToExecute.Parameters.AddWithValue("@patchNo", _patchNo)
                 cmdToExecute.Parameters.AddWithValue("@isSpecific", _isSpecific)
+                cmdToExecute.Parameters.AddWithValue("@estStartDate", _estStartDate)
+                cmdToExecute.Parameters.AddWithValue("@productRoadmapSCode", _productRoadmapSCode)
                 cmdToExecute.Parameters.AddWithValue("@userIDupdate", _userIDupdate)
 
                 ' // Open Connection
@@ -294,10 +302,12 @@ Namespace QIS.Common.BussinessRules
                     _userIDupdate = CType(toReturn.Rows(0)("userIDupdate"), String)
                     _insertDate = CType(toReturn.Rows(0)("insertDate"), DateTime)
                     _updateDate = CType(toReturn.Rows(0)("updateDate"), DateTime)
+                    _estStartDate = CType(toReturn.Rows(0)("estStartDate"), DateTime)
                     _targetDate = CType(toReturn.Rows(0)("targetDate"), DateTime)
                     _finishDate = CType(toReturn.Rows(0)("finishDate"), DateTime)
                     _patchNo = CType(toReturn.Rows(0)("patchNo"), String)
                     _isSpecific = CType(toReturn.Rows(0)("isSpecific"), Boolean)
+                    _productRoadmapSCode = CType(toReturn.Rows(0)("productRoadmapSCode"), String)
                 End If
             Catch ex As Exception
                 ' // some error occured. Bubble it to caller and encapsulate Exception object
@@ -344,7 +354,7 @@ Namespace QIS.Common.BussinessRules
             Dim cmdToExecute As SqlCommand = New SqlCommand
             Dim strFilterOpenOnly As String = String.Empty
             If IsOpenOnly Then
-                strFilterOpenOnly = " AND i.issueStatusSCode<>'003' "
+                strFilterOpenOnly = " AND i.issueStatusSCode IN ('001','002','009','002-6') "
             Else
                 strFilterOpenOnly = String.Empty
             End If
@@ -904,6 +914,15 @@ Namespace QIS.Common.BussinessRules
             End Set
         End Property
 
+        Public Property [estStartDate]() As DateTime
+            Get
+                Return _estStartDate
+            End Get
+            Set(ByVal Value As DateTime)
+                _estStartDate = Value
+            End Set
+        End Property
+
         Public Property [targetDate]() As DateTime
             Get
                 Return _targetDate
@@ -991,6 +1010,15 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _projectName = Value
+            End Set
+        End Property
+
+        Public Property [ProductRoadmapSCode]() As String
+            Get
+                Return _productRoadmapSCode
+            End Get
+            Set(ByVal Value As String)
+                _productRoadmapSCode = Value
             End Set
         End Property
 #End Region

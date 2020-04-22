@@ -61,7 +61,7 @@
         </tr>
         <tr>
             <td valign="top" width="120">
-                <table width="150" style="height: 60px;">
+                <table width="220" style="height: 60px;">
                     <tr>
                         <td valign="middle" style="width: 34;">
                             <asp:ImageButton ID="ibtnMyProjects" runat="server" ImageUrl="/qistoollib/images/myprojects.png"
@@ -72,7 +72,49 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 100%;" class="hseparator" colspan="2">
+                        <td style="width: 100%;" class="hseparator" colspan="3">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="middle" style="width: 34;">
+                            <asp:ImageButton ID="ibtnMyDay" runat="server" ImageUrl="/qistoollib/images/myday.png"
+                                alt="My Day" />
+                        </td>
+                        <td valign="middle">
+                            <asp:LinkButton ID="lbtnMyDay" runat="server" Text="My Day" CausesValidation="false"></asp:LinkButton>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 100%;" class="hseparator" colspan="3">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="middle" style="width: 34;">
+                            <asp:ImageButton ID="ibtnUrgents" runat="server" ImageUrl="/qistoollib/images/urgents.png"
+                                alt="Urgents" />
+                        </td>
+                        <td valign="middle">
+                            <asp:LinkButton ID="lbtnUrgents" runat="server" Text="Urgents" CausesValidation="false"></asp:LinkButton>
+                        </td>
+                        <td class="right" style="color: red;">
+                            <asp:Label ID="lblUrgentsTotal" runat="server"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 100%;" class="hseparator" colspan="3">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="middle" style="width: 34;">
+                            <asp:ImageButton ID="ibtnPlanned" runat="server" ImageUrl="/qistoollib/images/planned.png"
+                                alt="Planned" />
+                        </td>
+                        <td valign="middle">
+                            <asp:LinkButton ID="lbtnPlanned" runat="server" Text="Planned" CausesValidation="false"></asp:LinkButton>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
                     <tr>
@@ -83,9 +125,12 @@
                         <td valign="middle">
                             <asp:LinkButton ID="lbtnMyAssignments" runat="server" Text="My Assignments" CausesValidation="false"></asp:LinkButton>
                         </td>
+                        <td class="right">
+                            <asp:Label ID="lblAssignmentsTotal" runat="server"></asp:Label>
+                        </td>
                     </tr>
                     <tr>
-                        <td style="width: 100%;" class="hseparator" colspan="2">
+                        <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
                     <tr>
@@ -98,7 +143,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 100%;" class="hseparator" colspan="2">
+                        <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
                     <tr>
@@ -111,7 +156,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 100%;" class="hseparator" colspan="2">
+                        <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
                 </table>
@@ -263,6 +308,15 @@
                                             <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                                 <tr>
                                                     <td class="right" style="width: 120px; background: #ffffff;">
+                                                        Product Roadmap
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:DropDownList ID="ddlProductRoadmap" runat="server" Width="360">
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="width: 120px; background: #ffffff;">
                                                         Department
                                                     </td>
                                                     <td style="background: #ffffff;">
@@ -335,10 +389,10 @@
                                                         <asp:DropDownList ID="ddlIssuePriority" runat="server" Width="200">
                                                         </asp:DropDownList>
                                                     </td>
-                                                    <td style="width: 100; background: #ffffff;" class="right">
+                                                    <td style="width: 100; background: #ffffff;">
+                                                        <asp:CheckBox ID="chkIsUrgent" runat="server" Text="Urgent" ForeColor="Red" />
                                                     </td>
                                                     <td style="width: 140; background: #ffffff;">
-                                                        <asp:CheckBox ID="chkIsUrgent" runat="server" Text="Urgent Issue" ForeColor="Red" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -350,10 +404,32 @@
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td style="width: 100; background: #ffffff;" class="right">
-                                                        Target Date
                                                     </td>
                                                     <td style="width: 140; background: #ffffff;">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #ffffff;">
+                                                        Est. Start Date
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <Module:Calendar ID="calEstStartDate" runat="server" DontResetDate="true" />
+                                                    </td>
+                                                    <td style="width: 100; background: #ffffff;" class="right">
+                                                    </td>
+                                                    <td style="width: 140; background: #ffffff;">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #ffffff;">
+                                                        Target Date
+                                                    </td>
+                                                    <td style="background: #ffffff;">
                                                         <Module:Calendar ID="calTargetDate" runat="server" DontResetDate="true" />
+                                                    </td>
+                                                    <td style="width: 100; background: #ffffff;" class="right">
+                                                    </td>
+                                                    <td style="width: 140; background: #ffffff;">
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -382,9 +458,7 @@
                                                         <asp:TextBox ID="txtPatchNo" runat="server" Width="200" AutoPostBack="true">
                                                         </asp:TextBox>
                                                     </td>
-                                                    <td style="width: 100; background: #d6eaf8;" class="right">
-                                                    </td>
-                                                    <td style="width: 140; background: #d6eaf8;">
+                                                    <td style="background: #d6eaf8;" colspan="2">
                                                         <asp:CheckBox ID="chkIsSpecific" runat="server" Text="Is Specific Project?" />
                                                     </td>
                                                 </tr>
@@ -395,7 +469,7 @@
                                                         <asp:CheckBox ID="chkIsIncludeInMyWorktime" runat="server" Text="Add to My today Worktime?" />
                                                     </td>
                                                     <td style="background: #f9e79f;" colspan="2">
-                                                        * for unsubmitted Worktime only
+                                                        *unsubmitted only
                                                     </td>
                                                 </tr>
                                                 <tr>

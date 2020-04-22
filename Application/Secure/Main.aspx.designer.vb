@@ -33,51 +33,6 @@ Namespace QIS.Web
         Protected WithEvents RadMenu As Global.QIS.RadMenu
 
         '''<summary>
-        '''chkWorktime control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents chkWorktime As Global.System.Web.UI.WebControls.CheckBox
-
-        '''<summary>
-        '''chkAssignments control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents chkAssignments As Global.System.Web.UI.WebControls.CheckBox
-
-        '''<summary>
-        '''lblAssignmentsTotal control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents lblAssignmentsTotal As Global.System.Web.UI.WebControls.Label
-
-        '''<summary>
-        '''chkUrgents control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents chkUrgents As Global.System.Web.UI.WebControls.CheckBox
-
-        '''<summary>
-        '''lblUrgentsTotal control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents lblUrgentsTotal As Global.System.Web.UI.WebControls.Label
-
-        '''<summary>
         '''ibtnMyProjects control.
         '''</summary>
         '''<remarks>
@@ -96,6 +51,69 @@ Namespace QIS.Web
         Protected WithEvents lbtnMyProjects As Global.System.Web.UI.WebControls.LinkButton
 
         '''<summary>
+        '''ibtnMyDay control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ibtnMyDay As Global.System.Web.UI.WebControls.ImageButton
+
+        '''<summary>
+        '''lbtnMyDay control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lbtnMyDay As Global.System.Web.UI.WebControls.LinkButton
+
+        '''<summary>
+        '''ibtnUrgents control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ibtnUrgents As Global.System.Web.UI.WebControls.ImageButton
+
+        '''<summary>
+        '''lbtnUrgents control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lbtnUrgents As Global.System.Web.UI.WebControls.LinkButton
+
+        '''<summary>
+        '''lblUrgentsTotal control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblUrgentsTotal As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''ibtnPlanned control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ibtnPlanned As Global.System.Web.UI.WebControls.ImageButton
+
+        '''<summary>
+        '''lbtnPlanned control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lbtnPlanned As Global.System.Web.UI.WebControls.LinkButton
+
+        '''<summary>
         '''ibtnMyAssignments control.
         '''</summary>
         '''<remarks>
@@ -112,6 +130,15 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents lbtnMyAssignments As Global.System.Web.UI.WebControls.LinkButton
+
+        '''<summary>
+        '''lblAssignmentsTotal control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblAssignmentsTotal As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
         '''ibtnFollowUpIssue control.

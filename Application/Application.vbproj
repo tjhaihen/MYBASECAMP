@@ -341,11 +341,11 @@
       <DependentUpon>PatchList.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="Secure\Progress.aspx.designer.vb">
-      <DependentUpon>Progress.aspx</DependentUpon>
+    <Compile Include="Secure\Activity.aspx.designer.vb">
+      <DependentUpon>Activity.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Secure\Progress.aspx.vb">
-      <DependentUpon>Progress.aspx</DependentUpon>
+    <Compile Include="Secure\Activity.aspx.vb">
+      <DependentUpon>Activity.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Secure\Project.aspx.designer.vb">
@@ -507,7 +507,7 @@
     <Content Include="Secure\Mobile\Productivity.aspx" />
     <Content Include="Secure\PatchManagement\PatchDashboard.aspx" />
     <Content Include="Secure\PatchManagement\PatchList.aspx" />
-    <Content Include="Secure\Progress.aspx" />
+    <Content Include="Secure\Activity.aspx" />
     <Content Include="Secure\Project.aspx" />
     <Content Include="Secure\GetImage.aspx" />
     <Content Include="Secure\ProjectDetail.aspx" />
@@ -609,7 +609,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

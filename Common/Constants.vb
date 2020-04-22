@@ -6,6 +6,7 @@
             Public Const Nationality_SCode As String = "NATIONALITY"
             Public Const Priority_SCode As String = "PRIORITY"
             Public Const ProjectStatus_SCode As String = "PROJECTSTATUS"
+            Public Const ProductRoadmap_SCode As String = "PRODUCTROADMAP"
             Public Const IssueType_SCode As String = "ISSUETYPE"
             Public Const IssueStatus_SCode As String = "ISSUESTATUS"
             Public Const IssuePriority_SCode As String = "ISSUEPRIORITY"
@@ -15,6 +16,7 @@
             Public Const System_SCode As String = "SYSTEM"
             Public Const Tracking_SCode As String = "TRACKING"
             Public Const Delimiter_SCode As String = "DELIMITER"
+            Public Const WorktimeReport_SCode As String = "WORKTIMEREPORT"
 
             Public Const EMRAssessmentType_SCode As String = "ASSESSMENTTYPE"
 

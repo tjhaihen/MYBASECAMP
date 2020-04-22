@@ -69,6 +69,15 @@ Namespace QIS.Web.WorkTime
         Protected WithEvents ddlMonth As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
+        '''ddlWorktimeTypeDownload control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlWorktimeTypeDownload As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
         '''grdActivePeople control.
         '''</summary>
         '''<remarks>

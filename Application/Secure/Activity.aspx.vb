@@ -17,7 +17,7 @@ Imports QIS.Common
 
 Namespace QIS.Web.Secure
 
-    Public Class Progress
+    Public Class Activity
         Inherits PageBase
 
 #Region " Private Variables (web form designer generated code and user code) "
@@ -35,7 +35,7 @@ Namespace QIS.Web.Secure
                 setToolbarVisibleButton()
 
                 prepareDDL()
-                prepareScreen(True)                
+                prepareScreen(True)
                 DataBind()
             End If
         End Sub
@@ -88,12 +88,12 @@ Namespace QIS.Web.Secure
         Protected Sub repProgressPeriod_Contributor_ItemDataBound(sender As Object, e As System.Web.UI.WebControls.RepeaterItemEventArgs)
             If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
                 Dim row As DataRowView = CType(e.Item.DataItem, DataRowView)
-                Dim repProgressPeriod_Contributor_Detail As Repeater = CType(e.Item.FindControl("repProgressPeriod_Contributor_Detail"), Repeater)                
+                Dim repProgressPeriod_Contributor_Detail As Repeater = CType(e.Item.FindControl("repProgressPeriod_Contributor_Detail"), Repeater)
 
                 Dim dtProgressPeriodContributorDetail As DataTable = Me.GetProgressPeriod_Level3(row("ProgressDate").ToString.Trim, row("userID").ToString.Trim)
                 If dtProgressPeriodContributorDetail.Rows.Count > 0 Then
                     repProgressPeriod_Contributor_Detail.DataSource = dtProgressPeriodContributorDetail
-                    repProgressPeriod_Contributor_Detail.DataBind()                                    
+                    repProgressPeriod_Contributor_Detail.DataBind()
                 End If
             End If
         End Sub
