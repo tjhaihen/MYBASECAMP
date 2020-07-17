@@ -354,7 +354,7 @@ Namespace QIS.Common.BussinessRules
             Dim cmdToExecute As SqlCommand = New SqlCommand
             Dim strFilterOpenOnly As String = String.Empty
             If IsOpenOnly Then
-                strFilterOpenOnly = " AND i.issueStatusSCode IN ('001','002','009','002-6') "
+                strFilterOpenOnly = " AND i.issueStatusSCode IN ('','001','002','009','002-6') "
             Else
                 strFilterOpenOnly = String.Empty
             End If

@@ -17,6 +17,7 @@
             Public Const Tracking_SCode As String = "TRACKING"
             Public Const Delimiter_SCode As String = "DELIMITER"
             Public Const WorktimeReport_SCode As String = "WORKTIMEREPORT"
+            Public Const DocumentType_SCode As String = "DOCTYPE"
 
             Public Const EMRAssessmentType_SCode As String = "ASSESSMENTTYPE"
 
@@ -71,6 +72,7 @@
             Public Const Project_MenuID As String = "1005"
             Public Const People_MenuID As String = "1009"
             Public Const Progress_MenuID As String = "5000"
+            Public Const Documents_MenuID As String = "7000"
             Public Const CommonCode_MenuID As String = "9008"
             Public Const SystemParameter_MenuID As String = "9009"
             Public Const ChangePassword_MenuID As String = "9010"

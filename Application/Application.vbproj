@@ -264,6 +264,13 @@
       <DependentUpon>CommonCode.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\Documents.aspx.designer.vb">
+      <DependentUpon>Documents.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Documents.aspx.vb">
+      <DependentUpon>Documents.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Secure\EMRTracking\Dashboard.aspx.designer.vb">
       <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
@@ -496,6 +503,7 @@
     <Content Include="Secure\Budget\BudgetPurchasing.aspx" />
     <Content Include="Secure\ChangePassword.aspx" />
     <Content Include="Secure\CommonCode.aspx" />
+    <Content Include="Secure\Documents.aspx" />
     <Content Include="Secure\EMRTracking\Dashboard.aspx" />
     <Content Include="Secure\EMRTracking\LocationList.aspx" />
     <Content Include="Secure\EMRTracking\Mutation.aspx" />
@@ -581,6 +589,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="My Project\" />
+    <Folder Include="Secure\Documents\" />
     <Folder Include="Secure\MSExcelTemplates\" />
     <Folder Include="SharedLibs\Tools\" />
     <Folder Include="Uploads\" />
@@ -609,7 +618,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

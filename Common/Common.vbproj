@@ -130,6 +130,7 @@
     <Compile Include="BusinessRule\CommonCode.vb" />
     <Compile Include="BusinessRule\Company.vb" />
     <Compile Include="BusinessRule\Customer.vb" />
+    <Compile Include="BusinessRule\Documents.vb" />
     <Compile Include="BusinessRule\DrugInteraction\DrugGenericMtx.vb" />
     <Compile Include="BusinessRule\DrugInteraction\DrugInteractionDt.vb" />
     <Compile Include="BusinessRule\DrugInteraction\DrugInteractionHd.vb" />
