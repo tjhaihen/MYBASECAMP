@@ -320,6 +320,13 @@
       <DependentUpon>FollowUpIssue.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\IssueByParameter.aspx.designer.vb">
+      <DependentUpon>IssueByParameter.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\IssueByParameter.aspx.vb">
+      <DependentUpon>IssueByParameter.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Secure\IssueStudy.aspx.designer.vb">
       <DependentUpon>IssueStudy.aspx</DependentUpon>
     </Compile>
@@ -511,6 +518,7 @@
     <Content Include="Secure\EMR\AssesmentPerawat.aspx" />
     <Content Include="Secure\EMR\main.aspx" />
     <Content Include="Secure\FollowUpIssue.aspx" />
+    <Content Include="Secure\IssueByParameter.aspx" />
     <Content Include="Secure\IssueStudy.aspx" />
     <Content Include="Secure\Mobile\Productivity.aspx" />
     <Content Include="Secure\PatchManagement\PatchDashboard.aspx" />
@@ -618,7 +626,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
