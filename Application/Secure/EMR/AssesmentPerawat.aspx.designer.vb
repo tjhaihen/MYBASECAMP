@@ -408,7 +408,7 @@ Namespace QIS.Web.EMR
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents txtJamDatang As Global.eWorld.UI.MaskedTextBox
+        Protected WithEvents txtJamDatang As Global.eWorld.UI.maskedtextbox
 
         '''<summary>
         '''calTglLayan control.
@@ -426,7 +426,7 @@ Namespace QIS.Web.EMR
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents txtJamLayan As Global.eWorld.UI.MaskedTextBox
+        Protected WithEvents txtJamLayan As Global.eWorld.UI.maskedtextbox
 
         '''<summary>
         '''txtKeluhanUtama control.
@@ -1263,7 +1263,7 @@ Namespace QIS.Web.EMR
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents txtJamDisposisi As Global.eWorld.UI.MaskedTextBox
+        Protected WithEvents txtJamDisposisi As Global.eWorld.UI.maskedtextbox
 
         '''<summary>
         '''ddlKdnKlr control.
@@ -1479,7 +1479,7 @@ Namespace QIS.Web.EMR
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents txtJamCP As Global.eWorld.UI.MaskedTextBox
+        Protected WithEvents txtJamCP As Global.eWorld.UI.maskedtextbox
 
         '''<summary>
         '''txtNurseNotesID control.
@@ -1552,5 +1552,23 @@ Namespace QIS.Web.EMR
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents grdCatatanUnitLainnya As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''btnRelatedLinkInfoTransaksiLab control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnRelatedLinkInfoTransaksiLab As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''btnRelatedLinkInfoTransaksiPenunjang control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnRelatedLinkInfoTransaksiPenunjang As Global.System.Web.UI.WebControls.Button
     End Class
 End Namespace

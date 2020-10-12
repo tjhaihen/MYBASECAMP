@@ -91,6 +91,17 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                        <asp:CheckBox ID="chkResetPassword" runat="server" Text="Reset Password" Checked="False" />
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td class="right">
                                                         Password
                                                     </td>

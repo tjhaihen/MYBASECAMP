@@ -66,6 +66,36 @@ Namespace QIS.Common
         Public Shared Function FormatMRN() As String
             Return GetSettingParameter(Constants.Parameter.PARAM_FORMAT_MRN)
         End Function
+
+        Public Shared Sub SetDropDownListOtherDiagnosticSupport(ByVal list As DropDownList)
+            Dim TotalRowsCount As Integer
+
+            Dim oBagian As New Common.BussinessRules.PenunjangMedis
+
+            Dim dt As DataTable = oBagian.SelectAllOtherDiagnosticSupport()
+            TotalRowsCount = dt.Rows.Count
+
+            With list
+                .Items.Clear()
+
+                If TotalRowsCount > 0 Then
+                    Dim i As Integer = 1
+
+                    Do While i <= TotalRowsCount
+                        If CBool(dt.Rows(i - 1)("aktif")) = True Then
+                            .Items.Add(New ListItem(Common.ProcessNull.GetString(dt.Rows(i - 1)("nmpmedis")), Common.ProcessNull.GetString(dt.Rows(i - 1)("kdPmedis"))))
+                        End If
+
+                        i += 1
+                    Loop
+                End If
+            End With
+            oBagian.Dispose()
+            oBagian = Nothing
+
+            dt.Dispose()
+            dt = Nothing
+        End Sub
 #End Region
 
 #Region "Common Page Function"

@@ -146,11 +146,15 @@
     <Compile Include="BusinessRule\ID.vb" />
     <Compile Include="BusinessRule\Issue.vb" />
     <Compile Include="BusinessRule\IssueResponse.vb" />
+    <Compile Include="BusinessRule\Laboratorium.vb" />
+    <Compile Include="BusinessRule\Pasien.vb" />
     <Compile Include="BusinessRule\PatchManagement\Patch.vb" />
     <Compile Include="BusinessRule\PatchManagement\PatchDt.vb" />
     <Compile Include="BusinessRule\PatchManagement\PatchProject.vb" />
+    <Compile Include="BusinessRule\PenunjangMedis.vb" />
     <Compile Include="BusinessRule\Project.vb" />
     <Compile Include="BusinessRule\ProjectGroup.vb" />
+    <Compile Include="BusinessRule\Registrasi.vb" />
     <Compile Include="BusinessRule\ReportImage.vb" />
     <Compile Include="BusinessRule\Menu.vb" />
     <Compile Include="BusinessRule\Person.vb" />

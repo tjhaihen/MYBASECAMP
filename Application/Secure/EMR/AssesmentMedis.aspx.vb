@@ -138,6 +138,7 @@ Namespace QIS.Web.EMR
                 btnDiagnosticSupportOrder.Enabled = True
                 'PrepareScreenPatientResume()
             End If
+            UpdateViewGridPatientResume()
         End Sub
 
         Private Sub lbtnDischarge_Click(sender As Object, e As System.EventArgs) Handles lbtnDischarge.Click
@@ -426,6 +427,10 @@ Namespace QIS.Web.EMR
             PrepareScreenJobOrderEntry()
 
             CheckFirstAssessmentByRegistrationNo()
+
+            'btnHasilLab.Attributes.Add("OnClick", "javascript:hwnd=window.open('" + PageBase.UrlBase + "/secure/informasi/TransaksiLab/Default.aspx/?i=' + document.getElementById('lblPBRegistrationNo.Text').value +  '',null,'status=no,resizable=yes,toolbar=no,menubar=no,location=no');hwnd.focus();window.event.returnValue=false;")
+            'btnHasilPenunjangMedis.Attributes.Add("OnClick", "javascript:hwnd=window.open('" + PageBase.UrlBase + "/secure/informasi/TransaksiPenunjang/Default.aspx/?i=' + document.getElementById('lblPBRegistrationNo.Text').value +  '',null,'status=no,resizable=yes,toolbar=no,menubar=no,location=no');hwnd.focus();window.event.returnValue=false;")
+
         End Sub
 
         Private Sub PrepareScreenPatientHistory()
@@ -681,7 +686,7 @@ Namespace QIS.Web.EMR
 
             lbtnBackToPatientList.Visible = True
         End Sub
-#End Region        
+#End Region
 
 #Region " Patient Resume "
         Private Sub OpenPatientResume(ByVal ID As Integer)
@@ -1207,7 +1212,14 @@ Namespace QIS.Web.EMR
 
 #End Region
 
-       
+
+        Private Sub btnHasilPenunjangMedis_Click(sender As Object, e As System.EventArgs) Handles btnHasilPenunjangMedis.Click
+            Response.Write("<script language=javascript>window.open('" + PageBase.UrlBase + "/secure/informasi/TransaksiPenunjang/Default.aspx/?i=" + lblPBRegistrationNo.Text.Trim + "','width=900, height=550, status=no,resizable=yes,toolbar=no,menubar=no,location=no;')</script>")
+        End Sub
+
+        Private Sub btnHasilLab_Click(sender As Object, e As System.EventArgs) Handles btnHasilLab.Click
+            Response.Write("<script language=javascript>window.open('" + PageBase.UrlBase + "/secure/informasi/TransaksiLab/Default.aspx/?i=" + lblPBRegistrationNo.Text.Trim + "','width=900, height=550, status=no,resizable=yes,toolbar=no,menubar=no,location=no;')</script>")
+        End Sub
     End Class
 
 End Namespace

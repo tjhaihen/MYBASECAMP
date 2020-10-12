@@ -87,16 +87,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CrystalDecisions.CrystalReports.Engine">
-      <HintPath>..\..\_dll\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+      <HintPath>..\..\..\_dll\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Shared">
-      <HintPath>..\..\_dll\CrystalDecisions.Shared.dll</HintPath>
+      <HintPath>..\..\..\_dll\CrystalDecisions.Shared.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Web">
-      <HintPath>..\..\_dll\CrystalDecisions.Web.dll</HintPath>
+      <HintPath>..\..\..\_dll\CrystalDecisions.Web.dll</HintPath>
     </Reference>
     <Reference Include="eWorld.UI">
-      <HintPath>..\..\_dll\eWorld.UI.dll</HintPath>
+      <HintPath>..\..\..\_dll\eWorld.UI.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Conversion.v4.0" />
     <Reference Include="System">
@@ -122,7 +122,7 @@
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Telerik.Web.UI">
-      <HintPath>..\..\_dll\Telerik.Web.UI.dll</HintPath>
+      <HintPath>..\..\..\_dll\Telerik.Web.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +229,13 @@
       <DependentUpon>searchlist.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Secure\Activity.aspx.designer.vb">
+      <DependentUpon>Activity.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Activity.aspx.vb">
+      <DependentUpon>Activity.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Secure\Balance\AccountingBalance.aspx.designer.vb">
       <DependentUpon>AccountingBalance.aspx</DependentUpon>
     </Compile>
@@ -320,12 +327,45 @@
       <DependentUpon>FollowUpIssue.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\GetImage.aspx.designer.vb">
+      <DependentUpon>GetImage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\GetImage.aspx.vb">
+      <DependentUpon>GetImage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Informasi\TransaksiLab\Default.aspx.designer.vb">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Informasi\TransaksiLab\Default.aspx.vb">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Informasi\TransaksiLab\Hasil.aspx.vb">
+      <DependentUpon>Hasil.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Informasi\TransaksiPenunjang\Default.aspx.vb">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Informasi\TransaksiPenunjang\Hasil.aspx.vb">
+      <DependentUpon>Hasil.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Secure\IssueStudy.aspx.designer.vb">
       <DependentUpon>IssueStudy.aspx</DependentUpon>
     </Compile>
     <Compile Include="Secure\IssueStudy.aspx.vb">
       <DependentUpon>IssueStudy.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Main.aspx.designer.vb">
+      <DependentUpon>Main.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Main.aspx.vb">
+      <DependentUpon>Main.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Secure\Mobile\Productivity.aspx.designer.vb">
       <DependentUpon>Productivity.aspx</DependentUpon>
@@ -348,11 +388,18 @@
       <DependentUpon>PatchList.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="Secure\Activity.aspx.designer.vb">
-      <DependentUpon>Activity.aspx</DependentUpon>
+    <Compile Include="Secure\People.aspx.designer.vb">
+      <DependentUpon>People.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Secure\Activity.aspx.vb">
-      <DependentUpon>Activity.aspx</DependentUpon>
+    <Compile Include="Secure\People.aspx.vb">
+      <DependentUpon>People.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Profile.aspx.designer.vb">
+      <DependentUpon>Profile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Profile.aspx.vb">
+      <DependentUpon>Profile.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Secure\Project.aspx.designer.vb">
@@ -362,32 +409,11 @@
       <DependentUpon>Project.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="Secure\GetImage.aspx.designer.vb">
-      <DependentUpon>GetImage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Secure\GetImage.aspx.vb">
-      <DependentUpon>GetImage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Secure\ProjectDetail.aspx.designer.vb">
       <DependentUpon>ProjectDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="Secure\ProjectDetail.aspx.vb">
       <DependentUpon>ProjectDetail.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="Secure\Main.aspx.designer.vb">
-      <DependentUpon>Main.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Secure\Main.aspx.vb">
-      <DependentUpon>Main.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Secure\Profile.aspx.designer.vb">
-      <DependentUpon>Profile.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Secure\Profile.aspx.vb">
-      <DependentUpon>Profile.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Secure\ProjectGroup.aspx.designer.vb">
@@ -409,13 +435,6 @@
     </Compile>
     <Compile Include="Secure\SystemParameter.aspx.vb">
       <DependentUpon>SystemParameter.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Secure\People.aspx.designer.vb">
-      <DependentUpon>People.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Secure\People.aspx.vb">
-      <DependentUpon>People.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Secure\Utilities\BedInformation.aspx.designer.vb">
@@ -445,6 +464,13 @@
     <Compile Include="Secure\Utilities\PatientMedicalRecord.aspx.vb">
       <DependentUpon>PatientMedicalRecord.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Utilities\PharmacyPrescriptionInfo.aspx.designer.vb">
+      <DependentUpon>PharmacyPrescriptionInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Utilities\PharmacyPrescriptionInfo.aspx.vb">
+      <DependentUpon>PharmacyPrescriptionInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Secure\Utilities\PhysicianScheduleInformation.aspx.designer.vb">
       <DependentUpon>PhysicianScheduleInformation.aspx</DependentUpon>
@@ -498,12 +524,15 @@
     <Content Include="Logout.aspx" />
     <Content Include="ReportViewer.aspx" />
     <Content Include="searchlist.aspx" />
+    <Content Include="Secure\Activity.aspx" />
     <Content Include="Secure\Balance\AccountingBalance.aspx" />
     <Content Include="Secure\Budget\BudgetAccount.aspx" />
     <Content Include="Secure\Budget\BudgetPurchasing.aspx" />
     <Content Include="Secure\ChangePassword.aspx" />
     <Content Include="Secure\CommonCode.aspx" />
     <Content Include="Secure\Documents.aspx" />
+    <Content Include="Secure\Documents\UserGuideVideo\Askep - Mapping Master SDKI.mp4" />
+    <Content Include="Secure\Documents\UserGuideVideo\Farmasi - Template Racikan.mp4" />
     <Content Include="Secure\EMRTracking\Dashboard.aspx" />
     <Content Include="Secure\EMRTracking\LocationList.aspx" />
     <Content Include="Secure\EMRTracking\Mutation.aspx" />
@@ -511,24 +540,28 @@
     <Content Include="Secure\EMR\AssesmentPerawat.aspx" />
     <Content Include="Secure\EMR\main.aspx" />
     <Content Include="Secure\FollowUpIssue.aspx" />
+    <Content Include="Secure\GetImage.aspx" />
+    <Content Include="Secure\Informasi\TransaksiLab\Default.aspx" />
+    <Content Include="Secure\Informasi\TransaksiLab\Hasil.aspx" />
+    <Content Include="Secure\Informasi\TransaksiPenunjang\Default.aspx" />
+    <Content Include="Secure\Informasi\TransaksiPenunjang\Hasil.aspx" />
     <Content Include="Secure\IssueStudy.aspx" />
+    <Content Include="Secure\Main.aspx" />
     <Content Include="Secure\Mobile\Productivity.aspx" />
     <Content Include="Secure\PatchManagement\PatchDashboard.aspx" />
     <Content Include="Secure\PatchManagement\PatchList.aspx" />
-    <Content Include="Secure\Activity.aspx" />
-    <Content Include="Secure\Project.aspx" />
-    <Content Include="Secure\GetImage.aspx" />
-    <Content Include="Secure\ProjectDetail.aspx" />
-    <Content Include="Secure\Main.aspx" />
+    <Content Include="Secure\People.aspx" />
     <Content Include="Secure\Profile.aspx" />
+    <Content Include="Secure\Project.aspx" />
+    <Content Include="Secure\ProjectDetail.aspx" />
     <Content Include="Secure\ProjectGroup.aspx" />
     <Content Include="Secure\ReportImage.aspx" />
     <Content Include="Secure\SystemParameter.aspx" />
-    <Content Include="Secure\People.aspx" />
     <Content Include="Secure\Utilities\BedInformation.aspx" />
     <Content Include="Secure\Utilities\BedInformationSummary.aspx" />
     <Content Include="Secure\Utilities\DrugInteractionInfo.aspx" />
     <Content Include="Secure\Utilities\PatientMedicalRecord.aspx" />
+    <Content Include="Secure\Utilities\PharmacyPrescriptionInfo.aspx" />
     <Content Include="Secure\Utilities\PhysicianScheduleInformation.aspx" />
     <Content Include="Secure\Utilities\TransactionNumbering\Default.aspx" />
     <Content Include="Secure\Web.config" />
@@ -550,6 +583,15 @@
     <EmbeddedResource Include="Logout.aspx.resx">
       <DependentUpon>Logout.aspx.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Secure\Informasi\TransaksiLab\Hasil.aspx.resx">
+      <DependentUpon>Hasil.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Secure\Informasi\TransaksiPenunjang\Default.aspx.resx">
+      <DependentUpon>Default.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Secure\Informasi\TransaksiPenunjang\Hasil.aspx.resx">
+      <DependentUpon>Hasil.aspx.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Secure\licenses.licx" />
     <EmbeddedResource Include="Secure\Utilities\TransactionNumbering\Default.aspx.resx">
       <DependentUpon>Default.aspx.vb</DependentUpon>
@@ -557,6 +599,16 @@
     <None Include="App_Data\RadSpell\de-DE.tdf" />
     <None Include="App_Data\RadSpell\en-US.tdf" />
     <None Include="App_Data\RadSpell\fr-FR.tdf" />
+    <None Include="Secure\Documents\ProjectDocumentTemplate\01 Deliverable Acceptance Form.doc" />
+    <None Include="Secure\Documents\ProjectDocumentTemplate\02 Change Request Form.doc" />
+    <None Include="Secure\Documents\ProjectDocumentTemplate\03 Weekly Progress Report Form.doc" />
+    <None Include="Secure\Documents\ProjectDocumentTemplate\04 Contact Details of Team Member.doc" />
+    <None Include="Secure\Documents\ProjectDocumentTemplate\05 List of Approval.doc" />
+    <None Include="Secure\Documents\ProjectDocumentTemplate\06 Minutes of Meeting.doc" />
+    <None Include="Secure\Documents\ProjectDocumentTemplate\07 Issue Support Form.doc" />
+    <None Include="Secure\Documents\UserGuideDocument\BPF_IM_PC_001_InventoryManagement_Permintaan_Pembelian.pdf" />
+    <None Include="Secure\Documents\UserGuideDocument\BPF_PM_OP_001_PatientManagement_Rawat_Jalan.pdf" />
+    <None Include="Secure\ImgTmp\201505230000001" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{967B4E0D-AD0C-4609-AB67-0FA40C0206D8}" />
@@ -589,7 +641,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="My Project\" />
-    <Folder Include="Secure\Documents\" />
     <Folder Include="Secure\MSExcelTemplates\" />
     <Folder Include="SharedLibs\Tools\" />
     <Folder Include="Uploads\" />
@@ -610,7 +661,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1450</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/mybasecamp/</IISUrl>
+          <IISUrl>http://localhost/Basecamp/Application</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -618,7 +669,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

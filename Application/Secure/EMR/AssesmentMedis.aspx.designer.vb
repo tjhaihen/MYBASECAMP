@@ -645,6 +645,24 @@ Namespace QIS.Web.EMR
         Protected WithEvents btnDiagnosticSupportOrder As Global.System.Web.UI.WebControls.Button
 
         '''<summary>
+        '''btnHasilLab control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnHasilLab As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''btnHasilPenunjangMedis control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnHasilPenunjangMedis As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
         '''txtNotes control.
         '''</summary>
         '''<remarks>

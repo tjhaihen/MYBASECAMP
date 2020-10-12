@@ -1708,6 +1708,18 @@
             </td>
         </tr>
     </table>
+    <%--<div id="divRightPanelInformationContent">
+        <div class="rightPanelContent borderBox">
+            <asp:Button ID="btnRelatedLinkInfoTransaksiLab" Text="Go" runat="server" CssClass="sbttn" />
+            <div class="qmmtitle">Info Transaksi dan Hasil Laboratorium</div>
+            <div class="qmdescription">Informasi transaksi dan hasil laboratorium</div>
+        </div>
+        <div class="rightPanelContent borderBox">
+            <asp:Button ID="btnRelatedLinkInfoTransaksiPenunjang" Text="Go" runat="server" CssClass="sbttn" />
+            <div class="qmmtitle">Info Transaksi dan Hasil Penunjang Medis</div>
+            <div class="qmdescription">Informasi transaksi dan hasil penunjang medis lainnya</div>
+        </div>
+    </div>--%>
     </form>
 </body>
 </html>

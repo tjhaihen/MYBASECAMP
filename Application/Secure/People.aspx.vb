@@ -142,6 +142,7 @@ Namespace QIS.Web.Secure
             txtUserID.Text = String.Empty
             txtPersonID.Text = String.Empty
             chkIsActive.Checked = True
+            chkResetPassword.Checked = False
             If isNew Then
                 txtUserName.Text = String.Empty
                 commonFunction.Focus(Me, txtUserName.ClientID)
@@ -359,7 +360,7 @@ Namespace QIS.Web.Secure
                         SetEnableButton(True)
                     End If
                 Else
-                    If .Update() Then SetEnableButton(True)
+                    If .UpdateAll(chkResetPassword.Checked, False) Then SetEnableButton(True)
                 End If
             End With
             oRsrc.Dispose()

@@ -804,11 +804,11 @@
                                                         <tr>
                                                             <td valign="top">
                                                                 <asp:TextBox ID="txtTherapyText" runat="server" TextMode="MultiLine" Font-Names="Segoe-UI,Arial"
-                                                                    Width="100%" Height="50"></asp:TextBox>
+                                                                    Width="100%" Height="200"></asp:TextBox>
                                                             </td>
                                                             <td valign="top">
                                                                 <asp:TextBox ID="txtMeasurableTargetText" runat="server" TextMode="MultiLine" Font-Names="Segoe-UI,Arial"
-                                                                    Width="100%" Height="50"></asp:TextBox>
+                                                                    Width="100%" Height="200"></asp:TextBox>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -835,6 +835,14 @@
                                                                         <td>
                                                                             <asp:Button ID="btnDiagnosticSupportOrder" runat="server" CssClass="sbttn" Width="150"
                                                                                 Text="Order Pemeriksaan"></asp:Button>
+                                                                        </td>
+                                                                        <td>
+                                                                            <asp:Button ID="btnHasilLab" runat="server" CssClass="sbttn" Width="150"
+                                                                                Text="Hasil Laboratorium"></asp:Button>
+                                                                        </td>
+                                                                        <td>
+                                                                            <asp:Button ID="btnHasilPenunjangMedis" runat="server" CssClass="sbttn" Width="150"
+                                                                                Text="Hasil Penunjang Medis"></asp:Button>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
@@ -2276,6 +2284,18 @@
             </td>
         </tr>
     </table>
+   <%-- <div id="divRightPanelInformationContent">
+        <div class="rightPanelContent borderBox">
+            <asp:Button ID="btnRelatedLinkInfoTransaksiLab" Text="Go" runat="server" CssClass="sbttn" />
+            <div class="qmmtitle">Info Transaksi dan Hasil Laboratorium</div>
+            <div class="qmdescription">Informasi transaksi dan hasil laboratorium</div>
+        </div>
+        <div class="rightPanelContent borderBox">
+            <asp:Button ID="btnRelatedLinkInfoTransaksiPenunjang" Text="Go" runat="server" CssClass="sbttn" />
+            <div class="qmmtitle">Info Transaksi dan Hasil Penunjang Medis</div>
+            <div class="qmdescription">Informasi transaksi dan hasil penunjang medis lainnya</div>
+        </div>
+    </div>--%>
     </form>
 </body>
 </html>
