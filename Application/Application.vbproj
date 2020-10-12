@@ -352,6 +352,12 @@
     <Compile Include="Secure\Informasi\TransaksiPenunjang\Hasil.aspx.vb">
       <DependentUpon>Hasil.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    <Compile Include="Secure\IssueByParameter.aspx.designer.vb">
+      <DependentUpon>IssueByParameter.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\IssueByParameter.aspx.vb">
+      <DependentUpon>IssueByParameter.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Secure\IssueStudy.aspx.designer.vb">
       <DependentUpon>IssueStudy.aspx</DependentUpon>
@@ -545,6 +551,7 @@
     <Content Include="Secure\Informasi\TransaksiLab\Hasil.aspx" />
     <Content Include="Secure\Informasi\TransaksiPenunjang\Default.aspx" />
     <Content Include="Secure\Informasi\TransaksiPenunjang\Hasil.aspx" />
+    <Content Include="Secure\IssueByParameter.aspx" />
     <Content Include="Secure\IssueStudy.aspx" />
     <Content Include="Secure\Main.aspx" />
     <Content Include="Secure\Mobile\Productivity.aspx" />
