@@ -352,6 +352,7 @@
     <Compile Include="Secure\Informasi\TransaksiPenunjang\Hasil.aspx.vb">
       <DependentUpon>Hasil.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+	</Compile>
     <Compile Include="Secure\IssueByParameter.aspx.designer.vb">
       <DependentUpon>IssueByParameter.aspx</DependentUpon>
     </Compile>
