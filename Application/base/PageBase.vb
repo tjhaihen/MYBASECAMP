@@ -78,6 +78,7 @@ Namespace QIS.Web
             End Get
         End Property
 
+        '--myday
         Public Property PB_CacheLoggedOnUser() As DataSet
             Get
                 Try
@@ -140,6 +141,7 @@ Namespace QIS.Web
                 End If
             End Set
         End Property
+
 
         Public Property LoggedOnProfileID() As String
             Get
@@ -241,6 +243,7 @@ Namespace QIS.Web
             End Set
         End Property
 
+        '--myday
         Public ReadOnly Property LoggedOnUserID() As String
             Get
                 Dim moduleSet As DataSet
@@ -260,6 +263,29 @@ Namespace QIS.Web
                 Return UID.Trim
             End Get
         End Property
+
+        '--percobaan
+
+        'Public ReadOnly Property TglTarget() As Date
+        '    Get
+        '        Dim moduleSet As DataSet
+        '        Dim moduleTable As DataTable
+        '        Dim UID As Date = Date.Empty
+
+        '        moduleSet = PB_CacheLoggedOnUser
+        '        If moduleSet Is Nothing Then
+        '            UID = Date.Empty
+        '        Else
+        '            moduleTable = moduleSet.Tables("Issue")
+        '            If (moduleTable.Rows.Count = 1) Then
+        '                UID = CType(moduleTable.Rows(17)("targetDate"), Date)
+        '            End If
+        '        End If
+
+        '        Return UID.Trim
+        '    End Get
+        'End Property
+
 
         Public Property LoggedOnLinkParamedicID() As String
             Get
@@ -356,9 +382,9 @@ Namespace QIS.Web
                 Else
                     Server.Transfer(Context.Request.ApplicationPath + "/Logon.aspx")
                 End If
-                
+
             End Get
-        End Property        
+        End Property
         Public ReadOnly Property AllowUpdate(ByVal MenuID As String) As Boolean
             Get
                 Dim moduleSet As DataSet

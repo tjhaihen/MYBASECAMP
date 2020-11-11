@@ -110,7 +110,12 @@ Namespace QIS.Web
             chkIsMyAssignment.Checked = False
             GetProjectsByUserID(False)
         End Sub
-
+        Private Sub lbtnMyDay_Click(sender As Object, e As System.EventArgs) Handles lbtnMyDay.Click, lbtnMyDay.Click
+            Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Myday.aspx')</script>")
+        End Sub
+        Private Sub lbtnUrgents_Click(sender As Object, e As System.EventArgs) Handles lbtnUrgents.Click, ibtnUrgents.Click
+            Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Urgent.aspx')</script>")
+        End Sub
         Private Sub lbtnMyAssignments_Click(sender As Object, e As System.EventArgs) Handles lbtnMyAssignments.Click, ibtnMyAssignments.Click
             lblPageTitle.Text = "My Assignments"
             chkIsMyAssignment.Checked = True

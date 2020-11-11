@@ -15,11 +15,10 @@ Imports System.Math
 Imports System.IO
 Imports Microsoft.VisualBasic
 
-
 Imports System.Data.SqlTypes
 
 Namespace QIS.Web
-    Public Class FollowUpIssue
+    Public Class Myday
         Inherits PageBase
 
 #Region " Web Form Designer Generated Code "
@@ -37,25 +36,32 @@ Namespace QIS.Web
 
 #End Region
 
+
 #Region " Control Events "
         Private Sub Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
             If Not Me.IsPostBack Then
-                setToolbarVisibleButton()
+                'setToolbarVisibleButton()
                 prepareDDL()
-                PrepareScreen()
+                'PrepareScreen()
 
-                If ReadQueryString() Then
-                    SetDataGrid()
-                End If
+                SetDataGrid()
+                'If ReadQueryString() Then
+
+                pnlAddNew.Visible = False
+                pnlIssueResponse.Visible = False
+
+                'End If
             End If
         End Sub
 
         Private Sub lbtnMyProjects_Click(sender As Object, e As System.EventArgs) Handles lbtnMyProjects.Click, ibtnMyProjects.Click
             Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Main.aspx" + "')</script>")
         End Sub
+
         Private Sub lbtnMyDay_Click(sender As Object, e As System.EventArgs) Handles lbtnMyDay.Click, ibtnMyDay.Click
             Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Myday.aspx')</script>")
         End Sub
+
         Private Sub lbtnUrgents_Click(sender As Object, e As System.EventArgs) Handles lbtnUrgents.Click, ibtnUrgents.Click
             Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Urgent.aspx')</script>")
         End Sub
@@ -93,17 +99,21 @@ Namespace QIS.Web
         '    End Select
         'End Sub
 
+        '--percobaan
         Private Sub btnClose_Click(sender As Object, e As System.EventArgs) Handles btnClose.Click
             PrepareScreenAddNew()
+            'SetDataGrid()
             pnlAddNew.Visible = False
         End Sub
 
-        Private Sub btnSaveAndNew_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndNew.Click
-            _updateIssue()
-            PrepareScreenAddNew()
-            SetDataGrid()
-        End Sub
 
+        'Private Sub btnSaveAndNew_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndNew.Click
+        '    _updateIssue()
+        '    PrepareScreenAddNew()
+        '    SetDataGrid()
+        'End Sub
+
+        '--percobaan
         Private Sub btnSaveAndClose_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndClose.Click
             _updateIssue()
             PrepareScreenAddNew()
@@ -111,18 +121,21 @@ Namespace QIS.Web
             SetDataGrid()
         End Sub
 
+        '--percobaan
         Private Sub Response_btnClose_Click(sender As Object, e As System.EventArgs) Handles Response_btnClose.Click
             PrepareScreenIssueResponse()
+            'SetDataGrid()
             pnlIssueResponse.Visible = False
         End Sub
 
-        Private Sub Response_btnSaveAndNew_Click(sender As Object, e As System.EventArgs) Handles Response_btnSaveAndNew.Click
-            _updateIssueResponse()
-            PrepareScreenIssueResponse()
-            SetDataGridIssueResponse()
-            SetDataGrid()
-        End Sub
+        'Private Sub Response_btnSaveAndNew_Click(sender As Object, e As System.EventArgs) Handles Response_btnSaveAndNew.Click
+        '    _updateIssueResponse()
+        '    PrepareScreenIssueResponse()
+        '    SetDataGridIssueResponse()
+        '    SetDataGrid()
+        'End Sub
 
+        '--percobaan
         Private Sub Response_btnSaveAndClose_Click(sender As Object, e As System.EventArgs) Handles Response_btnSaveAndClose.Click
             _updateIssueResponse()
             PrepareScreenIssueResponse()
@@ -131,6 +144,7 @@ Namespace QIS.Web
             SetDataGrid()
         End Sub
 
+        '--percobaan 
         Private Sub grdIssueByFilter_ItemCommand(source As Object, e As System.Web.UI.WebControls.DataGridCommandEventArgs) Handles grdIssueByFilter.ItemCommand
             Select Case e.CommandName
                 Case "Edit"
@@ -151,48 +165,48 @@ Namespace QIS.Web
         End Sub
 #End Region
 
-#Region " Support functions for navigation bar (Controls) "
-        Private Sub setToolbarVisibleButton()
-            With CSSToolbar
-                .VisibleButton(CSSToolbarItem.tidSave) = False
-                .VisibleButton(CSSToolbarItem.tidNew) = False
-                .VisibleButton(CSSToolbarItem.tidDelete) = False
-                .VisibleButton(CSSToolbarItem.tidApprove) = False
-                .VisibleButton(CSSToolbarItem.tidVoid) = False
-                .VisibleButton(CSSToolbarItem.tidPrint) = False
-                .VisibleButton(CSSToolbarItem.tidPrevious) = False
-                .VisibleButton(CSSToolbarItem.tidNext) = False
-                .VisibleButton(CSSToolbarItem.tidRefresh) = True
-                .VisibleButton(CSSToolbarItem.tidDownload) = True
-            End With
-        End Sub
+        '#Region " Support functions for navigation bar (Controls) "
+        '        Private Sub setToolbarVisibleButton()
+        '            With CSSToolbar
+        '                .VisibleButton(CSSToolbarItem.tidSave) = False
+        '                .VisibleButton(CSSToolbarItem.tidNew) = False
+        '                .VisibleButton(CSSToolbarItem.tidDelete) = False
+        '                .VisibleButton(CSSToolbarItem.tidApprove) = False
+        '                .VisibleButton(CSSToolbarItem.tidVoid) = False
+        '                .VisibleButton(CSSToolbarItem.tidPrint) = False
+        '                .VisibleButton(CSSToolbarItem.tidPrevious) = False
+        '                .VisibleButton(CSSToolbarItem.tidNext) = False
+        '                .VisibleButton(CSSToolbarItem.tidRefresh) = True
+        '                .VisibleButton(CSSToolbarItem.tidDownload) = True
+        '            End With
+        '        End Sub
 
-        Private Sub mdlToolbar_commandBarClick(ByVal sender As Object, ByVal e As CSSToolbarItem) Handles CSSToolbar.CSSToolbarItemClick
-            Select Case e
-                Case CSSToolbarItem.tidRefresh
-                    PrepareScreenAddNew()
-                    PrepareScreenIssueResponse()
-                    SetDataGrid()
+        '        Private Sub mdlToolbar_commandBarClick(ByVal sender As Object, ByVal e As CSSToolbarItem) Handles CSSToolbar.CSSToolbarItemClick
+        '            Select Case e
+        '                Case CSSToolbarItem.tidRefresh
+        '                    PrepareScreenAddNew()
+        '                    PrepareScreenIssueResponse()
+        '                    SetDataGrid()
 
-                Case CSSToolbarItem.tidDownload
-                    Dim oRPT As New Common.BussinessRules.MyReport
-                    oRPT.AddParameters(ddlProjectFilter.SelectedValue.Trim)
-                    oRPT.AddParameters(ddlIssueTypeFilter.SelectedValue.Trim)
-                    oRPT.AddParameters(ddlIssuePriorityFilter.SelectedValue.Trim)
-                    oRPT.AddParameters(ddlUserIDAssignedToFilter.SelectedValue.Trim)
-                    oRPT.AddParameters(ddlIssueStatusFilter.SelectedValue.Trim)
-                    oRPT.AddParameters(ddlIssueConfirmStatusFilter.SelectedValue.Trim)
-                    oRPT.AddParameters(chkIsUrgent.Checked.ToString.Trim)
-                    oRPT.ReportCode = Common.Constants.ReportID.ClientIssue_ReportID
-                    oRPT.GetReportDataByReportCode()
-                    If oRPT.ReportFormat = "XLS" Then
-                        oRPT.ExportToExcel(oRPT.generateReportDataTable, Response)
-                    End If
-                    oRPT.Dispose()
-                    oRPT = Nothing
-            End Select
-        End Sub
-#End Region
+        '                Case CSSToolbarItem.tidDownload
+        '                    Dim oRPT As New Common.BussinessRules.MyReport
+        '                    oRPT.AddParameters(ddlProjectFilter.SelectedValue.Trim)
+        '                    oRPT.AddParameters(ddlIssueTypeFilter.SelectedValue.Trim)
+        '                    oRPT.AddParameters(ddlIssuePriorityFilter.SelectedValue.Trim)
+        '                    oRPT.AddParameters(ddlUserIDAssignedToFilter.SelectedValue.Trim)
+        '                    oRPT.AddParameters(ddlIssueStatusFilter.SelectedValue.Trim)
+        '                    oRPT.AddParameters(ddlIssueConfirmStatusFilter.SelectedValue.Trim)
+        '                    oRPT.AddParameters(chkIsUrgent.Checked.ToString.Trim)
+        '                    oRPT.ReportCode = Common.Constants.ReportID.ClientIssue_ReportID
+        '                    oRPT.GetReportDataByReportCode()
+        '                    If oRPT.ReportFormat = "XLS" Then
+        '                        oRPT.ExportToExcel(oRPT.generateReportDataTable, Response)
+        '                    End If
+        '                    oRPT.Dispose()
+        '                    oRPT = Nothing
+        '            End Select
+        '        End Sub
+        '#End Region
 
 #Region " Private Functions "
         Private Function ReadQueryString() As Boolean
@@ -200,19 +214,46 @@ Namespace QIS.Web
         End Function
 
         Private Sub SetDataGrid()
-            Dim decTotalIssue As Decimal = 0D
+            'Dim decTotalIssue As Decimal = 0D
+            'Dim leap = Date(2004, 2, 29)
+            'Dim prev As leap.AddDays(-1)
             Dim oBR As New Common.BussinessRules.Issue
             Dim oDT As New DataTable
-            oDT = oBR.SelectByFilter(ddlProjectFilter.SelectedValue.Trim, ddlIssueTypeFilter.SelectedValue.Trim, ddlIssuePriorityFilter.SelectedValue.Trim, _
-                                        ddlUserIDAssignedToFilter.SelectedValue.Trim, ddlIssueStatusFilter.SelectedValue.Trim, ddlIssueConfirmStatusFilter.SelectedValue.Trim, _
-                                        chkIsUrgent.Checked, chkIsFilterByPeriod.Checked, calStartDate.selectedDate, calEndDate.selectedDate)
-            grdIssueByFilter.DataSource = oDT
+            'oDT = oBR.SelectByUrgent("", Me.LoggedOnUserID.Trim)
+            grdIssueByFilter.DataSource = oBR.SelectByMyday(Me.LoggedOnUserID.Trim, DateTime.Today.AddDays(-676))
             grdIssueByFilter.DataBind()
-            decTotalIssue = oDT.Rows.Count
+            'decTotalIssue = oDT.Rows.Count
             oBR.Dispose()
             oBR = Nothing
-            lblTotalIssue.Text = decTotalIssue.ToString.Trim
+
+            'DateTime.Today.AddYears(-1))
+
         End Sub
+
+        'Private Sub CheckDateRange(ByVal tgl As DateTime, ByVal datepast As DateTime, ByVal dateFuture As DateTime)
+        '    datepast = DateTime.Now.AddYears(-3)
+        '    dateFuture = DateTime.Now.AddYears(3)
+
+        '    If (datepast <= tgl And tgl <= dateFuture) Then
+        '    End If
+        'End Sub
+
+        'Private Sub coba()
+        '    Dim str As String = "srt_inlbp_20130517"
+
+        '    Dim dTableDate As Date = _
+        '        Date.ParseExact(str.Substring(str.Length - 8), "yyyyMMdd", Nothing)
+
+        '    Dim dFromDate As New DateTime(1999, 1, 1)
+        '    Dim dToDate As New DateTime(2021, 1, 1)
+
+        '    If ((dTableDate >= dFromDate) And (dTableDate <= dToDate)) Then
+        '        Console.WriteLine("between")
+        '    Else
+        '        Console.WriteLine("not between")
+        '    End If
+        'End Sub
+
 
         Private Sub SetDataGridIssueResponse()
             Dim oBR As New Common.BussinessRules.IssueResponse
@@ -240,13 +281,13 @@ Namespace QIS.Web
         End Sub
 
         Private Sub prepareDDL()
-            commonFunction.SetDDL_Period(ddlPeriod)
-            commonFunction.SetDDL_Table(ddlProjectFilter, "ProjectUser", MyBase.LoggedOnUserID.Trim, True, "All Project", "All")
-            commonFunction.SetDDL_Table(ddlIssueTypeFilter, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, True, "All Type", "All")
-            commonFunction.SetDDL_Table(ddlIssueStatusFilter, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "All Status", "All")
-            commonFunction.SetDDL_Table(ddlIssuePriorityFilter, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, True, "All Priority", "All")
-            commonFunction.SetDDL_Table(ddlIssueConfirmStatusFilter, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, True, "All Confirm Status", "All")
-            commonFunction.SetDDL_Table(ddlUserIDAssignedToFilter, "User", String.Empty, True, "Everyone", "All")
+            'commonFunction.SetDDL_Period(ddlPeriod)
+            'commonFunction.SetDDL_Table(ddlProjectFilter, "ProjectUser", MyBase.LoggedOnUserID.Trim, True, "All Project", "All")
+            'commonFunction.SetDDL_Table(ddlIssueTypeFilter, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, True, "All Type", "All")
+            'commonFunction.SetDDL_Table(ddlIssueStatusFilter, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "All Status", "All")
+            'commonFunction.SetDDL_Table(ddlIssuePriorityFilter, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, True, "All Priority", "All")
+            'commonFunction.SetDDL_Table(ddlIssueConfirmStatusFilter, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, True, "All Confirm Status", "All")
+            'commonFunction.SetDDL_Table(ddlUserIDAssignedToFilter, "User", String.Empty, True, "Everyone", "All")
             commonFunction.SetDDL_Table(ddlIssueType, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, True, "Not Set", "All")
             commonFunction.SetDDL_Table(ddlIssueStatus, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "Not Set", "All")
             commonFunction.SetDDL_Table(ddlIssuePriority, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, True, "Not Set", "All")
@@ -254,24 +295,25 @@ Namespace QIS.Web
             commonFunction.SetDDL_Table(ddlUserIDAssignedTo, "User", String.Empty)
         End Sub
 
-        Private Sub PrepareScreen()
-            pnlAddNew.Visible = False
-            pnlIssueResponse.Visible = False
-            ddlIssueTypeFilter.SelectedIndex = 0
-            ddlIssuePriorityFilter.SelectedIndex = 0
-            ddlIssueStatusFilter.SelectedIndex = 0
-            ddlIssueConfirmStatusFilter.SelectedIndex = 0
-            ddlUserIDAssignedToFilter.SelectedIndex = 0
+        'Private Sub PrepareScreen()
+        '    pnlAddNew.Visible = False
+        '    pnlIssueResponse.Visible = False
+        '    ddlIssueTypeFilter.SelectedIndex = 0
+        '    ddlIssuePriorityFilter.SelectedIndex = 0
+        '    ddlIssueStatusFilter.SelectedIndex = 0
+        '    ddlIssueConfirmStatusFilter.SelectedIndex = 0
+        '    ddlUserIDAssignedToFilter.SelectedIndex = 0
 
-            chkIsFilterByPeriod.Checked = True
-            chkIsUrgent.Checked = False
+        '    chkIsFilterByPeriod.Checked = True
+        '    chkIsUrgent.Checked = False
 
-            ddlPeriod.SelectedIndex = 0
-            pnlCustomPeriod.Visible = True
-            calStartDate.selectedDate = GetFirstDayForWeek(Date.Today, False)
-            calEndDate.selectedDate = Date.Today
-        End Sub
+        '    ddlPeriod.SelectedIndex = 0
+        '    pnlCustomPeriod.Visible = True
+        '    calStartDate.selectedDate = GetFirstDayForWeek(Date.Today, False)
+        '    calEndDate.selectedDate = Date.Today
+        'End Sub
 
+        '--percobaan
         Private Sub PrepareScreenAddNew()
             lblIssueID.Text = String.Empty
             txtDepartmentName.Text = String.Empty
@@ -336,6 +378,7 @@ Namespace QIS.Web
             oBR = Nothing
         End Sub
 
+        '--percobaan
         Private Sub _openIssueForResponse()
             Dim oBR As New Common.BussinessRules.Issue
             With oBR
@@ -352,6 +395,7 @@ Namespace QIS.Web
             oBR = Nothing
         End Sub
 
+        '--percobaan
         Private Sub _updateIssue()
             Page.Validate()
             If Not Page.IsValid Then Exit Sub
@@ -386,6 +430,7 @@ Namespace QIS.Web
             oBR = Nothing
         End Sub
 
+        '--percobaan
         Private Sub _updateIssueResponse()
             Page.Validate()
             If Not Page.IsValid Then Exit Sub
@@ -416,3 +461,12 @@ Namespace QIS.Web
     End Class
 
 End Namespace
+
+'Public Class Myday
+'    Inherits System.Web.UI.Page
+
+'    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+'    End Sub
+
+'End Class

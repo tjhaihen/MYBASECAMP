@@ -4,15 +4,16 @@
 <%@ Register TagPrefix="Module" TagName="Calendar" Src="../incl/calendar.ascx" %>
 <%@ Register TagPrefix="Module" TagName="ProjectBanner" Src="../incl/projectBanner.ascx" %>
 
-<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="FollowUpIssue.aspx.vb"
-    Inherits="QIS.Web.FollowUpIssue" %>
+<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="Myday.aspx.vb" Inherits="QIS.Web.Myday" %>
 
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html>
-<head>
-    <title>Basecamp - Follow Up Issue</title>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Basecamp - Urgents</title>
     <link rel="title icon" href="/qistoollib/images/favicon.png" />
     <meta name="GENERATOR" content="Microsoft Visual Studio.NET 7.0" />
     <meta name="CODE_LANGUAGE" content="Visual Basic 7.0" />
@@ -157,7 +158,7 @@
                 <table width="100%">
                     <tr>
                         <td class="Heading2" colspan="3">
-                            <asp:Label ID="lblPageTitle" runat="server" Text="Follow Up Issue"></asp:Label>
+                            <asp:Label ID="lblPageTitle" runat="server" Text="My Day"></asp:Label>
                         </td>
                     </tr>
                     <tr>
@@ -166,9 +167,9 @@
                     </tr>
                 </table>
                 <table width="100%">
-                    <tr>
+                    <%--<tr>
                         <td style="width: 90%;">
-                            <table width="100%">
+                              <table width="100%">
                                 <tr>
                                     <td style="width: 100;">
                                         <table>
@@ -180,7 +181,7 @@
                                         </table>
                                     </td>
                                     <td>
-                                        <table>
+                                           <table>
                                             <tr>
                                                 <td style="width: 120;" class="right">
                                                     <asp:CheckBox ID="chkIsFilterByPeriod" runat="server" Text="Update Period" />
@@ -271,9 +272,9 @@
                     <tr>
                         <td class="hseparator" colspan="3">
                         </td>
-                    </tr>
+                    </tr>--%>
                     <tr>
-                        <td colspan="3">
+                       <td colspan="3">
                             <asp:Panel ID="pnlAddNew" runat="server">
                                 <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                     <tr>
@@ -393,6 +394,9 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+
+                                               <%-- --percobaan --%>
+
                                                     <td colspan="2">
                                                         <asp:Button ID="btnSaveAndNew" runat="server" Text="Save & New" CssClass="sbttn"
                                                             Width="100" />
@@ -542,7 +546,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">
+                                        <td>
                                             <asp:DataGrid ID="grdIssueResponse" runat="server" BorderWidth="0" GridLines="None"
                                                 Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
                                                 AutoGenerateColumns="false">
@@ -569,12 +573,9 @@
                                             </asp:DataGrid>
                                         </td>
                                     </tr>
+                                
                                 </table>
                             </asp:Panel>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
                             <asp:DataGrid ID="grdIssueByFilter" runat="server" BorderWidth="0" GridLines="None"
                                 Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
                                 AutoGenerateColumns="false">
@@ -601,24 +602,24 @@
                                                     <td>
                                                         <asp:LinkButton runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "issueID") %>'
                                                             ID="_lbtnIssueID" CommandName="IssueReponse" ForeColor="blue" CausesValidation="false"
-                                                            ToolTip="Add Response" />
+                                                            ToolTip="Add Response" /> 
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="txtweak">
                                                         Response(s):
-                                                        <%# DataBinder.Eval(Container.DataItem, "totalResponse")%>
-                                                    </td>
+                                                        <%# DataBinder.Eval(Container.DataItem, "totalResponse")%> 
+                                                    </td> 
                                                 </tr>
                                                 <tr>
                                                     <td class="txtweak">                                                        
-                                                        <%# Format(DataBinder.Eval(Container.DataItem, "updateDate"),"dd-MMM-yyyy hh:mm") %>
+                                                        <%# Format(DataBinder.Eval(Container.DataItem, "updateDate"),"dd-MMM-yyyy hh:mm") %> 
                                                     </td>
                                                 </tr>
                                                 <tr style="display: none;">
                                                     <td class="txtweak">
                                                         Age (day):
-                                                        <%# DataBinder.Eval(Container.DataItem, "issueAgeInDay")%>
+                                                        <%# DataBinder.Eval(Container.DataItem, "issueAgeInDay")%> 
                                                     </td>
                                                 </tr>
                                             </table>
@@ -630,15 +631,15 @@
                                                 <tr>
                                                     <td colspan="2">
                                                         <%# DataBinder.Eval(Container.DataItem, "projectAliasName") %>
-                                                    </td>
+                                                    </td> 
                                                 </tr>
                                                 <tr>
                                                     <td>
                                                         <asp:Image ID="_imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/urgent.png"
-                                                            Visible='<%# DataBinder.Eval(Container.DataItem, "isUrgent")%>' />
+                                                            Visible='<%# DataBinder.Eval(Container.DataItem, "isUrgent")%>' /> 
                                                     </td>
                                                     <td>
-                                                        <%# DataBinder.Eval(Container.DataItem, "departmentName") %>
+                                                        <%# DataBinder.Eval(Container.DataItem, "departmentName") %> 
                                                     </td>
                                                 </tr>
                                             </table>
@@ -646,45 +647,49 @@
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Description">
                                         <ItemTemplate>
-                                            <%# DataBinder.Eval(Container.DataItem, "issueDescription")%>
+                                            <%# DataBinder.Eval(Container.DataItem, "issueDescription")%> 
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Reported By" ItemStyle-Width="100">
                                         <ItemTemplate>
                                             <div class="txtweak">
-                                                <%# DataBinder.Eval(Container.DataItem, "reportedBy")%>
+                                                <%# DataBinder.Eval(Container.DataItem, "reportedBy")%> 
                                                 <br />
-                                                on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %></div>
+                                                on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %> </div>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Type" ItemStyle-Width="60">
                                         <ItemTemplate>
-                                            <%# DataBinder.Eval(Container.DataItem, "issueTypeName")%>
-                                        </ItemTemplate>
+                                            <%# DataBinder.Eval(Container.DataItem, "issueTypeName")%> 
+                                        </ItemTemplate> 
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Priority" ItemStyle-Width="60">
                                         <ItemTemplate>
-                                            <%# DataBinder.Eval(Container.DataItem, "issuePriorityName")%>
-                                        </ItemTemplate>
+                                            <%# DataBinder.Eval(Container.DataItem, "issuePriorityName")%> 
+                                        </ItemTemplate> 
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Assigned to" ItemStyle-Width="80">
                                         <ItemTemplate>
-                                            <%# DataBinder.Eval(Container.DataItem, "userNameAssignedTo")%>
-                                        </ItemTemplate>
+                                            <%# DataBinder.Eval(Container.DataItem, "userNameAssignedTo")%> 
+                                        </ItemTemplate> 
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Status" ItemStyle-Width="80">
                                         <ItemTemplate>
-                                            <%# DataBinder.Eval(Container.DataItem, "issueStatusName")%>
-                                        </ItemTemplate>
+                                            <%# DataBinder.Eval(Container.DataItem, "issueStatusName")%> 
+                                        </ItemTemplate> 
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Confirmed?" ItemStyle-Width="80">
                                         <ItemTemplate>
-                                            <%# DataBinder.Eval(Container.DataItem, "issueConfirmStatusName")%>
-                                        </ItemTemplate>
+                                            <%# DataBinder.Eval(Container.DataItem, "issueConfirmStatusName")%> 
+                                        </ItemTemplate> 
                                     </asp:TemplateColumn>
                                 </Columns>
                             </asp:DataGrid>
                         </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            &nbsp;</td>
                     </tr>
                 </table>
             </td>

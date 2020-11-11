@@ -20,6 +20,7 @@ Namespace QIS.Web
         Public Const App_Basecamp As String = "BAS"
     End Class
 
+    '--myday
     Public NotInheritable Class commonFunction
         Public Const Key_CacheLoggedOnUser As String = "CacheLoggedOnUser"
         Public Const Key_CacheLoggedOnProfileID As String = "CacheLoggedOnProfileID"

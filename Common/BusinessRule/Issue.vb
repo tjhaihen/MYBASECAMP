@@ -508,6 +508,74 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
+        Public Function SelectByUrgent(ByVal strUserIDAssignedTo As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spSelectIssueUrgent"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("IssueByUrgent")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                'cmdToExecute.Parameters.AddWithValue("@projectID", strProjectID)
+                cmdToExecute.Parameters.AddWithValue("@userIDAssignedTo", strUserIDAssignedTo)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+        '--percobaan
+        Public Function SelectByMyday(ByVal strUserIDAssignedTo As String, ByVal tglTarget As DateTime) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spSelectIssueMyday"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+            'cmdToExecute.CommandText = "select targetDate from issue where assignedBy ='201507300000005' and issueStatusSCode = '001'"
+            'cmdToExecute.CommandType = CommandType.Text
+
+
+            Dim toReturn As DataTable = New DataTable("IssueByMyday")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                'cmdToExecute.Parameters.AddWithValue("@projectID", strProjectID)
+                cmdToExecute.Parameters.AddWithValue("@userIDAssignedTo", strUserIDAssignedTo)
+                cmdToExecute.Parameters.AddWithValue("@tglTarget", tglTarget)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
         Public Function SelectProgressPeriod_Level2(ByVal dtDate As Date) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "spSelectProgressPeriod_Level2"

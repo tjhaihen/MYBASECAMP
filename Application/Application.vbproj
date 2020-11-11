@@ -87,16 +87,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CrystalDecisions.CrystalReports.Engine">
-      <HintPath>..\..\..\_dll\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+      <HintPath>..\..\_dll\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Shared">
-      <HintPath>..\..\..\_dll\CrystalDecisions.Shared.dll</HintPath>
+      <HintPath>..\..\_dll\CrystalDecisions.Shared.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.Web">
-      <HintPath>..\..\..\_dll\CrystalDecisions.Web.dll</HintPath>
+      <HintPath>..\..\_dll\CrystalDecisions.Web.dll</HintPath>
     </Reference>
     <Reference Include="eWorld.UI">
-      <HintPath>..\..\..\_dll\eWorld.UI.dll</HintPath>
+      <HintPath>..\..\_dll\eWorld.UI.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Conversion.v4.0" />
     <Reference Include="System">
@@ -122,7 +122,7 @@
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Telerik.Web.UI">
-      <HintPath>..\..\..\_dll\Telerik.Web.UI.dll</HintPath>
+      <HintPath>..\..\_dll\Telerik.Web.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -352,7 +352,7 @@
     <Compile Include="Secure\Informasi\TransaksiPenunjang\Hasil.aspx.vb">
       <DependentUpon>Hasil.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-	</Compile>
+    </Compile>
     <Compile Include="Secure\IssueByParameter.aspx.designer.vb">
       <DependentUpon>IssueByParameter.aspx</DependentUpon>
     </Compile>
@@ -380,6 +380,13 @@
     <Compile Include="Secure\Mobile\Productivity.aspx.vb">
       <DependentUpon>Productivity.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Myday.aspx.designer.vb">
+      <DependentUpon>Myday.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Myday.aspx.vb">
+      <DependentUpon>Myday.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Secure\PatchManagement\PatchDashboard.aspx.designer.vb">
       <DependentUpon>PatchDashboard.aspx</DependentUpon>
@@ -442,6 +449,13 @@
     </Compile>
     <Compile Include="Secure\SystemParameter.aspx.vb">
       <DependentUpon>SystemParameter.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Urgent.aspx.designer.vb">
+      <DependentUpon>Urgent.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Urgent.aspx.vb">
+      <DependentUpon>Urgent.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Secure\Utilities\BedInformation.aspx.designer.vb">
@@ -556,6 +570,7 @@
     <Content Include="Secure\IssueStudy.aspx" />
     <Content Include="Secure\Main.aspx" />
     <Content Include="Secure\Mobile\Productivity.aspx" />
+    <Content Include="Secure\Myday.aspx" />
     <Content Include="Secure\PatchManagement\PatchDashboard.aspx" />
     <Content Include="Secure\PatchManagement\PatchList.aspx" />
     <Content Include="Secure\People.aspx" />
@@ -565,6 +580,7 @@
     <Content Include="Secure\ProjectGroup.aspx" />
     <Content Include="Secure\ReportImage.aspx" />
     <Content Include="Secure\SystemParameter.aspx" />
+    <Content Include="Secure\Urgent.aspx" />
     <Content Include="Secure\Utilities\BedInformation.aspx" />
     <Content Include="Secure\Utilities\BedInformationSummary.aspx" />
     <Content Include="Secure\Utilities\DrugInteractionInfo.aspx" />
@@ -669,7 +685,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1450</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/Basecamp/Application</IISUrl>
+          <IISUrl>http://localhost/basecamp/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -677,7 +693,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

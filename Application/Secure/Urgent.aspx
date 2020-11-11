@@ -4,15 +4,16 @@
 <%@ Register TagPrefix="Module" TagName="Calendar" Src="../incl/calendar.ascx" %>
 <%@ Register TagPrefix="Module" TagName="ProjectBanner" Src="../incl/projectBanner.ascx" %>
 
-<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="FollowUpIssue.aspx.vb"
-    Inherits="QIS.Web.FollowUpIssue" %>
+<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="Urgent.aspx.vb" Inherits="QIS.Web.Urgent" %>
 
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html>
-<head>
-    <title>Basecamp - Follow Up Issue</title>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Basecamp - Urgents</title>
     <link rel="title icon" href="/qistoollib/images/favicon.png" />
     <meta name="GENERATOR" content="Microsoft Visual Studio.NET 7.0" />
     <meta name="CODE_LANGUAGE" content="Visual Basic 7.0" />
@@ -157,7 +158,7 @@
                 <table width="100%">
                     <tr>
                         <td class="Heading2" colspan="3">
-                            <asp:Label ID="lblPageTitle" runat="server" Text="Follow Up Issue"></asp:Label>
+                            <asp:Label ID="lblPageTitle" runat="server" Text="Urgents Issue"></asp:Label>
                         </td>
                     </tr>
                     <tr>
@@ -166,9 +167,9 @@
                     </tr>
                 </table>
                 <table width="100%">
-                    <tr>
+                    <%--<tr>
                         <td style="width: 90%;">
-                            <table width="100%">
+                              <table width="100%">
                                 <tr>
                                     <td style="width: 100;">
                                         <table>
@@ -180,7 +181,7 @@
                                         </table>
                                     </td>
                                     <td>
-                                        <table>
+                                           <table>
                                             <tr>
                                                 <td style="width: 120;" class="right">
                                                     <asp:CheckBox ID="chkIsFilterByPeriod" runat="server" Text="Update Period" />
@@ -271,17 +272,17 @@
                     <tr>
                         <td class="hseparator" colspan="3">
                         </td>
-                    </tr>
+                    </tr>--%>
                     <tr>
-                        <td colspan="3">
+                       <%-- <td colspan="3">
                             <asp:Panel ID="pnlAddNew" runat="server">
                                 <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                     <tr>
                                         <td colspan="2" style="font-weight: bold;">
                                             .:: Add or Edit Issue
                                         </td>
-                                    </tr>
-                                    <tr>
+                                    </tr>--%>
+                                    <%--<tr>
                                         <td colspan="2" class="Title" style="background: #ffffff;">
                                             Issue ID #&nbsp;<asp:Label ID="lblIssueID" runat="server"></asp:Label>
                                             <asp:Label ID="lblProjectID" runat="server" Visible="false"></asp:Label>
@@ -540,10 +541,10 @@
                                                 </tr>
                                             </table>
                                         </td>
-                                    </tr>
+                                    </tr>--%>
                                     <tr>
-                                        <td colspan="2">
-                                            <asp:DataGrid ID="grdIssueResponse" runat="server" BorderWidth="0" GridLines="None"
+                                        <td>
+                                            <%--<asp:DataGrid ID="grdIssueResponse" runat="server" BorderWidth="0" GridLines="None"
                                                 Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
                                                 AutoGenerateColumns="false">
                                                 <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
@@ -566,23 +567,17 @@
                                                         </ItemTemplate>
                                                     </asp:TemplateColumn>
                                                 </Columns>
-                                            </asp:DataGrid>
+                                            </asp:DataGrid>--%>
                                         </td>
                                     </tr>
-                                </table>
-                            </asp:Panel>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <asp:DataGrid ID="grdIssueByFilter" runat="server" BorderWidth="0" GridLines="None"
+                                <asp:DataGrid ID="grdIssueByFilter" runat="server" BorderWidth="0" GridLines="None"
                                 Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
                                 AutoGenerateColumns="false">
                                 <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
                                 <ItemStyle CssClass="gridItemStyle" />
                                 <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
                                 <Columns>
-                                    <asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center">
+                                    <%--<asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center">
                                         <ItemTemplate>
                                             <asp:ImageButton ID="_ibtnEdit" runat="server" ImageUrl="/qistoollib/images/edit.png"
                                                 ImageAlign="AbsMiddle" CommandName="Edit" CausesValidation="false" />
@@ -593,7 +588,7 @@
                                             <asp:Image ID="_imgAttachment" runat="server" ImageUrl="/qistoollib/images/attachment.png"
                                                 ImageAlign="AbsMiddle" Visible='<%# DataBinder.Eval(Container.DataItem, "isHasAttachment") %>' />
                                         </ItemTemplate>
-                                    </asp:TemplateColumn>
+                                    </asp:TemplateColumn>--%>
                                     <asp:TemplateColumn runat="server" HeaderText="Issue ID" ItemStyle-Width="100">
                                         <ItemTemplate>
                                             <table>
@@ -684,7 +679,13 @@
                                     </asp:TemplateColumn>
                                 </Columns>
                             </asp:DataGrid>
+                                </table>
+                            </asp:Panel>
                         </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            &nbsp;</td>
                     </tr>
                 </table>
             </td>
