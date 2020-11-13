@@ -582,19 +582,19 @@
                                 <ItemStyle CssClass="gridItemStyle" />
                                 <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
                                 <Columns>
-                                    <asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center">
+                                    <asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <asp:ImageButton ID="_ibtnEdit" runat="server" ImageUrl="/qistoollib/images/edit.png"
                                                 ImageAlign="AbsMiddle" CommandName="Edit" CausesValidation="false" />
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center">
+                                    <asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <asp:Image ID="_imgAttachment" runat="server" ImageUrl="/qistoollib/images/attachment.png"
                                                 ImageAlign="AbsMiddle" Visible='<%# DataBinder.Eval(Container.DataItem, "isHasAttachment") %>' />
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Issue ID" ItemStyle-Width="100">
+                                    <asp:TemplateColumn runat="server" HeaderText="Issue ID" ItemStyle-Width="100" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <table>
                                                 <tr>
@@ -624,7 +624,7 @@
                                             </table>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Project" ItemStyle-Width="100">
+                                    <asp:TemplateColumn runat="server" HeaderText="Project" ItemStyle-Width="100" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <table>
                                                 <tr>
@@ -644,12 +644,12 @@
                                             </table>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Description">
+                                    <asp:TemplateColumn runat="server" HeaderText="Description" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <%# DataBinder.Eval(Container.DataItem, "issueDescription")%>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Reported By" ItemStyle-Width="100">
+                                    <asp:TemplateColumn runat="server" HeaderText="Reported By" ItemStyle-Width="100" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <div class="txtweak">
                                                 <%# DataBinder.Eval(Container.DataItem, "reportedBy")%>
@@ -657,27 +657,27 @@
                                                 on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %></div>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Type" ItemStyle-Width="60">
+                                    <asp:TemplateColumn runat="server" HeaderText="Type" ItemStyle-Width="60" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <%# DataBinder.Eval(Container.DataItem, "issueTypeName")%>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Priority" ItemStyle-Width="60">
+                                    <asp:TemplateColumn runat="server" HeaderText="Priority" ItemStyle-Width="60" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <%# DataBinder.Eval(Container.DataItem, "issuePriorityName")%>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Assigned to" ItemStyle-Width="80">
+                                    <asp:TemplateColumn runat="server" HeaderText="Assigned to" ItemStyle-Width="80" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <%# DataBinder.Eval(Container.DataItem, "userNameAssignedTo")%>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Status" ItemStyle-Width="80">
+                                    <asp:TemplateColumn runat="server" HeaderText="Status" ItemStyle-Width="80" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <%# DataBinder.Eval(Container.DataItem, "issueStatusName")%>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Confirmed?" ItemStyle-Width="80">
+                                    <asp:TemplateColumn runat="server" HeaderText="Confirmed?" ItemStyle-Width="80" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <%# DataBinder.Eval(Container.DataItem, "issueConfirmStatusName")%>
                                         </ItemTemplate>
