@@ -72,9 +72,6 @@
                         <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
-
-
-
                     <tr>
                         <td valign="middle" style="width: 34;">
                             <asp:ImageButton ID="ibtnMyDay" runat="server" ImageUrl="/qistoollib/images/myday.png"
@@ -88,9 +85,6 @@
                         <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
-
-
-
                     <tr>
                         <td valign="middle" style="width: 34;">
                             <asp:ImageButton ID="ibtnUrgents" runat="server" ImageUrl="/qistoollib/images/urgents.png"
@@ -107,11 +101,6 @@
                         <td style="width: 100%;" class="hseparator" colspan="3">
                         </td>
                     </tr>
-
-
-
-
-
                     <tr>
                         <td valign="middle" style="width: 34;">
                             <asp:ImageButton ID="ibtnPlanned" runat="server" ImageUrl="/qistoollib/images/planned.png"
@@ -335,7 +324,8 @@
         <tr>
             <td valign="bottom" colspan="3">
                 <!-- BEGIN PAGE FOOTER-->
-                <Module:Copyright ID="mdlCopyRight" runat="server" pathprefix=".."></Module:Copyright>
+                <Module:Copyright ID="mdlCopyRight" runat="server" pathprefix="..">
+                </Module:Copyright>
                 <!-- END PAGE FOOTER-->
             </td>
         </tr>

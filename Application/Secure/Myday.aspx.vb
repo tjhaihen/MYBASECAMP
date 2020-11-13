@@ -49,7 +49,7 @@ Namespace QIS.Web
 
                 pnlAddNew.Visible = False
                 pnlIssueResponse.Visible = False
-
+                GetTasksByUserID()
                 'End If
             End If
         End Sub
@@ -60,6 +60,10 @@ Namespace QIS.Web
 
         Private Sub lbtnMyDay_Click(sender As Object, e As System.EventArgs) Handles lbtnMyDay.Click, ibtnMyDay.Click
             Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Myday.aspx')</script>")
+        End Sub
+
+        Private Sub lbtnPlanned_Click(sender As Object, e As System.EventArgs) Handles lbtnPlanned.Click, lbtnPlanned.Click
+            Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Planned.aspx')</script>")
         End Sub
 
         Private Sub lbtnUrgents_Click(sender As Object, e As System.EventArgs) Handles lbtnUrgents.Click, ibtnUrgents.Click
@@ -214,20 +218,12 @@ Namespace QIS.Web
         End Function
 
         Private Sub SetDataGrid()
-            'Dim decTotalIssue As Decimal = 0D
-            'Dim leap = Date(2004, 2, 29)
-            'Dim prev As leap.AddDays(-1)
             Dim oBR As New Common.BussinessRules.Issue
             Dim oDT As New DataTable
-            'oDT = oBR.SelectByUrgent("", Me.LoggedOnUserID.Trim)
-            grdIssueByFilter.DataSource = oBR.SelectByMyday(Me.LoggedOnUserID.Trim, DateTime.Today.AddDays(-676))
+            grdIssueByFilter.DataSource = oBR.SelectByMyday(Me.LoggedOnUserID.Trim, DateTime.Today)
             grdIssueByFilter.DataBind()
-            'decTotalIssue = oDT.Rows.Count
             oBR.Dispose()
             oBR = Nothing
-
-            'DateTime.Today.AddYears(-1))
-
         End Sub
 
         'Private Sub CheckDateRange(ByVal tgl As DateTime, ByVal datepast As DateTime, ByVal dateFuture As DateTime)
@@ -348,6 +344,29 @@ Namespace QIS.Web
             If isLastWeek = False Then daysToLastWeek = 0
             Dim fistDay As DateTime = inputDate.AddDays(-daysFromMonday - daysToLastWeek)
             Return fistDay.AddDays(6)
+        End Function
+
+        Private Sub GetTasksByUserID()
+            Dim intAssignments As Integer = 0
+            Dim oBr As New Common.BussinessRules.Issue
+            With oBr
+                .userIDassignedTo = MyBase.LoggedOnUserID.Trim
+                intAssignments = .SelectIssueOutstandingByUserID(False).Rows.Count
+            End With
+            oBr.Dispose()
+            oBr = Nothing
+
+            lblAssignmentsTotal.Text = intAssignments.ToString.Trim
+            lblUrgentsTotal.Text = GetUrgentIssuesCount().ToString.Trim
+        End Sub
+
+        Private Function GetUrgentIssuesCount() As Integer
+            Dim i As Integer = 0
+            Dim oBR As New Common.BussinessRules.Issue
+            i = oBR.SelectByUrgent(MyBase.LoggedOnUserID.Trim).Rows.Count
+            oBR.Dispose()
+            oBR = Nothing
+            Return i
         End Function
 #End Region
 

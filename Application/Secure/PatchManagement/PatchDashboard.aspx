@@ -20,7 +20,12 @@
     <link href="/qistoollib/css/styles_blue.css" type="text/css" rel="Stylesheet" />
     <script language="javascript" type="text/javascript" src="/qistoollib/scripts/JScript.js"></script>
     <style type="text/css">
-        
+        #rcorners1 {
+          border-radius: 5px;
+          background: #448ef8;
+          color: #ffffff;
+          padding: 5px;
+        }
     </style>
 </head>
 <body>

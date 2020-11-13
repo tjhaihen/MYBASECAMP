@@ -544,9 +544,6 @@ Namespace QIS.Common.BussinessRules
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "spSelectIssueMyday"
             cmdToExecute.CommandType = CommandType.StoredProcedure
-            'cmdToExecute.CommandText = "select targetDate from issue where assignedBy ='201507300000005' and issueStatusSCode = '001'"
-            'cmdToExecute.CommandType = CommandType.Text
-
 
             Dim toReturn As DataTable = New DataTable("IssueByMyday")
             Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
@@ -554,9 +551,41 @@ Namespace QIS.Common.BussinessRules
             cmdToExecute.Connection = _mainConnection
 
             Try
-                'cmdToExecute.Parameters.AddWithValue("@projectID", strProjectID)
                 cmdToExecute.Parameters.AddWithValue("@userIDAssignedTo", strUserIDAssignedTo)
                 cmdToExecute.Parameters.AddWithValue("@tglTarget", tglTarget)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function SelectByPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spSelectIssuePlanned"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("IssueByPlanned")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@userIDAssignedTo", strUserIDAssignedTo)
+                cmdToExecute.Parameters.AddWithValue("@startDate", startDate)
+                cmdToExecute.Parameters.AddWithValue("@endDate", endDate)
 
                 ' // Open connection.
                 _mainConnection.Open()

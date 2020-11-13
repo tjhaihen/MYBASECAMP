@@ -4,14 +4,14 @@
 <%@ Register TagPrefix="Module" TagName="Calendar" Src="../incl/calendar.ascx" %>
 <%@ Register TagPrefix="Module" TagName="ProjectBanner" Src="../incl/projectBanner.ascx" %>
 
-<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="Myday.aspx.vb" Inherits="QIS.Web.Myday" %>
+<%@ Page Language="vb" AutoEventWireup="false" CodeBehind="Planned.aspx.vb" Inherits="QIS.Web.Planned" %>
 
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>Basecamp - My Day</title>
+    <title>Basecamp - Planned</title>
     <link rel="title icon" href="/qistoollib/images/favicon.png" />
     <meta name="GENERATOR" content="Microsoft Visual Studio.NET 7.0" />
     <meta name="CODE_LANGUAGE" content="Visual Basic 7.0" />
@@ -162,7 +162,43 @@
                 <table width="100%">
                     <tr>
                         <td class="Heading2" colspan="3">
-                            <asp:Label ID="lblPageTitle" runat="server" Text="My Day"></asp:Label>
+                            <asp:Label ID="lblPageTitle" runat="server" Text="Planned"></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="hseparator" colspan="3">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 60%;">
+                            <table>
+                                <tr>
+                                    <td style="width: 100;">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <Module:CSSToolbar ID="CSSToolbar" runat="server">
+                                                    </Module:CSSToolbar>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td style="width: 120;" class="right">
+                                                    Target Period
+                                                </td>
+                                                <td>
+                                                    <Module:Calendar ID="calStartDate" runat="server" DontResetDate="true" />
+                                                    &nbsp;to&nbsp;
+                                                    <Module:Calendar ID="calEndDate" runat="server" DontResetDate="true" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                     <tr>
@@ -580,9 +616,10 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="txtweak center">
-                                                        <p id="rcorners1">Due:
-                                                        <%# DataBinder.Eval(Container.DataItem, "dueToTargetDateAgeInDay")%>
-                                                        d</p>
+                                                        <p id="rcorners1">
+                                                            Due:
+                                                            <%# DataBinder.Eval(Container.DataItem, "dueToTargetDateAgeInDay")%>
+                                                            d</p>
                                                     </td>
                                                 </tr>
                                             </table>

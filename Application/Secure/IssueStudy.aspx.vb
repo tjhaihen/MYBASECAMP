@@ -43,11 +43,24 @@ Namespace QIS.Web
                 setToolbarVisibleButton()
                 prepareDDL()
                 PrepareScreen()
+                GetTasksByUserID()
             End If
         End Sub
 
         Private Sub lbtnMyProjects_Click(sender As Object, e As System.EventArgs) Handles lbtnMyProjects.Click, ibtnMyProjects.Click
             Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Main.aspx" + "')</script>")
+        End Sub
+
+        Private Sub lbtnMyDay_Click(sender As Object, e As System.EventArgs) Handles lbtnMyDay.Click, ibtnMyDay.Click
+            Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Myday.aspx')</script>")
+        End Sub
+
+        Private Sub lbtnPlanned_Click(sender As Object, e As System.EventArgs) Handles lbtnPlanned.Click, lbtnPlanned.Click
+            Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Planned.aspx')</script>")
+        End Sub
+
+        Private Sub lbtnUrgents_Click(sender As Object, e As System.EventArgs) Handles lbtnUrgents.Click, ibtnUrgents.Click
+            Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Urgent.aspx')</script>")
         End Sub
 
         Private Sub lbtnMyAssignments_Click(sender As Object, e As System.EventArgs) Handles lbtnMyAssignments.Click, ibtnMyAssignments.Click
@@ -133,6 +146,29 @@ Namespace QIS.Web
             oBR.Dispose()
             oBR = Nothing
             Return dt
+        End Function
+
+        Private Sub GetTasksByUserID()
+            Dim intAssignments As Integer = 0
+            Dim oBr As New Common.BussinessRules.Issue
+            With oBr
+                .userIDassignedTo = MyBase.LoggedOnUserID.Trim
+                intAssignments = .SelectIssueOutstandingByUserID(False).Rows.Count
+            End With
+            oBr.Dispose()
+            oBr = Nothing
+
+            lblAssignmentsTotal.Text = intAssignments.ToString.Trim
+            lblUrgentsTotal.Text = GetUrgentIssuesCount().ToString.Trim
+        End Sub
+
+        Private Function GetUrgentIssuesCount() As Integer
+            Dim i As Integer = 0
+            Dim oBR As New Common.BussinessRules.Issue
+            i = oBR.SelectByUrgent(MyBase.LoggedOnUserID.Trim).Rows.Count
+            oBR.Dispose()
+            oBR = Nothing
+            Return i
         End Function
 #End Region
 

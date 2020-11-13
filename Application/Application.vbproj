@@ -409,6 +409,13 @@
       <DependentUpon>People.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Secure\Planned.aspx.designer.vb">
+      <DependentUpon>Planned.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Planned.aspx.vb">
+      <DependentUpon>Planned.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Secure\Profile.aspx.designer.vb">
       <DependentUpon>Profile.aspx</DependentUpon>
     </Compile>
@@ -574,6 +581,7 @@
     <Content Include="Secure\PatchManagement\PatchDashboard.aspx" />
     <Content Include="Secure\PatchManagement\PatchList.aspx" />
     <Content Include="Secure\People.aspx" />
+    <Content Include="Secure\Planned.aspx" />
     <Content Include="Secure\Profile.aspx" />
     <Content Include="Secure\Project.aspx" />
     <Content Include="Secure\ProjectDetail.aspx" />
@@ -693,7 +701,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
