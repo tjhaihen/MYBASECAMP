@@ -178,20 +178,21 @@
                 </table>
                 <table width="100%">
                     <tr>
-                        <td style="width: 50%;">
+                        <td valign="top" style="width: 50%;">
                             <table>
                                 <tr>
-                                    <td style="width: 100;">
+                                    <td valign="top" style="width: 100;">
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <Module:CSSToolbar ID="CSSToolbar" runat="server"></Module:CSSToolbar>
+                                                    <Module:CSSToolbar ID="CSSToolbar" runat="server">
+                                                    </Module:CSSToolbar>
                                                 </td>
                                             </tr>
                                         </table>
                                     </td>
-                                    <td>
-                                        <table>
+                                    <td valign="top">
+                                        <table width="100%">
                                             <tr>
                                                 <td class="Heading3">
                                                     <asp:Label ID="lblProjectID" runat="server" Visible="false"></asp:Label>
@@ -208,12 +209,21 @@
                                                     <asp:Label ID="lblProjectDescription" runat="server"></asp:Label>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td class="hseparator">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="txtlessstrong">
+                                                    Last Patch:&nbsp;<asp:Label ID="lblLastPatchNo" runat="server"></asp:Label>
+                                                </td>
+                                            </tr>
                                         </table>
                                     </td>
                                 </tr>
                             </table>
                         </td>
-                        <td valign="middle" class="right">
+                        <td valign="top" class="right">
                             <table style="background: #dddddd;" cellspacing="1" cellpadding="2">
                                 <tr>
                                     <td style="background: #ffffff; width: 100;" class="center">
@@ -232,7 +242,7 @@
                                         Progress
                                     </td>
                                     <td style="background: #ffffff; width: 100;" class="center">
-                                        Issue Display
+                                        Display
                                     </td>
                                 </tr>
                                 <tr>
@@ -252,7 +262,16 @@
                                         <asp:Label ID="lblProgress" runat="server"></asp:Label>&nbsp;%
                                     </td>
                                     <td style="background: #ffffff; width: 100;" class="center">
-                                        <asp:CheckBox ID="chkIsOpenOnly" runat="server" Text="Open only" AutoPostBack="true" />
+                                        <asp:CheckBox ID="chkIsOpenOnly" runat="server" Text="Open" AutoPostBack="true" />
+                                    </td>
+                                </tr>
+                            </table>
+                            <table>
+                                <tr>
+                                    <td class="txtlessstrong">
+                                        Last Activity on:&nbsp;<asp:Label ID="lblProjectLastUpdatedDate" runat="server"></asp:Label>
+                                        &nbsp;|&nbsp;
+                                        Created on:&nbsp;<asp:Label ID="lblProjectCreatedDate" runat="server"></asp:Label>
                                     </td>
                                 </tr>
                             </table>
@@ -492,6 +511,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td colspan="4">
+                                                        <asp:Button ID="btnSaveOnly" runat="server" Text="Save" CssClass="sbttn" Width="100" />
                                                         <asp:Button ID="btnSaveAndNew" runat="server" Text="Save & New" CssClass="sbttn"
                                                             Width="100" />
                                                         <asp:Button ID="btnSaveAndClose" runat="server" Text="Save & Close" CssClass="sbttn"
@@ -870,19 +890,22 @@
                                 <ItemStyle CssClass="gridItemStyle" />
                                 <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
                                 <Columns>
-                                    <asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center" ItemStyle-VerticalAlign="Top">
+                                    <asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center"
+                                        ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <asp:ImageButton ID="_ibtnEdit" runat="server" ImageUrl="/qistoollib/images/edit.png"
                                                 ImageAlign="AbsMiddle" CommandName="Edit" CausesValidation="false" />
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center" ItemStyle-VerticalAlign="Top">
+                                    <asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center"
+                                        ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <asp:ImageButton ID="_ibtnPrint" runat="server" ImageUrl="/qistoollib/images/print.png"
                                                 ImageAlign="AbsMiddle" CommandName="Print" CausesValidation="false" ToolTip="Print Issue Ticket Form" />
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center" ItemStyle-VerticalAlign="Top">
+                                    <asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center"
+                                        ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <asp:Image ID="_imgAttachment" runat="server" ImageUrl="/qistoollib/images/attachment.png"
                                                 ImageAlign="AbsMiddle" Visible='<%# DataBinder.Eval(Container.DataItem, "isHasAttachment") %>' />
@@ -912,7 +935,8 @@
                                             </table>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Department" ItemStyle-Width="120" ItemStyle-VerticalAlign="Top">
+                                    <asp:TemplateColumn runat="server" HeaderText="Department" ItemStyle-Width="120"
+                                        ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <table>
                                                 <tr>
@@ -932,7 +956,8 @@
                                             <pre><%# DataBinder.Eval(Container.DataItem, "issueDescription")%></pre>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Reported By" ItemStyle-Width="100" ItemStyle-VerticalAlign="Top">
+                                    <asp:TemplateColumn runat="server" HeaderText="Reported By" ItemStyle-Width="100"
+                                        ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <div class="txtweak">
                                                 <%# DataBinder.Eval(Container.DataItem, "reportedBy")%>
@@ -950,7 +975,8 @@
                                             <%# DataBinder.Eval(Container.DataItem, "issuePriorityName")%>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Assigned to" ItemStyle-Width="80" ItemStyle-VerticalAlign="Top">
+                                    <asp:TemplateColumn runat="server" HeaderText="Assigned to" ItemStyle-Width="80"
+                                        ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <div>
                                                 <%# DataBinder.Eval(Container.DataItem, "userNameAssignedTo")%>
@@ -980,7 +1006,8 @@
         <tr>
             <td valign="bottom" colspan="3">
                 <!-- BEGIN PAGE FOOTER-->
-                <Module:Copyright ID="mdlCopyRight" runat="server" pathprefix=".."></Module:Copyright>
+                <Module:Copyright ID="mdlCopyRight" runat="server" pathprefix="..">
+                </Module:Copyright>
                 <!-- END PAGE FOOTER-->
             </td>
         </tr>

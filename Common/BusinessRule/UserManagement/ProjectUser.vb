@@ -204,7 +204,10 @@ Namespace QIS.Common.BussinessRules
         Public Function SelectProjectByProjectGroupID(ByVal ProjectGroupID As String, ByVal UserID As String, Optional ByVal IsAssignedOnly As Boolean = False) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             If IsAssignedOnly = False Then
-                cmdToExecute.CommandText = "SELECT DISTINCT b.* FROM ( " + _
+                cmdToExecute.CommandText = "SELECT DISTINCT b.*, " + _
+                                        "LastPatchNo = (SELECT TOP 1 patchNo FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC), " + _
+                                        "LastPatchDate = CAST((SELECT TOP 1 updateDate FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC) AS DATE) " + _
+                                        "FROM ( " + _
                                         "SELECT a.*, progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
                                         "ELSE(100) END " + _
                                         "FROM (" + _
@@ -236,7 +239,10 @@ Namespace QIS.Common.BussinessRules
                                         ") b " + _
                                         "ORDER BY b.progress ASC"
             Else
-                cmdToExecute.CommandText = "SELECT DISTINCT b.* FROM ( " + _
+                cmdToExecute.CommandText = "SELECT DISTINCT b.*, " + _
+                                        "LastPatchNo = (SELECT TOP 1 patchNo FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC), " + _
+                                        "LastPatchDate = CAST((SELECT TOP 1 updateDate FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC) AS DATE) " + _
+                                        "FROM ( " + _
                                         "SELECT a.*, progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
                                         "ELSE(100) END " + _
                                         "FROM (" + _

@@ -22,27 +22,35 @@
         {
             width: 100%;
             margin: 0;
-            padding: 0;                     
+            padding: 0;
         }
         #ulRepProjects li
         {
             list-style-type: none;
             display: inline-block; /* FF3.6; Chrome10+ */                     
             *display: inline;
+            border-radius: 10px;
             background: #eeeeee;
             width: 300px;
-            height: 150px;
+            height: 180px;
             margin: 3px;
+            padding: 5px;
         }
         #ulRepProjectGroup
         {
             width: 100%;
             margin: 0;
-            padding: 0;                     
+            padding: 0;
         }
         #ulRepProjectGroup li
         {
             list-style-type: none;            
+        }
+        #rcorners1 {
+          border-radius: 5px;
+          background: #b5d0f8;
+          color: #000000;
+          padding: 5px;
         }
     </style>
 </head>
@@ -231,12 +239,6 @@
                                                             <li>
                                                                 <table cellspacing="1" width="100%">
                                                                     <tr>
-                                                                        <td colspan="2" style="height: 4;">
-                                                                            <asp:Panel ID="pnlHEXColor" runat="server" Width="100%" Height="5" BackColor="#666666">
-                                                                            </asp:Panel>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
                                                                         <td class="Heading3">
                                                                             <asp:Label ID="_lblProjectID" runat="server" Visible="false" Text='<%# DataBinder.Eval(Container.DataItem, "ProjectID") %>'></asp:Label>
                                                                             <%# DataBinder.Eval(Container.DataItem, "ProjectAliasName") %>
@@ -246,6 +248,12 @@
                                                                                 ToolTip="Print Customer Support Weekly Report" CommandName="Print" />
                                                                             <asp:ImageButton ID="_ibtnGoToProjectDetailPage" runat="server" ImageUrl="/qistoollib/images/viewDetail.png"
                                                                                 ToolTip="View Project Detail" CommandName="ViewDetail" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="2" style="height: 4;">
+                                                                            <asp:Panel ID="pnlHEXColor" runat="server" Width="100%" Height="5" BackColor="#666666">
+                                                                            </asp:Panel>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -260,7 +268,14 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <td class="txtweak" colspan="2">
-                                                                            Last updated&nbsp;<%# DataBinder.Eval(Container.DataItem, "lastUpdateDate") %>
+                                                                            Last updated:&nbsp;<%# DataBinder.Eval(Container.DataItem, "lastUpdateDate") %>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="txtweak">
+                                                                            <p id="rcorners1">
+                                                                                Last Patch:&nbsp;<b><%# DataBinder.Eval(Container.DataItem, "lastPatchNo")%></b>
+                                                                            </p>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
