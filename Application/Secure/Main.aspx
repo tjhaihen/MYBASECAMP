@@ -190,7 +190,7 @@
                                     <li>
                                         <table cellspacing="1" width="100%">
                                             <tr>
-                                                <td class="Heading3" style="width: 300; height: 30; background-color: #A9E2F3;">
+                                                <td class="Heading3" style="width: 300; height: 30; background-color: #4ADEDE;">
                                                     <%# DataBinder.Eval(Container.DataItem, "ProjectGroupName") %>
                                                 </td>
                                                 <td class="center" style="width: 200; height: 30; background-color: #eeeeee; font-size: 18pt;">

@@ -932,6 +932,14 @@
                                                         <%# Format(DataBinder.Eval(Container.DataItem, "updateDate"),"dd-MMM-yyyy hh:mm") %>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td class="hseparator"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="txtweak">
+                                                        Patch No.:&nbsp;<%# DataBinder.Eval(Container.DataItem, "patchNo")%>
+                                                    </td>
+                                                </tr>
                                             </table>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
