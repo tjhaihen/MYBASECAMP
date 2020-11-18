@@ -34,11 +34,18 @@ Namespace QIS.Web
         Public Sub New()
             MyBase.New()
             Try
+                Dim strPrefix As String = String.Empty
+                If SysConfig.EnableSsl Then
+                    strPrefix = "https://"
+                Else
+                    strPrefix = "http://"
+                End If
+
                 urlSuffix = Context.Request.Url.Host
-                pageUrlDokuwiki = "http://" & urlSuffix
+                pageUrlDokuwiki = strPrefix & urlSuffix
 
                 urlSuffix = Context.Request.Url.Host & Context.Request.ApplicationPath
-                pageUrlBase = "http://" & urlSuffix
+                pageUrlBase = strPrefix & urlSuffix
             Catch
             End Try
         End Sub
