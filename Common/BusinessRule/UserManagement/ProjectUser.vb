@@ -215,7 +215,7 @@ Namespace QIS.Common.BussinessRules
                                         "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
                                         "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode<>'003'), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode NOT IN ('002-1','003')), " + _
                                         "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode='002-1'), " + _
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode='003') " + _
                                         "FROM projectUser up " + _
@@ -229,7 +229,7 @@ Namespace QIS.Common.BussinessRules
                                         "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
                                         "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode<>'003'), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode NOT IN ('002-1','003')), " + _
                                         "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode='002-1'), " + _
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode='003') " + _
                                         "FROM userProfile up " + _
@@ -250,7 +250,7 @@ Namespace QIS.Common.BussinessRules
                                         "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
                                         "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode<>'003'), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode NOT IN ('002-1','003')), " + _
                                         "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='002-1'), " + _
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='003') " + _
                                         "FROM projectUser up " + _
@@ -266,7 +266,7 @@ Namespace QIS.Common.BussinessRules
                                         "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
                                         "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode<>'003'), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode NOT IN ('002-1','003')), " + _
                                         "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='002-1'), " + _
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='003') " + _
                                         "FROM userProfile up " + _

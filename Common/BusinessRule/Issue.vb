@@ -418,13 +418,13 @@ Namespace QIS.Common.BussinessRules
             If IsAssignmentOnly = False Then
                 cmdToExecute.CommandText = "SELECT " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode<>'003'), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode NOT IN ('002-1','003')), " + _
                                         "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode='002-1'), " + _
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode='003')"
             Else
                 cmdToExecute.CommandText = "SELECT " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode<>'003'), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode NOT IN ('002-1','003')), " + _
                                         "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode<>'002-1'), " + _
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode='003')"
             End If            
