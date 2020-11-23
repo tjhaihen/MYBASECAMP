@@ -31,8 +31,8 @@
             *display: inline;
             border-radius: 10px;
             background: #eeeeee;
-            width: 300px;
-            height: 180px;
+            width: 320px;
+            height: 220px;
             margin: 3px;
             padding: 5px;
         }
@@ -49,6 +49,12 @@
         #rcorners1 {
           border-radius: 5px;
           background: #b5d0f8;
+          color: #000000;
+          padding: 5px;
+        }
+        #rcorners2 {
+          border-radius: 5px;
+          background: #4bdfdf;
           color: #000000;
           padding: 5px;
         }
@@ -190,37 +196,19 @@
                                     <li>
                                         <table cellspacing="1" width="100%">
                                             <tr>
-                                                <td class="Heading3" style="width: 300; height: 30; background-color: #4ADEDE;">
+                                                <td class="Heading3" style="width: 300; height: 30; background-color: #4adede; color: #555555; padding-left: 10;">
                                                     <%# DataBinder.Eval(Container.DataItem, "ProjectGroupName") %>
                                                 </td>
-                                                <td class="center" style="width: 200; height: 30; background-color: #eeeeee; font-size: 18pt;">
-                                                    <table cellspacing="1" class="gridHeaderStyle">
+                                                <td class="center" style="width: 100; height: 30; background-color: #787ff6; font-size: 18pt;">
+                                                    <table cellspacing="0" class="gridHeaderStyle">
                                                         <tr>
-                                                            <td style="width: 50; background: #eeeeee;" class="center txtweak">
-                                                                Total
-                                                            </td>
-                                                            <td style="width: 50; background: #eeeeee;" class="center txtweak">
-                                                                Open
-                                                            </td>
-                                                            <td style="width: 50; background: #eeeeee;" class="center txtweak">
-                                                                Finish
-                                                            </td>
-                                                            <td style="width: 50; background: #eeeeee;" class="center txtweak">
-                                                                Progress
+                                                            <td class="center txtweak" style="width: 100; background: #787ff6; color: #ffffff;">
+                                                                Total Project
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="background: #eeeeee;" class="center">
+                                                            <td style="background: #787ff6; color: #ffffff;" class="center">
                                                                 <asp:Label ID="lblTotalByProjectGroup" runat="server"></asp:Label>
-                                                            </td>
-                                                            <td style="background: #eeeeee;" class="center">
-                                                                <asp:Label ID="lblTotalOpenByProjectGroup" runat="server"></asp:Label>
-                                                            </td>
-                                                            <td style="background: #eeeeee;" class="center">
-                                                                <asp:Label ID="lblTotalFinishByProjectGroup" runat="server"></asp:Label>
-                                                            </td>
-                                                            <td style="background: #eeeeee;" class="center">
-                                                                <asp:Label ID="lblProgressByProjectGroup" runat="server"></asp:Label>%
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -239,13 +227,17 @@
                                                             <li>
                                                                 <table cellspacing="1" width="100%">
                                                                     <tr>
-                                                                        <td class="Heading3">
+                                                                        <td class="Heading3" style="width: 50%;">
                                                                             <asp:Label ID="_lblProjectID" runat="server" Visible="false" Text='<%# DataBinder.Eval(Container.DataItem, "ProjectID") %>'></asp:Label>
                                                                             <%# DataBinder.Eval(Container.DataItem, "ProjectAliasName") %>
                                                                         </td>
                                                                         <td valign="top" align="right">
-                                                                            <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="/qistoollib/images/tbprint.png"
+                                                                            <asp:Image ID="imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/urgents.png" Visible='<%# DataBinder.Eval(Container.DataItem, "IsUrgentIssueExists") %>'
+                                                                                ToolTip='<%# DataBinder.Eval(Container.DataItem, "totalUrgentIssue") %>' />
+                                                                            <asp:ImageButton ID="_ibtnPrint" runat="server" ImageUrl="/qistoollib/images/tbprint.png"
                                                                                 ToolTip="Print Customer Support Weekly Report" CommandName="Print" />
+                                                                            <asp:ImageButton ID="_ibtnSchedule" runat="server" ImageUrl="/qistoollib/images/schedule.png"
+                                                                                ToolTip="Schedule Patch Update" CommandName="Schedule" Visible="false" />
                                                                             <asp:ImageButton ID="_ibtnGoToProjectDetailPage" runat="server" ImageUrl="/qistoollib/images/viewDetail.png"
                                                                                 ToolTip="View Project Detail" CommandName="ViewDetail" />
                                                                         </td>
@@ -257,7 +249,7 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td class="txtlessstrong">
+                                                                        <td class="txtlessstrong" colspan="2">
                                                                             <%# DataBinder.Eval(Container.DataItem, "ProjectName") %>
                                                                         </td>
                                                                     </tr>
@@ -272,26 +264,40 @@
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td class="txtweak">
+                                                                        <td class="txtweak" colspan="2">
                                                                             <p id="rcorners1">
                                                                                 Last Patch:&nbsp;<b><%# DataBinder.Eval(Container.DataItem, "lastPatchNo")%></b>
+                                                                                <b><%# DataBinder.Eval(Container.DataItem, "lastPatchDate")%></b>
+                                                                            </p>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr style="display: none;">
+                                                                        <td class="txtweak" colspan="2">
+                                                                            <p id="rcorners2">
+                                                                                Scheduled Update:
                                                                             </p>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>
+                                                                        <td colspan="2">
                                                                             <table cellspacing="1" class="gridHeaderStyle">
                                                                                 <tr>
-                                                                                    <td style="width: 50; background: #eeeeee;" class="center txtweak">
+                                                                                    <td style="width: 50;" class="center txtweak">
                                                                                         Total
                                                                                     </td>
-                                                                                    <td style="width: 50; background: #eeeeee;" class="center txtweak">
+                                                                                    <td style="width: 50;" class="center txtweak">
                                                                                         Open
                                                                                     </td>
-                                                                                    <td style="width: 50; background: #eeeeee;" class="center txtweak">
+                                                                                    <td style="width: 60;" class="center txtweak">
+                                                                                        InProgress
+                                                                                    </td>
+                                                                                    <td style="width: 60;" class="center txtweak">
                                                                                         Dev.Finish
                                                                                     </td>
-                                                                                    <td style="width: 50; background: #eeeeee;" class="center txtweak">
+                                                                                    <td style="width: 60;" class="center txtweak">
+                                                                                        QC.Passed
+                                                                                    </td>
+                                                                                    <td style="width: 50;" class="center txtweak">
                                                                                         Finish
                                                                                     </td>
                                                                                 </tr>
@@ -303,16 +309,39 @@
                                                                                         <%# DataBinder.Eval(Container.DataItem, "totalOpen") %>
                                                                                     </td>
                                                                                     <td style="background: #eeeeee;" class="center">
+                                                                                        <%# DataBinder.Eval(Container.DataItem, "totalInProgress") %>
+                                                                                    </td>
+                                                                                    <td style="background: #eeeeee;" class="center">
                                                                                         <%# DataBinder.Eval(Container.DataItem, "totalDevFinish") %>
+                                                                                    </td>
+                                                                                    <td style="background: #eeeeee;" class="center">
+                                                                                        <%# DataBinder.Eval(Container.DataItem, "totalQCPassed")%>
                                                                                     </td>
                                                                                     <td style="background: #eeeeee;" class="center">
                                                                                         <%# DataBinder.Eval(Container.DataItem, "totalFinish") %>
                                                                                     </td>
                                                                                 </tr>
+                                                                                <tr>
+                                                                                    <td style="background: #eeeeee;" class="center">
+                                                                                        
+                                                                                    </td>
+                                                                                    <td style="background: #eeeeee;" class="center">
+                                                                                        <%# DataBinder.Eval(Container.DataItem, "totalOpenInPct")%>%
+                                                                                    </td>
+                                                                                    <td style="background: #eeeeee;" class="center">
+                                                                                        <%# DataBinder.Eval(Container.DataItem, "totalInProgressInPct")%>%
+                                                                                    </td>
+                                                                                    <td style="background: #eeeeee;" class="center">
+                                                                                        <%# DataBinder.Eval(Container.DataItem, "totalDevFinishInPct")%>%
+                                                                                    </td>
+                                                                                    <td style="background: #eeeeee;" class="center">
+                                                                                        <%# DataBinder.Eval(Container.DataItem, "totalQCPassedInPct")%>%
+                                                                                    </td>
+                                                                                    <td style="background: #eeeeee;" class="center">
+                                                                                        <%# DataBinder.Eval(Container.DataItem, "progress") %>%
+                                                                                    </td>
+                                                                                </tr>
                                                                             </table>
-                                                                        </td>
-                                                                        <td style="font-size: 18pt;" align="right" valign="bottom">
-                                                                            <%# DataBinder.Eval(Container.DataItem, "progress") %>%
                                                                         </td>
                                                                     </tr>
                                                                 </table>

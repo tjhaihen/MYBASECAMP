@@ -183,6 +183,7 @@ Namespace QIS.Web
 
                 Case CSSToolbarItem.tidDownload
                     Dim oRPT As New Common.BussinessRules.MyReport
+                    oRPT.AddParameters(ddlProductRoadmapFilter.SelectedValue.Trim)
                     oRPT.AddParameters(ddlProjectFilter.SelectedValue.Trim)
                     oRPT.AddParameters(ddlIssueTypeFilter.SelectedValue.Trim)
                     oRPT.AddParameters(ddlIssuePriorityFilter.SelectedValue.Trim)
@@ -210,7 +211,7 @@ Namespace QIS.Web
             Dim decTotalIssue As Decimal = 0D
             Dim oBR As New Common.BussinessRules.Issue
             Dim oDT As New DataTable
-            oDT = oBR.SelectByFilter(ddlProjectFilter.SelectedValue.Trim, ddlIssueTypeFilter.SelectedValue.Trim, ddlIssuePriorityFilter.SelectedValue.Trim, _
+            oDT = oBR.SelectByFilter(ddlProductRoadmapFilter.SelectedValue.Trim, ddlProjectFilter.SelectedValue.Trim, ddlIssueTypeFilter.SelectedValue.Trim, ddlIssuePriorityFilter.SelectedValue.Trim, _
                                         ddlUserIDAssignedToFilter.SelectedValue.Trim, ddlIssueStatusFilter.SelectedValue.Trim, ddlIssueConfirmStatusFilter.SelectedValue.Trim, _
                                         chkIsUrgent.Checked, chkIsFilterByPeriod.Checked, calStartDate.selectedDate, calEndDate.selectedDate)
             grdIssueByFilter.DataSource = oDT
@@ -248,6 +249,7 @@ Namespace QIS.Web
 
         Private Sub prepareDDL()
             commonFunction.SetDDL_Period(ddlPeriod)
+            commonFunction.SetDDL_Table(ddlProductRoadmapFilter, "CommonCode", Common.Constants.GroupCode.ProductRoadmap_SCode, True, "All Roadmap", "All")
             commonFunction.SetDDL_Table(ddlProjectFilter, "ProjectUser", MyBase.LoggedOnUserID.Trim, True, "All Project", "All")
             commonFunction.SetDDL_Table(ddlIssueTypeFilter, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, True, "All Type", "All")
             commonFunction.SetDDL_Table(ddlIssueStatusFilter, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "All Status", "All")

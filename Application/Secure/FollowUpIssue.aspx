@@ -199,6 +199,18 @@
                                             </tr>
                                             <tr>
                                                 <td style="width: 120;" class="right">
+                                                    Product Roadmap
+                                                </td>
+                                                <td>
+                                                    <asp:DropDownList ID="ddlProductRoadmapFilter" runat="server" Width="200">
+                                                    </asp:DropDownList>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="hseparator" colspan="4"></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 120;" class="right">
                                                     Project
                                                 </td>
                                                 <td>
@@ -641,11 +653,21 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td colspan="2">
+                                                        Roadmap:<br />
+                                                        <%# DataBinder.Eval(Container.DataItem, "productRoadmapName")%>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="hseparator" colspan="2">
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td>
                                                         <asp:Image ID="_imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/urgent.png"
                                                             Visible='<%# DataBinder.Eval(Container.DataItem, "isUrgent")%>' />
                                                     </td>
-                                                    <td>
+                                                    <td class="txtweak">
                                                         <%# DataBinder.Eval(Container.DataItem, "departmentName") %>
                                                     </td>
                                                 </tr>

@@ -185,8 +185,7 @@
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <Module:CSSToolbar ID="CSSToolbar" runat="server">
-                                                    </Module:CSSToolbar>
+                                                    <Module:CSSToolbar ID="CSSToolbar" runat="server"></Module:CSSToolbar>
                                                 </td>
                                             </tr>
                                         </table>
@@ -270,8 +269,7 @@
                                 <tr>
                                     <td class="txtlessstrong">
                                         Last Activity on:&nbsp;<asp:Label ID="lblProjectLastUpdatedDate" runat="server"></asp:Label>
-                                        &nbsp;|&nbsp;
-                                        Created on:&nbsp;<asp:Label ID="lblProjectCreatedDate" runat="server"></asp:Label>
+                                        &nbsp;|&nbsp; Created on:&nbsp;<asp:Label ID="lblProjectCreatedDate" runat="server"></asp:Label>
                                     </td>
                                 </tr>
                             </table>
@@ -909,6 +907,8 @@
                                         <ItemTemplate>
                                             <asp:Image ID="_imgAttachment" runat="server" ImageUrl="/qistoollib/images/attachment.png"
                                                 ImageAlign="AbsMiddle" Visible='<%# DataBinder.Eval(Container.DataItem, "isHasAttachment") %>' />
+                                            <asp:Image ID="_imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/urgent.png"
+                                                Visible='<%# DataBinder.Eval(Container.DataItem, "isUrgent")%>' />
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Issue ID" ItemStyle-Width="100" ItemStyle-VerticalAlign="Top">
@@ -933,7 +933,8 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="hseparator"></td>
+                                                    <td class="hseparator">
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="txtweak">
@@ -949,9 +950,15 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <asp:Image ID="_imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/urgent.png"
-                                                            Visible='<%# DataBinder.Eval(Container.DataItem, "isUrgent")%>' />
+                                                        Product Roadmap:<br />
+                                                        <%# DataBinder.Eval(Container.DataItem, "productRoadmapName")%>
                                                     </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="hseparator">
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td>
                                                         <%# DataBinder.Eval(Container.DataItem, "departmentName") %>
                                                     </td>
@@ -1014,8 +1021,7 @@
         <tr>
             <td valign="bottom" colspan="3">
                 <!-- BEGIN PAGE FOOTER-->
-                <Module:Copyright ID="mdlCopyRight" runat="server" pathprefix="..">
-                </Module:Copyright>
+                <Module:Copyright ID="mdlCopyRight" runat="server" pathprefix=".."></Module:Copyright>
                 <!-- END PAGE FOOTER-->
             </td>
         </tr>
