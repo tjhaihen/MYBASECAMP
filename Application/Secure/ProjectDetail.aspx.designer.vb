@@ -240,6 +240,15 @@ Namespace QIS.Web
         Protected WithEvents lblProjectDescription As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
+        '''lblLastPatchNo control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblLastPatchNo As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''lblTotalIssue control.
         '''</summary>
         '''<remarks>
@@ -292,6 +301,24 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents chkIsOpenOnly As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''lblProjectLastUpdatedDate control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblProjectLastUpdatedDate As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblProjectCreatedDate control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblProjectCreatedDate As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
         '''Upload_File control.
@@ -544,6 +571,15 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents txtWorkTimeInHour As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''btnSaveOnly control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnSaveOnly As Global.System.Web.UI.WebControls.Button
 
         '''<summary>
         '''btnSaveAndNew control.

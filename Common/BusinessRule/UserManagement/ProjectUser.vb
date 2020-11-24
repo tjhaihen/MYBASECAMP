@@ -204,30 +204,63 @@ Namespace QIS.Common.BussinessRules
         Public Function SelectProjectByProjectGroupID(ByVal ProjectGroupID As String, ByVal UserID As String, Optional ByVal IsAssignedOnly As Boolean = False) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             If IsAssignedOnly = False Then
-                cmdToExecute.CommandText = "SELECT DISTINCT b.* FROM ( " + _
-                                        "SELECT a.*, progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
-                                        "ELSE(100) END " + _
+                cmdToExecute.CommandText = "SELECT DISTINCT b.*, " + _
+                                        "LastPatchNo = (SELECT TOP 1 patchNo FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC), " + _
+                                        "LastPatchDate = " + _
+                                        "CASE WHEN((SELECT TOP 1 updateDate FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC) IS NULL) THEN('') " + _
+                                        "ELSE ('on ' + CONVERT(VARCHAR,ISNULL((SELECT TOP 1 updateDate FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC),''),106)) END " + _
+                                        "FROM ( " + _
+                                        "SELECT a.*, " + _
+                                        "totalOpenInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalOpen AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "totalInProgressInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalInProgress AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "totalDevFinishInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalDevFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "totalQCPassedInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalQCPassed AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(100) END, " + _
+                                        "IsUrgentIssueExists=CASE WHEN(a.totalUrgentIssue > 0) THEN(1) " + _
+                                        "ELSE (0) END " + _
                                         "FROM (" + _
                                         "SELECT up.projectUserID, up.projectID, up.userID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, " + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
                                         "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
+                                        "totalUrgentIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND IsUrgent=1 AND issueStatusSCode NOT IN ('002-1','002-5','003')), " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode<>'003'), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode NOT IN ('002','002-1','002-5','003')), " + _
+                                        "totalInProgress = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode='002'), " + _
                                         "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode='002-1'), " + _
+                                        "totalQCPassed = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode='002-5'), " + _
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode='003') " + _
                                         "FROM projectUser up " + _
                                         "INNER JOIN Project p ON up.projectID=p.projectID " + _
                                         "WHERE p.projectGroupID=@projectGroupID AND up.UserID=@UserID) a " + _
                                         "UNION ALL " + _
-                                        "SELECT a.*, progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
-                                        "ELSE(100) END " + _
+                                        "SELECT a.*, " + _
+                                        "totalOpenInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalOpen AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "totalInProgressInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalInProgress AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "totalDevFinishInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalDevFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "totalQCPassedInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalQCPassed AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(100) END, " + _
+                                        "IsUrgentIssueExists=CASE WHEN(a.totalUrgentIssue > 0) THEN(1) " + _
+                                        "ELSE (0) END " + _
                                         "FROM (" + _
                                         "SELECT pp.projectProfileID, pp.projectID, pp.profileID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, " + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
                                         "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
+                                        "totalUrgentIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND IsUrgent=1 AND issueStatusSCode NOT IN ('002-1','002-5','003')), " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode<>'003'), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode NOT IN ('002','002-1','002-5','003')), " + _
+                                        "totalInProgress = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode='002'), " + _
                                         "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode='002-1'), " + _
+                                        "totalQCPassed = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode='002-5'), " + _
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode='003') " + _
                                         "FROM userProfile up " + _
                                         "INNER JOIN projectProfile pp ON up.ProfileID = pp.ProfileID " + _
@@ -236,16 +269,35 @@ Namespace QIS.Common.BussinessRules
                                         ") b " + _
                                         "ORDER BY b.progress ASC"
             Else
-                cmdToExecute.CommandText = "SELECT DISTINCT b.* FROM ( " + _
-                                        "SELECT a.*, progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
-                                        "ELSE(100) END " + _
+                cmdToExecute.CommandText = "SELECT DISTINCT b.*, " + _
+                                        "LastPatchNo = (SELECT TOP 1 patchNo FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC), " + _
+                                        "LastPatchDate = " + _
+                                        "CASE WHEN((SELECT TOP 1 updateDate FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC) IS NULL) THEN('') " + _
+                                        "ELSE ('on ' + CONVERT(VARCHAR,ISNULL((SELECT TOP 1 updateDate FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC),''),106)) END " + _
+                                        "FROM ( " + _
+                                        "SELECT a.*, " + _
+                                        "totalOpenInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalOpen AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "totalInProgressInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalInProgress AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "totalDevFinishInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalDevFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "totalQCPassedInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalQCPassed AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(100) END, " + _
+                                        "IsUrgentIssueExists=CASE WHEN(a.totalUrgentIssue > 0) THEN(1) " + _
+                                        "ELSE (0) END " + _
                                         "FROM (" + _
                                         "SELECT up.projectUserID, up.projectID, up.userID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, " + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
                                         "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
+                                        "totalUrgentIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND IsUrgent=1 AND issueStatusSCode NOT IN ('002-1','002-5','003')), " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode<>'003'), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode NOT IN ('002','002-1','002-5','003')), " + _
+                                        "totalInProgress = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='002'), " + _
                                         "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='002-1'), " + _
+                                        "totalQCPassed = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='002-5'), " + _
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='003') " + _
                                         "FROM projectUser up " + _
                                         "INNER JOIN Project p ON up.projectID=p.projectID " + _
@@ -253,15 +305,29 @@ Namespace QIS.Common.BussinessRules
                                         "(SELECT DISTINCT projectID FROM Issue WHERE UserIDAssignedTo=@UserID) " + _
                                         ") a " + _
                                         "UNION ALL " + _
-                                        "SELECT a.*, progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
-                                        "ELSE(100) END " + _
+                                        "SELECT a.*, " + _
+                                        "totalOpenInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalOpen AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "totalInProgressInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalInProgress AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "totalDevFinishInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalDevFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "totalQCPassedInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalQCPassed AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(0) END, " + _
+                                        "progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
+                                        "ELSE(100) END, " + _
+                                        "IsUrgentIssueExists=CASE WHEN(a.totalUrgentIssue > 0) THEN(1) " + _
+                                        "ELSE (0) END " + _
                                         "FROM (" + _
                                         "SELECT pp.projectProfileID, pp.projectID, pp.profileID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, " + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
                                         "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
+                                        "totalUrgentIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND IsUrgent=1 AND issueStatusSCode NOT IN ('002-1','002-5','003')), " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode<>'003'), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode NOT IN ('002','002-1','002-5','003')), " + _
+                                        "totalInProgress = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='002'), " + _
                                         "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='002-1'), " + _
+                                        "totalQCPassed = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='002-5'), " + _
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='003') " + _
                                         "FROM userProfile up " + _
                                         "INNER JOIN projectProfile pp ON up.ProfileID = pp.ProfileID " + _

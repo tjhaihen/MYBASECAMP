@@ -56,25 +56,13 @@ Namespace QIS.Web
                 Dim repMyProjects As Repeater = CType(e.Item.FindControl("repMyProjects"), Repeater)
 
                 Dim lblTotalByProjectGroup As Label = CType(e.Item.FindControl("lblTotalByProjectGroup"), Label)
-                Dim lblTotalOpenByProjectGroup As Label = CType(e.Item.FindControl("lblTotalOpenByProjectGroup"), Label)
-                Dim lblTotalFinishByProjectGroup As Label = CType(e.Item.FindControl("lblTotalFinishByProjectGroup"), Label)
-                Dim lblProgressByProjectGroup As Label = CType(e.Item.FindControl("lblProgressByProjectGroup"), Label)
-
+                
                 Dim dtMyProjects As DataTable = Me.GetProjectByProjectGroupID(row("projectGroupID").ToString.Trim, chkIsMyAssignment.Checked)
-                If dtMyProjects.Rows.Count > 0 Then
+                If dtMyProjects.Rows.Count > 0 Then                    
                     repMyProjects.DataSource = dtMyProjects
                     repMyProjects.DataBind()
                 End If
-
-                Dim oMyProjectsSummary As New Common.BussinessRules.ProjectUser
-                If oMyProjectsSummary.SelectProjectProgressByProjectGroupID(row("projectGroupID").ToString.Trim, MyBase.LoggedOnUserID.Trim, chkIsMyAssignment.Checked).Rows.Count > 0 Then
-                    lblTotalByProjectGroup.Text = oMyProjectsSummary.TotalIssue.ToString.Trim
-                    lblTotalOpenByProjectGroup.Text = oMyProjectsSummary.TotalIssueOpen.ToString.Trim
-                    lblTotalFinishByProjectGroup.Text = oMyProjectsSummary.TotalIssueFinish.ToString.Trim
-                    lblProgressByProjectGroup.Text = oMyProjectsSummary.Progress.ToString.Trim
-                End If
-                oMyProjectsSummary.Dispose()
-                oMyProjectsSummary = Nothing
+                lblTotalByProjectGroup.Text = dtMyProjects.Rows.Count.ToString.Trim
             End If
         End Sub
 

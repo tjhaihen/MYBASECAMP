@@ -49,11 +49,25 @@ Namespace QIS.Web
                     _openProject()
                     SetDataGrid()
                 End If
+
+                GetTasksByUserID()
             End If
         End Sub
 
         Private Sub lbtnMyProjects_Click(sender As Object, e As System.EventArgs) Handles lbtnMyProjects.Click, ibtnMyProjects.Click
             Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Main.aspx" + "')</script>")
+        End Sub
+
+        Private Sub lbtnMyDay_Click(sender As Object, e As System.EventArgs) Handles lbtnMyDay.Click, lbtnMyDay.Click
+            Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Myday.aspx')</script>")
+        End Sub
+
+        Private Sub lbtnPlanned_Click(sender As Object, e As System.EventArgs) Handles lbtnPlanned.Click, lbtnPlanned.Click
+            Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Planned.aspx')</script>")
+        End Sub
+
+        Private Sub lbtnUrgents_Click(sender As Object, e As System.EventArgs) Handles lbtnUrgents.Click, ibtnUrgents.Click
+            Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Urgent.aspx')</script>")
         End Sub
 
         Private Sub lbtnMyAssignments_Click(sender As Object, e As System.EventArgs) Handles lbtnMyAssignments.Click, ibtnMyAssignments.Click
@@ -238,6 +252,11 @@ Namespace QIS.Web
         Private Sub btnClose_Click(sender As Object, e As System.EventArgs) Handles btnClose.Click
             PrepareScreenAddNew()
             pnlAddNew.Visible = False
+        End Sub
+
+        Private Sub btnSaveOnly_Click(sender As Object, e As System.EventArgs) Handles btnSaveOnly.Click
+            _updateIssue()
+            SetDataGrid()
         End Sub
 
         Private Sub btnSaveAndNew_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndNew.Click
@@ -480,7 +499,8 @@ Namespace QIS.Web
             ddlIssueStatus.SelectedIndex = 0
             ddlIssuePriority.SelectedIndex = 0
             ddlIssueConfirmStatus.SelectedIndex = 0
-            ddlUserIDAssignedTo.SelectedValue = MyBase.LoggedOnUserID.Trim
+            'ddlUserIDAssignedTo.SelectedValue = MyBase.LoggedOnUserID.Trim
+            ddlUserIDAssignedTo.SelectedIndex = 0
             calEstStartDate.selectedDate = Date.Today
             calTargetDate.selectedDate = Date.Today
             chkIsUrgent.Checked = False
@@ -622,6 +642,29 @@ Namespace QIS.Web
                 Exit Sub
             End If
         End Sub
+
+        Private Sub GetTasksByUserID()
+            Dim intAssignments As Integer = 0
+            Dim oBr As New Common.BussinessRules.Issue
+            With oBr
+                .userIDassignedTo = MyBase.LoggedOnUserID.Trim
+                intAssignments = .SelectIssueOutstandingByUserID(False).Rows.Count
+            End With
+            oBr.Dispose()
+            oBr = Nothing
+
+            lblAssignmentsTotal.Text = intAssignments.ToString.Trim
+            lblUrgentsTotal.Text = GetUrgentIssuesCount().ToString.Trim
+        End Sub
+
+        Private Function GetUrgentIssuesCount() As Integer
+            Dim i As Integer = 0
+            Dim oBR As New Common.BussinessRules.Issue
+            i = oBR.SelectByUrgent(MyBase.LoggedOnUserID.Trim).Rows.Count
+            oBR.Dispose()
+            oBR = Nothing
+            Return i
+        End Function
 #End Region
 
 #Region " C,R,U,D "
@@ -633,10 +676,16 @@ Namespace QIS.Web
                     lblProjectAliasName.Text = .ProjectAliasName.Trim
                     lblProjectName.Text = .ProjectName.Trim
                     lblProjectDescription.Text = .ProjectDescription.Trim
+                    lblLastPatchNo.Text = .lastPatchNo.Trim
+                    lblProjectCreatedDate.Text = Format(.insertDate, commonFunction.FORMAT_DATETIME)
+                    lblProjectLastUpdatedDate.Text = .lastProjectUpdateDate.Trim
                 Else
                     lblProjectAliasName.Text = String.Empty
                     lblProjectName.Text = String.Empty
                     lblProjectDescription.Text = String.Empty
+                    lblLastPatchNo.Text = "-"
+                    lblProjectCreatedDate.Text = "-"
+                    lblProjectLastUpdatedDate.Text = "-"
                 End If
             End With
             oBR.Dispose()
@@ -659,7 +708,7 @@ Namespace QIS.Web
                     ddlIssuePriority.SelectedValue = .IssuePrioritySCode.Trim
                     ddlIssueConfirmStatus.SelectedValue = .IssueConfirmStatusSCode.Trim
                     If .userIDassignedTo.Trim = String.Empty Then
-                        ddlUserIDAssignedTo.SelectedValue = MyBase.LoggedOnUserID.Trim
+                        ddlUserIDAssignedTo.SelectedIndex = 0
                     Else
                         ddlUserIDAssignedTo.SelectedValue = .userIDassignedTo.Trim
                     End If

@@ -15,6 +15,7 @@ Namespace QIS.Common.BussinessRules
         Private _isOpenForClient As Boolean
         Private _userIDinsert, _userIDupdate As String
         Private _insertDate, _updateDate As DateTime
+        Private _lastPatchNo, _lastProjectUpdateDate As String
 #End Region
 
         Public Sub New()
@@ -136,7 +137,10 @@ Namespace QIS.Common.BussinessRules
 
         Public Overrides Function SelectOne(Optional ByVal recStatus As QISRecStatus = QISRecStatus.CurrentRecord) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
-            cmdToExecute.CommandText = "SELECT * FROM Project WHERE ProjectID=@ProjectID"
+            cmdToExecute.CommandText = "SELECT p.*, " + _
+                                        "lastPatchNo = ISNULL((SELECT TOP 1 patchNo FROM patchProject WHERE projectID = p.projectID ORDER BY updateDate DESC),''), " + _
+                                        "lastProjectUpdateDate = ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') " + _
+                                        "FROM Project p WHERE p.ProjectID=@ProjectID"
             cmdToExecute.CommandType = CommandType.Text
 
             Dim toReturn As DataTable = New DataTable("Project")
@@ -166,6 +170,8 @@ Namespace QIS.Common.BussinessRules
                     _userIDupdate = CType(toReturn.Rows(0)("userIDupdate"), String)
                     _insertDate = CType(toReturn.Rows(0)("insertDate"), DateTime)
                     _updateDate = CType(toReturn.Rows(0)("updateDate"), DateTime)
+                    _lastPatchNo = CType(toReturn.Rows(0)("lastPatchNo"), String)
+                    _lastProjectUpdateDate = CType(toReturn.Rows(0)("lastProjectUpdateDate"), String)
                 End If
             Catch ex As Exception
                 ' // some error occured. Bubble it to caller and encapsulate Exception object
@@ -347,6 +353,24 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As DateTime)
                 _updateDate = Value
+            End Set
+        End Property
+
+        Public Property [lastPatchNo]() As String
+            Get
+                Return _lastPatchNo
+            End Get
+            Set(ByVal Value As String)
+                _lastPatchNo = Value
+            End Set
+        End Property
+
+        Public Property [lastProjectUpdateDate]() As String
+            Get
+                Return _lastProjectUpdateDate
+            End Get
+            Set(ByVal Value As String)
+                _lastProjectUpdateDate = Value
             End Set
         End Property
 #End Region

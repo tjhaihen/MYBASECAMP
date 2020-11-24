@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="vb" AutoEventWireup="false" CodeBehind="CSSToolbar.ascx.vb"
     Inherits="QIS.CSSToolbar" %>
 <%@ Import Namespace="QIS.Web" %>
-<link rel="stylesheet" type="text/css" href="/qistoollib/css/csstoolbar_blue.css" />
+<link rel="stylesheet" type="text/css" href="/qistoollib/css/csstoolbar_default.css" />
 <div id="DivToolbarM">
     <table class="ToolbarM" cellpadding="1" cellspacing="0" border="0">
         <tr>
