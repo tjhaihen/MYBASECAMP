@@ -6,6 +6,7 @@
 
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
+<%--<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>--%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
@@ -241,12 +242,44 @@
                                                                             <asp:Label ID="_lblProjectID" runat="server" Visible="false" Text='<%# DataBinder.Eval(Container.DataItem, "ProjectID") %>'></asp:Label>
                                                                             <%# DataBinder.Eval(Container.DataItem, "ProjectAliasName") %>
                                                                         </td>
+
+                                                                        <%--print--%>
                                                                         <td valign="top" align="right">
-                                                                            <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="/qistoollib/images/tbprint.png"
-                                                                                ToolTip="Print Customer Support Weekly Report" CommandName="Print" />
+                                                                            <%--<asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="/qistoollib/images/tbprint.png"
+                                                                                ToolTip="Print Customer Support Weekly Report" CommandName="Print" />--%>
+
+                                                                            <asp:ImageButton ID="print" runat="server" ImageUrl="/qistoollib/images/tbprint.png"
+                                                                                ToolTip="Print Customer Support Weekly Report" CommandName="rprint" />
+                                                                            <%--<ajaxToolkit:ModalPopupExtender ID="printPopUp" runat="server" TargetControlID="rprint" PopupControlID="divPopUp" BackgroundCssClass="modalBackground"></ajaxToolkit:ModalPopupExtender>
+
+                                                                            <div id="divPopUp" class="pnlBackGround">
+                                                                                 <div id="Header" class="header" >MyHeader</div>
+                                                                                 <div id="main" class="main">Hello World! I'm trying to learn asp.net </div>
+                                                                                 <div id="buttons">
+                                                                                      <div id="DivbtnOK" class="buttonOK"><asp:Button id="btnOk" runat="server" text="Ok" /></div>
+                                                                                      <div id="Divbtncancel" class="buttonOK"><asp:Button id="btnCancel" runat="server" text="Cancel" /></div>
+                                                                                 </div>
+                                                                            </div>
+
+                                                                                    <script>
+
+                                                                                        function DivClicked()
+                                                                                        {
+                                                                                            var divPopUp = $('#<%= divPopUp.ClientID %>');
+                                                                                            if(divPopUp != null)
+                                                                                            {
+                                                                                                divPopUp.click();
+                                                                                            }
+                                                                                        }
+
+                                                                                        </script>--%>
+
+
                                                                             <asp:ImageButton ID="_ibtnGoToProjectDetailPage" runat="server" ImageUrl="/qistoollib/images/viewDetail.png"
                                                                                 ToolTip="View Project Detail" CommandName="ViewDetail" />
                                                                         </td>
+
+
                                                                     </tr>
                                                                     <tr>
                                                                         <td class="txtlessstrong">

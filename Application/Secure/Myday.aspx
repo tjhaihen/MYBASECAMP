@@ -578,13 +578,14 @@
                                                         <%# Format(DataBinder.Eval(Container.DataItem, "targetDate"),"dd-MMM-yyyy") %>
                                                     </td>
                                                 </tr>
-                                                <tr>
+                                                <%--percobaan--%>
+                                                <%--<tr>
                                                     <td class="txtweak center">
                                                         <p id="rcorners1">Due:
                                                         <%# DataBinder.Eval(Container.DataItem, "dueToTargetDateAgeInDay")%>
                                                         d</p>
                                                     </td>
-                                                </tr>
+                                                </tr>--%>
                                             </table>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>

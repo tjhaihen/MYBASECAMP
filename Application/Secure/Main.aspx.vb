@@ -87,24 +87,47 @@ Namespace QIS.Web
             End If
         End Sub
 
+        '--print beneran
+        'Protected Sub repMyProjects_ItemCommand(source As Object, e As System.Web.UI.WebControls.RepeaterCommandEventArgs)
+        '    Select Case e.CommandName
+        '        Case "ViewDetail"
+        '            Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
+        '            Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "https://www.google.com/?hl=id" + chkIsMyAssignment.Checked.ToString.Trim + "&userID=" + MyBase.LoggedOnUserID.Trim + "&projectID=" + _lblProjectID.Text.Trim + "')</script>")
+        '        Case "Print"
+        '            Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
+        '            Dim oRpt As New Common.BussinessRules.MyReport
+        '            With oRpt
+        '                .ReportCode = Common.Constants.ReportID.CustomerSupportWeeklyReport_ReportID
+        '                .AddParameters(_lblProjectID.Text.Trim)
+        '                Response.Write(.UrlPrintPreview(Context.Request.Url.Host))
+        '            End With
+        '            oRpt.Dispose()
+        '            oRpt = Nothing
+        '    End Select
+        'End Sub
+
+        '--print percobaan
         Protected Sub repMyProjects_ItemCommand(source As Object, e As System.Web.UI.WebControls.RepeaterCommandEventArgs)
             Select Case e.CommandName
-                Case "ViewDetail"
-                    Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
-                    Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/ProjectDetail.aspx?isassignment=" + chkIsMyAssignment.Checked.ToString.Trim + "&userID=" + MyBase.LoggedOnUserID.Trim + "&projectID=" + _lblProjectID.Text.Trim + "')</script>")
-                Case "Print"
-                    Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
-                    Dim oRpt As New Common.BussinessRules.MyReport
-                    With oRpt
-                        .ReportCode = Common.Constants.ReportID.CustomerSupportWeeklyReport_ReportID
-                        .AddParameters(_lblProjectID.Text.Trim)
-                        Response.Write(.UrlPrintPreview(Context.Request.Url.Host))
-                    End With
-                    oRpt.Dispose()
-                    oRpt = Nothing
+                'Case "ViewDetail"
+                '    Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
+                '    Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "https://www.google.com/?hl=id" + chkIsMyAssignment.Checked.ToString.Trim + "&userID=" + MyBase.LoggedOnUserID.Trim + "&projectID=" + _lblProjectID.Text.Trim + "')</script>")
+                'Case "Print"
+                '    Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
+                '    Dim oRpt As New Common.BussinessRules.MyReport
+                '    With oRpt
+                '        .ReportCode = Common.Constants.ReportID.CustomerSupportWeeklyReport_ReportID
+                '        .AddParameters(_lblProjectID.Text.Trim)
+                '        Response.Write(.UrlPrintPreview(Context.Request.Url.Host))
+                '    End With
+                '    oRpt.Dispose()
+                '    oRpt = Nothing
+                Case "rprint"
+                    'Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
+                    Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Print.aspx')</script>")
+
             End Select
         End Sub
-
         Private Sub lbtnMyProjects_Click(sender As Object, e As System.EventArgs) Handles lbtnMyProjects.Click, ibtnMyProjects.Click
             lblPageTitle.Text = "My Projects"
             chkIsMyAssignment.Checked = False
@@ -136,6 +159,8 @@ Namespace QIS.Web
         Private Sub lbtnIssueStudy_Click(sender As Object, e As System.EventArgs) Handles lbtnIssueStudy.Click, ibtnIssueStudy.Click
             Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/IssueStudy.aspx')</script>")
         End Sub
+
+
 #End Region
 
 #Region " Support functions for navigation bar (Controls) "
