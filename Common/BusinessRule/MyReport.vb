@@ -92,9 +92,10 @@ Namespace QIS.Common.BussinessRules
         End Sub
 
         Public Function UrlPrint(ByVal ContextRequestUrlHost As String) As String
-            Return "<script language=javascript>window.open('http://" + ContextRequestUrlHost + Common.SysConfig.ModuleAppl + "ReportViewer.aspx?rpt=" + _reportID.Trim + "&par=" + _Parameters.Trim + "','','status=no,resizable=yes,toolbar=no,menubar=no,location=no,scrollbars=1')</script>"
+            'Return "<script language=javascript>window.open('http://" + ContextRequestUrlHost + Common.SysConfig.ModuleAppl + "ReportViewer.aspx?rpt=" + _reportID.Trim + "&par=" + _Parameters.Trim + "','','status=no,resizable=yes,toolbar=no,menubar=no,location=no,scrollbars=1')</script>"
+            Return "<script language=javascript>window.open('https://www.google.com/?hl=id')</script>"
         End Function
-
+        '--percobaan
         Public Function UrlPrintPreview(ByVal ContextRequestUrlHost As String, Optional ByVal ModuleName As String = "basecamp") As String
             If Not GetReportDataByReportCode.Rows.Count > 0 Then
                 Throw New Exception("Report ID not found")
@@ -104,7 +105,8 @@ Namespace QIS.Common.BussinessRules
             If (_reportFormat <> "DX") Then
                 Return "<script language=javascript>window.open('http://" + ContextRequestUrlHost + SysConfig.ReportsFolder.Trim + _reportAsp.Trim + ".asp?RptName=" + _reportFileName.Trim + "&SP=" + _reportSPName.Trim + "&parm=" + _Parameters.Trim + "&moduleName=" + ModuleName.Trim + "','','status=no,resizable=yes,toolbar=no,menubar=no,location=no;')</script>"
             Else
-                Return String.Format("<script language=javascript>window.open('http://{0}/{1}/Libs/XReportViewer.aspx?id={2}&RptName={3}&parm={4}&showCriteria={5}','','status=no,resizable=yes,toolbar=no,menubar=no,location=no;')</script>", ContextRequestUrlHost, SysConfig.ModuleAppl, _reportID.Trim, _reportFileName.Trim, _Parameters.Trim, SysConfig.IsDisplayReportCriteria)
+                'Return String.Format("<script language=javascript>window.open('http://www.google.com{0}/{1}/Libs/XReportViewer.aspx?id={2}&RptName={3}&parm={4}&showCriteria={5}','','status=no,resizable=yes,toolbar=no,menubar=no,location=no;')</script>", ContextRequestUrlHost, SysConfig.ModuleAppl, _reportID.Trim, _reportFileName.Trim, _Parameters.Trim, SysConfig.IsDisplayReportCriteria)
+                Return String.Format("<script language=javascript>window.open('https://www.google.com/?hl=id')</script>", ContextRequestUrlHost, SysConfig.ModuleAppl, _reportID.Trim, _reportFileName.Trim, _Parameters.Trim, SysConfig.IsDisplayReportCriteria)
             End If
         End Function
 
