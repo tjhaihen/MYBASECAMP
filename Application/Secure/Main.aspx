@@ -235,45 +235,14 @@
 
                                                                         <%--print--%>
                                                                         <td valign="top" align="right">
-<<<<<<< HEAD
-                                                                            <%--<asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="/qistoollib/images/tbprint.png"
-                                                                                ToolTip="Print Customer Support Weekly Report" CommandName="Print" />--%>
 
                                                                             <asp:ImageButton ID="print" runat="server" ImageUrl="/qistoollib/images/tbprint.png"
                                                                                 ToolTip="Print Customer Support Weekly Report" CommandName="rprint" />
-                                                                            <%--<ajaxToolkit:ModalPopupExtender ID="printPopUp" runat="server" TargetControlID="rprint" PopupControlID="divPopUp" BackgroundCssClass="modalBackground"></ajaxToolkit:ModalPopupExtender>
-
-                                                                            <div id="divPopUp" class="pnlBackGround">
-                                                                                 <div id="Header" class="header" >MyHeader</div>
-                                                                                 <div id="main" class="main">Hello World! I'm trying to learn asp.net </div>
-                                                                                 <div id="buttons">
-                                                                                      <div id="DivbtnOK" class="buttonOK"><asp:Button id="btnOk" runat="server" text="Ok" /></div>
-                                                                                      <div id="Divbtncancel" class="buttonOK"><asp:Button id="btnCancel" runat="server" text="Cancel" /></div>
-                                                                                 </div>
-                                                                            </div>
-
-                                                                                    <script>
-
-                                                                                        function DivClicked()
-                                                                                        {
-                                                                                            var divPopUp = $('#<%= divPopUp.ClientID %>');
-                                                                                            if(divPopUp != null)
-                                                                                            {
-                                                                                                divPopUp.click();
-                                                                                            }
-                                                                                        }
-
-                                                                                        </script>--%>
-
-
-=======
+                                                                            
                                                                             <asp:Image ID="imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/urgents.png" Visible='<%# DataBinder.Eval(Container.DataItem, "IsUrgentIssueExists") %>'
                                                                                 ToolTip='<%# DataBinder.Eval(Container.DataItem, "totalUrgentIssue") %>' />
-                                                                            <asp:ImageButton ID="_ibtnPrint" runat="server" ImageUrl="/qistoollib/images/tbprint.png"
-                                                                                ToolTip="Print Customer Support Weekly Report" CommandName="Print" />
                                                                             <asp:ImageButton ID="_ibtnSchedule" runat="server" ImageUrl="/qistoollib/images/schedule.png"
                                                                                 ToolTip="Schedule Patch Update" CommandName="Schedule" Visible="false" />
->>>>>>> be0ce40ed43cb045ec190a4c028445510592011b
                                                                             <asp:ImageButton ID="_ibtnGoToProjectDetailPage" runat="server" ImageUrl="/qistoollib/images/viewDetail.png"
                                                                                 ToolTip="View Project Detail" CommandName="ViewDetail" />
                                                                         </td>

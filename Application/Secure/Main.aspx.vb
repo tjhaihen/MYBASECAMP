@@ -111,8 +111,8 @@ Namespace QIS.Web
                 '    oRpt.Dispose()
                 '    oRpt = Nothing
                 Case "rprint"
-                    'Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
-                    Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Print.aspx')</script>")
+                    Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
+                    Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Print.aspx/?&idp=" + _lblProjectID.Text.Trim + "')</script>")
 
             End Select
         End Sub
