@@ -22,6 +22,10 @@ Namespace QIS.Common.BussinessRules
         Private _totalIssue, _totalOpen, _totalDevFinish, _totalFinish As Decimal
         Private _projectAliasName, _projectName As String
         Private _productRoadmapSCode As String
+
+        Private _PICDev, _IssueType, _IssueStatus, _IssuePriority, _IssueConfirmStatus As String
+        Private _totalreported, _openissue, _progressissue, _needsampleissue, _finishissue, _totalissuefull, _overallprogress, _totalfinished As Decimal
+
 #End Region
 
         Public Sub New()
@@ -265,6 +269,7 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
+
         Public Overrides Function SelectOne(Optional ByVal recStatus As QISRecStatus = QISRecStatus.CurrentRecord) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "SELECT * FROM Issue WHERE issueID=@issueID"
@@ -321,6 +326,137 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
+
+
+        '--percobaan print
+        Public Function PrintIssue() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "sprpt_ListIssue"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("Print")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@projectID", _projectID)
+                cmdToExecute.Parameters.AddWithValue("@tglTarget", Date.Today)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _issueID = CType(toReturn.Rows(0)("issueid"), String)
+                    _departmentName = CType(toReturn.Rows(0)("departmentName"), String)
+                    _issueDescription = CType(toReturn.Rows(0)("issueDescription"), String)
+                    _userIDassignedTo = CType(toReturn.Rows(0)("userIDassignedTo"), String)
+                    _PICDev = CType(toReturn.Rows(0)("PICDev"), String)
+                    _IssueType = CType(toReturn.Rows(0)("IssueType"), String)
+                    _IssueStatus = CType(toReturn.Rows(0)("IssueStatus"), String)
+                    _IssuePriority = CType(toReturn.Rows(0)("IssuePriority"), String)
+
+                    '_issuePrioritySCode = CType(toReturn.Rows(0)("issuePrioritySCode"), String)
+                    '_issueStatusSCode = CType(toReturn.Rows(0)("IssueStatusSCode"), String)
+                    _projectID = CType(toReturn.Rows(0)("projectID"), String)
+                    '_projectAliasName = CType(toReturn.Rows(0)("projectAliasName"), String)
+                    _projectName = CType(toReturn.Rows(0)("projectName"), String)
+                    '_issueTypeSCode = CType(toReturn.Rows(0)("issueTypeSCode"), String)
+                    '_reportedDate = CType(toReturn.Rows(0)("reportedDate"), DateTime)
+                    _reportedBy = CType(toReturn.Rows(0)("reportedby"), String)
+                    '_issueConfirmStatusSCode = CType(toReturn.Rows(0)("issueConfirmStatusSCode"), String)
+                    '_IssueConfirmStatus = CType(toReturn.Rows(0)("IssueConfirmStatus"), String)
+                    '_updateDate = CType(toReturn.Rows(0)("updateDate"), DateTime)
+                    '_insertDate = CType(toReturn.Rows(0)("insertDate"), DateTime)
+                    '_assignedDate = CType(toReturn.Rows(0)("assignedDate"), DateTime)
+                    _targetDate = CType(toReturn.Rows(0)("targetDate"), DateTime)
+                    '_finishDate = CType(toReturn.Rows(0)("finishDate"), DateTime)
+                    '_isUrgent = CType(toReturn.Rows(0)("isUrgent"), Boolean)
+                End If
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        'percobaan hitung total
+        Public Function Hitungtotal() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            'If ProjectID Then = False Then
+            cmdToExecute.CommandText = "sprpt_TotalIssue"
+            '"SELECT " + _
+            '                    "totalreported = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid and (datediff(day,reportedDate, @tglTarget))<7 and (datediff(day,reportedDate, @tglTarget))>0), " + _
+            '                    "totalfinished = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid AND issueStatusSCode='003'), " + _
+            '                    "openissue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid AND issueStatusSCode='001'), " + _
+            '                    "progressissue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid AND issueStatusSCode='002'), " + _
+            '                    "needsampleissue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid AND issueStatusSCode='009'), " + _
+            '                    "finishissue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid AND issueStatusSCode='003'), " + _
+            '                    "totalissuefull = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid), " + _
+            '                    "overallprogress = (((SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid)/(SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid AND issueStatusSCode='003'))*0.01), " + _
+            '                    "totaldevfinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid AND issueStatusSCode='002-1') "
+            'Else
+            '    cmdToExecute.CommandText = "SELECT " + _
+            '                            "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo), " + _
+            '                            "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode NOT IN ('002-1','003')), " + _
+            '                            "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode<>'002-1'), " + _
+            '                            "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode='003')"
+            'End If
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("IssueSummary")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@projectID", _projectID)
+                cmdToExecute.Parameters.AddWithValue("@tglTarget", Date.Today)
+                'If IsAssignmentOnly Then
+                '    cmdToExecute.Parameters.AddWithValue("@userIDassignedTo", _userIDassignedTo)
+                'End If
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _totalreported = CType(toReturn.Rows(0)("totalreported"), Decimal)
+                    _openissue = CType(toReturn.Rows(0)("openissue"), Decimal)
+                    _progressissue = CType(toReturn.Rows(0)("progressissue"), Decimal)
+                    _needsampleissue = CType(toReturn.Rows(0)("needsampleissue"), Decimal)
+                    _finishissue = CType(toReturn.Rows(0)("finishissue"), Decimal)
+                    _totalissuefull = CType(toReturn.Rows(0)("totalissuefull"), Decimal)
+                    _overallprogress = CType(toReturn.Rows(0)("overallprogress"), Decimal)
+                    _totalfinished = CType(toReturn.Rows(0)("totalfinished"), Decimal)
+                    _totalDevFinish = CType(toReturn.Rows(0)("finishDevissue"), Decimal)
+
+                End If
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
 
         Public Overrides Function Delete() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
@@ -895,6 +1031,116 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _issueTypeSCode = Value
+            End Set
+        End Property
+
+        '--percobaan print 
+
+        Public Property [IssueType]() As String
+            Get
+                Return _IssueType
+            End Get
+            Set(ByVal Value As String)
+                _IssueType = Value
+            End Set
+        End Property
+
+        Public Property [IssueStatus]() As String
+            Get
+                Return _IssueStatus
+            End Get
+            Set(ByVal Value As String)
+                _IssueStatus = Value
+            End Set
+        End Property
+
+        Public Property [PICDev]() As String
+            Get
+                Return _PICDev
+            End Get
+            Set(ByVal Value As String)
+                _PICDev = Value
+            End Set
+        End Property
+
+        Public Property [TotalReported]() As String
+            Get
+                Return _totalreported
+            End Get
+            Set(ByVal Value As String)
+                _totalreported = Value
+            End Set
+        End Property
+        Public Property [OpenIssue]() As String
+            Get
+                Return _openissue
+            End Get
+            Set(ByVal Value As String)
+                _openissue = Value
+            End Set
+        End Property
+
+        Public Property [ProgressIssue]() As String
+            Get
+                Return _progressissue
+            End Get
+            Set(ByVal Value As String)
+                _progressissue = Value
+            End Set
+        End Property
+
+        Public Property [NeedSampleIssue]() As String
+            Get
+                Return _needsampleissue
+            End Get
+            Set(ByVal Value As String)
+                _needsampleissue = Value
+            End Set
+        End Property
+
+        Public Property [FinishIssue]() As String
+            Get
+                Return _finishissue
+            End Get
+            Set(ByVal Value As String)
+                _finishissue = Value
+            End Set
+        End Property
+
+        Public Property [TotalIssueFull]() As String
+            Get
+                Return _totalissuefull
+            End Get
+            Set(ByVal Value As String)
+                _totalissuefull = Value
+            End Set
+        End Property
+
+        Public Property [OverallProgress]() As String
+            Get
+                Return _overallprogress
+            End Get
+            Set(ByVal Value As String)
+                _overallprogress = Value
+            End Set
+        End Property
+
+        Public Property [TotalFinished]() As String
+            Get
+                Return _totalfinished
+            End Get
+            Set(ByVal Value As String)
+                _totalfinished = Value
+            End Set
+        End Property
+
+
+        Public Property [IssuePriority]() As String
+            Get
+                Return _IssuePriority
+            End Get
+            Set(ByVal Value As String)
+                _IssuePriority = Value
             End Set
         End Property
 

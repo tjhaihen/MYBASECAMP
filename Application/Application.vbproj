@@ -268,6 +268,13 @@
       <DependentUpon>ChangePassword.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\coba.aspx.designer.vb">
+      <DependentUpon>coba.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\coba.aspx.vb">
+      <DependentUpon>coba.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Secure\CommonCode.aspx.designer.vb">
       <DependentUpon>CommonCode.aspx</DependentUpon>
     </Compile>
@@ -425,7 +432,7 @@
     </Compile>
     <Compile Include="Secure\Print.aspx.vb">
       <DependentUpon>Print.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Secure\Profile.aspx.designer.vb">
       <DependentUpon>Profile.aspx</DependentUpon>
@@ -581,11 +588,6 @@
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
     <Content Include="Scripts\index.d.ts" />
-    <Content Include="Scripts\jquery-3.0.0-vsdoc.js" />
-    <Content Include="Scripts\jquery-3.0.0.js" />
-    <Content Include="Scripts\jquery-3.0.0.min.js" />
-    <Content Include="Scripts\jquery-3.0.0.slim.js" />
-    <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -663,6 +665,7 @@
     <Content Include="Secure\Budget\BudgetAccount.aspx" />
     <Content Include="Secure\Budget\BudgetPurchasing.aspx" />
     <Content Include="Secure\ChangePassword.aspx" />
+    <Content Include="Secure\coba.aspx" />
     <Content Include="Secure\CommonCode.aspx" />
     <Content Include="Secure\Documents.aspx" />
     <Content Include="Secure\Documents\UserGuideVideo\Askep - Mapping Master SDKI.mp4" />
@@ -759,8 +762,6 @@
     <None Include="Scripts\esm\popper.js.map" />
     <None Include="Scripts\esm\popper.min.js.map" />
     <None Include="Scripts\index.js.flow" />
-    <None Include="Scripts\jquery-3.0.0.min.map" />
-    <None Include="Scripts\jquery-3.0.0.slim.min.map" />
     <None Include="Scripts\popper-utils.js.map" />
     <None Include="Scripts\popper-utils.min.js.map" />
     <None Include="Scripts\popper.js.map" />
