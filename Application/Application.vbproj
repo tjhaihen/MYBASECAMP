@@ -556,6 +556,8 @@
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
     <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-utilities.css" />
+    <Content Include="Content\bootstrap-utilities.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="ErrMsg.aspx" />
@@ -570,6 +572,8 @@
     <Content Include="ReportViewer.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.esm.js" />
+    <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
@@ -740,10 +744,14 @@
     <None Include="Content\bootstrap-grid.min.css.map" />
     <None Include="Content\bootstrap-reboot.css.map" />
     <None Include="Content\bootstrap-reboot.min.css.map" />
+    <None Include="Content\bootstrap-utilities.css.map" />
+    <None Include="Content\bootstrap-utilities.min.css.map" />
     <None Include="Content\bootstrap.css.map" />
     <None Include="Content\bootstrap.min.css.map" />
     <None Include="Scripts\bootstrap.bundle.js.map" />
     <None Include="Scripts\bootstrap.bundle.min.js.map" />
+    <None Include="Scripts\bootstrap.esm.js.map" />
+    <None Include="Scripts\bootstrap.esm.min.js.map" />
     <None Include="Scripts\bootstrap.js.map" />
     <None Include="Scripts\bootstrap.min.js.map" />
     <None Include="Scripts\esm\popper-utils.js.map" />
@@ -806,7 +814,7 @@
   <ItemGroup>
     <Folder Include="Secure\MSExcelTemplates\" />
     <Folder Include="SharedLibs\Tools\" />
-    <Folder Include="Uploads\" />
+    <Folder Include="Uploads\DataFiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
@@ -824,7 +832,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1450</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/basecamp/</IISUrl>
+          <IISUrl>http://localhost/mybasecamp/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
