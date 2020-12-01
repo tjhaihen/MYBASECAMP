@@ -47,16 +47,17 @@ Namespace QIS.Web
                 ReadQueryString()
                 GetProjectsByUserID(chkIsMyAssignment.Checked)
                 GetTasksByUserID()
+
             End If
         End Sub
-
         Protected Sub repMyProjectGroups_ItemDataBound(sender As Object, e As System.Web.UI.WebControls.RepeaterItemEventArgs) Handles repMyProjectGroups.ItemDataBound
             If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
                 Dim row As DataRowView = CType(e.Item.DataItem, DataRowView)
                 Dim repMyProjects As Repeater = CType(e.Item.FindControl("repMyProjects"), Repeater)
 
                 Dim lblTotalByProjectGroup As Label = CType(e.Item.FindControl("lblTotalByProjectGroup"), Label)
-                
+
+
                 Dim dtMyProjects As DataTable = Me.GetProjectByProjectGroupID(row("projectGroupID").ToString.Trim, chkIsMyAssignment.Checked)
                 If dtMyProjects.Rows.Count > 0 Then                    
                     repMyProjects.DataSource = dtMyProjects
@@ -80,15 +81,15 @@ Namespace QIS.Web
         '    Select Case e.CommandName
         '        Case "ViewDetail"
         '            Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
-        '            Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "https://www.google.com/?hl=id" + chkIsMyAssignment.Checked.ToString.Trim + "&userID=" + MyBase.LoggedOnUserID.Trim + "&projectID=" + _lblProjectID.Text.Trim + "')</script>")
-        '        Case "Print"
-        '            Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
-        '            Dim oRpt As New Common.BussinessRules.MyReport
-        '            With oRpt
-        '                .ReportCode = Common.Constants.ReportID.CustomerSupportWeeklyReport_ReportID
-        '                .AddParameters(_lblProjectID.Text.Trim)
-        '                Response.Write(.UrlPrintPreview(Context.Request.Url.Host))
-        '            End With
+        '            Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/ProjectDetail.aspx/?&idp=" + chkIsMyAssignment.Checked.ToString.Trim + "&userID=" + MyBase.LoggedOnUserID.Trim + "&projectID=" + _lblProjectID.Text.Trim + "')</script>")
+        '            'Case "Print"
+        '            '    Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
+        '            '    Dim oRpt As New Common.BussinessRules.MyReport
+        '            '    With oRpt
+        '            '        .ReportCode = Common.Constants.ReportID.CustomerSupportWeeklyReport_ReportID
+        '            '        .AddParameters(_lblProjectID.Text.Trim)
+        '            '        Response.Write(.UrlPrintPreview(Context.Request.Url.Host))
+        '            '    End With
         '            oRpt.Dispose()
         '            oRpt = Nothing
         '    End Select
@@ -97,22 +98,23 @@ Namespace QIS.Web
         '--print percobaan
         Protected Sub repMyProjects_ItemCommand(source As Object, e As System.Web.UI.WebControls.RepeaterCommandEventArgs)
             Select Case e.CommandName
-                'Case "ViewDetail"
-                '    Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
-                '    Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "https://www.google.com/?hl=id" + chkIsMyAssignment.Checked.ToString.Trim + "&userID=" + MyBase.LoggedOnUserID.Trim + "&projectID=" + _lblProjectID.Text.Trim + "')</script>")
-                'Case "Print"
-                '    Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
-                '    Dim oRpt As New Common.BussinessRules.MyReport
-                '    With oRpt
-                '        .ReportCode = Common.Constants.ReportID.CustomerSupportWeeklyReport_ReportID
-                '        .AddParameters(_lblProjectID.Text.Trim)
-                '        Response.Write(.UrlPrintPreview(Context.Request.Url.Host))
-                '    End With
-                '    oRpt.Dispose()
-                '    oRpt = Nothing
+                Case "ViewDetail"
+                    Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
+                    Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/ProjectDetail.aspx/?&idp=" + chkIsMyAssignment.Checked.ToString.Trim + "&userID=" + MyBase.LoggedOnUserID.Trim + "&projectID=" + _lblProjectID.Text.Trim + "')</script>")
+                    'Case "Print"
+                    '    Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
+                    '    Dim oRpt As New Common.BussinessRules.MyReport
+                    '    With oRpt
+                    '        .ReportCode = Common.Constants.ReportID.CustomerSupportWeeklyReport_ReportID
+                    '        .AddParameters(_lblProjectID.Text.Trim)
+                    '        Response.Write(.UrlPrintPreview(Context.Request.Url.Host))
+                    '    End With
+                    '    oRpt.Dispose()
+                    '    oRpt = Nothing
                 Case "rprint"
                     Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
                     Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Print.aspx/?&idp=" + _lblProjectID.Text.Trim + "')</script>")
+                   
 
             End Select
         End Sub
@@ -201,6 +203,7 @@ Namespace QIS.Web
             lblUrgentsTotal.Text = GetUrgentIssuesCount().ToString.Trim
         End Sub
 
+        'percobaan ORDER tampilan Project
         Private Function GetProjectByProjectGroupID(ByVal ProjectGroupID As String, ByVal IsAssignedOnly As Boolean) As DataTable
             Dim dt As DataTable
             Dim oPU As New Common.BussinessRules.ProjectUser

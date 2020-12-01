@@ -385,6 +385,15 @@
                                                         </asp:TextBox>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #ffffff;">
+                                                        Created by
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:TextBox ID="txtCreatedBy" runat="server" Width="360">
+                                                        </asp:TextBox>
+                                                    </td>
+                                                </tr>
                                             </table>
                                         </td>
                                         <td style="width: 50%;" valign="top">
@@ -444,8 +453,14 @@
                                                     <td style="background: #ffffff;">
                                                         <Module:Calendar ID="calTargetDate" runat="server" DontResetDate="true" />
                                                     </td>
-                                                    <td style="width: 100; background: #ffffff;" class="right">
+
+                                                    <%--tambah checkbox is planned--%>
+
+                                                    <td style="width: 100; background: #ffffff;">
+                                                        <asp:CheckBox ID="chkIsPlanned" runat="server" Text=" IsPlanned" ForeColor="Red" />
                                                     </td>
+
+                                                    
                                                     <td style="width: 140; background: #ffffff;">
                                                     </td>
                                                 </tr>
@@ -1009,6 +1024,13 @@
                                     <asp:TemplateColumn runat="server" HeaderText="Confirmed?" ItemStyle-Width="80" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <%# DataBinder.Eval(Container.DataItem, "issueConfirmStatusName")%>
+                                        </ItemTemplate>
+                                    </asp:TemplateColumn>
+
+                                    <%--percobaan penambahan created by--%>
+                                    <asp:TemplateColumn runat="server" HeaderText="Created By" ItemStyle-Width="80" ItemStyle-VerticalAlign="Top">
+                                        <ItemTemplate>
+                                            <%# DataBinder.Eval(Container.DataItem, "createdBy")%>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                 </Columns>

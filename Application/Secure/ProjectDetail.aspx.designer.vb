@@ -447,6 +447,15 @@ Namespace QIS.Web
         Protected WithEvents txtReportedBy As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
+        '''txtCreatedBy control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtCreatedBy As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
         '''ddlIssueType control.
         '''</summary>
         '''<remarks>
@@ -499,6 +508,15 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents calTargetDate As Global.QIS.Web.Calendar
+
+        '''<summary>
+        '''chkIsPlanned control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsPlanned As Global.System.Web.UI.WebControls.CheckBox
 
         '''<summary>
         '''ddlIssueStatus control.

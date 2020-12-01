@@ -12,19 +12,20 @@ Namespace QIS.Common.BussinessRules
 
 #Region " Class Member Declarations "
         Private _issueID, _projectID, _departmentName, _issueDescription, _issueTypeSCode, _issueStatusSCode, _keywords As String
-        Private _issuePrioritySCode, _issueConfirmStatusSCode, _reportedBy, _userIDassignedTo, _assignedBy, _patchNo As String
+        Private _issuePrioritySCode, _issueConfirmStatusSCode, _reportedBy, _createdBy, _userIDassignedTo, _assignedBy, _patchNo As String
         Private _reportedDate As DateTime
         Private _userIDinsert, _userIDupdate As String
         Private _insertDate, _updateDate, _assignedDate As DateTime
         Private _estStartDate, _targetDate, _finishDate As Date
-        Private _isUrgent, _isSpecific As Boolean
+        Private _isUrgent, _isSpecific, _isPlanned As Boolean
 
-        Private _totalIssue, _totalOpen, _totalDevFinish, _totalFinish As Decimal
+        Private _totalIssue, _totalOpen, _totalDevFinish, _totalFinish, _PICAssigned As Decimal
         Private _projectAliasName, _projectName As String
         Private _productRoadmapSCode As String
 
         Private _PICDev, _IssueType, _IssueStatus, _IssuePriority, _IssueConfirmStatus As String
         Private _totalreported, _openissue, _progressissue, _needsampleissue, _finishissue, _totalissuefull, _overallprogress, _totalfinished As Decimal
+
 
 #End Region
 
@@ -41,11 +42,11 @@ Namespace QIS.Common.BussinessRules
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "INSERT INTO Issue " + _
                                         "(issueID, projectID, departmentName, issueDescription, keywords, issueTypeSCode, issueStatusSCode, patchNo, isSpecific, " + _
-                                        "issuePrioritySCode, issueConfirmStatusSCode, reportedBy, reportedDate, userIDassignedTo, isUrgent, userIDinsert, userIDupdate, insertDate, updateDate, assignedBy, assignedDate, targetDate, " + _
+                                        "issuePrioritySCode, issueConfirmStatusSCode, reportedBy, createdBy, reportedDate, userIDassignedTo, isUrgent, isPlanned, userIDinsert, userIDupdate, insertDate, updateDate, assignedBy, assignedDate, targetDate, " + _
                                         "estStartDate, productRoadmapSCode) " + _
                                         "VALUES " + _
                                         "(@issueID, @projectID, @departmentName, @issueDescription, @keywords, @issueTypeSCode, @issueStatusSCode, @patchNo, @isSpecific, " + _
-                                        "@issuePrioritySCode, @issueConfirmStatusSCode, @reportedBy, @reportedDate, @userIDassignedTo, @isUrgent, @userIDinsert, @userIDupdate, GETDATE(), GETDATE(), @assignedBy, GETDATE(), @targetDate, " + _
+                                        "@issuePrioritySCode, @issueConfirmStatusSCode, @reportedBy, @createdBy, @reportedDate, @userIDassignedTo, @isUrgent, @isPlanned, @userIDinsert, @userIDupdate, GETDATE(), GETDATE(), @assignedBy, GETDATE(), @targetDate, " + _
                                         "@estStartDate, @productRoadmapSCode)"
             cmdToExecute.CommandType = CommandType.Text
             cmdToExecute.Connection = _mainConnection
@@ -63,9 +64,11 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@issuePrioritySCode", _issuePrioritySCode)
                 cmdToExecute.Parameters.AddWithValue("@issueConfirmStatusSCode", _issueConfirmStatusSCode)
                 cmdToExecute.Parameters.AddWithValue("@reportedBy", _reportedBy)
+                cmdToExecute.Parameters.AddWithValue("@createdBy", _createdBy)
                 cmdToExecute.Parameters.AddWithValue("@reportedDate", _reportedDate)
                 cmdToExecute.Parameters.AddWithValue("@userIDassignedTo", _userIDassignedTo)
                 cmdToExecute.Parameters.AddWithValue("@isUrgent", _isUrgent)
+                cmdToExecute.Parameters.AddWithValue("@isPlanned", _isPlanned)
                 cmdToExecute.Parameters.AddWithValue("@userIDinsert", _userIDinsert)
                 cmdToExecute.Parameters.AddWithValue("@userIDupdate", _userIDupdate)
                 cmdToExecute.Parameters.AddWithValue("@assignedBy", _assignedBy)
@@ -96,7 +99,7 @@ Namespace QIS.Common.BussinessRules
             cmdToExecute.CommandText = "UPDATE Issue " + _
                                         "SET departmentName=@departmentName, issueDescription=@issueDescription, keywords=@keywords, issueTypeSCode=@issueTypeSCode, " + _
                                         "issueStatusSCode=@issueStatusSCode, issuePrioritySCode=@issuePrioritySCode, issueConfirmStatusSCode=@issueConfirmStatusSCode, " + _
-                                        "reportedBy=@reportedBy, reportedDate=@reportedDate, userIDassignedTo=@userIDassignedTo, isUrgent=@isUrgent, userIDupdate=@userIDupdate, updateDate=GETDATE(), " + _
+                                        "reportedBy=@reportedBy, createdBy=@createdBy, reportedDate=@reportedDate, userIDassignedTo=@userIDassignedTo, isUrgent=@isUrgent, isPlanned=@isPlanned, userIDupdate=@userIDupdate, updateDate=GETDATE(), " + _
                                         "targetDate=@targetDate, patchNo=@patchNo, isSpecific=@isSpecific, " + _
                                         "estStartDate=@estStartDate, productRoadmapSCode=@productRoadmapSCode " + _
                                         "WHERE issueID=@issueID"
@@ -114,9 +117,11 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@issuePrioritySCode", _issuePrioritySCode)
                 cmdToExecute.Parameters.AddWithValue("@issueConfirmStatusSCode", _issueConfirmStatusSCode)
                 cmdToExecute.Parameters.AddWithValue("@reportedBy", _reportedBy)
+                cmdToExecute.Parameters.AddWithValue("@createdBy", _createdBy)
                 cmdToExecute.Parameters.AddWithValue("@reportedDate", _reportedDate)
                 cmdToExecute.Parameters.AddWithValue("@userIDassignedTo", _userIDassignedTo)
                 cmdToExecute.Parameters.AddWithValue("@targetDate", _targetDate)
+                cmdToExecute.Parameters.AddWithValue("@isPlanned", _isPlanned)
                 cmdToExecute.Parameters.AddWithValue("@isUrgent", _isUrgent)
                 cmdToExecute.Parameters.AddWithValue("@patchNo", _patchNo)
                 cmdToExecute.Parameters.AddWithValue("@isSpecific", _isSpecific)
@@ -300,9 +305,11 @@ Namespace QIS.Common.BussinessRules
                     _issuePrioritySCode = CType(toReturn.Rows(0)("issuePrioritySCode"), String)
                     _issueConfirmStatusSCode = CType(toReturn.Rows(0)("issueConfirmStatusSCode"), String)
                     _reportedBy = CType(toReturn.Rows(0)("reportedBy"), String)
+                    _createdBy = CType(toReturn.Rows(0)("createdBy"), String)
                     _reportedDate = CType(toReturn.Rows(0)("reportedDate"), DateTime)
                     _userIDassignedTo = CType(toReturn.Rows(0)("userIDassignedTo"), String)
                     _isUrgent = CType(toReturn.Rows(0)("isUrgent"), Boolean)
+                    _isPlanned = CType(toReturn.Rows(0)("isPlanned"), Boolean)
                     _userIDinsert = CType(toReturn.Rows(0)("userIDinsert"), String)
                     _userIDupdate = CType(toReturn.Rows(0)("userIDupdate"), String)
                     _insertDate = CType(toReturn.Rows(0)("insertDate"), DateTime)
@@ -457,6 +464,69 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
+        'percobaan penambahan informasi Summary
+
+        'Public Function SummaryisPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date, IsAssignedToMe As Boolean) As DataTable
+        Public Function SummaryisPlanned(ByVal user As String, ByVal startDate As Date, ByVal endDate As Date, IsAssignedToMe As Boolean) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            If IsAssignedToMe = False Then
+                cmdToExecute.CommandText = "SELECT " + _
+                                        "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE targetDate BETWEEN @startDate AND @endDate), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE targetDate BETWEEN @startDate AND @endDate AND issueStatusSCode NOT IN ('002-1','003')), " + _
+                                        "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE  targetDate BETWEEN @startDate AND @endDate AND issueStatusSCode='002-1'), " + _
+                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE  targetDate BETWEEN @startDate AND @endDate AND issueStatusSCode='003'), " + _
+                                        "PICAssigned = (SELECT COUNT(issueID) FROM issue WHERE targetDate BETWEEN @startDate AND @endDate and assignedBy=@user)"
+
+            Else
+                cmdToExecute.CommandText = "SELECT " + _
+                                        "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE targetDate BETWEEN @startDate AND @endDate), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE targetDate BETWEEN @startDate AND @endDate AND issueStatusSCode NOT IN ('002-1','003')), " + _
+                                        "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE  targetDate BETWEEN @startDate AND @endDate AND issueStatusSCode='002-1'), " + _
+                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE  targetDate BETWEEN @startDate AND @endDate AND issueStatusSCode='003'), " + _
+                                        "PICAssigned = (SELECT COUNT(issueID) FROM issue WHERE targetDate BETWEEN @startDate AND @endDate and assignedBy=@user)"
+            End If
+            cmdToExecute.CommandType = CommandType.Text
+
+            Dim toReturn As DataTable = New DataTable("IssueSummary")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@startDate", startDate)
+                cmdToExecute.Parameters.AddWithValue("@endDate", endDate)
+                cmdToExecute.Parameters.AddWithValue("@user", user)
+                If IsAssignedToMe Then
+                    cmdToExecute.Parameters.AddWithValue("@IsAssignedToMe", IsAssignedToMe)
+
+                End If
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _totalIssue = CType(toReturn.Rows(0)("totalIssue"), Decimal)
+                    _totalOpen = CType(toReturn.Rows(0)("totalOpen"), Decimal)
+                    _totalDevFinish = CType(toReturn.Rows(0)("totalDevFinish"), Decimal)
+                    _totalFinish = CType(toReturn.Rows(0)("totalFinish"), Decimal)
+                    _PICAssigned = CType(toReturn.Rows(0)("PICAssigned"), Decimal)
+                End If
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
 
         Public Overrides Function Delete() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
@@ -500,7 +570,7 @@ Namespace QIS.Common.BussinessRules
                                         "(SELECT caption FROM CommonCode WHERE groupCode='ISSUESTATUS' AND code=i.issueStatusSCode) AS issueStatusName, " + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='ISSUEPRIORITY' AND code=i.issuePrioritySCode) AS issuePriorityName, " + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='ISSUECONFIRMSTS' AND code=i.issueConfirmStatusSCode) AS issueConfirmStatusName, " + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='PRODUCTROADMAP' AND [value]=i.productRoadmapSCode) AS productRoadmapName, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='PRODUCTROADMAP' AND [value]=i.productRoadmapSCode) AS productRoadmapName," + _
                                         "ISNULL((SELECT COUNT(responseID) FROM issueResponse WHERE issueID=i.issueID),0) AS totalResponse, " + _
                                         "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDAssignedTo)),'') AS userNameAssignedTo, " + _
                                         "isHasAttachment=CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID) > 0) THEN(1) ELSE(0) END " + _
@@ -512,7 +582,7 @@ Namespace QIS.Common.BussinessRules
                                         "(SELECT caption FROM CommonCode WHERE groupCode='ISSUESTATUS' AND code=i.issueStatusSCode) AS issueStatusName, " + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='ISSUEPRIORITY' AND code=i.issuePrioritySCode) AS issuePriorityName, " + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='ISSUECONFIRMSTS' AND code=i.issueConfirmStatusSCode) AS issueConfirmStatusName, " + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='PRODUCTROADMAP' AND [value]=i.productRoadmapSCode) AS productRoadmapName, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='PRODUCTROADMAP' AND [value]=i.productRoadmapSCode) AS productRoadmapName," + _
                                         "ISNULL((SELECT COUNT(responseID) FROM issueResponse WHERE issueID=i.issueID),0) AS totalResponse, " + _
                                         "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDAssignedTo)),'') AS userNameAssignedTo, " + _
                                         "isHasAttachment=CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID) > 0) THEN(1) ELSE(0) END " + _
@@ -550,6 +620,74 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
+
+        Public Function SelectByPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date, IsAssignedToMe As Boolean) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+
+            Dim strFilterIsAssignedToMe As String = String.Empty
+            If IsAssignedToMe = False Then
+                cmdToExecute.CommandText = "SELECT i.*, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUETYPE' AND code=i.issueTypeSCode) AS issueTypeName, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUESTATUS' AND code=i.issueStatusSCode) AS issueStatusName, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUEPRIORITY' AND code=i.issuePrioritySCode) AS issuePriorityName, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUECONFIRMSTS' AND code=i.issueConfirmStatusSCode) AS issueConfirmStatusName, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='PRODUCTROADMAP' AND [value]=i.productRoadmapSCode) AS productRoadmapName, " + _
+                                        "ISNULL((SELECT COUNT(responseID) FROM issueResponse WHERE issueID=i.issueID),0) AS totalResponse, " + _
+                                        "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDAssignedTo)),'') AS userNameAssignedTo, " + _
+                                        "isHasAttachment=CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID) > 0) THEN(1) ELSE(0) END " + _
+                                        "FROM Issue i WHERE i.targetDate BETWEEN @startDate AND @endDate " + _
+                                        "AND i.IsPlanned = '1'" + _
+                                        "ORDER BY  i.issueID"
+            Else
+                cmdToExecute.CommandText = "SELECT i.*, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUETYPE' AND code=i.issueTypeSCode) AS issueTypeName, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUESTATUS' AND code=i.issueStatusSCode) AS issueStatusName, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUEPRIORITY' AND code=i.issuePrioritySCode) AS issuePriorityName, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUECONFIRMSTS' AND code=i.issueConfirmStatusSCode) AS issueConfirmStatusName, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='PRODUCTROADMAP' AND [value]=i.productRoadmapSCode) AS productRoadmapName, " + _
+                                        "ISNULL((SELECT COUNT(responseID) FROM issueResponse WHERE issueID=i.issueID),0) AS totalResponse, " + _
+                                        "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDAssignedTo)),'') AS userNameAssignedTo, " + _
+                                        "DATEDIFF(DAY,i.reportedDate,GETDATE()) AS issueAgeInDay, " + _
+                                        "DATEDIFF(DAY,i.targetDate,GETDATE()) AS dueToTargetDateAgeInDay, " + _
+                                        "isHasAttachment = CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID)>0) THEN(1) ELSE(0) END " + _
+                                        "FROM Issue i WHERE i.UserIDAssignedTo=@UserIDAssignedTo " + _
+                                        "AND i.targetDate BETWEEN @startDate AND @endDate " + _
+                                        "AND i.IsPlanned = '1'" + _
+                                        "ORDER BY i.issueID"
+            End If
+
+
+            Dim toReturn As DataTable = New DataTable("Issue")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@startDate", startDate)
+                cmdToExecute.Parameters.AddWithValue("@endDate", endDate)
+                If IsAssignedToMe Then
+                    cmdToExecute.Parameters.AddWithValue("@userIDassignedTo", strUserIDAssignedTo)
+                    
+                End If
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
 
         Public Function SelectSummaryByProjectID(ByVal IsAssignmentOnly As Boolean) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
@@ -603,7 +741,7 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
-
+ 
         Public Function SelectByFilter(ByVal strProductRoadmap As String, ByVal strProjectID As String, ByVal strIssueType As String, ByVal strIssuePriority As String, ByVal strUserIDAssignedTo As String, ByVal strIssueStatus As String, ByVal strIssueConfirmStatus As String, ByVal isUrgent As Boolean, ByVal isByPeriode As Boolean, ByVal dtStartDate As Date, ByVal dtEndDate As Date) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "spSelectIssueByFilter"
@@ -712,38 +850,7 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function SelectByPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date) As DataTable
-            Dim cmdToExecute As SqlCommand = New SqlCommand
-            cmdToExecute.CommandText = "spSelectIssuePlanned"
-            cmdToExecute.CommandType = CommandType.StoredProcedure
-
-            Dim toReturn As DataTable = New DataTable("IssueByPlanned")
-            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
-
-            cmdToExecute.Connection = _mainConnection
-
-            Try
-                cmdToExecute.Parameters.AddWithValue("@userIDAssignedTo", strUserIDAssignedTo)
-                cmdToExecute.Parameters.AddWithValue("@startDate", startDate)
-                cmdToExecute.Parameters.AddWithValue("@endDate", endDate)
-
-                ' // Open connection.
-                _mainConnection.Open()
-
-                ' // Execute query.
-                adapter.Fill(toReturn)
-            Catch ex As Exception
-                ' // some error occured. Bubble it to caller and encapsulate Exception object
-                ExceptionManager.Publish(ex)
-            Finally
-                ' // Close connection.
-                _mainConnection.Close()
-                cmdToExecute.Dispose()
-                adapter.Dispose()
-            End Try
-
-            Return toReturn
-        End Function
+        
 
         Public Function SelectProgressPeriod_Level2(ByVal dtDate As Date) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
@@ -873,6 +980,7 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
+        'percobaan penambahan createdBy
 
         Public Function SelectOneForInformation() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
@@ -908,6 +1016,7 @@ Namespace QIS.Common.BussinessRules
                     _issuePrioritySCode = CType(toReturn.Rows(0)("issuePrioritySCode"), String)
                     _issueConfirmStatusSCode = CType(toReturn.Rows(0)("issueConfirmStatusSCode"), String)
                     _reportedBy = CType(toReturn.Rows(0)("reportedBy"), String)
+                    _createdBy = CType(toReturn.Rows(0)("createdBy"), String)
                     _reportedDate = CType(toReturn.Rows(0)("reportedDate"), DateTime)
                     _userIDassignedTo = CType(toReturn.Rows(0)("userIDassignedTo"), String)
                     _isUrgent = CType(toReturn.Rows(0)("isUrgent"), Boolean)
@@ -1180,6 +1289,15 @@ Namespace QIS.Common.BussinessRules
             End Set
         End Property
 
+        Public Property [CreatedBy]() As String
+            Get
+                Return _createdBy
+            End Get
+            Set(ByVal Value As String)
+                _createdBy = Value
+            End Set
+        End Property
+
         Public Property [ReportedDate]() As DateTime
             Get
                 Return _reportedDate
@@ -1204,6 +1322,15 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As Boolean)
                 _isUrgent = Value
+            End Set
+        End Property
+
+        Public Property [isPlanned]() As Boolean
+            Get
+                Return _isPlanned
+            End Get
+            Set(ByVal Value As Boolean)
+                _isPlanned = Value
             End Set
         End Property
 
@@ -1321,6 +1448,15 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As Decimal)
                 _totalFinish = Value
+            End Set
+        End Property
+
+        Public Property [PICAssigned]() As Decimal
+            Get
+                Return _PICAssigned
+            End Get
+            Set(ByVal Value As Decimal)
+                _PICAssigned = Value
             End Set
         End Property
 

@@ -495,6 +495,7 @@ Namespace QIS.Web
             txtKeywords.Text = String.Empty
             calReportedDate.selectedDate = Date.Today
             txtReportedBy.Text = String.Empty
+            txtCreatedBy.Text = String.Empty
             ddlIssueType.SelectedIndex = 0
             ddlIssueStatus.SelectedIndex = 0
             ddlIssuePriority.SelectedIndex = 0
@@ -504,6 +505,7 @@ Namespace QIS.Web
             calEstStartDate.selectedDate = Date.Today
             calTargetDate.selectedDate = Date.Today
             chkIsUrgent.Checked = False
+            chkIsPlanned.Checked = False
             ddlProductRoadmap.SelectedIndex = 0
 
             txtPatchNo.Text = String.Empty
@@ -702,6 +704,7 @@ Namespace QIS.Web
                     txtKeywords.Text = .Keywords.Trim
                     calReportedDate.selectedDate = .ReportedDate
                     txtReportedBy.Text = .ReportedBy.Trim
+                    txtCreatedBy.Text = .CreatedBy.Trim
                     ddlProductRoadmap.SelectedValue = .ProductRoadmapSCode.Trim
                     ddlIssueType.SelectedValue = .IssueTypeSCode.Trim
                     ddlIssueStatus.SelectedValue = .IssueStatusSCode.Trim
@@ -714,7 +717,12 @@ Namespace QIS.Web
                     End If
                     calEstStartDate.selectedDate = .estStartDate
                     calTargetDate.selectedDate = .targetDate
+
+                    'percobaan isPlanned
+                    chkIsPlanned.Checked = .isPlanned
+
                     chkIsUrgent.Checked = .isUrgent
+                    chkIsPlanned.Checked = .isPlanned
                     txtPatchNo.Text = .PatchNo.Trim
                 End If
             End With
@@ -789,6 +797,7 @@ Namespace QIS.Web
                 .Keywords = txtKeywords.Text.Trim
                 .ReportedDate = calReportedDate.selectedDate
                 .ReportedBy = txtReportedBy.Text.Trim
+                .CreatedBy = txtCreatedBy.Text.Trim
                 .ProductRoadmapSCode = ddlProductRoadmap.SelectedValue.Trim
                 .IssueTypeSCode = ddlIssueType.SelectedValue.Trim
                 .IssueStatusSCode = ddlIssueStatus.SelectedValue.Trim
@@ -798,6 +807,7 @@ Namespace QIS.Web
                 .estStartDate = calEstStartDate.selectedDate
                 .targetDate = calTargetDate.selectedDate
                 .isUrgent = chkIsUrgent.Checked
+                .isPlanned = chkIsPlanned.Checked
                 .PatchNo = txtPatchNo.Text.Trim
                 .isSpecific = chkIsSpecific.Checked
 

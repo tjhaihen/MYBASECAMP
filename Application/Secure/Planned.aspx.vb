@@ -45,6 +45,7 @@ Namespace QIS.Web
                 PrepareScreen()
 
                 SetDataGrid()
+                TotalPlanned()
                 'If ReadQueryString() Then
 
                 pnlAddNew.Visible = False
@@ -160,13 +161,44 @@ Namespace QIS.Web
         End Function
 
         Private Sub SetDataGrid()
+            'Dim decTotalIssue As Decimal = 0D
+            'Dim decTotalOpen As Decimal = 0D
+            'Dim decTotalDevFinish As Decimal = 0D
+            'Dim decTotalFinish As Decimal = 0D
+            'Dim decProgress As Decimal = 0D
+
             Dim oBR As New Common.BussinessRules.Issue
             Dim oDT As New DataTable
-            grdIssueByFilter.DataSource = oBR.SelectByPlanned(Me.LoggedOnUserID.Trim, calStartDate.selectedDate, calEndDate.selectedDate)
+            grdIssueByFilter.DataSource = oBR.SelectByPlanned(Me.LoggedOnUserID.Trim, calStartDate.selectedDate, calEndDate.selectedDate, chkIsAssignedToMe.Checked)
             grdIssueByFilter.DataBind()
             oBR.Dispose()
             oBR = Nothing
+
+            'If oBR.SummaryisPlanned(calStartDate.selectedDate, calEndDate.selectedDate, chkIsAssignedToMe.Checked).Rows.Count > 0 Then
+            '    decTotalIssue = oBR.totalIssue
+            '    decTotalOpen = oBR.totalOpen
+            '    decTotalDevFinish = oBR.totalDevFinish
+            '    decTotalFinish = oBR.totalFinish
+
+            '    If decTotalIssue = 0 Then
+            '        decProgress = 100
+            '    Else
+            '        decProgress = (decTotalFinish / decTotalIssue) * 100
+            '    End If
+            'End If
+            'oBR.Dispose()
+            'oBR = Nothing
+
+            'lblTotalIssue.Text = decTotalIssue.ToString.Trim
+            'lblTotalOpen.Text = decTotalOpen.ToString.Trim
+            'lblTotalDevFinish.Text = decTotalDevFinish.ToString.Trim
+            'lblTotalFinish.Text = decTotalFinish.ToString.Trim
+            'lblProgress.Text = Format(decProgress, "##0")
         End Sub
+
+        'Private Sub chkIsAssignedToMe_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkIsAssignedToMe.CheckedChanged
+        '    SetDataGrid()
+        'End Sub
 
         Private Sub SetDataGridIssueResponse()
             Dim oBR As New Common.BussinessRules.IssueResponse
@@ -211,6 +243,7 @@ Namespace QIS.Web
         Private Sub PrepareScreen()
             calStartDate.selectedDate = GetFirstDayForWeek(Date.Today, False)
             calEndDate.selectedDate = GetLastDayForWeek(Date.Today, False)
+            chkIsAssignedToMe.Checked = False
         End Sub
 
         '--percobaan
@@ -379,8 +412,46 @@ Namespace QIS.Web
             oBR.Dispose()
             oBR = Nothing
         End Sub
+
+        Private Sub TotalPlanned()
+            Dim decTotalIssue As Decimal = 0D
+            Dim decTotalOpen As Decimal = 0D
+            Dim decTotalDevFinish As Decimal = 0D
+            Dim decTotalFinish As Decimal = 0D
+            Dim decProgress As Decimal = 0D
+            Dim decPICAssigned As Decimal = 0D
+
+            Dim oBR As New Common.BussinessRules.Issue
+            If oBR.SummaryisPlanned(Me.LoggedOnUserID.Trim, calStartDate.selectedDate, calEndDate.selectedDate, chkIsAssignedToMe.Checked).Rows.Count > 0 Then
+                decTotalIssue = oBR.totalIssue
+                decTotalOpen = oBR.totalOpen
+                decTotalDevFinish = oBR.totalDevFinish
+                decTotalFinish = oBR.totalFinish
+                decPICAssigned = oBR.PICAssigned
+
+
+                If decTotalIssue = 0 Then
+                    decProgress = 100
+                Else
+                    decProgress = (decTotalFinish / decTotalIssue) * 100
+                End If
+            End If
+            oBR.Dispose()
+            oBR = Nothing
+
+            lblTotalIssue.Text = decTotalIssue.ToString.Trim
+            lblTotalOpen.Text = decTotalOpen.ToString.Trim
+            lblTotalDevFinish.Text = decTotalDevFinish.ToString.Trim
+            lblTotalFinish.Text = decTotalFinish.ToString.Trim
+            lblProgress.Text = Format(decProgress, "##0")
+            lblPICAssigned.Text = decPICAssigned.ToString.Trim
+        End Sub
 #End Region
 
+        Private Sub chkIsAssignedToMe_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkIsAssignedToMe.CheckedChanged
+            SetDataGrid()
+            TotalPlanned()
+        End Sub
     End Class
 
 End Namespace

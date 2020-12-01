@@ -217,6 +217,7 @@
                                                 <td style="background-image: url('/qistoollib/images/timeline_dot.png'); background-repeat: repeat-x;">
                                                 </td>
                                             </tr>
+                                            
                                             <tr>
                                                 <td colspan="3">
                                                     <asp:Repeater ID="repMyProjects" runat="server" OnItemCommand="repMyProjects_ItemCommand"
@@ -235,14 +236,16 @@
 
                                                                         <%--print--%>
                                                                         <td valign="top" align="right">
-
                                                                             <asp:ImageButton ID="print" runat="server" ImageUrl="/qistoollib/images/tbprint.png"
                                                                                 ToolTip="Print Customer Support Weekly Report" CommandName="rprint" />
-                                                                            
-                                                                            <asp:Image ID="imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/urgents.png" Visible='<%# DataBinder.Eval(Container.DataItem, "IsUrgentIssueExists") %>'
-                                                                                ToolTip='<%# DataBinder.Eval(Container.DataItem, "totalUrgentIssue") %>' />
-                                                                            <asp:ImageButton ID="_ibtnSchedule" runat="server" ImageUrl="/qistoollib/images/schedule.png"
-                                                                                ToolTip="Schedule Patch Update" CommandName="Schedule" Visible="false" />
+
+                                                                            <%--<asp:Image ID="imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/urgents.png" Visible='<%# DataBinder.Eval(Container.DataItem, "IsUrgentIssueExists") %>'
+                                                                                ToolTip='<%# DataBinder.Eval(Container.DataItem, "totalUrgentIssue") %>' />--%>
+
+                                                                         <%--percobaan penambahan schedule--%>
+                                                                            <%--<asp:ImageButton ID="_ibtnSchedule" runat="server" ImageUrl="/qistoollib/images/tbpropose.png"
+                                                                                ToolTip="Schedule Patch Update" CommandName="Schedule" />--%>
+
                                                                             <asp:ImageButton ID="_ibtnGoToProjectDetailPage" runat="server" ImageUrl="/qistoollib/images/viewDetail.png"
                                                                                 ToolTip="View Project Detail" CommandName="ViewDetail" />
                                                                         </td>

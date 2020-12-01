@@ -201,6 +201,8 @@ Namespace QIS.Common.BussinessRules
             End Try
         End Function
 
+        'percobaan ORDER tampilan Project
+
         Public Function SelectProjectByProjectGroupID(ByVal ProjectGroupID As String, ByVal UserID As String, Optional ByVal IsAssignedOnly As Boolean = False) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             If IsAssignedOnly = False Then
@@ -224,7 +226,7 @@ Namespace QIS.Common.BussinessRules
                                         "IsUrgentIssueExists=CASE WHEN(a.totalUrgentIssue > 0) THEN(1) " + _
                                         "ELSE (0) END " + _
                                         "FROM (" + _
-                                        "SELECT up.projectUserID, up.projectID, up.userID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, " + _
+                                        "SELECT up.projectUserID, up.projectID, up.userID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, p.IsPinned," + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
                                         "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
                                         "totalUrgentIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND IsUrgent=1 AND issueStatusSCode NOT IN ('002-1','002-5','003')), " + _
@@ -252,7 +254,7 @@ Namespace QIS.Common.BussinessRules
                                         "IsUrgentIssueExists=CASE WHEN(a.totalUrgentIssue > 0) THEN(1) " + _
                                         "ELSE (0) END " + _
                                         "FROM (" + _
-                                        "SELECT pp.projectProfileID, pp.projectID, pp.profileID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, " + _
+                                        "SELECT pp.projectProfileID, pp.projectID, pp.profileID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient,p.IsPinned, " + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
                                         "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
                                         "totalUrgentIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND IsUrgent=1 AND issueStatusSCode NOT IN ('002-1','002-5','003')), " + _
@@ -267,7 +269,7 @@ Namespace QIS.Common.BussinessRules
                                         "INNER JOIN Project p ON pp.projectID=p.projectID " + _
                                         "WHERE p.projectGroupID=@projectGroupID AND up.UserID=@UserID) a " + _
                                         ") b " + _
-                                        "ORDER BY b.progress ASC"
+                                        "ORDER BY b.progress ASC  , b.isPinned DESC"
             Else
                 cmdToExecute.CommandText = "SELECT DISTINCT b.*, " + _
                                         "LastPatchNo = (SELECT TOP 1 patchNo FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC), " + _
@@ -289,8 +291,8 @@ Namespace QIS.Common.BussinessRules
                                         "IsUrgentIssueExists=CASE WHEN(a.totalUrgentIssue > 0) THEN(1) " + _
                                         "ELSE (0) END " + _
                                         "FROM (" + _
-                                        "SELECT up.projectUserID, up.projectID, up.userID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, " + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
+                                        "SELECT up.projectUserID, up.projectID, up.userID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, p.IsPinned," + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName,  " + _
                                         "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
                                         "totalUrgentIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND IsUrgent=1 AND issueStatusSCode NOT IN ('002-1','002-5','003')), " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID), " + _
@@ -319,7 +321,7 @@ Namespace QIS.Common.BussinessRules
                                         "IsUrgentIssueExists=CASE WHEN(a.totalUrgentIssue > 0) THEN(1) " + _
                                         "ELSE (0) END " + _
                                         "FROM (" + _
-                                        "SELECT pp.projectProfileID, pp.projectID, pp.profileID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, " + _
+                                        "SELECT pp.projectProfileID, pp.projectID, pp.profileID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, p.IsPinned," + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
                                         "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
                                         "totalUrgentIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND IsUrgent=1 AND issueStatusSCode NOT IN ('002-1','002-5','003')), " + _
@@ -336,7 +338,7 @@ Namespace QIS.Common.BussinessRules
                                         "(SELECT DISTINCT projectID FROM Issue WHERE UserIDAssignedTo=@UserID) " + _
                                         ") a " + _
                                         ") b " + _
-                                        "ORDER BY b.progress ASC"
+                                        "ORDER BY b.progress ASC, b.IsPinned DESC"
             End If
             cmdToExecute.CommandType = CommandType.Text
             Dim toReturn As DataTable = New DataTable("projectByProjectGroupID")

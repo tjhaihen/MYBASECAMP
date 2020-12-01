@@ -193,6 +193,60 @@
                                                     <Module:Calendar ID="calStartDate" runat="server" DontResetDate="true" />
                                                     &nbsp;to&nbsp;
                                                     <Module:Calendar ID="calEndDate" runat="server" DontResetDate="true" />
+                                                    &nbsp;to&nbsp;
+
+                                                    <%--tambah checkbox is assigned to me--%>
+                                                    <asp:CheckBox ID="chkIsAssignedToMe" runat="server" Text=" Is Assigned To Me" AutoPostBack="true" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td valign="top" class="right">
+                                        <table style="background: #dddddd;" cellspacing="1" cellpadding="2">
+                                            <tr>
+                                                <td style="background: #ffffff; width: 100;" class="center">
+                                                    Total Issue
+                                                </td>
+                                                <td style="background: #ffffff; width: 100;" class="center">
+                                                    Total Open
+                                                </td>
+                                                <td style="background: #ffffff; width: 120;" class="center">
+                                                    Total Dev.Finish
+                                                </td>
+                                                <td style="background: #ffffff; width: 100;" class="center">
+                                                    Total Finish
+                                                </td>
+                                                <td style="background: #ffffff; width: 100; font-weight: bold;" class="center">
+                                                    Progress
+                                                </td>
+                                                <%--<td style="background: #ffffff; width: 100;" class="center">
+                                                    Display
+                                                </td>--%>
+                                                <td style="background: #ffffff; width: 100;" class="center">
+                                                    PIC Assigned
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
+                                                    <asp:Label ID="lblTotalIssue" runat="server"></asp:Label>
+                                                </td>
+                                                <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
+                                                    <asp:Label ID="lblTotalOpen" runat="server"></asp:Label>
+                                                </td>
+                                                <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
+                                                    <asp:Label ID="lblTotalDevFinish" runat="server"></asp:Label>
+                                                </td>
+                                                <td style="background: #ffffff; width: 120; font-size: 24;" class="center">
+                                                    <asp:Label ID="lblTotalFinish" runat="server"></asp:Label>
+                                                </td>
+                                                <td style="background: #ffffff; width: 100; font-size: 24; font-weight: bold;" class="center">
+                                                    <asp:Label ID="lblProgress" runat="server"></asp:Label>&nbsp;%
+                                                </td>
+                                                <%--<td style="background: #ffffff; width: 100;" class="center">
+                                                    <asp:CheckBox ID="chkIsOpenOnly" runat="server" Text="Open" AutoPostBack="true" />
+                                                </td>--%>
+                                                <td style="background: #ffffff; width: 100; font-size: 24; font-weight: bold;" class="center">
+                                                    <asp:Label ID="lblPICAssigned" runat="server"></asp:Label>&nbsp;
                                                 </td>
                                             </tr>
                                         </table>
@@ -562,7 +616,8 @@
                                             </table>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Project" ItemStyle-Width="100" ItemStyle-VerticalAlign="Top">
+                                    
+                                    <%--<asp:TemplateColumn runat="server" HeaderText="Project" ItemStyle-Width="100" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <table cellspacing="0">
                                                 <tr>
@@ -581,7 +636,7 @@
                                                 </tr>
                                             </table>
                                         </ItemTemplate>
-                                    </asp:TemplateColumn>
+                                    </asp:TemplateColumn>--%>
                                     <asp:TemplateColumn runat="server" HeaderText="Description" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <%# DataBinder.Eval(Container.DataItem, "issueDescription")%>
@@ -622,14 +677,16 @@
                                                         <%# Format(DataBinder.Eval(Container.DataItem, "targetDate"),"dd-MMM-yyyy") %>
                                                     </td>
                                                 </tr>
-                                                <tr>
+
+                                                
+                                                <%--<tr>
                                                     <td class="txtweak center">
                                                         <p id="rcorners1">
                                                             Due:
                                                             <%# DataBinder.Eval(Container.DataItem, "dueToTargetDateAgeInDay")%>
                                                             d</p>
                                                     </td>
-                                                </tr>
+                                                </tr>--%>
                                             </table>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>

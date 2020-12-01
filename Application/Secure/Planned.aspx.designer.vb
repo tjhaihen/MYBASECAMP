@@ -222,6 +222,69 @@ Namespace QIS.Web
         Protected WithEvents calEndDate As Global.QIS.Web.Calendar
 
         '''<summary>
+        '''chkIsAssignedToMe control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsAssignedToMe As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''lblTotalIssue control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalIssue As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalOpen control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalOpen As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalDevFinish control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalDevFinish As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalFinish control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalFinish As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblProgress control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblProgress As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblPICAssigned control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblPICAssigned As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''pnlAddNew control.
         '''</summary>
         '''<remarks>

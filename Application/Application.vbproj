@@ -268,13 +268,6 @@
       <DependentUpon>ChangePassword.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="Secure\coba.aspx.designer.vb">
-      <DependentUpon>coba.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Secure\coba.aspx.vb">
-      <DependentUpon>coba.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
     <Compile Include="Secure\CommonCode.aspx.designer.vb">
       <DependentUpon>CommonCode.aspx</DependentUpon>
     </Compile>
@@ -665,7 +658,6 @@
     <Content Include="Secure\Budget\BudgetAccount.aspx" />
     <Content Include="Secure\Budget\BudgetPurchasing.aspx" />
     <Content Include="Secure\ChangePassword.aspx" />
-    <Content Include="Secure\coba.aspx" />
     <Content Include="Secure\CommonCode.aspx" />
     <Content Include="Secure\Documents.aspx" />
     <Content Include="Secure\Documents\UserGuideVideo\Askep - Mapping Master SDKI.mp4" />
@@ -841,7 +833,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
