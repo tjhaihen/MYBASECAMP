@@ -807,7 +807,7 @@
   <ItemGroup>
     <Folder Include="Secure\MSExcelTemplates\" />
     <Folder Include="SharedLibs\Tools\" />
-    <Folder Include="Uploads\" />
+    <Folder Include="Uploads\DataFiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
