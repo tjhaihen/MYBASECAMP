@@ -47,6 +47,7 @@ Namespace QIS.Web
                 ReadQueryString()
                 GetProjectsByUserID(chkIsMyAssignment.Checked)
                 GetTasksByUserID()
+                pnlschedule.Visible = False
 
             End If
         End Sub
@@ -114,10 +115,44 @@ Namespace QIS.Web
                 Case "rprint"
                     Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
                     Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Print.aspx/?&idp=" + _lblProjectID.Text.Trim + "')</script>")
-                   
-
+                    '-- penambahan di menu.aspx.vb
+                Case "schedule"
+                    Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
+                    lblProjectID.Text = _lblProjectID.Text.Trim
+                    calNextUpdateDate.selectedDate = Date.Now
+                    txtNextUpdateRemarks.Text = String.Empty
+                    pnlschedule.Visible = True
             End Select
         End Sub
+        Private Sub btnSave_Click(sender As Object, e As System.EventArgs) Handles btnSave.Click
+            pnlschedule.Visible = False
+            _saveIssue()
+            GetProjectsByUserID(chkIsMyAssignment.Checked)
+
+        End Sub
+
+        Private Sub _saveIssue()
+            'Page.Validate()
+            'If Not Page.IsValid Then Exit Sub
+
+            Dim fNew As Boolean = False
+            Dim oBR As New Common.BussinessRules.Issue
+            With oBR
+                .NextUpdateRemarks = txtNextUpdateRemarks.Text.Trim
+                .NextUpdateDate = calNextUpdateDate.selectedDate
+                .ProjectID = lblProjectID.Text.Trim
+                .InsertNextUpdate()
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
+
+
+        Private Sub btnClose_Click(sender As Object, e As System.EventArgs) Handles btnClose.Click
+            pnlschedule.Visible = False
+        End Sub
+
         Private Sub lbtnMyProjects_Click(sender As Object, e As System.EventArgs) Handles lbtnMyProjects.Click, ibtnMyProjects.Click
             lblPageTitle.Text = "My Projects"
             chkIsMyAssignment.Checked = False
@@ -226,7 +261,6 @@ Namespace QIS.Web
 #Region " C,R,U,D "
         
 #End Region
-
     End Class
 
 End Namespace

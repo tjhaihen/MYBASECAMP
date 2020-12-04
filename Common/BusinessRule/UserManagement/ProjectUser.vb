@@ -208,6 +208,8 @@ Namespace QIS.Common.BussinessRules
             If IsAssignedOnly = False Then
                 cmdToExecute.CommandText = "SELECT DISTINCT b.*, " + _
                                         "LastPatchNo = (SELECT TOP 1 patchNo FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC), " + _
+                                        "NextUpdateDate = (SELECT TOP 1 NextUpdateDate FROM project WHERE projectID = b.projectID ORDER BY updateDate DESC), " + _
+                                        "NextUpdateRemarks = (SELECT TOP 1 NextUpdateRemarks FROM project WHERE projectID = b.projectID ORDER BY updateDate DESC), " + _
                                         "LastPatchDate = " + _
                                         "CASE WHEN((SELECT TOP 1 updateDate FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC) IS NULL) THEN('') " + _
                                         "ELSE ('on ' + CONVERT(VARCHAR,ISNULL((SELECT TOP 1 updateDate FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC),''),106)) END " + _
@@ -273,6 +275,8 @@ Namespace QIS.Common.BussinessRules
             Else
                 cmdToExecute.CommandText = "SELECT DISTINCT b.*, " + _
                                         "LastPatchNo = (SELECT TOP 1 patchNo FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC), " + _
+                                        "NextUpdateDate = (SELECT TOP 1 NextUpdateDate FROM project WHERE projectID = b.projectID ORDER BY updateDate DESC), " + _
+                                        "NextUpdateRemarks = (SELECT TOP 1 NextUpdateRemarks FROM project WHERE projectID = b.projectID ORDER BY updateDate DESC), " + _
                                         "LastPatchDate = " + _
                                         "CASE WHEN((SELECT TOP 1 updateDate FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC) IS NULL) THEN('') " + _
                                         "ELSE ('on ' + CONVERT(VARCHAR,ISNULL((SELECT TOP 1 updateDate FROM patchProject WHERE projectID = b.projectID ORDER BY updateDate DESC),''),106)) END " + _

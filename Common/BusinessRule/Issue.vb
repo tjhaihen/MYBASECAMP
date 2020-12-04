@@ -11,12 +11,12 @@ Namespace QIS.Common.BussinessRules
         Inherits BRInteractionBase
 
 #Region " Class Member Declarations "
-        Private _issueID, _projectID, _departmentName, _issueDescription, _issueTypeSCode, _issueStatusSCode, _keywords As String
+        Private _issueID, _projectID, _departmentName, _issueDescription, _NextUpdateRemarks, _issueTypeSCode, _issueStatusSCode, _keywords As String
         Private _issuePrioritySCode, _issueConfirmStatusSCode, _reportedBy, _createdBy, _userIDassignedTo, _assignedBy, _patchNo As String
         Private _reportedDate As DateTime
         Private _userIDinsert, _userIDupdate As String
         Private _insertDate, _updateDate, _assignedDate As DateTime
-        Private _estStartDate, _targetDate, _finishDate As Date
+        Private _estStartDate, _targetDate, _finishDate, _NextUpdateDate As Date
         Private _isUrgent, _isSpecific, _isPlanned As Boolean
 
         Private _totalIssue, _totalOpen, _totalDevFinish, _totalFinish, _PICAssigned As Decimal
@@ -94,6 +94,38 @@ Namespace QIS.Common.BussinessRules
             End Try
         End Function
 
+        'percobaan penambahan panel schedule
+        Public Function InsertNextUpdate() As Boolean
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "UPDATE project SET " + _
+                                        "NextUpdateDate = @NextUpdateDate, NextUpdateRemarks = @NextUpdateRemarks " + _
+                                        "WHERE " + _
+                                        "projectID=@projectID"
+            cmdToExecute.CommandType = CommandType.Text
+            cmdToExecute.Connection = _mainConnection
+
+            'Dim strID As String = ID.GenerateIDNumber("Project", "ProjectID")
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@ProjectID", _projectID)
+                cmdToExecute.Parameters.AddWithValue("@NextUpdateDate", _NextUpdateDate)
+                cmdToExecute.Parameters.AddWithValue("@NextUpdateRemarks", _NextUpdateRemarks)
+
+                ' // Open Connection
+                _mainConnection.Open()
+
+                ' // Execute Query
+                cmdToExecute.ExecuteNonQuery()
+
+                Return True
+            Catch ex As Exception
+                ExceptionManager.Publish(ex)
+            Finally
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+            End Try
+        End Function
+
         Public Overrides Function Update() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "UPDATE Issue " + _
@@ -108,7 +140,7 @@ Namespace QIS.Common.BussinessRules
             cmdToExecute.Connection = _mainConnection
 
             Try
-                cmdToExecute.Parameters.AddWithValue("@issueID", _issueID)                
+                cmdToExecute.Parameters.AddWithValue("@issueID", _issueID)
                 cmdToExecute.Parameters.AddWithValue("@departmentName", _departmentName)
                 cmdToExecute.Parameters.AddWithValue("@issueDescription", _issueDescription)
                 cmdToExecute.Parameters.AddWithValue("@keywords", _keywords)
@@ -333,7 +365,6 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
-
 
         '--percobaan print
         Public Function PrintIssue() As DataTable
@@ -667,7 +698,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@endDate", endDate)
                 If IsAssignedToMe Then
                     cmdToExecute.Parameters.AddWithValue("@userIDassignedTo", strUserIDAssignedTo)
-                    
+
                 End If
 
                 ' // Open connection.
@@ -703,7 +734,7 @@ Namespace QIS.Common.BussinessRules
                                         "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode NOT IN ('002-1','003')), " + _
                                         "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode<>'002-1'), " + _
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode='003')"
-            End If            
+            End If
             cmdToExecute.CommandType = CommandType.Text
 
             Dim toReturn As DataTable = New DataTable("IssueSummary")
@@ -741,7 +772,7 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
- 
+
         Public Function SelectByFilter(ByVal strProductRoadmap As String, ByVal strProjectID As String, ByVal strIssueType As String, ByVal strIssuePriority As String, ByVal strUserIDAssignedTo As String, ByVal strIssueStatus As String, ByVal strIssueConfirmStatus As String, ByVal isUrgent As Boolean, ByVal isByPeriode As Boolean, ByVal dtStartDate As Date, ByVal dtEndDate As Date) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "spSelectIssueByFilter"
@@ -850,7 +881,7 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        
+
 
         Public Function SelectProgressPeriod_Level2(ByVal dtDate As Date) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
@@ -1403,6 +1434,24 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As DateTime)
                 _targetDate = Value
+            End Set
+        End Property
+
+        Public Property [NextUpdateDate]() As DateTime
+            Get
+                Return _NextUpdateDate
+            End Get
+            Set(ByVal Value As DateTime)
+                _NextUpdateDate = Value
+            End Set
+        End Property
+
+        Public Property [NextUpdateRemarks]() As String
+            Get
+                Return _NextUpdateRemarks
+            End Get
+            Set(ByVal Value As String)
+                _NextUpdateRemarks = Value
             End Set
         End Property
 

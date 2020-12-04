@@ -195,6 +195,60 @@ Namespace QIS.Web
         Protected WithEvents chkIsMyAssignment As Global.System.Web.UI.WebControls.CheckBox
 
         '''<summary>
+        '''pnlschedule control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlschedule As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''lblProjectID control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblProjectID As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''calNextUpdateDate control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents calNextUpdateDate As Global.QIS.Web.Calendar
+
+        '''<summary>
+        '''txtNextUpdateRemarks control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtNextUpdateRemarks As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''btnSave control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnSave As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''btnClose control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnClose As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
         '''repMyProjectGroups control.
         '''</summary>
         '''<remarks>
