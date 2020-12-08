@@ -48,6 +48,8 @@
             word-wrap: break-word; /* Internet Explorer 5.5+ *
         }
     </style>
+
+ 
 </head>
 <body>
     <form id="Form1" runat="server">
@@ -696,7 +698,7 @@
                                     </tr>
                                     <tr>
                                         <td style="width: 50%;" valign="top">
-                                            <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
+                                            <table width="100%" class="gridAlternetingItemStyle" cellspacing="1">
                                                 <tr>
                                                     <td class="right" style="background: #ffffff;">
                                                         Response Date
@@ -914,7 +916,7 @@
                                         ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <asp:ImageButton ID="_ibtnPrint" runat="server" ImageUrl="/qistoollib/images/print.png"
-                                                ImageAlign="AbsMiddle" CommandName="Print" CausesValidation="false" ToolTip="Print Issue Ticket Form" />
+                                                ImageAlign="AbsMiddle" CommandName="PrintTicket" CausesValidation="false" ToolTip="Print Issue Ticket Form" />
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center"

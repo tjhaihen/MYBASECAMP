@@ -324,19 +324,25 @@ Namespace QIS.Web
                     _openIssueForResponse()
                     PrepareScreenIssueResponse()
                     SetDataGridIssueResponse()
-                Case "Print"
+
+                    'percobaan print issue ticket form
+                Case "PrintTicket"
                     Dim _lbtnIssueID As LinkButton = CType(e.Item.FindControl("_lbtnIssueID"), LinkButton)
                     Dim oRpt As New Common.BussinessRules.MyReport
                     With oRpt
-                        .ReportCode = Common.Constants.ReportID.IssueTicketForm_ReportID
+                        '.ReportCode = Common.Constants.ReportID.IssueTicketForm_ReportID
                         .AddParameters(_lbtnIssueID.Text.Trim)
-                        .AddParameters(MyBase.LoggedOnUserID.Trim)
+                        '.AddParameters(MyBase.LoggedOnUserID.Trim)
                         '.UrlPrint(Context.Request.Url.Host)
-                        Response.Write(.UrlPrintPreview(Context.Request.Url.Host))
+                        'Response.Write(.UrlPrintPreview())
+                        Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/PrintTicket.aspx/?&idp=" + _lbtnIssueID.Text.Trim + "')</script>")
+
                     End With
                     oRpt.Dispose()
                     oRpt = Nothing
+
             End Select
+
         End Sub
 
         Private Sub grdIssueResponse_ItemCommand(source As Object, e As System.Web.UI.WebControls.DataGridCommandEventArgs) Handles grdIssueResponse.ItemCommand

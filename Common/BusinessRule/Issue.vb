@@ -11,19 +11,21 @@ Namespace QIS.Common.BussinessRules
         Inherits BRInteractionBase
 
 #Region " Class Member Declarations "
-        Private _issueID, _projectID, _departmentName, _issueDescription, _NextUpdateRemarks, _issueTypeSCode, _issueStatusSCode, _keywords As String
+        Private _issueID, _projectID, _departmentName, _issueDescription, _NextUpdateRemarks, _issueTypeSCode, _issueStatusSCode, _keywords,
+            _renponseID, _responseTypeSCode, _responseTypeName, _responseDescription, _userIDupdateResponse, _userNameUpdateResponse, _userIDprint,
+            _userNameprint, _responseDuration, _issuePriorityName, _issueTypeName, _issueConfirmStatusName, _issueStatusName, _responseTime2 As String
         Private _issuePrioritySCode, _issueConfirmStatusSCode, _reportedBy, _createdBy, _userIDassignedTo, _assignedBy, _patchNo As String
         Private _reportedDate As DateTime
         Private _userIDinsert, _userIDupdate As String
         Private _insertDate, _updateDate, _assignedDate As DateTime
-        Private _estStartDate, _targetDate, _finishDate, _NextUpdateDate As Date
+        Private _estStartDate, _targetDate, _finishDate, _NextUpdateDate, _responseDate, _updateDateResponse, _responseTime As Date
         Private _isUrgent, _isSpecific, _isPlanned As Boolean
 
         Private _totalIssue, _totalOpen, _totalDevFinish, _totalFinish, _PICAssigned As Decimal
         Private _projectAliasName, _projectName As String
         Private _productRoadmapSCode As String
 
-        Private _PICDev, _IssueType, _IssueStatus, _IssuePriority, _IssueConfirmStatus As String
+        Private _PICDev, _IssueType, _IssueStatus, _IssuePriority, _IssueConfirmStatus, _projectDescription As String
         Private _totalreported, _openissue, _progressissue, _needsampleissue, _finishissue, _totalissuefull, _overallprogress, _totalfinished As Decimal
 
 
@@ -352,6 +354,90 @@ Namespace QIS.Common.BussinessRules
                     _patchNo = CType(toReturn.Rows(0)("patchNo"), String)
                     _isSpecific = CType(toReturn.Rows(0)("isSpecific"), Boolean)
                     _productRoadmapSCode = CType(toReturn.Rows(0)("productRoadmapSCode"), String)
+                End If
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+        '--percobaan print ticket
+        Public Function PrintTicket() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "srIssueTicketForm"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("IssueTicketForm")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@issueID", _issueID)
+                cmdToExecute.Parameters.AddWithValue("@userIDprint", _userIDprint)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _projectName = CType(toReturn.Rows(0)("projectName"), String)
+                    _projectAliasName = CType(toReturn.Rows(0)("projectAliasName"), String)
+                    _issueID = CType(toReturn.Rows(0)("issueID"), String)
+                    _departmentName = CType(toReturn.Rows(0)("departmentName"), String)
+                    _issueDescription = CType(toReturn.Rows(0)("issueDescription"), String)
+                    _reportedDate = CType(toReturn.Rows(0)("reportedDate"), DateTime)
+                    _reportedBy = CType(toReturn.Rows(0)("reportedby"), String)
+                    _issuePriorityName = CType(toReturn.Rows(0)("issuePriorityName"), String)
+                    _issueTypeName = CType(toReturn.Rows(0)("issueTypeName"), String)
+                    _issueStatusName = CType(toReturn.Rows(0)("issueStatusName"), String)
+                    _issueConfirmStatusName = CType(toReturn.Rows(0)("issueConfirmStatusName"), String)
+                    _responseDate = CType(toReturn.Rows(0)("responseDate"), DateTime)
+                    _responseTime2 = CType(toReturn.Rows(0)("responseTimeStart"), String)
+                    _responseTime = CType(toReturn.Rows(0)("responseTimeStart"), DateTime)
+                    _responseDuration = CType(toReturn.Rows(0)("responseDuration"), String)
+                    _responseDescription = CType(toReturn.Rows(0)("responseDescription"), String)
+                    _userNameUpdateResponse = CType(toReturn.Rows(0)("userNameUpdateResponse"), String)
+                    _userIDprint = CType(toReturn.Rows(0)("userIDprint"), String)
+                    _userNameprint = CType(toReturn.Rows(0)("userNameprint"), String)
+                    '_projectDescription = CType(toReturn.Rows(0)("projectDescription "), String)
+                    '_projectID = CType(toReturn.Rows(0)("projectID"), String)
+                    '_issueTypeSCode = CType(toReturn.Rows(0)("issueTypeSCode"), String)
+                    '_issueStatusSCode = CType(toReturn.Rows(0)("IssueStatusSCode"), String)
+                    '_issuePrioritySCode = CType(toReturn.Rows(0)("issuePrioritySCode"), String)
+                    '_issueConfirmStatusSCode = CType(toReturn.Rows(0)("issueConfirmStatusSCode"), String)
+                    '_userIDassignedTo = CType(toReturn.Rows(0)("userIDassignedTo"), String)
+                    '_userIDinsert = CType(toReturn.Rows(0)("userIDinsert"), String)
+                    '_insertDate = CType(toReturn.Rows(0)("insertDate"), DateTime)
+                    '_userIDupdate = CType(toReturn.Rows(0)("userIDupdate"), String)
+                    '_updateDate = CType(toReturn.Rows(0)("updateDate"), DateTime)
+                    '_assignedBy = CType(toReturn.Rows(0)("assignedBy"), String)
+                    '_assignedDate = CType(toReturn.Rows(0)("assignedDate"), DateTime)
+                    '_targetDate = CType(toReturn.Rows(0)("targetDate"), DateTime)
+                    '_finishDate = CType(toReturn.Rows(0)("finishDate"), DateTime)
+                    '_isUrgent = CType(toReturn.Rows(0)("isUrgent"), Boolean)
+                    '_keywords = CType(toReturn.Rows(0)("keywords"), String)
+                    '_isSpecific = CType(toReturn.Rows(0)("isSpecific"), Boolean)
+                    '_patchNo = CType(toReturn.Rows(0)("patchNo"), String)
+                    '_estStartDate = CType(toReturn.Rows(0)("estStartDate"), DateTime)
+                    '_productRoadmapSCode = CType(toReturn.Rows(0)("productRoadmapSCod"), String)
+                    '_isPlanned = CType(toReturn.Rows(0)("isPlanned"), Boolean)
+                    '_createdBy = CType(toReturn.Rows(0)("createdBy"), String)
+                    '_renponseID = CType(toReturn.Rows(0)("renponseID"), String)
+                    '_responseTypeSCode = CType(toReturn.Rows(0)("responseTypeSCode"), String)
+                    '_responseTypeName = CType(toReturn.Rows(0)("responseTypeName"), String)
+                    '_userIDupdateResponse = CType(toReturn.Rows(0)("userIDupdateResponse"), String)
+                    '_updateDateResponse = CType(toReturn.Rows(0)("updateDateResponse"), String)
+                   
                 End If
             Catch ex As Exception
                 ' // some error occured. Bubble it to caller and encapsulate Exception object
@@ -1553,6 +1639,170 @@ Namespace QIS.Common.BussinessRules
                 _productRoadmapSCode = Value
             End Set
         End Property
+
+        Public Property [ProjectDescription]() As String
+            Get
+                Return _projectDescription
+            End Get
+            Set(ByVal Value As String)
+                _projectDescription = Value
+            End Set
+        End Property
+
+        Public Property [renponseID]() As String
+            Get
+                Return _renponseID
+            End Get
+            Set(ByVal Value As String)
+                _renponseID = Value
+            End Set
+        End Property
+
+        Public Property [responseDate]() As DateTime
+            Get
+                Return _responseDate
+            End Get
+            Set(ByVal Value As DateTime)
+                _responseDate = Value
+            End Set
+        End Property
+
+        Public Property [responseTime]() As DateTime
+            Get
+                Return _responseTime
+            End Get
+            Set(ByVal Value As DateTime)
+                _responseTime = Value
+            End Set
+        End Property
+
+        Public Property [responseTime2]() As String
+            Get
+                Return _responseTime2
+            End Get
+            Set(ByVal Value As String)
+                _responseTime2 = Value
+            End Set
+        End Property
+
+        Public Property [responseDuration]() As String
+            Get
+                Return _responseDuration
+            End Get
+            Set(ByVal Value As String)
+                _responseDuration = Value
+            End Set
+        End Property
+
+        Public Property [responseTypeSCode]() As String
+            Get
+                Return _responseTypeSCode
+            End Get
+            Set(ByVal Value As String)
+                _responseTypeSCode = Value
+            End Set
+        End Property
+
+        Public Property [responseTypeName]() As String
+            Get
+                Return _responseTypeName
+            End Get
+            Set(ByVal Value As String)
+                _responseTypeName = Value
+            End Set
+        End Property
+
+        Public Property [responseDescription]() As String
+            Get
+                Return _responseDescription
+            End Get
+            Set(ByVal Value As String)
+                _responseDescription = Value
+            End Set
+        End Property
+
+        Public Property [userIDupdateResponse]() As String
+            Get
+                Return _userIDupdateResponse
+            End Get
+            Set(ByVal Value As String)
+                _userIDupdateResponse = Value
+            End Set
+        End Property
+
+        Public Property [userNameUpdateResponse]() As String
+            Get
+                Return _userNameUpdateResponse
+            End Get
+            Set(ByVal Value As String)
+                _userNameUpdateResponse = Value
+            End Set
+        End Property
+
+        Public Property [updateDateResponse]() As DateTime
+            Get
+                Return _updateDateResponse
+            End Get
+            Set(ByVal Value As DateTime)
+                _updateDateResponse = Value
+            End Set
+        End Property
+
+        Public Property [userIDprint]() As String
+            Get
+                Return _userIDprint
+            End Get
+            Set(ByVal Value As String)
+                _userIDprint = Value
+            End Set
+        End Property
+
+        Public Property [userNameprint]() As String
+            Get
+                Return _userNameprint
+            End Get
+            Set(ByVal Value As String)
+                _userNameprint = Value
+            End Set
+        End Property
+
+        Public Property [issuePriorityName]() As String
+            Get
+                Return _issuePriorityName
+            End Get
+            Set(ByVal Value As String)
+                _issuePriorityName = Value
+            End Set
+        End Property
+
+        Public Property [issueTypeName]() As String
+            Get
+                Return _issueTypeName
+            End Get
+            Set(ByVal Value As String)
+                _issueTypeName = Value
+            End Set
+        End Property
+
+        Public Property [issueStatusName]() As String
+            Get
+                Return _issueStatusName
+            End Get
+            Set(ByVal Value As String)
+                _issueStatusName = Value
+            End Set
+        End Property
+
+        Public Property [issueConfirmStatusName]() As String
+            Get
+                Return _issueConfirmStatusName
+            End Get
+            Set(ByVal Value As String)
+                _issueConfirmStatusName = Value
+            End Set
+        End Property
+
+
 #End Region
 
     End Class

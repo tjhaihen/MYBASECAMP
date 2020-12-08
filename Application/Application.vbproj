@@ -275,6 +275,13 @@
       <DependentUpon>CommonCode.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\PrintTicket.aspx.designer.vb">
+      <DependentUpon>PrintTicket.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\PrintTicket.aspx.vb">
+      <DependentUpon>PrintTicket.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Secure\Documents.aspx.designer.vb">
       <DependentUpon>Documents.aspx</DependentUpon>
     </Compile>
@@ -659,6 +666,7 @@
     <Content Include="Secure\Budget\BudgetPurchasing.aspx" />
     <Content Include="Secure\ChangePassword.aspx" />
     <Content Include="Secure\CommonCode.aspx" />
+    <Content Include="Secure\PrintTicket.aspx" />
     <Content Include="Secure\Documents.aspx" />
     <Content Include="Secure\Documents\UserGuideVideo\Askep - Mapping Master SDKI.mp4" />
     <Content Include="Secure\Documents\UserGuideVideo\Farmasi - Template Racikan.mp4" />
@@ -833,7 +841,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
