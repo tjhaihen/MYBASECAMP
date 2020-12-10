@@ -76,7 +76,8 @@ Namespace QIS.Web
                     responseDescription.Text = .responseDescription.Trim
                     responseBy.Text = .userNameUpdateResponse.Trim
                     datenow.Text = DateTime.Now.ToString("dd-MMMM-yyyy hh\:mm")
-                    userprint.Text = Me.LoggedOnUserName.Trim
+                    userprint.Text = .userNameprint.Trim
+                    'userprint.Text = Me.LoggedOnUserName.Trim
                     medinfrasteam.Text = .userNameUpdateResponse.Trim
                     issueConfirmStatus.Text = .issueConfirmStatusName.Trim
                 End If

@@ -271,26 +271,6 @@ Namespace QIS.Web
             End Get
         End Property
 
-        Public ReadOnly Property LoggedOnUserName() As String
-            Get
-                Dim moduleSet As DataSet
-                Dim moduleTable As DataTable
-                Dim UID As String = String.Empty
-
-                moduleSet = PB_CacheLoggedOnUser
-                If moduleSet Is Nothing Then
-                    UID = String.Empty
-                Else
-                    moduleTable = moduleSet.Tables("User")
-                    If (moduleTable.Rows.Count = 1) Then
-                        UID = CType(moduleTable.Rows(0)("userName"), String)
-                    End If
-                End If
-
-                Return UID.Trim
-            End Get
-        End Property
-
         Public ReadOnly Property IDProject() As String
             Get
                 Dim moduleSet As DataSet
