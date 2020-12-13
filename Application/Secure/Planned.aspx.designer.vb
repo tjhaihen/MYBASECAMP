@@ -276,15 +276,6 @@ Namespace QIS.Web
         Protected WithEvents lblProgress As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
-        '''lblPICAssigned control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents lblPICAssigned As Global.System.Web.UI.WebControls.Label
-
-        '''<summary>
         '''pnlAddNew control.
         '''</summary>
         '''<remarks>

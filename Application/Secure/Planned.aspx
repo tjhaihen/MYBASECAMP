@@ -170,15 +170,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 60%;">
-                            <table>
+                        <td style="width: 100%;">
+                            <table width="100%">
                                 <tr>
                                     <td style="width: 100;">
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <Module:CSSToolbar ID="CSSToolbar" runat="server">
-                                                    </Module:CSSToolbar>
+                                                    <Module:CSSToolbar ID="CSSToolbar" runat="server"></Module:CSSToolbar>
                                                 </td>
                                             </tr>
                                         </table>
@@ -193,15 +192,18 @@
                                                     <Module:Calendar ID="calStartDate" runat="server" DontResetDate="true" />
                                                     &nbsp;to&nbsp;
                                                     <Module:Calendar ID="calEndDate" runat="server" DontResetDate="true" />
-                                                    &nbsp;to&nbsp;
-
-                                                    <%--tambah checkbox is assigned to me--%>
-                                                    <asp:CheckBox ID="chkIsAssignedToMe" runat="server" Text=" Is Assigned To Me" AutoPostBack="true" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <asp:CheckBox ID="chkIsAssignedToMe" runat="server" Text="Assigned to Me" AutoPostBack="true" />
                                                 </td>
                                             </tr>
                                         </table>
                                     </td>
-                                    <td valign="top" class="right">
+                                    <td valign="top" align="right">
                                         <table style="background: #dddddd;" cellspacing="1" cellpadding="2">
                                             <tr>
                                                 <td style="background: #ffffff; width: 100;" class="center">
@@ -219,12 +221,6 @@
                                                 <td style="background: #ffffff; width: 100; font-weight: bold;" class="center">
                                                     Progress
                                                 </td>
-                                                <%--<td style="background: #ffffff; width: 100;" class="center">
-                                                    Display
-                                                </td>--%>
-                                                <td style="background: #ffffff; width: 100;" class="center">
-                                                    PIC Assigned
-                                                </td>
                                             </tr>
                                             <tr>
                                                 <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
@@ -241,12 +237,6 @@
                                                 </td>
                                                 <td style="background: #ffffff; width: 100; font-size: 24; font-weight: bold;" class="center">
                                                     <asp:Label ID="lblProgress" runat="server"></asp:Label>&nbsp;%
-                                                </td>
-                                                <%--<td style="background: #ffffff; width: 100;" class="center">
-                                                    <asp:CheckBox ID="chkIsOpenOnly" runat="server" Text="Open" AutoPostBack="true" />
-                                                </td>--%>
-                                                <td style="background: #ffffff; width: 100; font-size: 24; font-weight: bold;" class="center">
-                                                    <asp:Label ID="lblPICAssigned" runat="server"></asp:Label>&nbsp;
                                                 </td>
                                             </tr>
                                         </table>
@@ -606,7 +596,8 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="hseparator"></td>
+                                                    <td class="hseparator">
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="txtweak">
@@ -616,8 +607,7 @@
                                             </table>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    
-                                    <%--<asp:TemplateColumn runat="server" HeaderText="Project" ItemStyle-Width="100" ItemStyle-VerticalAlign="Top">
+                                    <asp:TemplateColumn runat="server" HeaderText="Project" ItemStyle-Width="100" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <table cellspacing="0">
                                                 <tr>
@@ -636,7 +626,7 @@
                                                 </tr>
                                             </table>
                                         </ItemTemplate>
-                                    </asp:TemplateColumn>--%>
+                                    </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Description" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
                                             <%# DataBinder.Eval(Container.DataItem, "issueDescription")%>
@@ -645,11 +635,37 @@
                                     <asp:TemplateColumn runat="server" HeaderText="Reported By" ItemStyle-Width="100"
                                         ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
-                                            <div class="txtweak">
-                                                <%# DataBinder.Eval(Container.DataItem, "reportedBy")%>
-                                                <br />
-                                                on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %>
-                                            </div>
+                                            <table>
+                                                <tr>
+                                                    <td class="txtweak">
+                                                        <%# DataBinder.Eval(Container.DataItem, "reportedBy")%>
+                                                        <br />
+                                                        on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="hseparator">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="txtweak">
+                                                        Created by:&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameInsert")%>
+                                                        <br />
+                                                        on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "insertDate"),"dd-MMM-yyyy") %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="hseparator">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="txtweak">
+                                                        Updated by:&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameUpdate")%>
+                                                        <br />
+                                                        on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "updateDate"),"dd-MMM-yyyy") %>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Type" ItemStyle-Width="60" ItemStyle-VerticalAlign="Top">
@@ -677,16 +693,14 @@
                                                         <%# Format(DataBinder.Eval(Container.DataItem, "targetDate"),"dd-MMM-yyyy") %>
                                                     </td>
                                                 </tr>
-
-                                                
-                                                <%--<tr>
+                                                <tr>
                                                     <td class="txtweak center">
                                                         <p id="rcorners1">
                                                             Due:
                                                             <%# DataBinder.Eval(Container.DataItem, "dueToTargetDateAgeInDay")%>
                                                             d</p>
                                                     </td>
-                                                </tr>--%>
+                                                </tr>
                                             </table>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
@@ -715,8 +729,7 @@
         <tr>
             <td valign="bottom" colspan="3">
                 <!-- BEGIN PAGE FOOTER-->
-                <Module:Copyright ID="mdlCopyRight" runat="server" PathPrefix="..">
-                </Module:Copyright>
+                <Module:Copyright ID="mdlCopyRight" runat="server" PathPrefix=".."></Module:Copyright>
                 <!-- END PAGE FOOTER-->
             </td>
         </tr>

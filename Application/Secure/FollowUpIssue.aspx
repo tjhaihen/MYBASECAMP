@@ -681,10 +681,37 @@
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Reported By" ItemStyle-Width="100" ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
-                                            <div class="txtweak">
-                                                <%# DataBinder.Eval(Container.DataItem, "reportedBy")%>
-                                                <br />
-                                                on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %></div>
+                                            <table>
+                                                <tr>
+                                                    <td class="txtweak">
+                                                        <%# DataBinder.Eval(Container.DataItem, "reportedBy")%>
+                                                        <br />
+                                                        on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="hseparator">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="txtweak">
+                                                        Created by:&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameInsert")%>
+                                                        <br />
+                                                        on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "insertDate"),"dd-MMM-yyyy") %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="hseparator">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="txtweak">
+                                                        Updated by:&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameUpdate")%>
+                                                        <br />
+                                                        on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "updateDate"),"dd-MMM-yyyy") %>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Type" ItemStyle-Width="60" ItemStyle-VerticalAlign="Top">

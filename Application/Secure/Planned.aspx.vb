@@ -45,13 +45,10 @@ Namespace QIS.Web
                 PrepareScreen()
 
                 SetDataGrid()
-                TotalPlanned()
-                'If ReadQueryString() Then
-
+                
                 pnlAddNew.Visible = False
                 pnlIssueResponse.Visible = False
                 GetTasksByUserID()
-                'End If
             End If
         End Sub
 
@@ -79,14 +76,12 @@ Namespace QIS.Web
             Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/IssueStudy.aspx')</script>")
         End Sub
 
-        '--percobaan
         Private Sub btnClose_Click(sender As Object, e As System.EventArgs) Handles btnClose.Click
             PrepareScreenAddNew()
             'SetDataGrid()
             pnlAddNew.Visible = False
         End Sub
 
-        '--percobaan
         Private Sub btnSaveAndClose_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndClose.Click
             _updateIssue()
             PrepareScreenAddNew()
@@ -94,14 +89,12 @@ Namespace QIS.Web
             SetDataGrid()
         End Sub
 
-        '--percobaan
         Private Sub Response_btnClose_Click(sender As Object, e As System.EventArgs) Handles Response_btnClose.Click
             PrepareScreenIssueResponse()
             'SetDataGrid()
             pnlIssueResponse.Visible = False
         End Sub
 
-        '--percobaan
         Private Sub Response_btnSaveAndClose_Click(sender As Object, e As System.EventArgs) Handles Response_btnSaveAndClose.Click
             _updateIssueResponse()
             PrepareScreenIssueResponse()
@@ -110,7 +103,6 @@ Namespace QIS.Web
             SetDataGrid()
         End Sub
 
-        '--percobaan 
         Private Sub grdIssueByFilter_ItemCommand(source As Object, e As System.Web.UI.WebControls.DataGridCommandEventArgs) Handles grdIssueByFilter.ItemCommand
             Select Case e.CommandName
                 Case "Edit"
@@ -161,12 +153,6 @@ Namespace QIS.Web
         End Function
 
         Private Sub SetDataGrid()
-            'Dim decTotalIssue As Decimal = 0D
-            'Dim decTotalOpen As Decimal = 0D
-            'Dim decTotalDevFinish As Decimal = 0D
-            'Dim decTotalFinish As Decimal = 0D
-            'Dim decProgress As Decimal = 0D
-
             Dim oBR As New Common.BussinessRules.Issue
             Dim oDT As New DataTable
             grdIssueByFilter.DataSource = oBR.SelectByPlanned(Me.LoggedOnUserID.Trim, calStartDate.selectedDate, calEndDate.selectedDate, chkIsAssignedToMe.Checked)
@@ -174,26 +160,7 @@ Namespace QIS.Web
             oBR.Dispose()
             oBR = Nothing
 
-            'If oBR.SummaryisPlanned(calStartDate.selectedDate, calEndDate.selectedDate, chkIsAssignedToMe.Checked).Rows.Count > 0 Then
-            '    decTotalIssue = oBR.totalIssue
-            '    decTotalOpen = oBR.totalOpen
-            '    decTotalDevFinish = oBR.totalDevFinish
-            '    decTotalFinish = oBR.totalFinish
-
-            '    If decTotalIssue = 0 Then
-            '        decProgress = 100
-            '    Else
-            '        decProgress = (decTotalFinish / decTotalIssue) * 100
-            '    End If
-            'End If
-            'oBR.Dispose()
-            'oBR = Nothing
-
-            'lblTotalIssue.Text = decTotalIssue.ToString.Trim
-            'lblTotalOpen.Text = decTotalOpen.ToString.Trim
-            'lblTotalDevFinish.Text = decTotalDevFinish.ToString.Trim
-            'lblTotalFinish.Text = decTotalFinish.ToString.Trim
-            'lblProgress.Text = Format(decProgress, "##0")
+            TotalPlanned()
         End Sub
 
         'Private Sub chkIsAssignedToMe_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkIsAssignedToMe.CheckedChanged
@@ -246,7 +213,6 @@ Namespace QIS.Web
             chkIsAssignedToMe.Checked = False
         End Sub
 
-        '--percobaan
         Private Sub PrepareScreenAddNew()
             lblIssueID.Text = String.Empty
             txtDepartmentName.Text = String.Empty
@@ -334,7 +300,6 @@ Namespace QIS.Web
             oBR = Nothing
         End Sub
 
-        '--percobaan
         Private Sub _openIssueForResponse()
             Dim oBR As New Common.BussinessRules.Issue
             With oBR
@@ -351,7 +316,6 @@ Namespace QIS.Web
             oBR = Nothing
         End Sub
 
-        '--percobaan
         Private Sub _updateIssue()
             Page.Validate()
             If Not Page.IsValid Then Exit Sub
@@ -386,7 +350,6 @@ Namespace QIS.Web
             oBR = Nothing
         End Sub
 
-        '--percobaan
         Private Sub _updateIssueResponse()
             Page.Validate()
             If Not Page.IsValid Then Exit Sub
@@ -427,8 +390,6 @@ Namespace QIS.Web
                 decTotalOpen = oBR.totalOpen
                 decTotalDevFinish = oBR.totalDevFinish
                 decTotalFinish = oBR.totalFinish
-                decPICAssigned = oBR.PICAssigned
-
 
                 If decTotalIssue = 0 Then
                     decProgress = 100
@@ -444,7 +405,6 @@ Namespace QIS.Web
             lblTotalDevFinish.Text = decTotalDevFinish.ToString.Trim
             lblTotalFinish.Text = decTotalFinish.ToString.Trim
             lblProgress.Text = Format(decProgress, "##0")
-            lblPICAssigned.Text = decPICAssigned.ToString.Trim
         End Sub
 #End Region
 
@@ -455,12 +415,3 @@ Namespace QIS.Web
     End Class
 
 End Namespace
-
-'Public Class Myday
-'    Inherits System.Web.UI.Page
-
-'    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-
-'    End Sub
-
-'End Class

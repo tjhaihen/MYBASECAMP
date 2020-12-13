@@ -501,12 +501,10 @@ Namespace QIS.Web
             txtKeywords.Text = String.Empty
             calReportedDate.selectedDate = Date.Today
             txtReportedBy.Text = String.Empty
-            txtCreatedBy.Text = String.Empty
             ddlIssueType.SelectedIndex = 0
             ddlIssueStatus.SelectedIndex = 0
             ddlIssuePriority.SelectedIndex = 0
             ddlIssueConfirmStatus.SelectedIndex = 0
-            'ddlUserIDAssignedTo.SelectedValue = MyBase.LoggedOnUserID.Trim
             ddlUserIDAssignedTo.SelectedIndex = 0
             calEstStartDate.selectedDate = Date.Today
             calTargetDate.selectedDate = Date.Today
@@ -710,7 +708,6 @@ Namespace QIS.Web
                     txtKeywords.Text = .Keywords.Trim
                     calReportedDate.selectedDate = .ReportedDate
                     txtReportedBy.Text = .ReportedBy.Trim
-                    txtCreatedBy.Text = .CreatedBy.Trim
                     ddlProductRoadmap.SelectedValue = .ProductRoadmapSCode.Trim
                     ddlIssueType.SelectedValue = .IssueTypeSCode.Trim
                     ddlIssueStatus.SelectedValue = .IssueStatusSCode.Trim
@@ -803,7 +800,6 @@ Namespace QIS.Web
                 .Keywords = txtKeywords.Text.Trim
                 .ReportedDate = calReportedDate.selectedDate
                 .ReportedBy = txtReportedBy.Text.Trim
-                .CreatedBy = txtCreatedBy.Text.Trim
                 .ProductRoadmapSCode = ddlProductRoadmap.SelectedValue.Trim
                 .IssueTypeSCode = ddlIssueType.SelectedValue.Trim
                 .IssueStatusSCode = ddlIssueStatus.SelectedValue.Trim

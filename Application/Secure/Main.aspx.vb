@@ -51,6 +51,7 @@ Namespace QIS.Web
 
             End If
         End Sub
+
         Protected Sub repMyProjectGroups_ItemDataBound(sender As Object, e As System.Web.UI.WebControls.RepeaterItemEventArgs) Handles repMyProjectGroups.ItemDataBound
             If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
                 Dim row As DataRowView = CType(e.Item.DataItem, DataRowView)
@@ -60,7 +61,7 @@ Namespace QIS.Web
 
 
                 Dim dtMyProjects As DataTable = Me.GetProjectByProjectGroupID(row("projectGroupID").ToString.Trim, chkIsMyAssignment.Checked)
-                If dtMyProjects.Rows.Count > 0 Then                    
+                If dtMyProjects.Rows.Count > 0 Then
                     repMyProjects.DataSource = dtMyProjects
                     repMyProjects.DataBind()
                 End If
@@ -118,12 +119,15 @@ Namespace QIS.Web
                     '-- penambahan di menu.aspx.vb
                 Case "schedule"
                     Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
+                    Dim _lblProjectAliasName As Label = CType(e.Item.FindControl("_lblProjectAliasName"), Label)
                     lblProjectID.Text = _lblProjectID.Text.Trim
+                    lblProjectAliasName.Text = _lblProjectAliasName.Text.Trim
                     calNextUpdateDate.selectedDate = Date.Now
                     txtNextUpdateRemarks.Text = String.Empty
                     pnlschedule.Visible = True
             End Select
         End Sub
+
         Private Sub btnSave_Click(sender As Object, e As System.EventArgs) Handles btnSave.Click
             pnlschedule.Visible = False
             _saveIssue()
@@ -146,8 +150,6 @@ Namespace QIS.Web
             oBR.Dispose()
             oBR = Nothing
         End Sub
-
-
 
         Private Sub btnClose_Click(sender As Object, e As System.EventArgs) Handles btnClose.Click
             pnlschedule.Visible = False
@@ -238,7 +240,6 @@ Namespace QIS.Web
             lblUrgentsTotal.Text = GetUrgentIssuesCount().ToString.Trim
         End Sub
 
-        'percobaan ORDER tampilan Project
         Private Function GetProjectByProjectGroupID(ByVal ProjectGroupID As String, ByVal IsAssignedOnly As Boolean) As DataTable
             Dim dt As DataTable
             Dim oPU As New Common.BussinessRules.ProjectUser
