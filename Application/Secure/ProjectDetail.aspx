@@ -446,7 +446,7 @@
                                                     </td>
                                                     <%--tambah checkbox is planned--%>
                                                     <td style="width: 100; background: #ffffff;">
-                                                        <asp:CheckBox ID="chkIsPlanned" runat="server" Text=" IsPlanned" ForeColor="Red" />
+                                                        <asp:CheckBox ID="chkIsPlanned" runat="server" Text="Planned" ForeColor="Red" />
                                                     </td>
                                                     <td style="width: 140; background: #ffffff;">
                                                     </td>

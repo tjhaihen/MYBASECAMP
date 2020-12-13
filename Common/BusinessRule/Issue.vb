@@ -13,12 +13,12 @@ Namespace QIS.Common.BussinessRules
 #Region " Class Member Declarations "
         Private _issueID, _projectID, _departmentName, _issueDescription, _NextUpdateRemarks, _issueTypeSCode, _issueStatusSCode, _keywords,
             _renponseID, _responseTypeSCode, _responseTypeName, _responseDescription, _userIDupdateResponse, _userNameUpdateResponse, _userIDprint,
-            _userNameprint, _responseDuration, _issuePriorityName, _issueTypeName, _issueConfirmStatusName, _issueStatusName, _responseTime2 As String
+            _userNameprint, _responseDuration, _issuePriorityName, _issueTypeName, _issueConfirmStatusName, _issueStatusName, _responseTime, _responseTime2 As String
         Private _issuePrioritySCode, _issueConfirmStatusSCode, _reportedBy, _userIDassignedTo, _assignedBy, _patchNo As String
         Private _reportedDate As DateTime
         Private _userIDinsert, _userIDupdate As String
         Private _insertDate, _updateDate, _assignedDate As DateTime
-        Private _estStartDate, _targetDate, _finishDate, _NextUpdateDate, _responseDate, _updateDateResponse, _responseTime As Date
+        Private _estStartDate, _targetDate, _finishDate, _NextUpdateDate, _responseDate, _updateDateResponse As Date
         Private _isUrgent, _isSpecific, _isPlanned As Boolean
 
         Private _totalIssue, _totalOpen, _totalDevFinish, _totalFinish As Decimal
@@ -400,41 +400,12 @@ Namespace QIS.Common.BussinessRules
                     _issueConfirmStatusName = CType(toReturn.Rows(0)("issueConfirmStatusName"), String)
                     _responseDate = CType(toReturn.Rows(0)("responseDate"), DateTime)
                     _responseTime2 = CType(toReturn.Rows(0)("responseTimeStart"), String)
-                    _responseTime = CType(toReturn.Rows(0)("responseTimeStart"), DateTime)
+                    _responseTime = CType(toReturn.Rows(0)("responseTimeStart"), String)
                     _responseDuration = CType(toReturn.Rows(0)("responseDuration"), String)
                     _responseDescription = CType(toReturn.Rows(0)("responseDescription"), String)
                     _userNameUpdateResponse = CType(toReturn.Rows(0)("userNameUpdateResponse"), String)
                     _userIDprint = CType(toReturn.Rows(0)("userIDprint"), String)
-                    _userNameprint = CType(toReturn.Rows(0)("userNameprint"), String)
-                    '_projectDescription = CType(toReturn.Rows(0)("projectDescription "), String)
-                    '_projectID = CType(toReturn.Rows(0)("projectID"), String)
-                    '_issueTypeSCode = CType(toReturn.Rows(0)("issueTypeSCode"), String)
-                    '_issueStatusSCode = CType(toReturn.Rows(0)("IssueStatusSCode"), String)
-                    '_issuePrioritySCode = CType(toReturn.Rows(0)("issuePrioritySCode"), String)
-                    '_issueConfirmStatusSCode = CType(toReturn.Rows(0)("issueConfirmStatusSCode"), String)
-                    '_userIDassignedTo = CType(toReturn.Rows(0)("userIDassignedTo"), String)
-                    '_userIDinsert = CType(toReturn.Rows(0)("userIDinsert"), String)
-                    '_insertDate = CType(toReturn.Rows(0)("insertDate"), DateTime)
-                    '_userIDupdate = CType(toReturn.Rows(0)("userIDupdate"), String)
-                    '_updateDate = CType(toReturn.Rows(0)("updateDate"), DateTime)
-                    '_assignedBy = CType(toReturn.Rows(0)("assignedBy"), String)
-                    '_assignedDate = CType(toReturn.Rows(0)("assignedDate"), DateTime)
-                    '_targetDate = CType(toReturn.Rows(0)("targetDate"), DateTime)
-                    '_finishDate = CType(toReturn.Rows(0)("finishDate"), DateTime)
-                    '_isUrgent = CType(toReturn.Rows(0)("isUrgent"), Boolean)
-                    '_keywords = CType(toReturn.Rows(0)("keywords"), String)
-                    '_isSpecific = CType(toReturn.Rows(0)("isSpecific"), Boolean)
-                    '_patchNo = CType(toReturn.Rows(0)("patchNo"), String)
-                    '_estStartDate = CType(toReturn.Rows(0)("estStartDate"), DateTime)
-                    '_productRoadmapSCode = CType(toReturn.Rows(0)("productRoadmapSCod"), String)
-                    '_isPlanned = CType(toReturn.Rows(0)("isPlanned"), Boolean)
-                    '_createdBy = CType(toReturn.Rows(0)("createdBy"), String)
-                    '_renponseID = CType(toReturn.Rows(0)("renponseID"), String)
-                    '_responseTypeSCode = CType(toReturn.Rows(0)("responseTypeSCode"), String)
-                    '_responseTypeName = CType(toReturn.Rows(0)("responseTypeName"), String)
-                    '_userIDupdateResponse = CType(toReturn.Rows(0)("userIDupdateResponse"), String)
-                    '_updateDateResponse = CType(toReturn.Rows(0)("updateDateResponse"), String)
-                   
+                    _userNameprint = CType(toReturn.Rows(0)("userNameprint"), String)                   
                 End If
             Catch ex As Exception
                 ' // some error occured. Bubble it to caller and encapsulate Exception object
@@ -1648,11 +1619,11 @@ Namespace QIS.Common.BussinessRules
             End Set
         End Property
 
-        Public Property [responseTime]() As DateTime
+        Public Property [responseTime]() As String
             Get
                 Return _responseTime
             End Get
-            Set(ByVal Value As DateTime)
+            Set(ByVal Value As String)
                 _responseTime = Value
             End Set
         End Property
