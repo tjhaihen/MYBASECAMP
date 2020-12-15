@@ -47,10 +47,13 @@ Namespace QIS.Web
                 fQueryStringExist = ReadQueryString()
                 If fQueryStringExist Then
                     issueid.Text = idp.Trim
-                     _printticket()
+                    _printticket()
+                    _userupdateresponse()
 
                 End If
             End If
+
+            SetDataGrid()
         End Sub
 
         '--percobaan print ticket
@@ -67,21 +70,39 @@ Namespace QIS.Web
                     reportedBy.Text = .ReportedBy.Trim
                     reportedDate.Text = .ReportedDate.ToString("dd-MMMM-yyyy").Trim
                     issueDescription.Text = .IssueDescription.Trim
+                    targetdate.Text = .targetDate.ToString("dd-MMMM-yyyy").Trim
                     issuePriorityName.Text = .issuePriorityName.Trim
                     issueStatus.Text = .issueStatusName.Trim
                     issueType.Text = .issueTypeName.Trim
-                    responseDate.Text = .responseDate.ToString("dd-MMMM-yyyy").Trim
-                    responseTime.Text = .responseTime.ToString("hh\:mm").Trim
-                    responseDuration.Text = .responseDuration.Trim
-                    responseDescription.Text = .responseDescription.Trim
-                    responseBy.Text = .userNameUpdateResponse.Trim
                     datenow.Text = DateTime.Now.ToString("dd-MMMM-yyyy hh\:mm")
                     userprint.Text = .userNameprint.Trim
-                    'userprint.Text = Me.LoggedOnUserName.Trim
-                    medinfrasteam.Text = .userNameUpdateResponse.Trim
+                    'medinfrasteam.Text = .userNameUpdateResponse.Trim
                     issueConfirmStatus.Text = .issueConfirmStatusName.Trim
                 End If
             End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
+        '--percobaan print ticket
+        Private Sub _userupdateresponse()
+            Dim oBR As New Common.BussinessRules.Issue
+            With oBR
+                .IssueID = issueid.Text.Trim
+                .userIDprint = MyBase.LoggedOnUserID.Trim 'userIDprint.Text.Trim
+                If .ambilupdatenameresponse.Rows.Count > 0 Then
+                    medinfrasteam.Text = .userNameUpdateResponse.Trim
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
+        Private Sub SetDataGrid()
+            Dim oBR As New Common.BussinessRules.Issue
+            oBR.IssueID = issueid.Text.Trim
+            grdPrintIssueResponse.DataSource = oBR.ambilresponse()
+            grdPrintIssueResponse.DataBind()
             oBR.Dispose()
             oBR = Nothing
         End Sub

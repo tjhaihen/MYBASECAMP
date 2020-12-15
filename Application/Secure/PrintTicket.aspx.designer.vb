@@ -87,6 +87,15 @@ Namespace QIS.Web
         Protected WithEvents issueDescription As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
+        '''targetdate control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents targetdate As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''issuePriorityName control.
         '''</summary>
         '''<remarks>
@@ -123,49 +132,13 @@ Namespace QIS.Web
         Protected WithEvents issueConfirmStatus As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
-        '''responseDate control.
+        '''grdPrintIssueResponse control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents responseDate As Global.System.Web.UI.WebControls.Label
-
-        '''<summary>
-        '''responseTime control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents responseTime As Global.System.Web.UI.WebControls.Label
-
-        '''<summary>
-        '''responseDuration control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents responseDuration As Global.System.Web.UI.WebControls.Label
-
-        '''<summary>
-        '''responseDescription control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents responseDescription As Global.System.Web.UI.WebControls.Label
-
-        '''<summary>
-        '''responseBy control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents responseBy As Global.System.Web.UI.WebControls.Label
+        Protected WithEvents grdPrintIssueResponse As Global.System.Web.UI.WebControls.DataGrid
 
         '''<summary>
         '''datenow control.

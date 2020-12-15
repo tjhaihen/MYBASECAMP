@@ -5,8 +5,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Print_Issue_Ticket</title>
-    <%--<link href="../Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="../Content/bootstrap.css" rel="stylesheet" type="text/css" />--%>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
     <style type="text/css">
@@ -15,6 +13,13 @@
     		width: 11%;
     		margin-bottom: 3%
     	}
+    	    
+    	.Grid td{
+            background-color: #fff;
+            padding: 5px 5px;
+            
+           
+         }
     </style>
 </head>
 <body style="margin-top: 3%; margin-bottom: 3%">
@@ -69,24 +74,30 @@
 	   		<thead>
     			<th colspan="10" class="table-info">Masalah Dilaporkan</th>
     		</thead>
-    		<tr>
-    			<td>Deskripsi</td>
+            <tr>
+                <td width="14%"><b>Deskripsi</b></td>
     			<td>:</td>
-    			<td colspan="7"><asp:Label ID="issueDescription" runat="server"  Visible="true"></asp:Label></td>
+    			<td  width="50%"><asp:Label ID="issueDescription" runat="server"  Visible="true"></asp:Label></td>
+
+    			<td width="14%"><b>Tanggal Target</b></td>
+    			<td>:</td>
+    			<td><asp:Label ID="targetdate" runat="server"  Visible="true"></asp:Label></td>
     		</tr>
     		<tr>
-    			<td width="20%">Prioritas</td>
+    			<td width="14%"><b>Prioritas</b></td>
     			<td>:</td>
     			<td  width="50%"><asp:Label ID="issuePriorityName" runat="server"  Visible="true"></asp:Label></td>
-    			<td width="20%">Status Masalah</td>
+
+    			<td width="14%"><b>Status Masalah</b></td>
     			<td>:</td>
     			<td><asp:Label ID="issueStatus" runat="server"  Visible="true"></asp:Label></td>
     		</tr>
     		<tr>
-    			<td width="20%">Tipe</td>
+    			<td width="14%"><b>Tipe</b></td>
     			<td>:</td>
     			<td width="50%"><asp:Label ID="issueType" runat="server"  Visible="true"></asp:Label></td>
-    			<td width="20%">Konfirmasi Status</td>
+
+    			<td width="14%"><b>Konfirmasi Status</b></td>
     			<td>:</td>
     			<td><asp:Label ID="issueConfirmStatus" runat="server"  Visible="true"></asp:Label></td>
     		</tr>
@@ -97,18 +108,60 @@
 	   		<th colspan="5" class="table-info">Tanggapan Masalah</th>
 	   		<th colspan="5" style="text-align: right" class="table-info">Tanggapan atas masalah yang dilaporkan dari Tim Medinfras</th>
 	   	</thead>
-	   <tr>
-	   		<td width="20%"><b>Tanggal dan Waktu</b></td>
+	   <%--<tr style="border-bottom: 1px solid #d9d4d4;">
+	   		<td width="27%"><b>Tanggal dan Waktu</b></td>
 	   		<td colspan="8"><b>Deskripsi Tanggapan</b></td>
-	   		<td width="17%"><b>Tanggapan Oleh</b></td>
-	   	</tr>
+	   		<td width="36%"><b>Tanggapan Oleh</b></td>
+	   	</tr>--%>
 	   	<tr>
-	   		<td width="15%"><asp:Label ID="responseDate" runat="server"  Visible="true"></asp:Label> <br>  
-                            <asp:Label ID="responseTime" runat="server"  Visible="true"></asp:Label> - <asp:Label ID="responseDuration" runat="server"  Visible="true"></asp:Label> min.
-            </td>
-	   		<td colspan="8"><asp:Label ID="responseDescription" runat="server"  Visible="true"></asp:Label></td>
-	   		<td width="15%"><asp:Label ID="responseBy" runat="server"  Visible="true"></asp:Label></td>
-	   	</tr>
+       <asp:DataGrid ID="grdPrintIssueResponse" runat="server"  GridLines="None" Width="100%" ShowHeader="true" ShowFooter="false" 
+            AutoGenerateColumns="false" CssClass="Grid" >
+                <Columns>
+                <asp:TemplateColumn runat="server" HeaderText="Tanggal dan Waktu" ItemStyle-Width="30" HeaderStyle-Font-Bold="true">
+                
+                        <ItemTemplate>
+
+                            <table>
+                                    <tr >
+                                        <td >
+                                         <%# Format(DataBinder.Eval(Container.DataItem, "responseDate"), "dd-MMMM-yyyy")%><br>
+                                         <%# DataBinder.Eval(Container.DataItem, "responseTimeStart")%>
+                                         - <%# DataBinder.Eval(Container.DataItem, "responseDuration")%> min.
+                                        </td>
+                                    </tr>
+                            </table>
+                        </ItemTemplate>
+                    </asp:TemplateColumn>
+                    
+
+                    <asp:TemplateColumn runat="server" HeaderText="Deskripsi Tanggapan"  ItemStyle-Width="50" ItemStyle-VerticalAlign="Top" HeaderStyle-Font-Bold="true" >
+                        <ItemTemplate>
+                        <table>
+                                    <tr>
+                                        <td  >
+                                          <%# DataBinder.Eval(Container.DataItem, "responseDescription")%>
+                                        </td>
+                                    </tr>
+                            </table>
+                           
+                        </ItemTemplate>
+                    </asp:TemplateColumn>
+
+                    <asp:TemplateColumn runat="server" HeaderText="Tanggapan Oleh" ItemStyle-Width="30" ItemStyle-VerticalAlign="Top" HeaderStyle-Font-Bold="true"  >
+                        <ItemTemplate>
+                        <table>
+                                    <tr>
+                                        <td>
+                                          <%# DataBinder.Eval(Container.DataItem, "userNameUpdateResponse")%>
+                                        </td>
+                                    </tr>
+                            </table>
+                        </ItemTemplate>
+                    </asp:TemplateColumn>
+
+                </Columns>
+</asp:DataGrid>
+        </tr>
    </table>
 
  <table class="table">
