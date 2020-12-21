@@ -200,7 +200,7 @@
                                     <tr>
                                         <td colspan="2" class="Title" style="background: #ffffff;">
                                             <asp:Label ID="lblProjectID" runat="server" Visible="false"></asp:Label>
-                                            Project:&nbsp;<asp:Label ID="lblProjectAliasName" runat="server" Visible="false"></asp:Label>
+                                            Project:&nbsp;<asp:Label ID="lblProjectAliasName" runat="server"></asp:Label>
                                         </td>
                                     </tr>
                                     <tr>

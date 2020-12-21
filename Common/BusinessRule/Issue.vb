@@ -875,7 +875,6 @@ Namespace QIS.Common.BussinessRules
 
         Public Function SelectByUrgent(ByVal strUserIDAssignedTo As String) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
-            'cmdToExecute.CommandText = "spSelectIssueUrgent"
             cmdToExecute.CommandText = "spSelectIssueUrgent"
             cmdToExecute.CommandType = CommandType.StoredProcedure
 

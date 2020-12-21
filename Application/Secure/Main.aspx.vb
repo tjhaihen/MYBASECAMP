@@ -48,7 +48,6 @@ Namespace QIS.Web
                 GetProjectsByUserID(chkIsMyAssignment.Checked)
                 GetTasksByUserID()
                 pnlschedule.Visible = False
-
             End If
         End Sub
 
@@ -78,26 +77,6 @@ Namespace QIS.Web
             End If
         End Sub
 
-        '--print beneran
-        'Protected Sub repMyProjects_ItemCommand(source As Object, e As System.Web.UI.WebControls.RepeaterCommandEventArgs)
-        '    Select Case e.CommandName
-        '        Case "ViewDetail"
-        '            Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
-        '            Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/ProjectDetail.aspx/?&idp=" + chkIsMyAssignment.Checked.ToString.Trim + "&userID=" + MyBase.LoggedOnUserID.Trim + "&projectID=" + _lblProjectID.Text.Trim + "')</script>")
-        '            'Case "Print"
-        '            '    Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
-        '            '    Dim oRpt As New Common.BussinessRules.MyReport
-        '            '    With oRpt
-        '            '        .ReportCode = Common.Constants.ReportID.CustomerSupportWeeklyReport_ReportID
-        '            '        .AddParameters(_lblProjectID.Text.Trim)
-        '            '        Response.Write(.UrlPrintPreview(Context.Request.Url.Host))
-        '            '    End With
-        '            oRpt.Dispose()
-        '            oRpt = Nothing
-        '    End Select
-        'End Sub
-
-        '--print percobaan
         Protected Sub repMyProjects_ItemCommand(source As Object, e As System.Web.UI.WebControls.RepeaterCommandEventArgs)
             Select Case e.CommandName
                 Case "ViewDetail"
