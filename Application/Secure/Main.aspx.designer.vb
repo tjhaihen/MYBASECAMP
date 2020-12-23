@@ -213,6 +213,15 @@ Namespace QIS.Web
         Protected WithEvents lblProjectID As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
+        '''lblProjectAliasName control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblProjectAliasName As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''calNextUpdateDate control.
         '''</summary>
         '''<remarks>

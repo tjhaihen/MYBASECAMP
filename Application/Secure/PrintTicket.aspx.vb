@@ -61,7 +61,7 @@ Namespace QIS.Web
             Dim oBR As New Common.BussinessRules.Issue
             With oBR
                 .IssueID = issueid.Text.Trim
-                .userIDprint = MyBase.LoggedOnUserID.Trim 'userIDprint.Text.Trim
+                .userIDprint = MyBase.LoggedOnUserID.Trim
                 If .PrintTicket.Rows.Count > 0 Then
                     issueid.Text = .IssueID.Trim
                     projectaliasname.Text = .ProjectAliasName.Trim
@@ -77,6 +77,14 @@ Namespace QIS.Web
                     datenow.Text = DateTime.Now.ToString("dd-MMMM-yyyy hh\:mm")
                     userprint.Text = .userNameprint.Trim
                     'medinfrasteam.Text = .userNameUpdateResponse.Trim
+                    'responseDate.Text = .responseDate.ToString("dd-MMMM-yyyy").Trim
+                    'responseTime.Text = .responseTime.ToString.Trim
+                    'responseDuration.Text = .responseDuration.Trim
+                    'responseDescription.Text = .responseDescription.Trim
+                    'responseBy.Text = .userNameUpdateResponse.Trim
+                    datenow.Text = DateTime.Now.ToString("dd-MMMM-yyyy hh\:mm")
+                    userprint.Text = .userNameprint.Trim
+                    medinfrasteam.Text = .userNameUpdateResponse.Trim
                     issueConfirmStatus.Text = .issueConfirmStatusName.Trim
                 End If
             End With

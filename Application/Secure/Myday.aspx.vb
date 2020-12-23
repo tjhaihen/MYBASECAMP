@@ -36,7 +36,6 @@ Namespace QIS.Web
 
 #End Region
 
-
 #Region " Control Events "
         Private Sub Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
             If Not Me.IsPostBack Then
@@ -169,49 +168,6 @@ Namespace QIS.Web
         End Sub
 #End Region
 
-        '#Region " Support functions for navigation bar (Controls) "
-        '        Private Sub setToolbarVisibleButton()
-        '            With CSSToolbar
-        '                .VisibleButton(CSSToolbarItem.tidSave) = False
-        '                .VisibleButton(CSSToolbarItem.tidNew) = False
-        '                .VisibleButton(CSSToolbarItem.tidDelete) = False
-        '                .VisibleButton(CSSToolbarItem.tidApprove) = False
-        '                .VisibleButton(CSSToolbarItem.tidVoid) = False
-        '                .VisibleButton(CSSToolbarItem.tidPrint) = False
-        '                .VisibleButton(CSSToolbarItem.tidPrevious) = False
-        '                .VisibleButton(CSSToolbarItem.tidNext) = False
-        '                .VisibleButton(CSSToolbarItem.tidRefresh) = True
-        '                .VisibleButton(CSSToolbarItem.tidDownload) = True
-        '            End With
-        '        End Sub
-
-        '        Private Sub mdlToolbar_commandBarClick(ByVal sender As Object, ByVal e As CSSToolbarItem) Handles CSSToolbar.CSSToolbarItemClick
-        '            Select Case e
-        '                Case CSSToolbarItem.tidRefresh
-        '                    PrepareScreenAddNew()
-        '                    PrepareScreenIssueResponse()
-        '                    SetDataGrid()
-
-        '                Case CSSToolbarItem.tidDownload
-        '                    Dim oRPT As New Common.BussinessRules.MyReport
-        '                    oRPT.AddParameters(ddlProjectFilter.SelectedValue.Trim)
-        '                    oRPT.AddParameters(ddlIssueTypeFilter.SelectedValue.Trim)
-        '                    oRPT.AddParameters(ddlIssuePriorityFilter.SelectedValue.Trim)
-        '                    oRPT.AddParameters(ddlUserIDAssignedToFilter.SelectedValue.Trim)
-        '                    oRPT.AddParameters(ddlIssueStatusFilter.SelectedValue.Trim)
-        '                    oRPT.AddParameters(ddlIssueConfirmStatusFilter.SelectedValue.Trim)
-        '                    oRPT.AddParameters(chkIsUrgent.Checked.ToString.Trim)
-        '                    oRPT.ReportCode = Common.Constants.ReportID.ClientIssue_ReportID
-        '                    oRPT.GetReportDataByReportCode()
-        '                    If oRPT.ReportFormat = "XLS" Then
-        '                        oRPT.ExportToExcel(oRPT.generateReportDataTable, Response)
-        '                    End If
-        '                    oRPT.Dispose()
-        '                    oRPT = Nothing
-        '            End Select
-        '        End Sub
-        '#End Region
-
 #Region " Private Functions "
         Private Function ReadQueryString() As Boolean
 
@@ -225,31 +181,6 @@ Namespace QIS.Web
             oBR.Dispose()
             oBR = Nothing
         End Sub
-
-        'Private Sub CheckDateRange(ByVal tgl As DateTime, ByVal datepast As DateTime, ByVal dateFuture As DateTime)
-        '    datepast = DateTime.Now.AddYears(-3)
-        '    dateFuture = DateTime.Now.AddYears(3)
-
-        '    If (datepast <= tgl And tgl <= dateFuture) Then
-        '    End If
-        'End Sub
-
-        'Private Sub coba()
-        '    Dim str As String = "srt_inlbp_20130517"
-
-        '    Dim dTableDate As Date = _
-        '        Date.ParseExact(str.Substring(str.Length - 8), "yyyyMMdd", Nothing)
-
-        '    Dim dFromDate As New DateTime(1999, 1, 1)
-        '    Dim dToDate As New DateTime(2021, 1, 1)
-
-        '    If ((dTableDate >= dFromDate) And (dTableDate <= dToDate)) Then
-        '        Console.WriteLine("between")
-        '    Else
-        '        Console.WriteLine("not between")
-        '    End If
-        'End Sub
-
 
         Private Sub SetDataGridIssueResponse()
             Dim oBR As New Common.BussinessRules.IssueResponse
@@ -291,25 +222,6 @@ Namespace QIS.Web
             commonFunction.SetDDL_Table(ddlUserIDAssignedTo, "User", String.Empty)
         End Sub
 
-        'Private Sub PrepareScreen()
-        '    pnlAddNew.Visible = False
-        '    pnlIssueResponse.Visible = False
-        '    ddlIssueTypeFilter.SelectedIndex = 0
-        '    ddlIssuePriorityFilter.SelectedIndex = 0
-        '    ddlIssueStatusFilter.SelectedIndex = 0
-        '    ddlIssueConfirmStatusFilter.SelectedIndex = 0
-        '    ddlUserIDAssignedToFilter.SelectedIndex = 0
-
-        '    chkIsFilterByPeriod.Checked = True
-        '    chkIsUrgent.Checked = False
-
-        '    ddlPeriod.SelectedIndex = 0
-        '    pnlCustomPeriod.Visible = True
-        '    calStartDate.selectedDate = GetFirstDayForWeek(Date.Today, False)
-        '    calEndDate.selectedDate = Date.Today
-        'End Sub
-
-        '--percobaan
         Private Sub PrepareScreenAddNew()
             lblIssueID.Text = String.Empty
             txtDepartmentName.Text = String.Empty

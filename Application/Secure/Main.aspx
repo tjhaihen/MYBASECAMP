@@ -34,7 +34,7 @@
             border-radius: 10px;
             background: #eeeeee;
             width: 320px;
-            height: 220px;
+            height: 240px;
             margin: 3px;
             padding: 5px;
         }
@@ -56,7 +56,7 @@
         }
         #rcorners2 {
           border-radius: 5px;
-          background: #4bdfdf;
+          background: #acefe8;
           color: #000000;
           padding: 5px;
         }
@@ -188,71 +188,63 @@
                         <td class="hseparator">
                         </td>
                     </tr>
-                    
-                     <%--percobaan penambahan schedule di menu main.aspx--%>
-                                            <tr>
-                                                <td colspan="3">
-                                                    <asp:Panel ID="pnlschedule" runat="server">
-                                                        <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
-                                                            <tr>
-                                                                <td colspan="2" style="font-weight: bold;">
-                                                                    .:: Schedule
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="2" class="Title" style="background: #ffffff;">
-                                                                    Project ID #&nbsp;<asp:Label ID="lblProjectID" runat="server"></asp:Label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td style="width: 50%;" valign="top">
-                                                                    <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
-                                                                        <tr>
-                                                                            <td class="right" style="width: 120px; background: #ffffff;">
-                                                                                Next Update Date
-                                                                            </td>
-                                                                            <td style="background: #ffffff;">
-                                                                                <Module:Calendar ID="calNextUpdateDate" runat="server" DontResetDate="true" />
-                                                                                <%--<asp:RequiredFieldValidator ID="rfvNextUpdateDate" runat="server" Display="dynamic"
+                    <tr>
+                        <td colspan="3">
+                            <asp:Panel ID="pnlschedule" runat="server">
+                                <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
+                                    <tr>
+                                        <td colspan="2" style="font-weight: bold;">
+                                            .:: Schedule
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="Title" style="background: #ffffff;">
+                                            <asp:Label ID="lblProjectID" runat="server" Visible="false"></asp:Label>
+                                            Project:&nbsp;<asp:Label ID="lblProjectAliasName" runat="server"></asp:Label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 50%;" valign="top">
+                                            <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
+                                                <tr>
+                                                    <td class="right" style="width: 120px; background: #ffffff;">
+                                                        Next Update Date
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <Module:Calendar ID="calNextUpdateDate" runat="server" DontResetDate="true" />
+                                                        <%--<asp:RequiredFieldValidator ID="rfvNextUpdateDate" runat="server" Display="dynamic"
                                                                                     ErrorMessage="NextUpdateDate" ControlToValidate="calNextUpdateDate" CssClass="txterrmsg"
                                                                                     Text="required">
                                                                                 </asp:RequiredFieldValidator>--%>
-                                                                            </td>
-                                                                        </tr>
-
-                                                                        <tr>
-                                                                            <td class="right" style="background: #ffffff;">
-                                                                                Next Update Remarks
-                                                                            </td>
-                                                                            <td style="background: #ffffff;">
-                                                                                <asp:TextBox ID="txtNextUpdateRemarks" runat="server" TextMode="MultiLine" Width="360">
-                                                                                </asp:TextBox>
-                                                                               <%-- <asp:RequiredFieldValidator ID="rfvNextUpdateRemarks" runat="server" Display="dynamic"
-                                                                                    ErrorMessage="NextUpdateRemarks" ControlToValidate="txtNextUpdateRemarks" CssClass="txterrmsg"
-                                                                                    Text="required">
-                                                                                </asp:RequiredFieldValidator>--%>
-                                                                            </td>
-                                                                        </tr>
-
-                                                                         <tr>
-                                                                            <td colspan="4">
-                                                                                <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="sbttn"
-                                                                                    Width="100" />
-                                                                                <asp:Button ID="btnClose" runat="server" Text="Close" CssClass="sbttn" Width="100"
-                                                                                    CausesValidation="false" />
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </td>
-                                                                <td style="width: 50%;" valign="top">
-                                                                    <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </asp:Panel>
-                                                </td> 
-                                            </tr> 
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #ffffff;">
+                                                        Remarks
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:TextBox ID="txtNextUpdateRemarks" runat="server" TextMode="MultiLine" Width="360">
+                                                        </asp:TextBox>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4">
+                                                        <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="sbttn" Width="100" />
+                                                        <asp:Button ID="btnClose" runat="server" Text="Close" CssClass="sbttn" Width="100"
+                                                            CausesValidation="false" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="width: 50%;" valign="top">
+                                            <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </asp:Panel>
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <asp:Repeater ID="repMyProjectGroups" runat="server">
@@ -263,7 +255,8 @@
                                     <li>
                                         <table cellspacing="1" width="100%">
                                             <tr>
-                                                <td class="Heading3" style="width: 300; height: 30; background-color: #4adede; color: #555555; padding-left: 10;">
+                                                <td class="Heading3" style="width: 300; height: 30; background-color: #4adede; color: #555555;
+                                                    padding-left: 10;">
                                                     <%# DataBinder.Eval(Container.DataItem, "ProjectGroupName") %>
                                                 </td>
                                                 <td class="center" style="width: 100; height: 30; background-color: #787ff6; font-size: 18pt;">
@@ -283,9 +276,6 @@
                                                 <td style="background-image: url('/qistoollib/images/timeline_dot.png'); background-repeat: repeat-x;">
                                                 </td>
                                             </tr>
-
-                                            
-
                                             <tr>
                                                 <td colspan="3">
                                                     <asp:Repeater ID="repMyProjects" runat="server" OnItemCommand="repMyProjects_ItemCommand"
@@ -299,26 +289,20 @@
                                                                     <tr>
                                                                         <td class="Heading3" style="width: 50%;">
                                                                             <asp:Label ID="_lblProjectID" runat="server" Visible="false" Text='<%# DataBinder.Eval(Container.DataItem, "ProjectID") %>'></asp:Label>
-                                                                            <%# DataBinder.Eval(Container.DataItem, "ProjectAliasName") %>
+                                                                            <asp:Label ID="_lblProjectAliasName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "ProjectAliasName") %>'></asp:Label>                                                                            
                                                                         </td>
-
                                                                         <%--print--%>
                                                                         <td valign="top" align="right">
                                                                             <asp:ImageButton ID="print" runat="server" ImageUrl="/qistoollib/images/tbprint.png"
                                                                                 ToolTip="Print Customer Support Weekly Report" CommandName="rprint" />
-
                                                                             <%--<asp:Image ID="imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/urgents.png" Visible='<%# DataBinder.Eval(Container.DataItem, "IsUrgentIssueExists") %>'
                                                                                 ToolTip='<%# DataBinder.Eval(Container.DataItem, "totalUrgentIssue") %>' />--%>
-
-                                                                         <%--percobaan penambahan schedule--%>
-                                                                            <asp:ImageButton ID="_ibtnSchedule" runat="server" ImageUrl="/qistoollib/images/tbpropose.png"
+                                                                            <%--percobaan penambahan schedule--%>
+                                                                            <asp:ImageButton ID="_ibtnSchedule" runat="server" ImageUrl="/qistoollib/images/schedule.png"
                                                                                 ToolTip="Schedule Patch Update" CommandName="schedule" />
-
                                                                             <asp:ImageButton ID="_ibtnGoToProjectDetailPage" runat="server" ImageUrl="/qistoollib/images/viewDetail.png"
                                                                                 ToolTip="View Project Detail" CommandName="ViewDetail" />
                                                                         </td>
-
-
                                                                     </tr>
                                                                     <tr>
                                                                         <td colspan="2" style="height: 4;">
@@ -345,26 +329,17 @@
                                                                         <td class="txtweak" colspan="2">
                                                                             <p id="rcorners1">
                                                                                 Last Patch:&nbsp;<b><%# DataBinder.Eval(Container.DataItem, "lastPatchNo")%></b>
-                                                                                <b><%# DataBinder.Eval(Container.DataItem, "lastPatchDate")%></b>
+                                                                                <b>
+                                                                                    <%# DataBinder.Eval(Container.DataItem, "lastPatchDate")%></b>
                                                                             </p>
                                                                         </td>
                                                                     </tr>
-
-                                                                    <%--percobaan penambahan panel schedule--%>
                                                                     <tr>
                                                                         <td class="txtweak" colspan="2">
-                                                                            <p id="rcorners1" style="word-wrap: break-word; width: 310px">
-                                                                                Next Update:&nbsp;<b><%# DataBinder.Eval(Container.DataItem, "NextUpdateDate")%></b> <br>
-                                                                                <b><%# DataBinder.Eval(Container.DataItem, "NextUpdateRemarks")%></b>
-                                                                            </p>
-                                                                        </td>
-                                                                    </tr>
-
-
-                                                                    <tr style="display: none;">
-                                                                        <td class="txtweak" colspan="2">
-                                                                            <p id="rcorners2">
-                                                                                Scheduled Update:
+                                                                            <p id="rcorners2" style="word-wrap: break-word; width: 310px">
+                                                                                Scheduled Update:&nbsp;<b><%# DataBinder.Eval(Container.DataItem, "NextUpdateDate")%></b>
+                                                                                <br />
+                                                                                <%# DataBinder.Eval(Container.DataItem, "NextUpdateRemarks")%>
                                                                             </p>
                                                                         </td>
                                                                     </tr>
@@ -413,7 +388,6 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td style="background: #eeeeee;" class="center">
-                                                                                        
                                                                                     </td>
                                                                                     <td style="background: #eeeeee;" class="center">
                                                                                         <%# DataBinder.Eval(Container.DataItem, "totalOpenInPct")%>%
@@ -443,7 +417,6 @@
                                                     </asp:Repeater>
                                                 </td>
                                             </tr>
-
                                         </table>
                                     </li>
                                 </ItemTemplate>
@@ -459,8 +432,7 @@
         <tr>
             <td valign="bottom" colspan="3">
                 <!-- BEGIN PAGE FOOTER-->
-                <Module:Copyright ID="mdlCopyRight" runat="server" pathprefix="..">
-                </Module:Copyright>
+                <Module:Copyright ID="mdlCopyRight" runat="server" pathprefix=".."></Module:Copyright>
                 <!-- END PAGE FOOTER-->
             </td>
         </tr>
