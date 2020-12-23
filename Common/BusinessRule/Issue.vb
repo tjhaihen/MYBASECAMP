@@ -13,8 +13,10 @@ Namespace QIS.Common.BussinessRules
 #Region " Class Member Declarations "
         Private _issueID, _projectID, _departmentName, _issueDescription, _NextUpdateRemarks, _issueTypeSCode, _issueStatusSCode, _keywords,
             _renponseID, _responseTypeSCode, _responseTypeName, _responseDescription, _userIDupdateResponse, _userNameUpdateResponse, _userIDprint,
-            _userNameprint, _responseDuration, _issuePriorityName, _issueTypeName, _issueConfirmStatusName, _issueStatusName, _responseTime, _responseTime2 As String
-        Private _issuePrioritySCode, _issueConfirmStatusSCode, _reportedBy, _userIDassignedTo, _assignedBy, _patchNo As String
+            _userNameprint, _responseDuration, _issuePriorityName, _issueTypeName, _issueConfirmStatusName, _issueStatusName As String
+        Private _issuePrioritySCode, _issueConfirmStatusSCode, _reportedBy, _createdBy, _userIDassignedTo, _assignedBy, _patchNo, _responseID, _firmStatusName, _
+             _responseTime, _responseTime2 As String
+        'Private _issuePrioritySCode, _issueConfirmStatusSCode, _reportedBy, _userIDassignedTo, _assignedBy, _patchNo As String
         Private _reportedDate As DateTime
         Private _userIDinsert, _userIDupdate As String
         Private _insertDate, _updateDate, _assignedDate As DateTime
@@ -364,7 +366,92 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
-        '--percobaan print ticket
+        'percobaan ambil response description
+        Public Function ambilresponse() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "select ir.issueID, ir.responseDate, ir.responseTimeStart, ir.responseDuration, ir.responseDescription," + _
+                                        "ISNULL((select (Isnull(firstName,' ') +' '+ Isnull(middleName,' ')+' '+ Isnull(lastName,' ')) from person where personID=ISNULL(ir.userIDupdate,'')),'') as userNameUpdateResponse  " + _
+                                        "from issueResponse ir  " + _
+                                        "inner join issue i on i.issueID = ir.issueID  " + _
+                                        "where ir.issueID = @issueID"
+            cmdToExecute.CommandType = CommandType.Text
+
+            Dim toReturn As DataTable = New DataTable("issueResponse")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@issueID", _issueID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _issueID = CType(toReturn.Rows(0)("issueID"), String)
+                    _responseDate = CType(toReturn.Rows(0)("responseDate"), DateTime)
+                    _responseTime = CType(toReturn.Rows(0)("responseTimeStart"), DateTime)
+                    _responseDuration = CType(toReturn.Rows(0)("responseDuration"), String)
+                    _responseDescription = CType(toReturn.Rows(0)("responseDescription"), String)
+                    _userNameUpdateResponse = CType(toReturn.Rows(0)("userNameUpdateResponse"), String)
+                End If
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        'percobaan ambil response description
+        Public Function ambilupdatenameresponse() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "select top 1 ir.issueID, ISNULL((select (Isnull(firstName,' ') +' '+ Isnull(middleName,' ')+' '+ Isnull(lastName,' ')) from person where personID=ISNULL(ir.userIDupdate,'')),'') as userNameUpdateResponse " + _
+                                        "from issueResponse ir " + _
+                                        "where issueID = @issueID " + _
+                                        "order by responseID DESC"
+            cmdToExecute.CommandType = CommandType.Text
+
+            Dim toReturn As DataTable = New DataTable("issueResponse")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@issueID", _issueID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _issueID = CType(toReturn.Rows(0)("issueID"), String)
+                    _userNameUpdateResponse = CType(toReturn.Rows(0)("userNameUpdateResponse"), String)
+                End If
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        '--percobaan print form issue ticket 
         Public Function PrintTicket() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "srIssueTicketForm"
@@ -392,12 +479,16 @@ Namespace QIS.Common.BussinessRules
                     _issueID = CType(toReturn.Rows(0)("issueID"), String)
                     _departmentName = CType(toReturn.Rows(0)("departmentName"), String)
                     _issueDescription = CType(toReturn.Rows(0)("issueDescription"), String)
+                    _targetDate = CType(toReturn.Rows(0)("targetDate"), DateTime)
                     _reportedDate = CType(toReturn.Rows(0)("reportedDate"), DateTime)
                     _reportedBy = CType(toReturn.Rows(0)("reportedby"), String)
                     _issuePriorityName = CType(toReturn.Rows(0)("issuePriorityName"), String)
                     _issueTypeName = CType(toReturn.Rows(0)("issueTypeName"), String)
                     _issueStatusName = CType(toReturn.Rows(0)("issueStatusName"), String)
                     _issueConfirmStatusName = CType(toReturn.Rows(0)("issueConfirmStatusName"), String)
+                    _userNameUpdateResponse = CType(toReturn.Rows(0)("userNameUpdateResponse"), String)
+                    _userIDprint = CType(toReturn.Rows(0)("userIDprint"), String)
+                    _userNameprint = CType(toReturn.Rows(0)("userNameprint"), String)
                     _responseDate = CType(toReturn.Rows(0)("responseDate"), DateTime)
                     _responseTime2 = CType(toReturn.Rows(0)("responseTimeStart"), String)
                     _responseTime = CType(toReturn.Rows(0)("responseTimeStart"), String)
@@ -405,7 +496,7 @@ Namespace QIS.Common.BussinessRules
                     _responseDescription = CType(toReturn.Rows(0)("responseDescription"), String)
                     _userNameUpdateResponse = CType(toReturn.Rows(0)("userNameUpdateResponse"), String)
                     _userIDprint = CType(toReturn.Rows(0)("userIDprint"), String)
-                    _userNameprint = CType(toReturn.Rows(0)("userNameprint"), String)                   
+                    _userNameprint = CType(toReturn.Rows(0)("userNameprint"), String)      
                 End If
             Catch ex As Exception
                 ' // some error occured. Bubble it to caller and encapsulate Exception object
@@ -419,6 +510,7 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
+
 
         '--percobaan print
         Public Function PrintIssue() As DataTable
@@ -1627,15 +1719,6 @@ Namespace QIS.Common.BussinessRules
             End Set
         End Property
 
-        Public Property [responseTime2]() As String
-            Get
-                Return _responseTime2
-            End Get
-            Set(ByVal Value As String)
-                _responseTime2 = Value
-            End Set
-        End Property
-
         Public Property [responseDuration]() As String
             Get
                 Return _responseDuration
@@ -1669,6 +1752,15 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _responseDescription = Value
+            End Set
+        End Property
+
+        Public Property [responseID]() As String
+            Get
+                Return _responseID
+            End Get
+            Set(ByVal Value As String)
+                _responseID = Value
             End Set
         End Property
 

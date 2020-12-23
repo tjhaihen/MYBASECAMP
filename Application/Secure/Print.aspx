@@ -12,7 +12,7 @@
     
 
     	.jd_kiri{
-    		text-align: left;
+    		text-align: left; 
     	}
 
     	.jd_kanan{
