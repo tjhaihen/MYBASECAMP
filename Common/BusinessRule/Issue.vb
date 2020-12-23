@@ -549,21 +549,21 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function SummaryisPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date, IsAssignedToMe As Boolean) As DataTable
+        Public Function SummaryisPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date, IsAssignedToMe As Boolean, ProjectGroupID As String) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             If IsAssignedToMe = False Then
                 cmdToExecute.CommandText = "SELECT " + _
-                                        "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE targetDate BETWEEN @startDate AND @endDate AND IsPlanned=1), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE targetDate BETWEEN @startDate AND @endDate AND IsPlanned=1 AND issueStatusSCode NOT IN ('002-1','003')), " + _
-                                        "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE  targetDate BETWEEN @startDate AND @endDate AND IsPlanned=1 AND issueStatusSCode='002-1'), " + _
-                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE  targetDate BETWEEN @startDate AND @endDate AND IsPlanned=1 AND issueStatusSCode='003')"
+                                        "totalIssue = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID), " + _
+                                        "totalOpen = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode NOT IN ('002-1','003')), " + _
+                                        "totalDevFinish = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002-1'), " + _
+                                        "totalFinish = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='003')"
 
             Else
                 cmdToExecute.CommandText = "SELECT " + _
-                                        "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE targetDate BETWEEN @startDate AND @endDate AND IsPlanned=1), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE targetDate BETWEEN @startDate AND @endDate AND IsPlanned=1 AND issueStatusSCode NOT IN ('002-1','003')), " + _
-                                        "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE  targetDate BETWEEN @startDate AND @endDate AND IsPlanned=1 AND issueStatusSCode='002-1'), " + _
-                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE  targetDate BETWEEN @startDate AND @endDate AND IsPlanned=1 AND issueStatusSCode='003')"
+                                        "totalIssue = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID), " + _
+                                        "totalOpen = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode NOT IN ('002-1','003')), " + _
+                                        "totalDevFinish = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002-1'), " + _
+                                        "totalFinish = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='003')"
             End If
             cmdToExecute.CommandType = CommandType.Text
 
@@ -703,7 +703,7 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function SelectByPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date, IsAssignedToMe As Boolean) As DataTable
+        Public Function SelectByPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date, IsAssignedToMe As Boolean, ProjectGroupID As String) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
 
             Dim strFilterIsAssignedToMe As String = String.Empty
@@ -722,7 +722,7 @@ Namespace QIS.Common.BussinessRules
                                         "DATEDIFF(DAY,i.targetDate,GETDATE()) AS dueToTargetDateAgeInDay, " + _
                                         "isHasAttachment=CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID) > 0) THEN(1) ELSE(0) END " + _
                                         "FROM Issue i INNER JOIN Project p ON i.ProjectID = p.ProjectID WHERE i.targetDate BETWEEN @startDate AND @endDate " + _
-                                        "AND i.IsPlanned = 1" + _
+                                        "AND p.ProjectGroupID = @ProjectGroupID AND i.IsPlanned = 1" + _
                                         "ORDER BY  i.issueID"
             Else
                 cmdToExecute.CommandText = "SELECT i.*, p.ProjectAliasName, " + _
@@ -740,7 +740,7 @@ Namespace QIS.Common.BussinessRules
                                         "isHasAttachment = CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID)>0) THEN(1) ELSE(0) END " + _
                                         "FROM Issue i INNER JOIN Project p ON i.ProjectID = p.ProjectID WHERE i.UserIDAssignedTo=@UserIDAssignedTo " + _
                                         "AND i.targetDate BETWEEN @startDate AND @endDate " + _
-                                        "AND i.IsPlanned = 1" + _
+                                        "AND p.ProjectGroupID = @ProjectGroupID AND i.IsPlanned = 1" + _
                                         "ORDER BY i.issueID"
             End If
 
@@ -753,9 +753,9 @@ Namespace QIS.Common.BussinessRules
             Try
                 cmdToExecute.Parameters.AddWithValue("@startDate", startDate)
                 cmdToExecute.Parameters.AddWithValue("@endDate", endDate)
+                cmdToExecute.Parameters.AddWithValue("@ProjectGroupID", ProjectGroupID)
                 If IsAssignedToMe Then
                     cmdToExecute.Parameters.AddWithValue("@userIDassignedTo", strUserIDAssignedTo)
-
                 End If
 
                 ' // Open connection.

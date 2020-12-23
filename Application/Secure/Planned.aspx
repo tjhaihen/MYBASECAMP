@@ -173,7 +173,7 @@
                         <td style="width: 100%;">
                             <table width="100%">
                                 <tr>
-                                    <td style="width: 100;">
+                                    <td style="width: 100;" valign="top">
                                         <table>
                                             <tr>
                                                 <td>
@@ -195,9 +195,12 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>
+                                                <td class="right">
+                                                    Project Group
                                                 </td>
                                                 <td>
+                                                    <asp:DropDownList ID="ddlProjectGroupFilter" runat="server" Width="200">
+                                                    </asp:DropDownList>
                                                     <asp:CheckBox ID="chkIsAssignedToMe" runat="server" Text="Assigned to Me" AutoPostBack="true" />
                                                 </td>
                                             </tr>

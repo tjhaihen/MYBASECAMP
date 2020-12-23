@@ -89,6 +89,10 @@ Namespace QIS.Web
             SetDataGrid()
         End Sub
 
+        Private Sub chkIsAssignedToMe_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkIsAssignedToMe.CheckedChanged
+            SetDataGrid()
+        End Sub
+
         Private Sub Response_btnClose_Click(sender As Object, e As System.EventArgs) Handles Response_btnClose.Click
             PrepareScreenIssueResponse()
             'SetDataGrid()
@@ -155,17 +159,13 @@ Namespace QIS.Web
         Private Sub SetDataGrid()
             Dim oBR As New Common.BussinessRules.Issue
             Dim oDT As New DataTable
-            grdIssueByFilter.DataSource = oBR.SelectByPlanned(Me.LoggedOnUserID.Trim, calStartDate.selectedDate, calEndDate.selectedDate, chkIsAssignedToMe.Checked)
+            grdIssueByFilter.DataSource = oBR.SelectByPlanned(Me.LoggedOnUserID.Trim, calStartDate.selectedDate, calEndDate.selectedDate, chkIsAssignedToMe.Checked, ddlProjectGroupFilter.SelectedValue.Trim)
             grdIssueByFilter.DataBind()
             oBR.Dispose()
             oBR = Nothing
 
             TotalPlanned()
         End Sub
-
-        'Private Sub chkIsAssignedToMe_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkIsAssignedToMe.CheckedChanged
-        '    SetDataGrid()
-        'End Sub
 
         Private Sub SetDataGridIssueResponse()
             Dim oBR As New Common.BussinessRules.IssueResponse
@@ -193,13 +193,7 @@ Namespace QIS.Web
         End Sub
 
         Private Sub prepareDDL()
-            'commonFunction.SetDDL_Period(ddlPeriod)
-            'commonFunction.SetDDL_Table(ddlProjectFilter, "ProjectUser", MyBase.LoggedOnUserID.Trim, True, "All Project", "All")
-            'commonFunction.SetDDL_Table(ddlIssueTypeFilter, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, True, "All Type", "All")
-            'commonFunction.SetDDL_Table(ddlIssueStatusFilter, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "All Status", "All")
-            'commonFunction.SetDDL_Table(ddlIssuePriorityFilter, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, True, "All Priority", "All")
-            'commonFunction.SetDDL_Table(ddlIssueConfirmStatusFilter, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, True, "All Confirm Status", "All")
-            'commonFunction.SetDDL_Table(ddlUserIDAssignedToFilter, "User", String.Empty, True, "Everyone", "All")
+            commonFunction.SetDDL_Table(ddlProjectGroupFilter, "ProjectGroup", MyBase.LoggedOnUserID.Trim, False)
             commonFunction.SetDDL_Table(ddlIssueType, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, True, "Not Set", "All")
             commonFunction.SetDDL_Table(ddlIssueStatus, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "Not Set", "All")
             commonFunction.SetDDL_Table(ddlIssuePriority, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, True, "Not Set", "All")
@@ -385,7 +379,7 @@ Namespace QIS.Web
             Dim decPICAssigned As Decimal = 0D
 
             Dim oBR As New Common.BussinessRules.Issue
-            If oBR.SummaryisPlanned(Me.LoggedOnUserID.Trim, calStartDate.selectedDate, calEndDate.selectedDate, chkIsAssignedToMe.Checked).Rows.Count > 0 Then
+            If oBR.SummaryisPlanned(Me.LoggedOnUserID.Trim, calStartDate.selectedDate, calEndDate.selectedDate, chkIsAssignedToMe.Checked, ddlProjectGroupFilter.SelectedValue.Trim).Rows.Count > 0 Then
                 decTotalIssue = oBR.totalIssue
                 decTotalOpen = oBR.totalOpen
                 decTotalDevFinish = oBR.totalDevFinish
@@ -408,10 +402,6 @@ Namespace QIS.Web
         End Sub
 #End Region
 
-        Private Sub chkIsAssignedToMe_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkIsAssignedToMe.CheckedChanged
-            SetDataGrid()
-            TotalPlanned()
-        End Sub
     End Class
 
 End Namespace

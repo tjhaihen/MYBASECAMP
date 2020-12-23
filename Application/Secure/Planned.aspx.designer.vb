@@ -222,6 +222,15 @@ Namespace QIS.Web
         Protected WithEvents calEndDate As Global.QIS.Web.Calendar
 
         '''<summary>
+        '''ddlProjectGroupFilter control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlProjectGroupFilter As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
         '''chkIsAssignedToMe control.
         '''</summary>
         '''<remarks>

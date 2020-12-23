@@ -242,36 +242,7 @@ Namespace QIS.Common.BussinessRules
                                         "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode='003') " + _
                                         "FROM projectUser up " + _
                                         "INNER JOIN Project p ON up.projectID=p.projectID " + _
-                                        "WHERE p.projectGroupID=@projectGroupID AND up.UserID=@UserID) a " + _
-                                        "UNION ALL " + _
-                                        "SELECT a.*, " + _
-                                        "totalOpenInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalOpen AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
-                                        "ELSE(0) END, " + _
-                                        "totalInProgressInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalInProgress AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
-                                        "ELSE(0) END, " + _
-                                        "totalDevFinishInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalDevFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
-                                        "ELSE(0) END, " + _
-                                        "totalQCPassedInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalQCPassed AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
-                                        "ELSE(0) END, " + _
-                                        "progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
-                                        "ELSE(100) END, " + _
-                                        "IsUrgentIssueExists=CASE WHEN(a.totalUrgentIssue > 0) THEN(1) " + _
-                                        "ELSE (0) END " + _
-                                        "FROM (" + _
-                                        "SELECT pp.projectProfileID, pp.projectID, pp.profileID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient,p.IsPinned, " + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
-                                        "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
-                                        "totalUrgentIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND IsUrgent=1 AND issueStatusSCode NOT IN ('002-1','002-5','003')), " + _
-                                        "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode NOT IN ('002','002-1','002-5','003')), " + _
-                                        "totalInProgress = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode='002'), " + _
-                                        "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode='002-1'), " + _
-                                        "totalQCPassed = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode='002-5'), " + _
-                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND issueStatusSCode='003') " + _
-                                        "FROM userProfile up " + _
-                                        "INNER JOIN projectProfile pp ON up.ProfileID = pp.ProfileID " + _
-                                        "INNER JOIN Project p ON pp.projectID=p.projectID " + _
-                                        "WHERE p.projectGroupID=@projectGroupID AND up.UserID=@UserID) a " + _
+                                        "WHERE p.projectGroupID=@projectGroupID AND up.UserID=@UserID) a " + _                                        
                                         ") b " + _
                                         "ORDER BY b.progress ASC  , b.isPinned DESC"
             Else
@@ -310,37 +281,6 @@ Namespace QIS.Common.BussinessRules
                                         "FROM projectUser up " + _
                                         "INNER JOIN Project p ON up.projectID=p.projectID " + _
                                         "WHERE p.projectGroupID=@projectGroupID AND up.UserID=@UserID AND up.projectID IN " + _
-                                        "(SELECT DISTINCT projectID FROM Issue WHERE UserIDAssignedTo=@UserID) " + _
-                                        ") a " + _
-                                        "UNION ALL " + _
-                                        "SELECT a.*, " + _
-                                        "totalOpenInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalOpen AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
-                                        "ELSE(0) END, " + _
-                                        "totalInProgressInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalInProgress AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
-                                        "ELSE(0) END, " + _
-                                        "totalDevFinishInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalDevFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
-                                        "ELSE(0) END, " + _
-                                        "totalQCPassedInPct=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalQCPassed AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
-                                        "ELSE(0) END, " + _
-                                        "progress=CASE WHEN(a.totalIssue<>0) THEN(CEILING(CAST(a.totalFinish AS DECIMAL)/CAST(a.totalIssue AS DECIMAL)*100)) " + _
-                                        "ELSE(100) END, " + _
-                                        "IsUrgentIssueExists=CASE WHEN(a.totalUrgentIssue > 0) THEN(1) " + _
-                                        "ELSE (0) END " + _
-                                        "FROM (" + _
-                                        "SELECT pp.projectProfileID, pp.projectID, pp.profileID, p.projectName, p.projectDescription, p.projectAliasName, p.HEXColorID, p.isOpenForClient, p.IsPinned," + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
-                                        "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
-                                        "totalUrgentIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND IsUrgent=1 AND issueStatusSCode NOT IN ('002-1','002-5','003')), " + _
-                                        "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode NOT IN ('002','002-1','002-5','003')), " + _
-                                        "totalInProgress = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='002'), " + _
-                                        "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='002-1'), " + _
-                                        "totalQCPassed = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='002-5'), " + _
-                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=pp.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='003') " + _
-                                        "FROM userProfile up " + _
-                                        "INNER JOIN projectProfile pp ON up.ProfileID = pp.ProfileID " + _
-                                        "INNER JOIN Project p ON pp.projectID=p.projectID " + _
-                                        "WHERE p.projectGroupID=@projectGroupID AND up.UserID=@UserID AND pp.projectID IN " + _
                                         "(SELECT DISTINCT projectID FROM Issue WHERE UserIDAssignedTo=@UserID) " + _
                                         ") a " + _
                                         ") b " + _
