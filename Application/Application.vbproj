@@ -782,6 +782,12 @@
     <None Include="Secure\Documents\UserGuideDocument\BPF_IM_PC_001_InventoryManagement_Permintaan_Pembelian.pdf" />
     <None Include="Secure\Documents\UserGuideDocument\BPF_PM_OP_001_PatientManagement_Rawat_Jalan.pdf" />
     <None Include="Secure\ImgTmp\201505230000001" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{967B4E0D-AD0C-4609-AB67-0FA40C0206D8}" />
@@ -841,7 +847,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -240,6 +240,15 @@ Namespace QIS.Web
         Protected WithEvents chkIsAssignedToMe As Global.System.Web.UI.WebControls.CheckBox
 
         '''<summary>
+        '''ddlIssueStatusFilter control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlIssueStatusFilter As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
         '''lblTotalIssue control.
         '''</summary>
         '''<remarks>
@@ -258,6 +267,15 @@ Namespace QIS.Web
         Protected WithEvents lblTotalOpen As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
+        '''lblTotalInProgress control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalInProgress As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''lblTotalDevFinish control.
         '''</summary>
         '''<remarks>
@@ -265,6 +283,15 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents lblTotalDevFinish As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalQCPassed control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalQCPassed As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
         '''lblTotalFinish control.

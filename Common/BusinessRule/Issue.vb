@@ -23,7 +23,7 @@ Namespace QIS.Common.BussinessRules
         Private _estStartDate, _targetDate, _finishDate, _NextUpdateDate, _responseDate, _updateDateResponse As Date
         Private _isUrgent, _isSpecific, _isPlanned As Boolean
 
-        Private _totalIssue, _totalOpen, _totalDevFinish, _totalFinish As Decimal
+        Private _totalIssue, _totalOpen, _totalInProgress, _totalDevFinish, _totalQCPassed, _totalFinish As Decimal
         Private _projectAliasName, _projectName As String
         Private _productRoadmapSCode As String
 
@@ -496,7 +496,7 @@ Namespace QIS.Common.BussinessRules
                     _responseDescription = CType(toReturn.Rows(0)("responseDescription"), String)
                     _userNameUpdateResponse = CType(toReturn.Rows(0)("userNameUpdateResponse"), String)
                     _userIDprint = CType(toReturn.Rows(0)("userIDprint"), String)
-                    _userNameprint = CType(toReturn.Rows(0)("userNameprint"), String)      
+                    _userNameprint = CType(toReturn.Rows(0)("userNameprint"), String)
                 End If
             Catch ex As Exception
                 ' // some error occured. Bubble it to caller and encapsulate Exception object
@@ -574,28 +574,9 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        'percobaan hitung total
         Public Function Hitungtotal() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
-            'If ProjectID Then = False Then
             cmdToExecute.CommandText = "sprpt_TotalIssue"
-            '"SELECT " + _
-            '                    "totalreported = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid and (datediff(day,reportedDate, @tglTarget))<7 and (datediff(day,reportedDate, @tglTarget))>0), " + _
-            '                    "totalfinished = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid AND issueStatusSCode='003'), " + _
-            '                    "openissue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid AND issueStatusSCode='001'), " + _
-            '                    "progressissue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid AND issueStatusSCode='002'), " + _
-            '                    "needsampleissue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid AND issueStatusSCode='009'), " + _
-            '                    "finishissue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid AND issueStatusSCode='003'), " + _
-            '                    "totalissuefull = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid), " + _
-            '                    "overallprogress = (((SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid)/(SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid AND issueStatusSCode='003'))*0.01), " + _
-            '                    "totaldevfinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectid AND issueStatusSCode='002-1') "
-            'Else
-            '    cmdToExecute.CommandText = "SELECT " + _
-            '                            "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo), " + _
-            '                            "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode NOT IN ('002-1','003')), " + _
-            '                            "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode<>'002-1'), " + _
-            '                            "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode='003')"
-            'End If
             cmdToExecute.CommandType = CommandType.StoredProcedure
 
             Dim toReturn As DataTable = New DataTable("IssueSummary")
@@ -646,15 +627,19 @@ Namespace QIS.Common.BussinessRules
             If IsAssignedToMe = False Then
                 cmdToExecute.CommandText = "SELECT " + _
                                         "totalIssue = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID), " + _
-                                        "totalOpen = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode NOT IN ('002-1','003')), " + _
+                                        "totalOpen = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode NOT IN ('002','002-1','002-5','003')), " + _
+                                        "totalInProgress = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002'), " + _
                                         "totalDevFinish = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002-1'), " + _
+                                        "totalQCPassed = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002-5'), " + _
                                         "totalFinish = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='003')"
 
             Else
                 cmdToExecute.CommandText = "SELECT " + _
                                         "totalIssue = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID), " + _
-                                        "totalOpen = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode NOT IN ('002-1','003')), " + _
+                                        "totalOpen = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode NOT IN ('002','002-1','002-5','003')), " + _
+                                        "totalInProgress = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002'), " + _
                                         "totalDevFinish = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002-1'), " + _
+                                        "totalQCPassed = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002-5'), " + _
                                         "totalFinish = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='003')"
             End If
             cmdToExecute.CommandType = CommandType.Text
@@ -668,6 +653,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@startDate", startDate)
                 cmdToExecute.Parameters.AddWithValue("@endDate", endDate)
                 cmdToExecute.Parameters.AddWithValue("@user", strUserIDAssignedTo)
+                cmdToExecute.Parameters.AddWithValue("@projectGroupID", ProjectGroupID)
                 If IsAssignedToMe Then
                     cmdToExecute.Parameters.AddWithValue("@IsAssignedToMe", IsAssignedToMe)
 
@@ -682,7 +668,9 @@ Namespace QIS.Common.BussinessRules
                 If toReturn.Rows.Count > 0 Then
                     _totalIssue = CType(toReturn.Rows(0)("totalIssue"), Decimal)
                     _totalOpen = CType(toReturn.Rows(0)("totalOpen"), Decimal)
+                    _totalInProgress = CType(toReturn.Rows(0)("totalInProgress"), Decimal)
                     _totalDevFinish = CType(toReturn.Rows(0)("totalDevFinish"), Decimal)
+                    _totalQCPassed = CType(toReturn.Rows(0)("totalQCPassed"), Decimal)
                     _totalFinish = CType(toReturn.Rows(0)("totalFinish"), Decimal)
                 End If
             Catch ex As Exception
@@ -795,8 +783,12 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function SelectByPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date, IsAssignedToMe As Boolean, ProjectGroupID As String) As DataTable
+        Public Function SelectByPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date, IsAssignedToMe As Boolean, strProjectGroupID As String, strIssueStatusSCode As String) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
+            Dim cmdIssueStatusFilter As String = String.Empty
+            If strIssueStatusSCode.Length > 0 And strIssueStatusSCode.Trim <> "All" Then
+                cmdIssueStatusFilter = " AND i.issueStatusSCode = @issueStatusSCode "
+            End If
 
             Dim strFilterIsAssignedToMe As String = String.Empty
             If IsAssignedToMe = False Then
@@ -814,7 +806,7 @@ Namespace QIS.Common.BussinessRules
                                         "DATEDIFF(DAY,i.targetDate,GETDATE()) AS dueToTargetDateAgeInDay, " + _
                                         "isHasAttachment=CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID) > 0) THEN(1) ELSE(0) END " + _
                                         "FROM Issue i INNER JOIN Project p ON i.ProjectID = p.ProjectID WHERE i.targetDate BETWEEN @startDate AND @endDate " + _
-                                        "AND p.ProjectGroupID = @ProjectGroupID AND i.IsPlanned = 1" + _
+                                        "AND p.ProjectGroupID = @ProjectGroupID AND i.IsPlanned = 1" + cmdIssueStatusFilter + _
                                         "ORDER BY  i.issueID"
             Else
                 cmdToExecute.CommandText = "SELECT i.*, p.ProjectAliasName, " + _
@@ -832,7 +824,7 @@ Namespace QIS.Common.BussinessRules
                                         "isHasAttachment = CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID)>0) THEN(1) ELSE(0) END " + _
                                         "FROM Issue i INNER JOIN Project p ON i.ProjectID = p.ProjectID WHERE i.UserIDAssignedTo=@UserIDAssignedTo " + _
                                         "AND i.targetDate BETWEEN @startDate AND @endDate " + _
-                                        "AND p.ProjectGroupID = @ProjectGroupID AND i.IsPlanned = 1" + _
+                                        "AND p.ProjectGroupID = @ProjectGroupID AND i.IsPlanned = 1" + cmdIssueStatusFilter + _
                                         "ORDER BY i.issueID"
             End If
 
@@ -845,7 +837,8 @@ Namespace QIS.Common.BussinessRules
             Try
                 cmdToExecute.Parameters.AddWithValue("@startDate", startDate)
                 cmdToExecute.Parameters.AddWithValue("@endDate", endDate)
-                cmdToExecute.Parameters.AddWithValue("@ProjectGroupID", ProjectGroupID)
+                cmdToExecute.Parameters.AddWithValue("@projectGroupID", strProjectGroupID)
+                cmdToExecute.Parameters.AddWithValue("@issueStatusSCode", strIssueStatusSCode)
                 If IsAssignedToMe Then
                     cmdToExecute.Parameters.AddWithValue("@userIDassignedTo", strUserIDAssignedTo)
                 End If
@@ -1321,8 +1314,6 @@ Namespace QIS.Common.BussinessRules
             End Set
         End Property
 
-        '--percobaan print 
-
         Public Property [IssueType]() As String
             Get
                 Return _IssueType
@@ -1358,6 +1349,7 @@ Namespace QIS.Common.BussinessRules
                 _totalreported = Value
             End Set
         End Property
+
         Public Property [OpenIssue]() As String
             Get
                 Return _openissue
@@ -1420,7 +1412,6 @@ Namespace QIS.Common.BussinessRules
                 _totalfinished = Value
             End Set
         End Property
-
 
         Public Property [IssuePriority]() As String
             Get
@@ -1620,12 +1611,30 @@ Namespace QIS.Common.BussinessRules
             End Set
         End Property
 
+        Public Property [totalInProgress]() As Decimal
+            Get
+                Return _totalInProgress
+            End Get
+            Set(ByVal Value As Decimal)
+                _totalInProgress = Value
+            End Set
+        End Property
+
         Public Property [totalDevFinish]() As Decimal
             Get
                 Return _totalDevFinish
             End Get
             Set(ByVal Value As Decimal)
                 _totalDevFinish = Value
+            End Set
+        End Property
+
+        Public Property [totalQCPassed]() As Decimal
+            Get
+                Return _totalQCPassed
+            End Get
+            Set(ByVal Value As Decimal)
+                _totalQCPassed = Value
             End Set
         End Property
 

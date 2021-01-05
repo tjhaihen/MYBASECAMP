@@ -204,6 +204,15 @@
                                                     <asp:CheckBox ID="chkIsAssignedToMe" runat="server" Text="Assigned to Me" AutoPostBack="true" />
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td class="right">
+                                                    Issue Status
+                                                </td>
+                                                <td>
+                                                    <asp:DropDownList ID="ddlIssueStatusFilter" runat="server" Width="200">
+                                                    </asp:DropDownList>
+                                                </td>
+                                            </tr>
                                         </table>
                                     </td>
                                     <td valign="top" align="right">
@@ -213,13 +222,19 @@
                                                     Total Issue
                                                 </td>
                                                 <td style="background: #ffffff; width: 100;" class="center">
-                                                    Total Open
-                                                </td>
-                                                <td style="background: #ffffff; width: 120;" class="center">
-                                                    Total Dev.Finish
+                                                    Open
                                                 </td>
                                                 <td style="background: #ffffff; width: 100;" class="center">
-                                                    Total Finish
+                                                    In Progress
+                                                </td>
+                                                <td style="background: #ffffff; width: 120;" class="center">
+                                                    Dev.Finish
+                                                </td>
+                                                <td style="background: #ffffff; width: 120;" class="center">
+                                                    QC Passed
+                                                </td>
+                                                <td style="background: #ffffff; width: 100;" class="center">
+                                                    Finish
                                                 </td>
                                                 <td style="background: #ffffff; width: 100; font-weight: bold;" class="center">
                                                     Progress
@@ -233,9 +248,15 @@
                                                     <asp:Label ID="lblTotalOpen" runat="server"></asp:Label>
                                                 </td>
                                                 <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
+                                                    <asp:Label ID="lblTotalInProgress" runat="server"></asp:Label>
+                                                </td>
+                                                <td style="background: #ffffff; width: 120; font-size: 24;" class="center">
                                                     <asp:Label ID="lblTotalDevFinish" runat="server"></asp:Label>
                                                 </td>
                                                 <td style="background: #ffffff; width: 120; font-size: 24;" class="center">
+                                                    <asp:Label ID="lblTotalQCPassed" runat="server"></asp:Label>
+                                                </td>
+                                                <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
                                                     <asp:Label ID="lblTotalFinish" runat="server"></asp:Label>
                                                 </td>
                                                 <td style="background: #ffffff; width: 100; font-size: 24; font-weight: bold;" class="center">

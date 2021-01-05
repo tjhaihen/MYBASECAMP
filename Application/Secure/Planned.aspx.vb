@@ -159,7 +159,7 @@ Namespace QIS.Web
         Private Sub SetDataGrid()
             Dim oBR As New Common.BussinessRules.Issue
             Dim oDT As New DataTable
-            grdIssueByFilter.DataSource = oBR.SelectByPlanned(Me.LoggedOnUserID.Trim, calStartDate.selectedDate, calEndDate.selectedDate, chkIsAssignedToMe.Checked, ddlProjectGroupFilter.SelectedValue.Trim)
+            grdIssueByFilter.DataSource = oBR.SelectByPlanned(Me.LoggedOnUserID.Trim, calStartDate.selectedDate, calEndDate.selectedDate, chkIsAssignedToMe.Checked, ddlProjectGroupFilter.SelectedValue.Trim, ddlIssueStatusFilter.SelectedValue.Trim)
             grdIssueByFilter.DataBind()
             oBR.Dispose()
             oBR = Nothing
@@ -194,6 +194,7 @@ Namespace QIS.Web
 
         Private Sub prepareDDL()
             commonFunction.SetDDL_Table(ddlProjectGroupFilter, "ProjectGroup", MyBase.LoggedOnUserID.Trim, False)
+            commonFunction.SetDDL_Table(ddlIssueStatusFilter, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "All Issue Status", "All")
             commonFunction.SetDDL_Table(ddlIssueType, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, True, "Not Set", "All")
             commonFunction.SetDDL_Table(ddlIssueStatus, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "Not Set", "All")
             commonFunction.SetDDL_Table(ddlIssuePriority, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, True, "Not Set", "All")
@@ -373,7 +374,9 @@ Namespace QIS.Web
         Private Sub TotalPlanned()
             Dim decTotalIssue As Decimal = 0D
             Dim decTotalOpen As Decimal = 0D
+            Dim decTotalInProgress As Decimal = 0D
             Dim decTotalDevFinish As Decimal = 0D
+            Dim decTotalQCPassed As Decimal = 0D
             Dim decTotalFinish As Decimal = 0D
             Dim decProgress As Decimal = 0D
             Dim decPICAssigned As Decimal = 0D
@@ -382,13 +385,15 @@ Namespace QIS.Web
             If oBR.SummaryisPlanned(Me.LoggedOnUserID.Trim, calStartDate.selectedDate, calEndDate.selectedDate, chkIsAssignedToMe.Checked, ddlProjectGroupFilter.SelectedValue.Trim).Rows.Count > 0 Then
                 decTotalIssue = oBR.totalIssue
                 decTotalOpen = oBR.totalOpen
+                decTotalInProgress = oBR.totalInProgress
                 decTotalDevFinish = oBR.totalDevFinish
+                decTotalQCPassed = oBR.totalQCPassed
                 decTotalFinish = oBR.totalFinish
 
                 If decTotalIssue = 0 Then
                     decProgress = 100
                 Else
-                    decProgress = (decTotalFinish / decTotalIssue) * 100
+                    decProgress = ((decTotalDevFinish + decTotalQCPassed + decTotalFinish) / decTotalIssue) * 100
                 End If
             End If
             oBR.Dispose()
@@ -396,7 +401,9 @@ Namespace QIS.Web
 
             lblTotalIssue.Text = decTotalIssue.ToString.Trim
             lblTotalOpen.Text = decTotalOpen.ToString.Trim
+            lblTotalInProgress.Text = decTotalInProgress.ToString.Trim
             lblTotalDevFinish.Text = decTotalDevFinish.ToString.Trim
+            lblTotalQCPassed.Text = decTotalQCPassed.ToString.Trim
             lblTotalFinish.Text = decTotalFinish.ToString.Trim
             lblProgress.Text = Format(decProgress, "##0")
         End Sub
