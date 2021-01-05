@@ -520,6 +520,51 @@ Namespace QIS.Web
 
             End With
         End Sub
+
+        Public Shared Sub SetDDL_UserIDAssignedPlanned(ByVal ddl As DropDownList, ByVal startDate As Date, ByVal endDate As Date, strProjectGroupID As String, _
+                Optional ByVal isIncludeBlank As Boolean = False, Optional ByVal strBlankText As String = "- Choose Record -", Optional ByVal strBlankValue As String = "")
+            Dim tblToApply As DataTable
+
+            Dim oTbl As New Common.BussinessRules.Issue
+            tblToApply = oTbl.SelectByPlanned(String.Empty, startDate, endDate, strProjectGroupID, String.Empty, True)
+
+            With ddl
+                .Items.Clear()
+
+                Dim rgRows As DataRow() = tblToApply.Select()
+                If rgRows.Length > 0 Then
+                    Dim i As Integer = 1
+                    Dim _strBlankText As String = String.Empty
+                    Dim _strBlankValue As String = String.Empty
+                    Dim _strText As String = String.Empty
+                    Dim _strValue As String = String.Empty
+
+                    If isIncludeBlank Then
+                        If Len(strBlankText.Trim) > 0 Then
+                            _strBlankText = strBlankText.Trim
+                        End If
+
+                        If Len(strBlankValue.Trim) > 0 Then
+                            _strBlankValue = strBlankValue.Trim
+                        End If
+
+                        .Items.Add(New ListItem(_strBlankText.Trim, _strBlankValue.Trim))
+                    End If
+
+                    Do While i <= rgRows.Length
+                        _strText = Common.ProcessNull.GetString(rgRows(i - 1)("userNameAssignedTo"))
+                        _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("userIDAssignedTo"))
+                        .Items.Add(New ListItem(_strText.Trim, _strValue.Trim))
+                        i += 1
+                    Loop
+                Else
+                    .Items.Add(New ListItem(strBlankText.Trim, strBlankValue.Trim))
+                End If
+            End With
+
+            oTbl.Dispose()
+            oTbl = Nothing
+        End Sub
 #End Region
 
 #Region " Set RadioButtonList "

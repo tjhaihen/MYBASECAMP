@@ -231,15 +231,6 @@ Namespace QIS.Web
         Protected WithEvents ddlProjectGroupFilter As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
-        '''chkIsAssignedToMe control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents chkIsAssignedToMe As Global.System.Web.UI.WebControls.CheckBox
-
-        '''<summary>
         '''ddlIssueStatusFilter control.
         '''</summary>
         '''<remarks>
@@ -247,6 +238,24 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents ddlIssueStatusFilter As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''ddlUserIDAssignedToFilter control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlUserIDAssignedToFilter As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''chkIsAssignedToMe control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsAssignedToMe As Global.System.Web.UI.WebControls.CheckBox
 
         '''<summary>
         '''lblTotalIssue control.

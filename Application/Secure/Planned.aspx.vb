@@ -43,8 +43,9 @@ Namespace QIS.Web
                 setToolbarVisibleButton()
                 prepareDDL()
                 PrepareScreen()
-
+                
                 SetDataGrid()
+                prepareDDLUserIDAssignedToFilter()
                 
                 pnlAddNew.Visible = False
                 pnlIssueResponse.Visible = False
@@ -76,6 +77,19 @@ Namespace QIS.Web
             Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/IssueStudy.aspx')</script>")
         End Sub
 
+        Private Sub ddlProjectGroupFilter_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlProjectGroupFilter.SelectedIndexChanged
+            SetDataGrid()
+            prepareDDLUserIDAssignedToFilter()
+        End Sub
+
+        Private Sub ddlIssueStatusFilter_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlIssueStatusFilter.SelectedIndexChanged
+            SetDataGrid()
+        End Sub
+
+        Private Sub ddlUserIDAssignedToFilter_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlUserIDAssignedToFilter.SelectedIndexChanged
+            SetDataGrid()
+        End Sub
+
         Private Sub btnClose_Click(sender As Object, e As System.EventArgs) Handles btnClose.Click
             PrepareScreenAddNew()
             'SetDataGrid()
@@ -90,7 +104,18 @@ Namespace QIS.Web
         End Sub
 
         Private Sub chkIsAssignedToMe_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkIsAssignedToMe.CheckedChanged
-            SetDataGrid()
+            If chkIsAssignedToMe.Checked Then
+                If ddlUserIDAssignedToFilter.Items.FindByValue(MyBase.LoggedOnUserID.Trim) Is Nothing Then
+                    commonFunction.MsgBox(Me, "There is no assignment for you.")
+                    chkIsAssignedToMe.Checked = False
+                Else
+                    ddlUserIDAssignedToFilter.SelectedValue = MyBase.LoggedOnUserID.Trim
+                    SetDataGrid()
+                End If
+            Else
+                ddlUserIDAssignedToFilter.SelectedIndex = 0
+                SetDataGrid()
+            End If
         End Sub
 
         Private Sub Response_btnClose_Click(sender As Object, e As System.EventArgs) Handles Response_btnClose.Click
@@ -147,6 +172,7 @@ Namespace QIS.Web
             Select Case e
                 Case CSSToolbarItem.tidRefresh
                     SetDataGrid()
+                    prepareDDLUserIDAssignedToFilter()
             End Select
         End Sub
 #End Region
@@ -159,7 +185,8 @@ Namespace QIS.Web
         Private Sub SetDataGrid()
             Dim oBR As New Common.BussinessRules.Issue
             Dim oDT As New DataTable
-            grdIssueByFilter.DataSource = oBR.SelectByPlanned(Me.LoggedOnUserID.Trim, calStartDate.selectedDate, calEndDate.selectedDate, chkIsAssignedToMe.Checked, ddlProjectGroupFilter.SelectedValue.Trim, ddlIssueStatusFilter.SelectedValue.Trim)
+            oDT = oBR.SelectByPlanned(ddlUserIDAssignedToFilter.SelectedValue.Trim, calStartDate.selectedDate, calEndDate.selectedDate, ddlProjectGroupFilter.SelectedValue.Trim, ddlIssueStatusFilter.SelectedValue.Trim)
+            grdIssueByFilter.DataSource = oDT
             grdIssueByFilter.DataBind()
             oBR.Dispose()
             oBR = Nothing
@@ -199,7 +226,11 @@ Namespace QIS.Web
             commonFunction.SetDDL_Table(ddlIssueStatus, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "Not Set", "All")
             commonFunction.SetDDL_Table(ddlIssuePriority, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, True, "Not Set", "All")
             commonFunction.SetDDL_Table(ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, True, "Not Set", "All")
-            commonFunction.SetDDL_Table(ddlUserIDAssignedTo, "User", String.Empty)
+            commonFunction.SetDDL_Table(ddlUserIDAssignedTo, "User", String.Empty)            
+        End Sub
+
+        Private Sub prepareDDLUserIDAssignedToFilter()
+            commonFunction.SetDDL_UserIDAssignedPlanned(ddlUserIDAssignedToFilter, calStartDate.selectedDate, calEndDate.selectedDate, ddlProjectGroupFilter.SelectedValue.Trim, True, "All", "All")
         End Sub
 
         Private Sub PrepareScreen()
@@ -382,7 +413,7 @@ Namespace QIS.Web
             Dim decPICAssigned As Decimal = 0D
 
             Dim oBR As New Common.BussinessRules.Issue
-            If oBR.SummaryisPlanned(Me.LoggedOnUserID.Trim, calStartDate.selectedDate, calEndDate.selectedDate, chkIsAssignedToMe.Checked, ddlProjectGroupFilter.SelectedValue.Trim).Rows.Count > 0 Then
+            If oBR.SummaryisPlanned(ddlUserIDAssignedToFilter.SelectedValue.Trim, calStartDate.selectedDate, calEndDate.selectedDate, ddlProjectGroupFilter.SelectedValue.Trim).Rows.Count > 0 Then
                 decTotalIssue = oBR.totalIssue
                 decTotalOpen = oBR.totalOpen
                 decTotalInProgress = oBR.totalInProgress

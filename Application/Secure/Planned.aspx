@@ -199,9 +199,8 @@
                                                     Project Group
                                                 </td>
                                                 <td>
-                                                    <asp:DropDownList ID="ddlProjectGroupFilter" runat="server" Width="200">
-                                                    </asp:DropDownList>
-                                                    <asp:CheckBox ID="chkIsAssignedToMe" runat="server" Text="Assigned to Me" AutoPostBack="true" />
+                                                    <asp:DropDownList ID="ddlProjectGroupFilter" runat="server" Width="200" AutoPostBack="true">
+                                                    </asp:DropDownList>                                                    
                                                 </td>
                                             </tr>
                                             <tr>
@@ -209,8 +208,18 @@
                                                     Issue Status
                                                 </td>
                                                 <td>
-                                                    <asp:DropDownList ID="ddlIssueStatusFilter" runat="server" Width="200">
+                                                    <asp:DropDownList ID="ddlIssueStatusFilter" runat="server" Width="200" AutoPostBack="true">
                                                     </asp:DropDownList>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="right">
+                                                    Assigned to
+                                                </td>
+                                                <td>
+                                                    <asp:DropDownList ID="ddlUserIDAssignedToFilter" runat="server" Width="200" AutoPostBack="true">
+                                                    </asp:DropDownList>
+                                                    <asp:CheckBox ID="chkIsAssignedToMe" runat="server" Text="Me Only" AutoPostBack="true" />
                                                 </td>
                                             </tr>
                                         </table>

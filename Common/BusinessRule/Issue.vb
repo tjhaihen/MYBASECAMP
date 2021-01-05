@@ -622,26 +622,21 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function SummaryisPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date, IsAssignedToMe As Boolean, ProjectGroupID As String) As DataTable
+        Public Function SummaryisPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date, ProjectGroupID As String) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
-            If IsAssignedToMe = False Then
-                cmdToExecute.CommandText = "SELECT " + _
-                                        "totalIssue = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID), " + _
-                                        "totalOpen = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode NOT IN ('002','002-1','002-5','003')), " + _
-                                        "totalInProgress = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002'), " + _
-                                        "totalDevFinish = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002-1'), " + _
-                                        "totalQCPassed = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002-5'), " + _
-                                        "totalFinish = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='003')"
+            Dim cmdUserIDAssignedToFilter As String = String.Empty
 
-            Else
-                cmdToExecute.CommandText = "SELECT " + _
-                                        "totalIssue = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID), " + _
-                                        "totalOpen = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode NOT IN ('002','002-1','002-5','003')), " + _
-                                        "totalInProgress = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002'), " + _
-                                        "totalDevFinish = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002-1'), " + _
-                                        "totalQCPassed = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002-5'), " + _
-                                        "totalFinish = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='003')"
+            If strUserIDAssignedTo.Length > 0 And strUserIDAssignedTo.Trim <> "All" Then
+                cmdUserIDAssignedToFilter = " AND i.UserIDAssignedTo = @UserIDAssignedTo "
             End If
+
+            cmdToExecute.CommandText = "SELECT " + _
+                "totalIssue = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID " + cmdUserIDAssignedToFilter + "), " + _
+                "totalOpen = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode NOT IN ('002','002-1','002-5','003') " + cmdUserIDAssignedToFilter + "), " + _
+                "totalInProgress = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002' " + cmdUserIDAssignedToFilter + "), " + _
+                "totalDevFinish = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002-1' " + cmdUserIDAssignedToFilter + "), " + _
+                "totalQCPassed = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='002-5' " + cmdUserIDAssignedToFilter + "), " + _
+                "totalFinish = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.targetDate BETWEEN @startDate AND @endDate AND i.IsPlanned=1 AND p.projectGroupID=@projectGroupID AND i.issueStatusSCode='003' " + cmdUserIDAssignedToFilter + ")"
             cmdToExecute.CommandType = CommandType.Text
 
             Dim toReturn As DataTable = New DataTable("IssueSummary")
@@ -654,9 +649,8 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@endDate", endDate)
                 cmdToExecute.Parameters.AddWithValue("@user", strUserIDAssignedTo)
                 cmdToExecute.Parameters.AddWithValue("@projectGroupID", ProjectGroupID)
-                If IsAssignedToMe Then
-                    cmdToExecute.Parameters.AddWithValue("@IsAssignedToMe", IsAssignedToMe)
-
+                If cmdUserIDAssignedToFilter.Trim.Length > 0 Then
+                    cmdToExecute.Parameters.AddWithValue("@userIDassignedTo", strUserIDAssignedTo)
                 End If
 
                 ' // Open connection.
@@ -783,51 +777,52 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function SelectByPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date, IsAssignedToMe As Boolean, strProjectGroupID As String, strIssueStatusSCode As String) As DataTable
+        Public Function SelectByPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date, strProjectGroupID As String, strIssueStatusSCode As String, Optional ByVal IsGetUsersOnly As Boolean = False) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
+            Dim cmdGetUsersOnlySTART As String = String.Empty
+            Dim cmdGetUsersOnlyEND As String = String.Empty
             Dim cmdIssueStatusFilter As String = String.Empty
+            Dim cmdUserIDAssignedToFilter As String = String.Empty
+            Dim cmdOrderBy As String = String.Empty
+
+            cmdGetUsersOnlySTART = "SELECT DISTINCT lst.userIDAssignedTo, lst.userNameAssignedTo FROM ( "
+            cmdGetUsersOnlyEND = " ) lst "
+
             If strIssueStatusSCode.Length > 0 And strIssueStatusSCode.Trim <> "All" Then
                 cmdIssueStatusFilter = " AND i.issueStatusSCode = @issueStatusSCode "
             End If
 
-            Dim strFilterIsAssignedToMe As String = String.Empty
-            If IsAssignedToMe = False Then
-                cmdToExecute.CommandText = "SELECT i.*, p.ProjectAliasName, " + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUETYPE' AND code=i.issueTypeSCode) AS issueTypeName, " + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUESTATUS' AND code=i.issueStatusSCode) AS issueStatusName, " + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUEPRIORITY' AND code=i.issuePrioritySCode) AS issuePriorityName, " + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUECONFIRMSTS' AND code=i.issueConfirmStatusSCode) AS issueConfirmStatusName, " + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='PRODUCTROADMAP' AND [value]=i.productRoadmapSCode) AS productRoadmapName, " + _
-                                        "ISNULL((SELECT COUNT(responseID) FROM issueResponse WHERE issueID=i.issueID),0) AS totalResponse, " + _
-                                        "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDAssignedTo)),'') AS userNameAssignedTo, " + _
-                                        "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDInsert)),'') AS userNameInsert, " + _
-                                        "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDUpdate)),'') AS userNameUpdate, " + _
-                                        "DATEDIFF(DAY,i.reportedDate,GETDATE()) AS issueAgeInDay, " + _
-                                        "DATEDIFF(DAY,i.targetDate,GETDATE()) AS dueToTargetDateAgeInDay, " + _
-                                        "isHasAttachment=CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID) > 0) THEN(1) ELSE(0) END " + _
-                                        "FROM Issue i INNER JOIN Project p ON i.ProjectID = p.ProjectID WHERE i.targetDate BETWEEN @startDate AND @endDate " + _
-                                        "AND p.ProjectGroupID = @ProjectGroupID AND i.IsPlanned = 1" + cmdIssueStatusFilter + _
-                                        "ORDER BY  i.issueID"
-            Else
-                cmdToExecute.CommandText = "SELECT i.*, p.ProjectAliasName, " + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUETYPE' AND code=i.issueTypeSCode) AS issueTypeName, " + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUESTATUS' AND code=i.issueStatusSCode) AS issueStatusName, " + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUEPRIORITY' AND code=i.issuePrioritySCode) AS issuePriorityName, " + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='ISSUECONFIRMSTS' AND code=i.issueConfirmStatusSCode) AS issueConfirmStatusName, " + _
-                                        "(SELECT caption FROM CommonCode WHERE groupCode='PRODUCTROADMAP' AND [value]=i.productRoadmapSCode) AS productRoadmapName, " + _
-                                        "ISNULL((SELECT COUNT(responseID) FROM issueResponse WHERE issueID=i.issueID),0) AS totalResponse, " + _
-                                        "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDAssignedTo)),'') AS userNameAssignedTo, " + _
-                                        "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDInsert)),'') AS userNameInsert, " + _
-                                        "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDUpdate)),'') AS userNameUpdate, " + _
-                                        "DATEDIFF(DAY,i.reportedDate,GETDATE()) AS issueAgeInDay, " + _
-                                        "DATEDIFF(DAY,i.targetDate,GETDATE()) AS dueToTargetDateAgeInDay, " + _
-                                        "isHasAttachment = CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID)>0) THEN(1) ELSE(0) END " + _
-                                        "FROM Issue i INNER JOIN Project p ON i.ProjectID = p.ProjectID WHERE i.UserIDAssignedTo=@UserIDAssignedTo " + _
-                                        "AND i.targetDate BETWEEN @startDate AND @endDate " + _
-                                        "AND p.ProjectGroupID = @ProjectGroupID AND i.IsPlanned = 1" + cmdIssueStatusFilter + _
-                                        "ORDER BY i.issueID"
+            If strUserIDAssignedTo.Length > 0 And strUserIDAssignedTo.Trim <> "All" Then
+                cmdUserIDAssignedToFilter = " AND i.UserIDAssignedTo = @UserIDAssignedTo "                
             End If
 
+            If IsGetUsersOnly = False Then
+                cmdOrderBy = " ORDER BY i.issueID "
+            Else
+                cmdOrderBy = " ORDER BY lst.userNameAssignedTo "
+            End If
+
+            cmdToExecute.CommandText = "SELECT i.*, p.ProjectAliasName, " + _
+                "(SELECT caption FROM CommonCode WHERE groupCode='ISSUETYPE' AND code=i.issueTypeSCode) AS issueTypeName, " + _
+                "(SELECT caption FROM CommonCode WHERE groupCode='ISSUESTATUS' AND code=i.issueStatusSCode) AS issueStatusName, " + _
+                "(SELECT caption FROM CommonCode WHERE groupCode='ISSUEPRIORITY' AND code=i.issuePrioritySCode) AS issuePriorityName, " + _
+                "(SELECT caption FROM CommonCode WHERE groupCode='ISSUECONFIRMSTS' AND code=i.issueConfirmStatusSCode) AS issueConfirmStatusName, " + _
+                "(SELECT caption FROM CommonCode WHERE groupCode='PRODUCTROADMAP' AND [value]=i.productRoadmapSCode) AS productRoadmapName, " + _
+                "ISNULL((SELECT COUNT(responseID) FROM issueResponse WHERE issueID=i.issueID),0) AS totalResponse, " + _
+                "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDAssignedTo)),'') AS userNameAssignedTo, " + _
+                "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDInsert)),'') AS userNameInsert, " + _
+                "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDUpdate)),'') AS userNameUpdate, " + _
+                "DATEDIFF(DAY,i.reportedDate,GETDATE()) AS issueAgeInDay, " + _
+                "DATEDIFF(DAY,i.targetDate,GETDATE()) AS dueToTargetDateAgeInDay, " + _
+                "isHasAttachment=CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID) > 0) THEN(1) ELSE(0) END " + _
+                "FROM Issue i INNER JOIN Project p ON i.ProjectID = p.ProjectID WHERE i.targetDate BETWEEN @startDate AND @endDate " + _
+                "AND p.ProjectGroupID = @ProjectGroupID AND i.IsPlanned = 1" + cmdIssueStatusFilter + cmdUserIDAssignedToFilter
+
+            If IsGetUsersOnly = True Then
+                cmdToExecute.CommandText = cmdGetUsersOnlySTART + cmdToExecute.CommandText + cmdGetUsersOnlyEND + cmdOrderBy
+            Else
+                cmdToExecute.CommandText += cmdOrderBy
+            End If
 
             Dim toReturn As DataTable = New DataTable("SelectByPlanned")
             Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
@@ -839,7 +834,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@endDate", endDate)
                 cmdToExecute.Parameters.AddWithValue("@projectGroupID", strProjectGroupID)
                 cmdToExecute.Parameters.AddWithValue("@issueStatusSCode", strIssueStatusSCode)
-                If IsAssignedToMe Then
+                If cmdUserIDAssignedToFilter.Trim.Length > 0 Then
                     cmdToExecute.Parameters.AddWithValue("@userIDassignedTo", strUserIDAssignedTo)
                 End If
 
@@ -860,7 +855,6 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
-
 
         Public Function SelectSummaryByProjectID(ByVal IsAssignmentOnly As Boolean) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
@@ -1021,8 +1015,6 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
-
-
 
         Public Function SelectProgressPeriod_Level2(ByVal dtDate As Date) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
