@@ -211,7 +211,7 @@ Namespace QIS.Common.BussinessRules
                                         "UserIDUpdate = @UserIDUpdate, " & _
                                         "UpdateDate = GetDate(), " & _
                                         "LinkParamedicID = @LinkParamedicID, " & _
-                                        "IsPhysician = @IsPhysician, " & _
+                                        "IsPhysician = @IsPhysician " & _
                                         "WHERE UserID = @UserID"
 
             With cmdToExecute

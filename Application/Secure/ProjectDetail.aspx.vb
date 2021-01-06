@@ -720,13 +720,11 @@ Namespace QIS.Web
                     End If
                     calEstStartDate.selectedDate = .estStartDate
                     calTargetDate.selectedDate = .targetDate
-
-                    'percobaan isPlanned
                     chkIsPlanned.Checked = .isPlanned
-
                     chkIsUrgent.Checked = .isUrgent
                     chkIsPlanned.Checked = .isPlanned
                     txtPatchNo.Text = .PatchNo.Trim
+                    chkIsSpecific.Checked = .isSpecific
                 End If
             End With
             oBR.Dispose()
@@ -795,12 +793,12 @@ Namespace QIS.Web
                     End If
                 End If
                 .ProjectID = lblProjectID.Text.Trim
+                .ProductRoadmapSCode = ddlProductRoadmap.SelectedValue.Trim
                 .DepartmentName = txtDepartmentName.Text.Trim
                 .IssueDescription = txtIssueDescription.Text.Trim
                 .Keywords = txtKeywords.Text.Trim
                 .ReportedDate = calReportedDate.selectedDate
                 .ReportedBy = txtReportedBy.Text.Trim
-                .ProductRoadmapSCode = ddlProductRoadmap.SelectedValue.Trim
                 .IssueTypeSCode = ddlIssueType.SelectedValue.Trim
                 .IssueStatusSCode = ddlIssueStatus.SelectedValue.Trim
                 .IssuePrioritySCode = ddlIssuePriority.SelectedValue.Trim

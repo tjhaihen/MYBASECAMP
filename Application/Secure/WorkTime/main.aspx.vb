@@ -143,7 +143,7 @@ Namespace QIS.Web.WorkTime
 
         Private Sub GetDateInMonth()
             Dim oPU As New Common.BussinessRules.Utility
-            grdDateInMonth.DataSource = oPU.GetDateInMOnth(CInt(ddlMonth.SelectedValue.Trim), MyBase.LoggedOnUserID)
+            grdDateInMonth.DataSource = oPU.GetDateInMonth(CInt(txtYear.Text.Trim), CInt(ddlMonth.SelectedValue.Trim), MyBase.LoggedOnUserID)
             grdDateInMonth.DataBind()
             oPU.Dispose()
             oPU = Nothing

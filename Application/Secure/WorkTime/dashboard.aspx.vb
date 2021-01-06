@@ -59,7 +59,7 @@ Namespace QIS.Web.WorkTime
                 Dim _repDateInMonthByPeople As Repeater = CType(e.Item.FindControl("_repDateInMonthByPeople"), Repeater)
                 Dim _lblUserID As Label = CType(e.Item.FindControl("_lblUserID"), Label)
                 Dim oPU As New Common.BussinessRules.Utility
-                _repDateInMonthByPeople.DataSource = oPU.GetDateInMonth(CInt(ddlMonth.SelectedValue.Trim), _lblUserID.Text.Trim)
+                _repDateInMonthByPeople.DataSource = oPU.GetDateInMonth(CInt(txtYear.Text.Trim), CInt(ddlMonth.SelectedValue.Trim), _lblUserID.Text.Trim)
                 _repDateInMonthByPeople.DataBind()
                 oPU.Dispose()
                 oPU = Nothing

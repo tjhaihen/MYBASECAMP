@@ -348,6 +348,15 @@ Namespace QIS.Web
         Protected WithEvents lblProjectID As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
+        '''ddlProductRoadmap control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlProductRoadmap As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
         '''txtDepartmentName control.
         '''</summary>
         '''<remarks>
@@ -456,13 +465,58 @@ Namespace QIS.Web
         Protected WithEvents ddlIssueConfirmStatus As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
-        '''btnSaveAndNew control.
+        '''txtPatchNo control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents btnSaveAndNew As Global.System.Web.UI.WebControls.Button
+        Protected WithEvents txtPatchNo As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''chkIsSpecific control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsSpecific As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''chkIsIncludeInMyWorktime control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsIncludeInMyWorktime As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''lblWorktimeHdID control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblWorktimeHdID As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''txtWorktimeDtDescription control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtWorktimeDtDescription As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''txtWorkTimeInHour control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtWorkTimeInHour As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
         '''btnSaveAndClose control.

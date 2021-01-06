@@ -10,7 +10,7 @@
         <td class="Menu" align="left" valign="middle" style="width: 95%; padding-left: 5px">
             <table width="100%" cellspacing="0" cellpadding="2">
                 <tr>
-                    <td class="Menu" style="width: auto;">
+                    <td class="Menu" style="width: 100px;">
                         <a href='<%=PageBase.UrlBase & "/secure/main.aspx"%>' title="Basecamp">
                             <img src="/qistoollib/images/Basecamp_logo_small.png" align="absmiddle" width="100" />
                         </a>
@@ -18,16 +18,22 @@
                     <td class="Menu Separator">
                         <img src="/qistoollib/images/separator.png" border="0" alt="" align="absmiddle" />
                     </td>
-                    <td class="Menu center" style="width: auto; font-weight: bold;">
-                        <asp:Label ID="lblUserFullName" runat="server"></asp:Label>
+                    <td class="Menu" style="width: auto;">
+                        <table cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td class="Menu" style="font-weight: bold;">
+                                    <asp:Label ID="lblUserFullName" runat="server"></asp:Label>
+                                </td>
+                                <td class="Menu Separator">
+                                    &nbsp;&nbsp;<img src="/qistoollib/images/separator.png" border="0" alt="" align="absmiddle" />&nbsp;&nbsp;
+                                </td>
+                                <td class="Menu">
+                                    <asp:Label ID="lblProfileName" runat="server"></asp:Label>
+                                </td>
+                            </tr>
+                        </table>
                     </td>
-                    <td class="Menu Separator">
-                        <img src="/qistoollib/images/separator.png" border="0" alt="" align="absmiddle" />
-                    </td>
-                    <td class="Menu center" style="width: auto;">
-                        <asp:Label ID="lblProfileName" runat="server"></asp:Label>
-                    </td>
-                    <td class="Menu" style="width: 50%; padding-right: 5px" align="right">
+                    <td class="Menu" style="width: 20%; padding-right: 5px" align="right">
                         <table cellspacing="0" cellpadding="2">
                             <tr>
                                 <td>
@@ -50,7 +56,7 @@
                     <td class="Menu Separator">
                         <img src="/qistoollib/images/separator.png" border="0" alt="" align="absmiddle" />
                     </td>
-                    <td class="Menu center" style="width: auto;">
+                    <td class="Menu center" style="width: 200px;">
                         <asp:Label ID="lblCompanyName" runat="server"></asp:Label>
                     </td>
                 </tr>

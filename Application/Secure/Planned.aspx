@@ -200,7 +200,7 @@
                                                 </td>
                                                 <td>
                                                     <asp:DropDownList ID="ddlProjectGroupFilter" runat="server" Width="200" AutoPostBack="true">
-                                                    </asp:DropDownList>                                                    
+                                                    </asp:DropDownList>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -304,6 +304,15 @@
                                             <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                                 <tr>
                                                     <td class="right" style="background: #ffffff; color: #666666;">
+                                                        Product Roadmap
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:DropDownList ID="ddlProductRoadmap" runat="server" Width="364">
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #ffffff; color: #666666;">
                                                         Department
                                                     </td>
                                                     <td style="background: #ffffff;">
@@ -405,10 +414,48 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td class="right" style="background: #d6eaf8;">
+                                                        Patch No.
+                                                    </td>
+                                                    <td style="background: #d6eaf8;">
+                                                        <asp:TextBox ID="txtPatchNo" runat="server" Width="200" AutoPostBack="true">
+                                                        </asp:TextBox>
+                                                    </td>
+                                                    <td style="background: #d6eaf8;" colspan="2">
+                                                        <asp:CheckBox ID="chkIsSpecific" runat="server" Text="Is Specific Project?" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #f9e79f;">
+                                                    </td>
+                                                    <td style="background: #f9e79f;">
+                                                        <asp:CheckBox ID="chkIsIncludeInMyWorktime" runat="server" Text="Add to My today Worktime?" />
+                                                    </td>
+                                                    <td style="background: #f9e79f;" colspan="2">
+                                                        *unsubmitted only
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #f9e79f;">
+                                                        Description
+                                                    </td>
+                                                    <td style="background: #f9e79f;">
+                                                        <asp:Label ID="lblWorktimeHdID" runat="server" Visible="true">
+                                                        </asp:Label>
+                                                        <asp:TextBox ID="txtWorktimeDtDescription" runat="server" Width="200">
+                                                        </asp:TextBox>
+                                                    </td>
+                                                    <td style="width: 100; background: #f9e79f;" class="right">
+                                                        <asp:TextBox ID="txtWorkTimeInHour" runat="server" Width="100%">
+                                                        </asp:TextBox>
+                                                    </td>
+                                                    <td style="width: 140; background: #f9e79f;">
+                                                        hour
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <%-- --percobaan --%>
                                                     <td colspan="2">
-                                                        <asp:Button ID="btnSaveAndNew" runat="server" Text="Save & New" CssClass="sbttn"
-                                                            Width="100" />
                                                         <asp:Button ID="btnSaveAndClose" runat="server" Text="Save & Close" CssClass="sbttn"
                                                             Width="100" />
                                                         <asp:Button ID="btnClose" runat="server" Text="Close" CssClass="sbttn" Width="100"
@@ -605,6 +652,8 @@
                                         <ItemTemplate>
                                             <asp:Image ID="_imgAttachment" runat="server" ImageUrl="/qistoollib/images/attachment.png"
                                                 ImageAlign="AbsMiddle" Visible='<%# DataBinder.Eval(Container.DataItem, "isHasAttachment") %>' />
+                                            <asp:Image ID="_imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/urgent.png"
+                                                Visible='<%# DataBinder.Eval(Container.DataItem, "isUrgent")%>' />
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Issue ID" ItemStyle-Width="100" ItemStyle-VerticalAlign="Top">
@@ -644,15 +693,25 @@
                                         <ItemTemplate>
                                             <table cellspacing="0">
                                                 <tr>
-                                                    <td colspan="2">
+                                                    <td>
                                                         <%# DataBinder.Eval(Container.DataItem, "projectAliasName") %>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
-                                                        <asp:Image ID="_imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/urgent.png"
-                                                            Visible='<%# DataBinder.Eval(Container.DataItem, "isUrgent")%>' />
+                                                    <td class="hseparator">
                                                     </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Product Roadmap:<br />
+                                                        <%# DataBinder.Eval(Container.DataItem, "productRoadmapName")%>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="hseparator">
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td class="txtweak">
                                                         <%# DataBinder.Eval(Container.DataItem, "departmentName") %>
                                                     </td>

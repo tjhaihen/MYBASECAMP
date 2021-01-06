@@ -859,7 +859,7 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function GetDateInMonth(ByVal intMonth As Integer, ByVal strUserID As String) As DataTable
+        Public Function GetDateInMonth(ByVal intYear As Integer, ByVal intMonth As Integer, ByVal strUserID As String) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "GetDateInMonth"
             cmdToExecute.CommandType = CommandType.StoredProcedure
@@ -870,6 +870,7 @@ Namespace QIS.Common.BussinessRules
             cmdToExecute.Connection = _mainConnection
 
             Try
+                cmdToExecute.Parameters.AddWithValue("@Year", intYear)
                 cmdToExecute.Parameters.AddWithValue("@Month", intMonth)
                 cmdToExecute.Parameters.AddWithValue("@UserID", strUserID)
 
