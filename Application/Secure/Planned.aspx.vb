@@ -36,17 +36,17 @@ Namespace QIS.Web
 
 #End Region
 
-
 #Region " Control Events "
         Private Sub Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+            commonFunction.TimeFormat(Response_txtResponseTimeStart)
             If Not Me.IsPostBack Then
                 setToolbarVisibleButton()
                 prepareDDL()
                 PrepareScreen()
-                
+
                 SetDataGrid()
                 prepareDDLUserIDAssignedToFilter()
-                
+
                 pnlAddNew.Visible = False
                 pnlIssueResponse.Visible = False
                 GetTasksByUserID()
@@ -118,10 +118,27 @@ Namespace QIS.Web
             End If
         End Sub
 
+        Private Sub ibtnViewDetailPlanned_Click(sender As Object, e As System.Web.UI.ImageClickEventArgs) Handles ibtnViewDetailPlanned.Click
+            pnlDetailPlanned.Visible = True
+            pnlPlannedByTeam.Visible = False
+        End Sub
+
+        Private Sub ibtnViewPlannedByTeam_Click(sender As Object, e As System.Web.UI.ImageClickEventArgs) Handles ibtnViewPlannedByTeam.Click
+            pnlDetailPlanned.Visible = False
+            pnlPlannedByTeam.Visible = True
+            SetDataGridPlannedByTeam()
+        End Sub
+
         Private Sub Response_btnClose_Click(sender As Object, e As System.EventArgs) Handles Response_btnClose.Click
             PrepareScreenIssueResponse()
-            'SetDataGrid()
             pnlIssueResponse.Visible = False
+        End Sub
+
+        Private Sub Response_btnSaveAndNew_Click(sender As Object, e As System.EventArgs) Handles Response_btnSaveAndNew.Click
+            _updateIssueResponse()
+            PrepareScreenIssueResponse()
+            SetDataGridIssueResponse()
+            SetDataGrid()
         End Sub
 
         Private Sub Response_btnSaveAndClose_Click(sender As Object, e As System.EventArgs) Handles Response_btnSaveAndClose.Click
@@ -144,10 +161,22 @@ Namespace QIS.Web
                 Case "IssueReponse"
                     Dim _lbtnIssueID As LinkButton = CType(e.Item.FindControl("_lbtnIssueID"), LinkButton)
                     pnlIssueResponse.Visible = True
+                    pnlAddNew.Visible = False
                     Response_lblIssueID.Text = _lbtnIssueID.Text.Trim
                     _openIssueForResponse()
                     PrepareScreenIssueResponse()
                     SetDataGridIssueResponse()
+            End Select
+        End Sub
+
+        Private Sub grdIssueResponse_ItemCommand(source As Object, e As System.Web.UI.WebControls.DataGridCommandEventArgs) Handles grdIssueResponse.ItemCommand
+            Select Case e.CommandName
+                Case "Edit"
+                    Dim _lblResponseID As Label = CType(e.Item.FindControl("_lblResponseID"), Label)
+                    pnlIssueResponse.Visible = True
+                    pnlAddNew.Visible = False
+                    Response_lblResponseID.Text = _lblResponseID.Text.Trim
+                    _openIssueResponse()
             End Select
         End Sub
 #End Region
@@ -171,7 +200,10 @@ Namespace QIS.Web
         Private Sub mdlToolbar_commandBarClick(ByVal sender As Object, ByVal e As CSSToolbarItem) Handles CSSToolbar.CSSToolbarItemClick
             Select Case e
                 Case CSSToolbarItem.tidRefresh
+                    pnlAddNew.Visible = False
+                    pnlIssueResponse.Visible = False
                     SetDataGrid()
+                    SetDataGridPlannedByTeam()
                     prepareDDLUserIDAssignedToFilter()
             End Select
         End Sub
@@ -219,6 +251,16 @@ Namespace QIS.Web
             br = Nothing
         End Sub
 
+        Private Sub SetDataGridPlannedByTeam()
+            Dim oBR As New Common.BussinessRules.Issue
+            Dim oDT As New DataTable
+            oDT = oBR.SelectPlannedByUserAssignedTo(calStartDate.selectedDate, calEndDate.selectedDate, ddlProjectGroupFilter.SelectedValue.Trim)
+            grdPlannedByTeam.DataSource = oDT
+            grdPlannedByTeam.DataBind()
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
         Private Sub prepareDDL()
             commonFunction.SetDDL_Table(ddlProjectGroupFilter, "ProjectGroup", MyBase.LoggedOnUserID.Trim, False)
             commonFunction.SetDDL_Table(ddlIssueStatusFilter, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "All Issue Status", "All")
@@ -228,6 +270,9 @@ Namespace QIS.Web
             commonFunction.SetDDL_Table(ddlIssuePriority, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, True, "Not Set", "All")
             commonFunction.SetDDL_Table(ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, True, "Not Set", "All")
             commonFunction.SetDDL_Table(ddlUserIDAssignedTo, "User", String.Empty)
+            commonFunction.SetDDL_Table(Response_ddlResponseType, "CommonCode", Common.Constants.GroupCode.ResponseType_SCode, False)
+            commonFunction.SetDDL_Table(Response_ddlIssueStatus, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "Not Set")
+            commonFunction.SetDDL_Table(Response_ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, True, "Not Set")
         End Sub
 
         Private Sub prepareDDLUserIDAssignedToFilter()
@@ -258,9 +303,21 @@ Namespace QIS.Web
         End Sub
 
         Private Sub PrepareScreenIssueResponse()
+            Response_lblResponseID.Text = String.Empty
             Response_calResponseDate.selectedDate = Date.Today
+            Response_txtResponseTimeStart.Text = Format(Date.Now, "hh:mm")
+            Response_txtResponseDuration.Text = "0"
             Response_txtResponseDescription.Text = String.Empty
-            commonFunction.Focus(Me, Response_txtResponseDescription.ClientID)
+            Response_chkIsShared.Checked = False
+
+            Response_chkIsUpdateStatus.Checked = False
+            Response_txtPatchNo.Text = String.Empty
+            Response_chkIsSpecific.Checked = False
+
+            Response_chkIsIncludeInMyWorktime.Checked = False
+            Response_txtWorktimeDtDescription.Text = String.Empty
+            Response_txtWorkTimeInHour.Text = "0"
+            commonFunction.Focus(Me, Response_txtResponseTimeStart.ClientID)
         End Sub
 
         Private Function GetFirstDayForWeek(ByVal inputDate As DateTime, ByVal isLastWeek As Boolean) As DateTime
@@ -337,11 +394,40 @@ Namespace QIS.Web
             With oBR
                 .IssueID = Response_lblIssueID.Text.Trim
                 If .SelectOne.Rows.Count > 0 Then
+                    Response_lblProjectID.Text = .ProjectID.Trim
                     Response_lblDepartmentName.Text = .DepartmentName.Trim
                     Response_lblIssueDescription.Text = .IssueDescription.Trim
+                    Response_ddlIssueStatus.SelectedValue = .IssueStatusSCode.Trim
+                    Response_ddlIssueConfirmStatus.SelectedValue = .IssueConfirmStatusSCode.Trim
+                    Response_txtPatchNo.Text = .PatchNo.Trim
+                    Response_chkIsSpecific.Checked = .isSpecific
                 Else
+                    Response_lblProjectID.Text = String.Empty
                     Response_lblDepartmentName.Text = String.Empty
                     Response_lblIssueDescription.Text = String.Empty
+                    Response_ddlIssueStatus.SelectedIndex = 0
+                    Response_ddlIssueConfirmStatus.SelectedIndex = 0
+                    Response_txtPatchNo.Text = String.Empty
+                    Response_chkIsSpecific.Checked = False
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
+        Private Sub _openIssueResponse()
+            Dim oBR As New Common.BussinessRules.IssueResponse
+            With oBR
+                .ResponseID = Response_lblResponseID.Text.Trim
+                If .SelectOne.Rows.Count > 0 Then
+                    Response_calResponseDate.selectedDate = .ResponseDate
+                    Response_txtResponseTimeStart.Text = .ResponseTimeStart.Trim
+                    Response_txtResponseDuration.Text = .ResponseDuration.ToString.Trim
+                    Response_ddlResponseType.SelectedValue = .ResponseTypeSCode.Trim
+                    Response_txtResponseDescription.Text = .ResponseDescription.Trim
+                    Response_chkIsShared.Checked = .isShared
+                Else
+                    PrepareScreenIssueResponse()
                 End If
             End With
             oBR.Dispose()
@@ -392,6 +478,21 @@ Namespace QIS.Web
             oBR = Nothing
         End Sub
 
+        Private Sub _updateIssueStatus(ByVal IssueID As String)
+            Dim oBR As New Common.BussinessRules.Issue
+            With oBR
+                .IssueID = IssueID.Trim
+                .IssueStatusSCode = Response_ddlIssueStatus.SelectedValue.Trim
+                .IssueConfirmStatusSCode = Response_ddlIssueConfirmStatus.SelectedValue.Trim
+                .PatchNo = Response_txtPatchNo.Text.Trim
+                .isSpecific = Response_chkIsSpecific.Checked
+                .userIDupdate = MyBase.LoggedOnUserID.Trim
+                .UpdateStatus()
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
         Private Sub _updateIssueResponse()
             Page.Validate()
             If Not Page.IsValid Then Exit Sub
@@ -404,14 +505,33 @@ Namespace QIS.Web
                 .IssueID = Response_lblIssueID.Text.Trim
                 .ResponseDescription = Response_txtResponseDescription.Text.Trim
                 .ResponseDate = Response_calResponseDate.selectedDate
+                .ResponseTimeStart = Response_txtResponseTimeStart.Text.Trim
+                .ResponseDuration = CInt(IIf(IsNumeric(Response_txtResponseDuration.Text.Trim), Response_txtResponseDuration.Text.Trim, 0).ToString.Trim)
+                .ResponseTypeSCode = Response_ddlResponseType.SelectedItem.Value.Trim
+                .isShared = Response_chkIsShared.Checked
                 .userIDinsert = MyBase.LoggedOnUserID.Trim
                 .userIDupdate = MyBase.LoggedOnUserID.Trim
                 If fNew Then
                     If .Insert() Then
+                        If Response_chkIsUpdateStatus.Checked Then
+                            _updateIssueStatus(Response_lblIssueID.Text.Trim)
+                        End If
+
+                        If Response_chkIsIncludeInMyWorktime.Checked Then
+                            InsertWorkTimeHdFromAddEditResponse()
+                        End If
                         Response_lblResponseID.Text = .ResponseID.Trim
                     End If
                 Else
-                    .Update()
+                    If .Update() Then
+                        If Response_chkIsUpdateStatus.Checked Then
+                            _updateIssueStatus(Response_lblIssueID.Text.Trim)
+                        End If
+
+                        If Response_chkIsIncludeInMyWorktime.Checked Then
+                            InsertWorkTimeHdFromAddEditResponse()
+                        End If
+                    End If
                 End If
             End With
             oBR.Dispose()
@@ -534,6 +654,52 @@ Namespace QIS.Web
             oWTHd = Nothing
         End Sub
 
+        Private Sub InsertWorkTimeHdFromAddEditResponse()
+            '// SHOULD BE CHECKED IF EXISTS BY UserID + IssueID + ProjectID + WorkTimeDate
+            If IsWorkTimeSubmitted() = True Then
+                commonFunction.MsgBox(Me, "Add failed. You have Submitted your today Worktime.")
+                Exit Sub
+            End If
+
+            If IsAlreadyAddedToWorkTime(Response_lblIssueID.Text.Trim) = True Then
+                commonFunction.MsgBox(Me, "Add failed. You have Add this Issue ID to your today Worktime.")
+                Exit Sub
+            End If
+
+            If Response_txtWorktimeDtDescription.Text.Trim = String.Empty Then
+                commonFunction.MsgBox(Me, "Please type in Worktime Description.")
+                Exit Sub
+            End If
+
+            If IsNumeric(Response_txtWorkTimeInHour.Text.Trim) = False Then
+                commonFunction.MsgBox(Me, "Working time must be a number.")
+                Exit Sub
+            End If
+
+            If CInt(Response_txtWorkTimeInHour.Text.Trim) < 0 Then
+                commonFunction.MsgBox(Me, "Working time must be greater than or equal to 0.")
+                Exit Sub
+            End If
+
+            Dim isNew As Boolean = True
+            Dim oWTHd As New Common.BussinessRules.WorkTimeHd
+            oWTHd.UserID = MyBase.LoggedOnUserID.Trim
+            oWTHd.WorkTimeDate = Date.Today
+            isNew = oWTHd.SelectByUserIDWorkTimeDate.Rows.Count = 0
+            oWTHd.Remarks = "Follow Up Basecamp Issue"
+            oWTHd.IsSubmitted = False
+            If isNew Then
+                If oWTHd.Insert() Then
+                    InsertUpdateWorkTimeDtFromAddEditResponse(oWTHd.WorkTimeHdID.Trim)
+                End If
+            Else
+                InsertUpdateWorkTimeDtFromAddEditResponse(oWTHd.WorkTimeHdID.Trim)
+            End If
+
+            oWTHd.Dispose()
+            oWTHd = Nothing
+        End Sub
+
         Private Sub InsertUpdateWorkTimeDtFromAddEditIssue(ByVal strWorktimeHdID As String)
             Dim oWTDt As New Common.BussinessRules.WorkTimeDt
             oWTDt.WorkTimeHdID = strWorktimeHdID.Trim
@@ -541,6 +707,18 @@ Namespace QIS.Web
             oWTDt.IssueID = lblIssueID.Text.Trim
             oWTDt.DetailDescription = txtWorktimeDtDescription.Text.Trim
             oWTDt.WorkTimeInHour = CInt(txtWorkTimeInHour.Text.Trim)
+            oWTDt.Insert()
+            oWTDt.Dispose()
+            oWTDt = Nothing
+        End Sub
+
+        Private Sub InsertUpdateWorkTimeDtFromAddEditResponse(ByVal strWorktimeHdID As String)
+            Dim oWTDt As New Common.BussinessRules.WorkTimeDt
+            oWTDt.WorkTimeHdID = strWorktimeHdID.Trim
+            oWTDt.ProjectID = Response_lblProjectID.Text.Trim
+            oWTDt.IssueID = Response_lblIssueID.Text.Trim
+            oWTDt.DetailDescription = Response_txtWorktimeDtDescription.Text.Trim
+            oWTDt.WorkTimeInHour = CInt(Response_txtWorkTimeInHour.Text.Trim)
             oWTDt.Insert()
             oWTDt.Dispose()
             oWTDt = Nothing

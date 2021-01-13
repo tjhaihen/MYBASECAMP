@@ -1143,8 +1143,7 @@ Namespace QIS.Common.BussinessRules
             End Try
 
             Return toReturn
-        End Function
-        'percobaan penambahan createdBy
+        End Function        
 
         Public Function SelectOneForInformation() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
@@ -1231,6 +1230,40 @@ Namespace QIS.Common.BussinessRules
 
             Try
                 cmdToExecute.Parameters.AddWithValue("@patchNo", _patchNo)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function SelectPlannedByUserAssignedTo(ByVal dtStartDate As Date, ByVal dtEndDate As Date, ByVal strProjectGroupID As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spSelectIssueCountByUserID"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spSelectIssueCountByUserID")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@startDate", dtStartDate)
+                cmdToExecute.Parameters.AddWithValue("@endDate", dtEndDate)
+                cmdToExecute.Parameters.AddWithValue("@projectGroupID", strProjectGroupID)
+
 
                 ' // Open connection.
                 _mainConnection.Open()

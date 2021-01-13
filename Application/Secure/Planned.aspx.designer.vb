@@ -321,6 +321,33 @@ Namespace QIS.Web
         Protected WithEvents lblProgress As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
+        '''ibtnViewDetailPlanned control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ibtnViewDetailPlanned As Global.System.Web.UI.WebControls.ImageButton
+
+        '''<summary>
+        '''ibtnViewPlannedByTeam control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ibtnViewPlannedByTeam As Global.System.Web.UI.WebControls.ImageButton
+
+        '''<summary>
+        '''pnlDetailPlanned control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlDetailPlanned As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
         '''pnlAddNew control.
         '''</summary>
         '''<remarks>
@@ -564,6 +591,15 @@ Namespace QIS.Web
         Protected WithEvents Response_lblIssueID As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
+        '''Response_lblProjectID control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_lblProjectID As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''Response_lblDepartmentName control.
         '''</summary>
         '''<remarks>
@@ -591,6 +627,33 @@ Namespace QIS.Web
         Protected WithEvents Response_calResponseDate As Global.QIS.Web.Calendar
 
         '''<summary>
+        '''Response_txtResponseTimeStart control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_txtResponseTimeStart As Global.eWorld.UI.MaskedTextBox
+
+        '''<summary>
+        '''Response_txtResponseDuration control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_txtResponseDuration As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''Response_ddlResponseType control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_ddlResponseType As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
         '''Response_txtResponseDescription control.
         '''</summary>
         '''<remarks>
@@ -616,6 +679,96 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents Response_lblResponseID As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''Response_chkIsShared control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_chkIsShared As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''Response_ddlIssueStatus control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_ddlIssueStatus As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''Response_chkIsUpdateStatus control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_chkIsUpdateStatus As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''Response_ddlIssueConfirmStatus control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_ddlIssueConfirmStatus As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''Response_txtPatchNo control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_txtPatchNo As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''Response_chkIsSpecific control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_chkIsSpecific As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''Response_chkIsIncludeInMyWorktime control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_chkIsIncludeInMyWorktime As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''Response_lblWorktimeHdID control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_lblWorktimeHdID As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''Response_txtWorktimeDtDescription control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_txtWorktimeDtDescription As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''Response_txtWorkTimeInHour control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_txtWorkTimeInHour As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
         '''Response_btnSaveAndNew control.
@@ -661,6 +814,24 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents grdIssueByFilter As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''pnlPlannedByTeam control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlPlannedByTeam As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''grdPlannedByTeam control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdPlannedByTeam As Global.System.Web.UI.WebControls.DataGrid
 
         '''<summary>
         '''mdlCopyRight control.
