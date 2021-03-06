@@ -199,8 +199,13 @@ Namespace QIS.Web
 
         Private Sub GetProjectsByUserID(ByVal IsAssignedOnly As Boolean)
             Dim oBr As New Common.BussinessRules.ProjectUser
-            repMyProjectGroups.DataSource = oBr.SelectProjectGroupByUserID(MyBase.LoggedOnUserID.Trim, IsAssignedOnly)
-            repMyProjectGroups.DataBind()
+            If IsAssignedOnly Then
+                repMyProjectGroups.DataSource = oBr.SelectProjectGroupByUserID(MyBase.LoggedOnUserID.Trim, IsAssignedOnly)
+                repMyProjectGroups.DataBind()
+            Else
+                repMyProjectGroups.DataSource = oBr.SelectProjectGroupByProfileID(MyBase.LoggedOnProfileID.Trim)
+                repMyProjectGroups.DataBind()
+            End If
             oBr.Dispose()
             oBr = Nothing
         End Sub
@@ -222,7 +227,11 @@ Namespace QIS.Web
         Private Function GetProjectByProjectGroupID(ByVal ProjectGroupID As String, ByVal IsAssignedOnly As Boolean) As DataTable
             Dim dt As DataTable
             Dim oPU As New Common.BussinessRules.ProjectUser
-            dt = oPU.SelectProjectByProjectGroupID(ProjectGroupID, MyBase.LoggedOnUserID.Trim, IsAssignedOnly)
+            If IsAssignedOnly Then
+                dt = oPU.SelectProjectByProjectGroupID(ProjectGroupID, MyBase.LoggedOnUserID.Trim, IsAssignedOnly)
+            Else
+                dt = oPU.SelectProjectByProjectGroupIDProfileID(ProjectGroupID, MyBase.LoggedOnProfileID.Trim)
+            End If            
             oPU.Dispose()
             oPU = Nothing
             Return dt

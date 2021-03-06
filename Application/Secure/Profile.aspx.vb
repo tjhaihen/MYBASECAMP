@@ -169,6 +169,11 @@ Namespace QIS.Web.Secure
             btnProfileMenuRemove.Enabled = isEnable
             btnProfileMenuRemoveAll.Enabled = isEnable
 
+            btnProfileProjectAdd.Enabled = isEnable
+            btnProfileProjectAddAll.Enabled = isEnable
+            btnProfileProjectRemove.Enabled = isEnable
+            btnProfileProjectRemoveAll.Enabled = isEnable
+
             btnProfileUnitAdd.Enabled = isEnable
             btnProfileUnitAddAll.Enabled = isEnable
             btnProfileUnitRemove.Enabled = isEnable

@@ -102,7 +102,7 @@ Namespace QIS.Web.WorkTime
 
         Private Sub prepareDDL()
             commonFunction.SetDDL_Table(ddlMonth, "MonthInYear", String.Empty, False)
-            commonFunction.SetDDL_Table(ddlProject, "ProjectUser", MyBase.LoggedOnUserID.Trim, True, "- Select Project -")
+            commonFunction.SetDDL_Table(ddlProject, "ProjectProfile", MyBase.LoggedOnProfileID.Trim, True, "- Select Project -")
         End Sub
 
         Private Sub PrepareScreen()

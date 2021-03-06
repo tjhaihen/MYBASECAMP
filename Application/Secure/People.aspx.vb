@@ -147,6 +147,8 @@ Namespace QIS.Web.Secure
                 txtUserName.Text = String.Empty
                 commonFunction.Focus(Me, txtUserName.ClientID)
             End If
+            txtInitial.Text = String.Empty
+            txtDepartment.Text = String.Empty
             prepareScreenPerson()
             SetEnableButton(False)
             SetDataGridUserProfile()
@@ -230,7 +232,9 @@ Namespace QIS.Web.Secure
                     _openPerson()
                     chkIsActive.Checked = .isActive
                     txtLinkParamedicID.Text = .LinkParamedicID.Trim
-                    chkIsPhysician.Checked = .IsPhysician
+                    chkIsPhysician.Checked = .isPhysician
+                    txtInitial.Text = .Initial.Trim
+                    txtDepartment.Text = .Department.Trim
                     SetEnableButton(True)
                 Else
                     prepareScreen(False)                    
@@ -353,7 +357,9 @@ Namespace QIS.Web.Secure
                 .UserIDInsert = MyBase.LoggedOnUserID
                 .UserIDUpdate = MyBase.LoggedOnUserID
                 .LinkParamedicID = txtLinkParamedicID.Text.Trim
-                .IsPhysician = chkIsPhysician.Checked
+                .isPhysician = chkIsPhysician.Checked
+                .Initial = txtInitial.Text.Trim
+                .Department = txtDepartment.Text.Trim
                 If isNew Then
                     If .Insert() Then
                         txtUserID.Text = .UserID

@@ -17,6 +17,7 @@ Namespace QIS.Common.BussinessRules
         Private _isActive As Boolean
         Private _LinkParamedicID As String
         Private _isPhysician As Boolean
+        Private _initial, _department As String
 
 #End Region
 
@@ -30,10 +31,10 @@ Namespace QIS.Common.BussinessRules
             With cmdToExecute
                 .CommandText = "INSERT INTO [User] " & _
                                 "(UserID, UserName, PersonID, Password, AuthorizePassword, " & _
-                                "IsActive, UserIDInsert, UserIDUpdate, InsertDate, UpdateDate, LinkParamedicID, IsPhysician) " & _
+                                "IsActive, UserIDInsert, UserIDUpdate, InsertDate, UpdateDate, LinkParamedicID, IsPhysician, Initial, Department) " & _
                                 "VALUES " & _
                                 "(@UserID, @UserName, @PersonID, @Password, @AuthorizePassword, " & _
-                                "@IsActive, @UserIDInsert, @UserIDUpdate, GetDate(), GetDate(), @LinkParamedicID, @IsPhysician)"
+                                "@IsActive, @UserIDInsert, @UserIDUpdate, GetDate(), GetDate(), @LinkParamedicID, @IsPhysician, @Initial, @Department)"
                 .CommandType = CommandType.Text
                 .Connection = _mainConnection
             End With
@@ -51,6 +52,8 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@UserIDUpdate", _UserIDUpdate)
                 cmdToExecute.Parameters.AddWithValue("@LinkParamedicID", _LinkParamedicID)
                 cmdToExecute.Parameters.AddWithValue("@IsPhysician", _isPhysician)
+                cmdToExecute.Parameters.AddWithValue("@Initial", _initial)
+                cmdToExecute.Parameters.AddWithValue("@Department", _department)
 
                 _mainConnection.Open()
 
@@ -78,7 +81,9 @@ Namespace QIS.Common.BussinessRules
                                 "UserIDUpdate = @UserIDUpdate, " & _
                                 "UpdateDate = GetDate(), " & _
                                 "LinkParamedicID = @LinkParamedicID, " & _
-                                "IsPhysician = @IsPhysician " & _
+                                "IsPhysician = @IsPhysician, " & _
+                                "Initial = @Initial, " & _
+                                "Department = @Department " & _
                                 "WHERE UserID = @UserID"
                 .CommandType = CommandType.Text
                 .Connection = _mainConnection
@@ -91,6 +96,8 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@UserIDUpdate", _UserIDUpdate)
                 cmdToExecute.Parameters.AddWithValue("@LinkParamedicID", _LinkParamedicID)
                 cmdToExecute.Parameters.AddWithValue("@IsPhysician", _isPhysician)
+                cmdToExecute.Parameters.AddWithValue("@Initial", _initial)
+                cmdToExecute.Parameters.AddWithValue("@Department", _department)
 
                 _mainConnection.Open()
 
@@ -176,6 +183,8 @@ Namespace QIS.Common.BussinessRules
                     _UpdateDate = CType(toReturn.Rows(0)("UpdateDate"), DateTime)
                     _LinkParamedicID = CType(toReturn.Rows(0)("LinkParamedicID"), String)
                     _isPhysician = CType(toReturn.Rows(0)("IsPhysician"), Boolean)
+                    _initial = CType(toReturn.Rows(0)("initial"), String)
+                    _department = CType(toReturn.Rows(0)("department"), String)
                 End If
 
                 Return toReturn
@@ -211,7 +220,9 @@ Namespace QIS.Common.BussinessRules
                                         "UserIDUpdate = @UserIDUpdate, " & _
                                         "UpdateDate = GetDate(), " & _
                                         "LinkParamedicID = @LinkParamedicID, " & _
-                                        "IsPhysician = @IsPhysician " & _
+                                        "IsPhysician = @IsPhysician, " & _
+                                        "Initial = @Initial, " & _
+                                        "Department = @Department " & _
                                         "WHERE UserID = @UserID"
 
             With cmdToExecute
@@ -226,6 +237,8 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@UserIDUpdate", _UserIDUpdate)
                 cmdToExecute.Parameters.AddWithValue("@LinkParamedicID", _LinkParamedicID)
                 cmdToExecute.Parameters.AddWithValue("@IsPhysician", _isPhysician)
+                cmdToExecute.Parameters.AddWithValue("@Initial", _initial)
+                cmdToExecute.Parameters.AddWithValue("@Department", _department)
                 If IsResetPassword = True Then
                     cmdToExecute.Parameters.AddWithValue("@Password", _Password)
                 End If
@@ -282,7 +295,7 @@ Namespace QIS.Common.BussinessRules
                                        "ISNULL((SELECT profileName FROM Profile WHERE ProfileID = up.ProfileID),'') AS ProfileName, " & _
                                        "ISNULL(us.SiteID,'') AS SiteID, " & _
                                        "ISNULL((SELECT siteName FROM Site WHERE SiteID = us.SiteID),'') AS SiteName, " & _
-                                       "u.LinkParamedicID, u.IsPhysician " & _
+                                       "u.LinkParamedicID, u.IsPhysician, u.initial, u.department " & _
                                        "FROM [User] u " & _
                                        "LEFT JOIN [UserProfile] up ON u.UserID = up.UserID " & _
                                        "LEFT JOIN [UserSite] us ON u.UserID = us.UserID " & _
@@ -315,7 +328,8 @@ Namespace QIS.Common.BussinessRules
             Dim cmdToExecute As SqlCommand = New SqlCommand
 
             cmdToExecute.CommandText = "SELECT u.UserID, u.Password, u.UserName, p.FirstName, p.MiddleName, p.LastName, " & _
-                                       "'' AS ProfileID, '' AS SiteID, p.Salutation, p.AcademicTitle, u.LinkParamedicID, u.IsPhysician " & _
+                                       "'' AS ProfileID, '' AS SiteID, p.Salutation, p.AcademicTitle, u.LinkParamedicID, u.IsPhysician, " & _
+                                       "u.initial, u.department " & _
                                        "FROM [User] u " & _
                                        "INNER JOIN Person p ON u.PersonID = p.PersonID " & _
                                        "WHERE UserName = @UserName and IsActive = 1"
@@ -346,6 +360,7 @@ Namespace QIS.Common.BussinessRules
         Public Function SelectUserPerson() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "SELECT u.userID, u.userName, u.password, u.authorizePassword, u.isActive, " & _
+                                        "u.initial, u.department, " & _
                                         "p.salutation, p.firstName, p.middleName, p.lastName, p.academicTitle, " & _
                                         "p.address1, p.address2, p.address3, p.city, p.postalCode, " & _
                                         "p.phone, p.mobile, p.fax, p.email, p.url, " & _
@@ -384,7 +399,7 @@ Namespace QIS.Common.BussinessRules
 
         Public Function SelectActiveUserPerson(ByVal strYear As String, ByVal strMonth As String) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
-            cmdToExecute.CommandText = "SELECT u.userID, u.userName, u.password, u.authorizePassword, u.isActive, " & _
+            cmdToExecute.CommandText = "SELECT u.userID, u.userName, u.password, u.authorizePassword, u.isActive, u.initial, u.department, " & _
                                         "p.salutation, p.firstName, p.middleName, p.lastName, p.academicTitle, " & _
                                         "RTRIM(RTRIM(RTRIM(p.firstName) + ' ' + RTRIM(p.middleName)) + ' ' + RTRIM(p.lastName)) AS fullName, " & _
                                         "p.address1, p.address2, p.address3, p.city, p.postalCode, " & _
@@ -529,6 +544,24 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As Boolean)
                 _isPhysician = Value
+            End Set
+        End Property
+
+        Public Property [Initial]() As String
+            Get
+                Return _initial
+            End Get
+            Set(ByVal Value As String)
+                _initial = Value
+            End Set
+        End Property
+
+        Public Property [Department]() As String
+            Get
+                Return _department
+            End Get
+            Set(ByVal Value As String)
+                _department = Value
             End Set
         End Property
 #End Region

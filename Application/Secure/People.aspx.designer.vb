@@ -132,6 +132,24 @@ Namespace QIS.Web.Secure
         Protected WithEvents chkIsActive As Global.System.Web.UI.WebControls.CheckBox
 
         '''<summary>
+        '''txtInitial control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtInitial As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''txtDepartment control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtDepartment As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
         '''txtSalutation control.
         '''</summary>
         '''<remarks>

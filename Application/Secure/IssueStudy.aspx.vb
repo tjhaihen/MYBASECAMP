@@ -131,7 +131,11 @@ Namespace QIS.Web
         End Sub
 
         Private Sub GetIssueStudy_Level1(ByVal strKeywords As String)
-            Dim oBR As New Common.BussinessRules.Issue            
+            If txtKeywords.Text.Trim = String.Empty Then
+                commonFunction.MsgBox(Me, "Nothing to search for. Please type on Keywords first.")
+                Exit Sub
+            End If
+            Dim oBR As New Common.BussinessRules.Issue
             repIssue.DataSource = oBR.SelectByKeywords(ddlProjectFilter.SelectedValue.Trim, strKeywords.Trim)
             repIssue.DataBind()
             oBR.Dispose()

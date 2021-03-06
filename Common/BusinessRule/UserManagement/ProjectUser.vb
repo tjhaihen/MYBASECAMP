@@ -169,7 +169,8 @@ Namespace QIS.Common.BussinessRules
                                         "INNER JOIN Project p ON pp.projectID=p.projectID " + _
                                         "INNER JOIN ProjectGroup pg ON p.projectGroupID=pg.projectGroupID " + _
                                         "WHERE up.UserID=@UserID AND pp.projectID IN " + _
-                                        "(SELECT DISTINCT projectID FROM Issue WHERE UserIDAssignedTo=@UserID) " + _
+                                        "(SELECT DISTINCT projectID FROM Issue WHERE UserIDAssignedTo=@UserID AND " + _
+                                        "issueStatusSCode NOT IN ('002-1','002-5','003')) " + _
                                         ") pg " + _
                                         "ORDER BY pg.sequence, pg.projectGroupID, pg.projectGroupName ASC"
             End If
@@ -201,7 +202,67 @@ Namespace QIS.Common.BussinessRules
             End Try
         End Function
 
-        'percobaan ORDER tampilan Project
+        Public Function SelectProjectByProfileID(ByVal ProfileID As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spSelectProjectByProfileID"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+            Dim toReturn As DataTable = New DataTable("SelectProjectByProfileID")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            ' // Use base class' connection object
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@ProfileID", ProfileID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                Return toReturn
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                Throw New Exception(ex.Message)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+        End Function
+
+        Public Function SelectProjectGroupByProfileID(ByVal ProfileID As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "SelectProjectGroupByProfileID"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+            Dim toReturn As DataTable = New DataTable("SelectProjectGroupByProfileID")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            ' // Use base class' connection object
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@ProfileID", ProfileID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                Return toReturn
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                Throw New Exception(ex.Message)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+        End Function
 
         Public Function SelectProjectByProjectGroupID(ByVal ProjectGroupID As String, ByVal UserID As String, Optional ByVal IsAssignedOnly As Boolean = False) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
@@ -281,7 +342,7 @@ Namespace QIS.Common.BussinessRules
                                         "FROM projectUser up " + _
                                         "INNER JOIN Project p ON up.projectID=p.projectID " + _
                                         "WHERE p.projectGroupID=@projectGroupID AND up.UserID=@UserID AND up.projectID IN " + _
-                                        "(SELECT DISTINCT projectID FROM Issue WHERE UserIDAssignedTo=@UserID) " + _
+                                        "(SELECT DISTINCT projectID FROM Issue WHERE UserIDAssignedTo=@UserID AND issueStatusSCode NOT IN ('002-1','002-5','003')) " + _
                                         ") a " + _
                                         ") b " + _
                                         "ORDER BY b.progress ASC, b.IsPinned DESC"
@@ -296,6 +357,38 @@ Namespace QIS.Common.BussinessRules
             Try
                 cmdToExecute.Parameters.AddWithValue("@projectGroupID", ProjectGroupID)
                 cmdToExecute.Parameters.AddWithValue("@UserID", UserID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                Return toReturn
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                Throw New Exception(ex.Message)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+        End Function
+
+        Public Function SelectProjectByProjectGroupIDProfileID(ByVal ProjectGroupID As String, ByVal ProfileID As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "SelectProjectByProjectGroupIDProfileID"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+            Dim toReturn As DataTable = New DataTable("SelectProjectByProjectGroupIDProfileID")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            ' // Use base class' connection object
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@projectGroupID", ProjectGroupID)
+                cmdToExecute.Parameters.AddWithValue("@ProfileID", ProfileID)
 
                 ' // Open connection.
                 _mainConnection.Open()

@@ -223,19 +223,18 @@
                                 </HeaderTemplate>
                                 <ItemTemplate>
                                     <li>
-                                        <table cellspacing="1">
+                                        <table cellspacing="2">
                                             <tr>
-                                                <td style="width: 750; min-width: 750; font-size: 11pt;" valign="top">
+                                                <td style="width: 750; min-width: 750; font-size: 11pt; background-color: #eeeeee;" valign="top">
                                                     <pre><%# DataBinder.Eval(Container.DataItem, "issueDescription")%></pre>
                                                 </td>
-                                                <td style="width: 400;" class="txtweak" valign="top">
-                                                    <%# DataBinder.Eval(Container.DataItem, "departmentName")%>
-                                                    &nbsp;|&nbsp;<%# DataBinder.Eval(Container.DataItem, "reportedBy")%>&nbsp;on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %>
+                                                <td style="width: 400; background-color: #eeeeee; color: #333333; font-size: 8pt;" valign="top">
+                                                    IssueID:&nbsp;<font color="#000000"><strong><%# DataBinder.Eval(Container.DataItem, "issueID")%></strong></font>
+                                                    &nbsp;|&nbsp;<%# DataBinder.Eval(Container.DataItem, "projectGroupName") %>&nbsp;|&nbsp;<%# DataBinder.Eval(Container.DataItem, "projectAliasName") %>
+                                                    <br />Status:&nbsp;<%# DataBinder.Eval(Container.DataItem, "issueStatusName")%>
                                                     &nbsp;|&nbsp;Type:&nbsp;<%# DataBinder.Eval(Container.DataItem, "issueTypeName")%>
-                                                    <br />
-                                                    <%# DataBinder.Eval(Container.DataItem, "projectGroupName") %>&nbsp;|&nbsp;<%# DataBinder.Eval(Container.DataItem, "projectAliasName") %>&nbsp;|&nbsp;
-                                                    Status:
-                                                    <%# DataBinder.Eval(Container.DataItem, "issueStatusName")%>
+                                                    <br /><%# DataBinder.Eval(Container.DataItem, "departmentName")%>
+                                                    &nbsp;|&nbsp;<%# DataBinder.Eval(Container.DataItem, "reportedBy")%>&nbsp;on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %>
                                                 </td>
                                             </tr>
                                             <tr>

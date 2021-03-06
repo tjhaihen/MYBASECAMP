@@ -136,6 +136,30 @@
                                             <table width="100%">
                                                 <tr>
                                                     <td style="width: 150px;" class="right">
+                                                        Initial
+                                                    </td>
+                                                    <td style="width: 500px;">
+                                                        <asp:TextBox ID="txtInitial" Width="300" MaxLength="5" runat="server" />
+                                                    </td>
+                                                    <td style="width: 150px;" class="right">
+                                                        Department
+                                                    </td>
+                                                    <td>
+                                                        <asp:TextBox ID="txtDepartment" Width="300" MaxLength="50" runat="server" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="hseparator" style="width: 100%;">
+                                        </td>
+                                    </tr>
+                                    <tr class="rbody">
+                                        <td valign="top">
+                                            <table width="100%">
+                                                <tr>
+                                                    <td style="width: 150px;" class="right">
                                                         Salutation
                                                     </td>
                                                     <td style="width: 500px;">
