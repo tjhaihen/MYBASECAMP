@@ -90,6 +90,12 @@
                                                 ID="_lbtnPatchNo" CommandName="SelectPatch" CausesValidation="false" />
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
+                                    <asp:TemplateColumn runat="server">
+                                        <ItemTemplate>
+                                            <asp:Image runat="server" ID="_imgIsClosed" ImageUrl="/qistoollib/images/patchclosed_small.png" Width="8"
+                                                ImageAlign="AbsMiddle" Visible='<%# DataBinder.Eval(Container.DataItem, "IsClosed")%>' />
+                                        </ItemTemplate>
+                                    </asp:TemplateColumn>
                                 </Columns>
                             </asp:DataGrid>
                         </td>
@@ -129,8 +135,22 @@
                                     <td class="right" style="width: 100;">
                                         Patch No.
                                     </td>
-                                    <td>
+                                    <td style="width: 50%;">
                                         <asp:TextBox ID="txtPatchNo" runat="server" Width="300"></asp:TextBox>
+                                    </td>
+                                    <td rowspan="3" align="right">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <asp:Image ID="imgIsClosed" runat="server" ImageUrl="/qistoollib/images/patchclosed.png"
+                                                        ToolTip="Approved" />
+                                                </td>
+                                                <td valign="bottom">
+                                                    <asp:Label ID="lblClosedBy" runat="server" Text="By: -"></asp:Label><br />
+                                                    <asp:Label ID="lblClosedDate" runat="server" Text="On: -"></asp:Label>
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </td>
                                 </tr>
                                 <tr>
@@ -150,12 +170,12 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="hseparator" colspan="2">
+                                    <td class="hseparator" colspan="3">
                                     </td>
                                 </tr>
                                 <asp:Panel ID="pnlAddNewPatchIssue" runat="server">
                                     <tr>
-                                        <td colspan="2">
+                                        <td colspan="3">
                                             <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                                 <tr>
                                                     <td style="font-weight: bold;">
@@ -214,7 +234,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">
+                                        <td colspan="3">
                                             <asp:DataGrid ID="grdPatchIssue" runat="server" BorderWidth="0" GridLines="None"
                                                 Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
                                                 AutoGenerateColumns="false">
@@ -226,7 +246,7 @@
                                                     <asp:TemplateColumn runat="server" ItemStyle-Width="30">
                                                         <ItemTemplate>
                                                             <asp:ImageButton ID="_ibtnDelete" runat="server" ImageUrl="/qistoollib/images/delete.png"
-                                                                ImageAlign="AbsMiddle" CommandName="Delete" CausesValidation="false" />
+                                                                ImageAlign="AbsMiddle" CommandName="Delete" CausesValidation="false" Visible='<%# NOT(DataBinder.Eval(Container.DataItem, "IsClosed"))%>' />
                                                         </ItemTemplate>
                                                     </asp:TemplateColumn>
                                                     <asp:TemplateColumn runat="server" HeaderText="Department">
@@ -270,12 +290,12 @@
                                     </tr>
                                 </asp:Panel>
                                 <tr>
-                                    <td class="hseparator" colspan="2">
+                                    <td class="hseparator" colspan="3">
                                     </td>
                                 </tr>
                                 <asp:Panel ID="pnlAddNewPatchDt" runat="server">
                                     <tr>
-                                        <td colspan="2">
+                                        <td colspan="3">
                                             <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                                 <tr>
                                                     <td style="font-weight: bold;">
@@ -330,7 +350,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">
+                                        <td colspan="3">
                                             <asp:DataGrid ID="grdPatchDt" runat="server" BorderWidth="0" GridLines="None" Width="100%"
                                                 CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false" AutoGenerateColumns="false">
                                                 <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
@@ -342,13 +362,13 @@
                                                         <ItemTemplate>
                                                             <asp:Label ID="grdPatchDt_lblPatchDtID" runat="server" Visible="false" Text='<%# DataBinder.Eval(Container.DataItem, "patchDtID")%>' />
                                                             <asp:ImageButton ID="_ibtnEdit" runat="server" ImageUrl="/qistoollib/images/edit.png"
-                                                                ImageAlign="AbsMiddle" CommandName="Edit" CausesValidation="false" />
+                                                                ImageAlign="AbsMiddle" CommandName="Edit" CausesValidation="false" Visible='<%# NOT(DataBinder.Eval(Container.DataItem, "IsClosed"))%>' />
                                                         </ItemTemplate>
                                                     </asp:TemplateColumn>
                                                     <asp:TemplateColumn runat="server" ItemStyle-Width="30">
                                                         <ItemTemplate>
                                                             <asp:ImageButton ID="_ibtnDelete" runat="server" ImageUrl="/qistoollib/images/delete.png"
-                                                                ImageAlign="AbsMiddle" CommandName="Delete" CausesValidation="false" />
+                                                                ImageAlign="AbsMiddle" CommandName="Delete" CausesValidation="false" Visible='<%# NOT(DataBinder.Eval(Container.DataItem, "IsClosed"))%>' />
                                                         </ItemTemplate>
                                                     </asp:TemplateColumn>
                                                     <asp:TemplateColumn runat="server" HeaderText="Issue Description">
@@ -382,12 +402,12 @@
                                     </tr>
                                 </asp:Panel>
                                 <tr>
-                                    <td class="hseparator" colspan="2">
+                                    <td class="hseparator" colspan="3">
                                     </td>
                                 </tr>
                                 <asp:Panel ID="pnlAddNewRowPatchProject" runat="server">
                                     <tr>
-                                        <td colspan="2">
+                                        <td colspan="3">
                                             <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                                 <tr>
                                                     <td style="font-weight: bold;">
@@ -399,7 +419,7 @@
                                                         <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                                             <tr>
                                                                 <td class="right" style="width: 100px; background: #ffffff;">
-                                                                    Project                                                                    
+                                                                    Project
                                                                 </td>
                                                                 <td style="background: #ffffff;">
                                                                     <asp:TextBox ID="PatchProject_txtPatchProjectID" runat="server" Visible="false">
@@ -439,7 +459,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">
+                                        <td colspan="3">
                                             <asp:DataGrid ID="grdPatchProject" runat="server" BorderWidth="0" GridLines="None"
                                                 Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
                                                 AutoGenerateColumns="false">
@@ -453,7 +473,7 @@
                                                             <asp:Label ID="grdPatchProject_lblPatchProjectID" runat="server" Visible="false"
                                                                 Text='<%# DataBinder.Eval(Container.DataItem, "patchProjectID")%>' />
                                                             <asp:ImageButton ID="_ibtnDelete" runat="server" ImageUrl="/qistoollib/images/delete.png"
-                                                                ImageAlign="AbsMiddle" CommandName="Delete" CausesValidation="false" />
+                                                                ImageAlign="AbsMiddle" CommandName="Delete" CausesValidation="false" Visible='<%# NOT(DataBinder.Eval(Container.DataItem, "IsClosed"))%>' />
                                                         </ItemTemplate>
                                                     </asp:TemplateColumn>
                                                     <asp:TemplateColumn runat="server" HeaderText="Project" ItemStyle-Width="80">

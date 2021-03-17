@@ -1208,7 +1208,7 @@ Namespace QIS.Common.BussinessRules
         Public Function SelectByPatchNo() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             Dim strFilterOpenOnly As String = String.Empty
-            cmdToExecute.CommandText = "SELECT i.*, " + _
+            cmdToExecute.CommandText = "SELECT i.*, pt.IsClosed, " + _
                                         "p.ProjectAliasName, p.ProjectName, i.departmentName AS IssueDepartment, " + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='ISSUETYPE' AND code=i.issueTypeSCode) AS issueTypeName, " + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='ISSUESTATUS' AND code=i.issueStatusSCode) AS issueStatusName, " + _
@@ -1219,6 +1219,7 @@ Namespace QIS.Common.BussinessRules
                                         "isHasAttachment=CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID) > 0) THEN(1) ELSE(0) END " + _
                                         "FROM Issue i " + _
                                         "INNER JOIN Project p ON i.projectID = p.projectID " + _
+                                        "INNER JOIN Patch pt ON i.patchNo=pt.patchNo " + _
                                         "WHERE i.patchNo=@patchNo AND i.patchNo <> '' " + _
                                         "ORDER BY i.projectID, i.issueID"
             cmdToExecute.CommandType = CommandType.Text

@@ -53,17 +53,17 @@ Namespace QIS.Web.PatchManagement
 
         Private Sub btnAddPatchIssue_Click(sender As Object, e As System.EventArgs) Handles btnAddPatchIssue.Click
             InsertUpdatePatchIssue(txtIssueID.Text.Trim, False)
-            PrepareScreenPatchIssue()
+            PrepareScreenPatchIssue(imgIsClosed.Visible)
         End Sub
 
         Private Sub PatchDt_btnAddPatchDt_Click(sender As Object, e As System.EventArgs) Handles PatchDt_btnAddPatchDt.Click
             InsertUpdatePatchDt()
-            PrepareScreenPatchIssue()            
+            PrepareScreenPatchIssue(imgIsClosed.Visible)
         End Sub
 
         Private Sub PatchProject_btnAddPatchProject_Click(sender As Object, e As System.EventArgs) Handles PatchProject_btnAddPatchProject.Click
             InsertPatchProject()
-            PrepareScreenPatchIssue()
+            PrepareScreenPatchIssue(imgIsClosed.Visible)
         End Sub
 
         Private Sub grdPatchList_ItemCommand(source As Object, e As System.Web.UI.WebControls.DataGridCommandEventArgs) Handles grdPatchList.ItemCommand
@@ -81,7 +81,7 @@ Namespace QIS.Web.PatchManagement
                     rfvIssueID.Enabled = False
                     Dim _lblIssueID As Label = CType(e.Item.FindControl("_lblIssueID"), Label)
                     InsertUpdatePatchIssue(_lblIssueID.Text.Trim, True)
-                    PrepareScreenPatchIssue()
+                    PrepareScreenPatchIssue(imgIsClosed.Visible)
             End Select
         End Sub
 
@@ -96,7 +96,7 @@ Namespace QIS.Web.PatchManagement
                     rfvIssueID.Enabled = False
                     Dim grdPatchDt_lblPatchDtID As Label = CType(e.Item.FindControl("grdPatchDt_lblPatchDtID"), Label)
                     DeletePatchDt(grdPatchDt_lblPatchDtID.Text.Trim)
-                    PrepareScreenPatchIssue()
+                    PrepareScreenPatchIssue(imgIsClosed.Visible)
             End Select
         End Sub
 
@@ -106,22 +106,36 @@ Namespace QIS.Web.PatchManagement
                     rfvIssueID.Enabled = False
                     Dim grdPatchProject_lblPatchProjectID As Label = CType(e.Item.FindControl("grdPatchProject_lblPatchProjectID"), Label)
                     DeletePatchProject(grdPatchProject_lblPatchProjectID.Text.Trim)
-                    PrepareScreenPatchIssue()
+                    PrepareScreenPatchIssue(imgIsClosed.Visible)
             End Select
         End Sub
 #End Region
 
 #Region " Support functions for navigation bar (Controls) "
         Private Sub setToolbarVisibleButton()
-            With CSSToolbar
-                .VisibleButton(CSSToolbarItem.tidVoid) = False
-                .VisibleButton(CSSToolbarItem.tidPrint) = False
-                .VisibleButton(CSSToolbarItem.tidApprove) = False
-                .VisibleButton(CSSToolbarItem.tidVoid) = False
-                .VisibleButton(CSSToolbarItem.tidPrevious) = False
-                .VisibleButton(CSSToolbarItem.tidNext) = False
-                .VisibleButton(CSSToolbarItem.tidDownload) = True
-            End With
+            If txtPatchNo.Text.Trim.Length = 0 Then
+                With CSSToolbar
+                    .VisibleButton(CSSToolbarItem.tidSave) = True
+                    .VisibleButton(CSSToolbarItem.tidDelete) = False
+                    .VisibleButton(CSSToolbarItem.tidPrint) = False
+                    .VisibleButton(CSSToolbarItem.tidApprove) = False
+                    .VisibleButton(CSSToolbarItem.tidVoid) = False
+                    .VisibleButton(CSSToolbarItem.tidPrevious) = False
+                    .VisibleButton(CSSToolbarItem.tidNext) = False
+                    .VisibleButton(CSSToolbarItem.tidDownload) = False
+                End With
+            Else
+                With CSSToolbar
+                    .VisibleButton(CSSToolbarItem.tidSave) = Not imgIsClosed.Visible
+                    .VisibleButton(CSSToolbarItem.tidDelete) = Not imgIsClosed.Visible
+                    .VisibleButton(CSSToolbarItem.tidPrint) = False
+                    .VisibleButton(CSSToolbarItem.tidApprove) = Not imgIsClosed.Visible
+                    .VisibleButton(CSSToolbarItem.tidVoid) = imgIsClosed.Visible And txtPatchNo.Text.Trim.Length > 0
+                    .VisibleButton(CSSToolbarItem.tidPrevious) = False
+                    .VisibleButton(CSSToolbarItem.tidNext) = False
+                    .VisibleButton(CSSToolbarItem.tidDownload) = True
+                End With
+            End If            
         End Sub
 
         Private Sub mdlToolbar_commandBarClick(ByVal sender As Object, ByVal e As CSSToolbarItem) Handles CSSToolbar.CSSToolbarItemClick
@@ -135,7 +149,19 @@ Namespace QIS.Web.PatchManagement
 
                 Case CSSToolbarItem.tidSave
                     InsertUpdatePatch()
-                    PrepareScreenPatchIssue()
+                    PrepareScreenPatchIssue(imgIsClosed.Visible)
+                    UpdateViewGridPatchList()
+
+                Case CSSToolbarItem.tidApprove
+                    UpdateIsClosedPatch()
+                    OpenPatch(txtPatchNo.Text.Trim)
+                    PrepareScreenPatchIssue(imgIsClosed.Visible)
+                    UpdateViewGridPatchList()
+
+                Case CSSToolbarItem.tidVoid
+                    UpdateIsClosedPatch()
+                    OpenPatch(txtPatchNo.Text.Trim)
+                    PrepareScreenPatchIssue(imgIsClosed.Visible)
                     UpdateViewGridPatchList()
 
                 Case CSSToolbarItem.tidDownload
@@ -170,6 +196,11 @@ Namespace QIS.Web.PatchManagement
             txtPatchNo.Text = String.Empty
             calPatchDate.selectedDate = Date.Today
             txtRemarks.Text = String.Empty
+            imgIsClosed.Visible = False
+            lblClosedBy.Text = String.Empty
+            lblClosedDate.Text = String.Empty
+            lblClosedBy.Visible = False
+            lblClosedDate.Visible = False
 
             txtIssueID.Text = String.Empty
             txtIssueID.Enabled = False
@@ -199,7 +230,7 @@ Namespace QIS.Web.PatchManagement
             commonFunction.Focus(Me, txtPatchNo.ClientID)
         End Sub
 
-        Private Sub PrepareScreenPatchIssue()
+        Private Sub PrepareScreenPatchIssue(ByVal IsClosed As Boolean)
             txtIssueID.Text = String.Empty
             txtIssueID.Enabled = True
             lblIssueInformation.Text = String.Empty
@@ -207,20 +238,20 @@ Namespace QIS.Web.PatchManagement
             chkIsSpecific.Checked = False
             lblIssueAlreadyOnOtherPatch.Text = String.Empty
             pnlIssuePatchWarning.Visible = False
-            btnAddPatchIssue.Enabled = False
+            btnAddPatchIssue.Enabled = Not IsClosed
 
             PatchDt_txtPatchDtID.Text = String.Empty
             PatchDt_txtRemarks.Text = String.Empty
             PatchDt_ddlProject.SelectedIndex = 0
             PatchDt_chkIsSpecific.Checked = False
-            PatchDt_btnAddPatchDt.Enabled = True
+            PatchDt_btnAddPatchDt.Enabled = Not IsClosed
 
             PrepareDDL_PatchProject_ddlProject(txtPatchNo.Text.Trim)
             PatchProject_txtPatchProjectID.Text = String.Empty
             PatchProject_ddlProject.SelectedIndex = 0
             PatchProject_calUpdateDate.selectedDate = Date.Today
             PatchProject_txtRemarks.Text = String.Empty
-            PatchProject_btnAddPatchProject.Enabled = True
+            PatchProject_btnAddPatchProject.Enabled = Not IsClosed
 
             UpdateViewGridPatchIssue()
             UpdateViewGridPatchDt()
@@ -280,13 +311,25 @@ Namespace QIS.Web.PatchManagement
                 If .SelectOne.Rows.Count > 0 Then
                     calPatchDate.selectedDate = .PatchDate
                     txtRemarks.Text = .Remarks.Trim
-                    PrepareScreenPatchIssue()
+                    imgIsClosed.Visible = .IsClosed
+                    lblClosedBy.Visible = .IsClosed
+                    lblClosedDate.Visible = .IsClosed
+                    lblClosedBy.Text = GetUserName(.userIDclosed)
+                    lblClosedDate.Text = Format(.closedDate, commonFunction.FORMAT_DATE)
+
+                    btnAddPatchIssue.Enabled = Not .IsClosed
+                    PatchDt_btnAddPatchDt.Enabled = Not .IsClosed
+                    PatchProject_btnAddPatchProject.Enabled = Not .IsClosed
+
+                    PrepareScreenPatchIssue(imgIsClosed.Visible)
                 Else
                     PrepareScreen()
                 End If
             End With
             oPatch.Dispose()
             oPatch = Nothing
+
+            setToolbarVisibleButton()
         End Sub
 
         Private Sub OpenPatchDt(ByVal strPatchDtID As String)
@@ -298,7 +341,7 @@ Namespace QIS.Web.PatchManagement
                     PatchDt_ddlProject.SelectedValue = .ProjectID.Trim
                     PatchDt_chkIsSpecific.Checked = .IsSpecific
                 Else
-                    PrepareScreenPatchIssue()
+                    PrepareScreenPatchIssue(imgIsClosed.Visible)
                 End If
             End With
             oPatchDt.Dispose()
@@ -328,6 +371,20 @@ Namespace QIS.Web.PatchManagement
             oIssue = Nothing
         End Sub
 
+        Private Function GetUserName(ByVal strUserID As String) As String
+            Dim strToReturn As String = String.Empty
+            Dim oBR As New Common.BussinessRules.User
+            With oBR
+                oBR.UserID = strUserID.Trim
+                If oBR.SelectOne.Rows.Count > 0 Then
+                    strToReturn = oBR.UserName.Trim
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+            Return strToReturn
+        End Function
+
         Private Sub InsertUpdatePatch()
             Page.Validate()
             If Not Page.IsValid Then Exit Sub
@@ -345,6 +402,23 @@ Namespace QIS.Web.PatchManagement
                 Else
                     .Update()
                 End If
+            End With
+            oPatch.Dispose()
+            oPatch = Nothing
+        End Sub
+
+        Private Sub UpdateIsClosedPatch()
+            If txtPatchNo.Text.Trim.Length = 0 Then
+                commonFunction.MsgBox(Me, "Approval failed. Patch No. cannot empty.")
+                Exit Sub
+            End If
+
+            Dim oPatch As New Common.BussinessRules.Patch
+            With oPatch
+                .PatchNo = txtPatchNo.Text.Trim
+                .IsClosed = Not imgIsClosed.Visible
+                .userIDclosed = MyBase.LoggedOnUserID.Trim
+                .UpdateIsClosed()
             End With
             oPatch.Dispose()
             oPatch = Nothing

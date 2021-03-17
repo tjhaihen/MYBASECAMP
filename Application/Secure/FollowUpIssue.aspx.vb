@@ -339,6 +339,20 @@ Namespace QIS.Web
             oBR = Nothing
             Return i
         End Function
+
+        Private Function IsPatchClosed(ByVal strPatchNo As String) As Boolean
+            Dim bolToReturn As Boolean = False
+            Dim oBR As New Common.BussinessRules.Patch
+            With oBR
+                .PatchNo = strPatchNo.Trim
+                If .SelectOne.Rows.Count > 0 Then
+                    bolToReturn = .IsClosed
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+            Return bolToReturn
+        End Function
 #End Region
 
 #Region " C,R,U,D "

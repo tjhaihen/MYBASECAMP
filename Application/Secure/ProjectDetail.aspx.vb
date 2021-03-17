@@ -255,17 +255,32 @@ Namespace QIS.Web
         End Sub
 
         Private Sub btnSaveOnly_Click(sender As Object, e As System.EventArgs) Handles btnSaveOnly.Click
+            If IsPatchClosed(txtPatchNo.Text.Trim) = True Then
+                commonFunction.MsgBox(Me, "Cannot add to Patch No. " + txtPatchNo.Text.Trim + ". It is already Closed.")
+                Exit Sub
+            End If
+
             _updateIssue()
             SetDataGrid()
         End Sub
 
         Private Sub btnSaveAndNew_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndNew.Click
+            If IsPatchClosed(txtPatchNo.Text.Trim) = True Then
+                commonFunction.MsgBox(Me, "Cannot add to Patch No. " + txtPatchNo.Text.Trim + ". It is already Closed.")
+                Exit Sub
+            End If
+
             _updateIssue()
             PrepareScreenAddNew()
             SetDataGrid()
         End Sub
 
         Private Sub btnSaveAndClose_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndClose.Click
+            If IsPatchClosed(txtPatchNo.Text.Trim) = True Then
+                commonFunction.MsgBox(Me, "Cannot add to Patch No. " + txtPatchNo.Text.Trim + ". It is already Closed.")
+                Exit Sub
+            End If
+
             _updateIssue()
             PrepareScreenAddNew()
             pnlAddNew.Visible = False
@@ -292,6 +307,11 @@ Namespace QIS.Web
         End Sub
 
         Private Sub Response_btnSaveAndNew_Click(sender As Object, e As System.EventArgs) Handles Response_btnSaveAndNew.Click
+            If IsPatchClosed(Response_txtPatchNo.Text.Trim) = True Then
+                commonFunction.MsgBox(Me, "Cannot add to Patch No. " + Response_txtPatchNo.Text.Trim + ". It is already Closed.")
+                Exit Sub
+            End If
+
             _updateIssueResponse()
             PrepareScreenIssueResponse()
             SetDataGridIssueResponse()
@@ -299,6 +319,11 @@ Namespace QIS.Web
         End Sub
 
         Private Sub Response_btnSaveAndClose_Click(sender As Object, e As System.EventArgs) Handles Response_btnSaveAndClose.Click
+            If IsPatchClosed(Response_txtPatchNo.Text.Trim) = True Then
+                commonFunction.MsgBox(Me, "Cannot add to Patch No. " + Response_txtPatchNo.Text.Trim + ". It is already Closed.")
+                Exit Sub
+            End If
+
             _updateIssueResponse()
             PrepareScreenIssueResponse()
             pnlIssueResponse.Visible = False
@@ -670,6 +695,20 @@ Namespace QIS.Web
             oBR.Dispose()
             oBR = Nothing
             Return i
+        End Function
+
+        Private Function IsPatchClosed(ByVal strPatchNo As String) As Boolean
+            Dim bolToReturn As Boolean = False
+            Dim oBR As New Common.BussinessRules.Patch
+            With oBR
+                .PatchNo = strPatchNo.Trim
+                If .SelectOne.Rows.Count > 0 Then
+                    bolToReturn = .IsClosed
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+            Return bolToReturn
         End Function
 #End Region
 

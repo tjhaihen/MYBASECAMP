@@ -78,6 +78,33 @@ Namespace QIS.Web.PatchManagement
         Protected WithEvents txtPatchNo As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
+        '''imgIsClosed control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents imgIsClosed As Global.System.Web.UI.WebControls.Image
+
+        '''<summary>
+        '''lblClosedBy control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblClosedBy As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblClosedDate control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblClosedDate As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''calPatchDate control.
         '''</summary>
         '''<remarks>

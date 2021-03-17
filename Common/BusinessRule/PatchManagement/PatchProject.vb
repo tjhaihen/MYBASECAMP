@@ -158,10 +158,11 @@ Namespace QIS.Common.BussinessRules
 
         Public Function SelectByPatchNo() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
-            cmdToExecute.CommandText = "SELECT pd.*, ISNULL(p.projectAliasName,'') AS projectAliasName, " + _
+            cmdToExecute.CommandText = "SELECT pd.*, ph.IsClosed, ISNULL(p.projectAliasName,'') AS projectAliasName, " + _
                     "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=pd.userIDinsert)),'') AS userNameinsert " + _
                     "FROM PatchProject pd " + _
                     "INNER JOIN Project p ON pd.projectID = p.projectID " + _
+                    "INNER JOIN Patch ph ON pd.patchNo=ph.patchNo " + _
                     "WHERE pd.PatchNo=@PatchNo"
             cmdToExecute.CommandType = CommandType.Text
 

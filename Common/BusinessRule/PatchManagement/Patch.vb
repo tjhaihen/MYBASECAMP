@@ -11,8 +11,9 @@ Namespace QIS.Common.BussinessRules
         Inherits BRInteractionBase
 
 #Region " Class Member Declarations "
-        Private _patchNo, _userIDinsert, _remarks As String
-        Private _patchDate, _insertDate As DateTime
+        Private _patchNo, _userIDinsert, _userIDclosed, _remarks As String
+        Private _patchDate, _insertDate, _closedDate As DateTime
+        Private _isClosed As Boolean
 #End Region
 
         Public Sub New()
@@ -138,6 +139,9 @@ Namespace QIS.Common.BussinessRules
                     _remarks = CType(toReturn.Rows(0)("remarks"), String)
                     _insertDate = CType(toReturn.Rows(0)("insertDate"), DateTime)
                     _userIDinsert = CType(toReturn.Rows(0)("userIDinsert"), String)
+                    _isClosed = CType(toReturn.Rows(0)("isClosed"), Boolean)
+                    _userIDclosed = CType(ProcessNull.GetString(toReturn.Rows(0)("userIDclosed")), String)
+                    _closedDate = CType(ProcessNull.GetDateTime(toReturn.Rows(0)("closedDate")), DateTime)
                 End If
             Catch ex As Exception
                 ' // some error occured. Bubble it to caller and encapsulate Exception object
@@ -173,6 +177,38 @@ Namespace QIS.Common.BussinessRules
 
             Try
                 cmdToExecute.Parameters.AddWithValue("@patchNo", _patchNo)
+
+                ' // Open Connection
+                _mainConnection.Open()
+
+                ' // Execute Query
+                cmdToExecute.ExecuteNonQuery()
+
+                Return True
+            Catch ex As Exception
+                ExceptionManager.Publish(ex)
+            Finally
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+            End Try
+        End Function
+#End Region
+
+#Region " Custom Function "
+        Public Function UpdateIsClosed() As Boolean
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "UPDATE Patch " + _
+                                        "SET isClosed=@isClosed, " + _
+                                        "userIDclosed=@userIDclosed, " + _
+                                        "closedDate=GETDATE() " + _
+                                        "WHERE patchNo=@patchNo"
+            cmdToExecute.CommandType = CommandType.Text
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@patchNo", _patchNo)
+                cmdToExecute.Parameters.AddWithValue("@isClosed", _isClosed)
+                cmdToExecute.Parameters.AddWithValue("@userIDclosed", _userIDclosed)
 
                 ' // Open Connection
                 _mainConnection.Open()
@@ -233,6 +269,33 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _userIDinsert = Value
+            End Set
+        End Property
+
+        Public Property [IsClosed]() As Boolean
+            Get
+                Return _isClosed
+            End Get
+            Set(ByVal Value As Boolean)
+                _isClosed = Value
+            End Set
+        End Property
+
+        Public Property [closedDate]() As DateTime
+            Get
+                Return _closedDate
+            End Get
+            Set(ByVal Value As DateTime)
+                _closedDate = Value
+            End Set
+        End Property
+
+        Public Property [userIDclosed]() As String
+            Get
+                Return _userIDclosed
+            End Get
+            Set(ByVal Value As String)
+                _userIDclosed = Value
             End Set
         End Property
 #End Region
