@@ -96,6 +96,11 @@
                                                 ID="_lbtnDateInMonth" CommandName="SelectDate" />
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
+                                    <asp:TemplateColumn runat="server" HeaderText="Loc">
+                                        <ItemTemplate>
+                                            <%# DataBinder.Eval(Container.DataItem, "WorkLocation") %>
+                                        </ItemTemplate>
+                                    </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="IsChecked">
                                         <ItemTemplate>
                                             <asp:CheckBox runat="server" Checked='<%# DataBinder.Eval(Container.DataItem, "IsChecked") %>'
@@ -154,6 +159,15 @@
                                     <td>
                                         <asp:TextBox ID="txtRemarks" runat="server" Width="300"></asp:TextBox>
                                         <asp:CheckBox ID="chkIsSubmitted" runat="server" Text="Submitted" Enabled="false" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right" style="width: 100;">
+                                        Work Location
+                                    </td>
+                                    <td>
+                                        <asp:DropDownList ID="ddlWorkLocation" runat="server" Width="300">
+                                        </asp:DropDownList>
                                     </td>
                                 </tr>
                                 <tr>

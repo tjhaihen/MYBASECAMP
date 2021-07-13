@@ -17,6 +17,7 @@
             Public Const Tracking_SCode As String = "TRACKING"
             Public Const Delimiter_SCode As String = "DELIMITER"
             Public Const WorktimeReport_SCode As String = "WORKTIMEREPORT"
+            Public Const WorkLocation_SCode As String = "WORKLOCATION"
             Public Const DocumentType_SCode As String = "DOCTYPE"
 
             Public Const EMRAssessmentType_SCode As String = "ASSESSMENTTYPE"

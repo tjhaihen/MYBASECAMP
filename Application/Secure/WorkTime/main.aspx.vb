@@ -102,6 +102,7 @@ Namespace QIS.Web.WorkTime
 
         Private Sub prepareDDL()
             commonFunction.SetDDL_Table(ddlMonth, "MonthInYear", String.Empty, False)
+            commonFunction.SetDDL_Table(ddlWorkLocation, "CommonCode", Common.Constants.GroupCode.WorkLocation_SCode, False)
             commonFunction.SetDDL_Table(ddlProject, "ProjectProfile", MyBase.LoggedOnProfileID.Trim, True, "- Select Project -")
         End Sub
 
@@ -115,6 +116,7 @@ Namespace QIS.Web.WorkTime
             lblSelectedDate.Text = Format(Date.Today, commonFunction.FORMAT_DATE)
             txtRemarks.Text = String.Empty
             chkIsSubmitted.Checked = False
+            ddlWorkLocation.SelectedIndex = 0
             ddlProject.SelectedIndex = 0
             txtDetailDescription.Text = String.Empty
             txtIssueID.Text = String.Empty
@@ -200,6 +202,7 @@ Namespace QIS.Web.WorkTime
             oWTHd.UserID = MyBase.LoggedOnUserID
             oWTHd.WorkTimeDate = CDate(lblSelectedDate.Text.Trim)
             oWTHd.Remarks = txtRemarks.Text.Trim
+            oWTHd.WorkLocationGCID = ddlWorkLocation.SelectedItem.Value.Trim
             oWTHd.IsSubmitted = False
             If isNew Then
                 If oWTHd.Insert() Then
@@ -269,10 +272,12 @@ Namespace QIS.Web.WorkTime
             If oWT.SelectByUserIDWorkTimeDate.Rows.Count > 0 Then
                 lblWorkTimeHdID.Text = oWT.WorkTimeHdID.Trim
                 txtRemarks.Text = oWT.Remarks.Trim
+                ddlWorkLocation.SelectedValue = oWT.WorkLocationGCID.Trim
                 chkIsSubmitted.Checked = oWT.IsSubmitted
             Else
                 lblWorkTimeHdID.Text = String.Empty
                 txtRemarks.Text = String.Empty
+                ddlWorkLocation.SelectedIndex = 0
                 chkIsSubmitted.Checked = False
             End If
             oWT.Dispose()

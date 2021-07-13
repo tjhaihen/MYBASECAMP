@@ -412,7 +412,22 @@ Namespace QIS.Common.BussinessRules
                                             "WHERE h.userID = u.userID AND h.IsSubmitted = 1 " & _
                                             "AND CONVERT(VARCHAR(6),h.worktimeDate,112) = @Year + RIGHT('0' + @Month,2)) AS TotalSumWorktime, " & _
                                         "(SELECT COUNT(worktimeHdID) FROM worktimeHd h WHERE h.userID = u.userID AND h.IsSubmitted = 1 " & _
-                                            "AND CONVERT(VARCHAR(6),h.worktimeDate,112) = @Year + RIGHT('0' + @Month,2)) AS TotalCountWorktime " & _
+                                            "AND CONVERT(VARCHAR(6),h.worktimeDate,112) = @Year + RIGHT('0' + @Month,2)) AS TotalCountWorktime, " & _
+                                        "(SELECT SUM(worktimeInHour) FROM worktimeDt d INNER JOIN worktimeHd h ON d.worktimeHdID = h.worktimeHdID " & _
+                                            "WHERE h.userID = u.userID AND h.IsSubmitted = 1 AND h.workLocationGCID='WFO' " & _
+                                            "AND CONVERT(VARCHAR(6),h.worktimeDate,112) = @Year + RIGHT('0' + @Month,2)) AS TotalSumWorktimeWFO, " & _
+                                        "(SELECT COUNT(worktimeHdID) FROM worktimeHd h WHERE h.userID = u.userID AND h.IsSubmitted = 1 AND h.workLocationGCID='WFO' " & _
+                                            "AND CONVERT(VARCHAR(6),h.worktimeDate,112) = @Year + RIGHT('0' + @Month,2)) AS TotalCountWorktimeWFO, " & _
+                                            "(SELECT SUM(worktimeInHour) FROM worktimeDt d INNER JOIN worktimeHd h ON d.worktimeHdID = h.worktimeHdID " & _
+                                            "WHERE h.userID = u.userID AND h.IsSubmitted = 1 AND h.workLocationGCID='WFH' " & _
+                                            "AND CONVERT(VARCHAR(6),h.worktimeDate,112) = @Year + RIGHT('0' + @Month,2)) AS TotalSumWorktimeWFH, " & _
+                                        "(SELECT COUNT(worktimeHdID) FROM worktimeHd h WHERE h.userID = u.userID AND h.IsSubmitted = 1 AND h.workLocationGCID='WFH' " & _
+                                            "AND CONVERT(VARCHAR(6),h.worktimeDate,112) = @Year + RIGHT('0' + @Month,2)) AS TotalCountWorktimeWFH, " & _
+                                        "(SELECT SUM(worktimeInHour) FROM worktimeDt d INNER JOIN worktimeHd h ON d.worktimeHdID = h.worktimeHdID " & _
+                                            "WHERE h.userID = u.userID AND h.IsSubmitted = 1 AND h.workLocationGCID='OOT' " & _
+                                            "AND CONVERT(VARCHAR(6),h.worktimeDate,112) = @Year + RIGHT('0' + @Month,2)) AS TotalSumWorktimeOOT, " & _
+                                        "(SELECT COUNT(worktimeHdID) FROM worktimeHd h WHERE h.userID = u.userID AND h.IsSubmitted = 1 AND h.workLocationGCID='OOT' " & _
+                                            "AND CONVERT(VARCHAR(6),h.worktimeDate,112) = @Year + RIGHT('0' + @Month,2)) AS TotalCountWorktimeOOT " & _
                                         "FROM [User] u " & _
                                         "INNER JOIN Person p ON u.PersonID=p.PersonID " & _
                                         "WHERE u.IsActive = 1 " & _

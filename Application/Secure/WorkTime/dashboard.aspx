@@ -82,7 +82,7 @@
                                         Month
                                     </td>
                                     <td>
-                                        Download
+                                        Download Type
                                     </td>
                                 </tr>
                                 <tr>
@@ -138,16 +138,52 @@
                                             <%# DataBinder.Eval(Container.DataItem, "fullName") %>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Worktime (days)" ItemStyle-Width="120"
+                                    <asp:TemplateColumn runat="server" HeaderText="Worktime (days)"
                                         ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
                                             <%# DataBinder.Eval(Container.DataItem, "TotalCountWorkTime") %>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Worktime (hours)" ItemStyle-Width="120"
+                                    <asp:TemplateColumn runat="server" HeaderText="Worktime (hours)"
                                         ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
                                         <ItemTemplate>
                                             <%# DataBinder.Eval(Container.DataItem, "TotalSumWorkTime") %>
+                                        </ItemTemplate>
+                                    </asp:TemplateColumn>
+                                    <asp:TemplateColumn runat="server" HeaderText="WFO (days)"
+                                        ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                        <ItemTemplate>
+                                            <%# DataBinder.Eval(Container.DataItem, "TotalCountWorkTimeWFO")%>
+                                        </ItemTemplate>
+                                    </asp:TemplateColumn>
+                                    <asp:TemplateColumn runat="server" HeaderText="WFO (hours)"
+                                        ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                        <ItemTemplate>
+                                            <%# DataBinder.Eval(Container.DataItem, "TotalSumWorkTimeWFO")%>
+                                        </ItemTemplate>
+                                    </asp:TemplateColumn>
+                                    <asp:TemplateColumn runat="server" HeaderText="WFH (days)"
+                                        ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                        <ItemTemplate>
+                                            <%# DataBinder.Eval(Container.DataItem, "TotalCountWorkTimeWFH")%>
+                                        </ItemTemplate>
+                                    </asp:TemplateColumn>
+                                    <asp:TemplateColumn runat="server" HeaderText="WFH (hours)"
+                                        ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                        <ItemTemplate>
+                                            <%# DataBinder.Eval(Container.DataItem, "TotalSumWorkTimeWFH")%>
+                                        </ItemTemplate>
+                                    </asp:TemplateColumn>
+                                    <asp:TemplateColumn runat="server" HeaderText="OOT (days)"
+                                        ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                        <ItemTemplate>
+                                            <%# DataBinder.Eval(Container.DataItem, "TotalCountWorkTimeOOT")%>
+                                        </ItemTemplate>
+                                    </asp:TemplateColumn>
+                                    <asp:TemplateColumn runat="server" HeaderText="OOT (hours)"
+                                        ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                        <ItemTemplate>
+                                            <%# DataBinder.Eval(Container.DataItem, "TotalSumWorkTimeOOT") %>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Worktime">

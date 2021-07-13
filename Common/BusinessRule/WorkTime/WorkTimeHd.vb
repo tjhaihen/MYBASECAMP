@@ -11,7 +11,7 @@ Namespace QIS.Common.BussinessRules
         Inherits BRInteractionBase
 
 #Region " Class Member Declarations "
-        Private _worktimeHdID, _userID, _remarks As String
+        Private _worktimeHdID, _userID, _remarks, _workLocationGCID As String
         Private _isSubmitted As Boolean
         Private _worktimeDate, _insertDate, _updateDate As DateTime
 #End Region
@@ -28,10 +28,10 @@ Namespace QIS.Common.BussinessRules
         Public Overrides Function Insert() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "INSERT INTO WorkTimeHd " + _
-                                        "(worktimeHdID, userID, remarks, " + _
+                                        "(worktimeHdID, userID, remarks, workLocationGCID, " + _
                                         "isSubmitted, worktimeDate, insertDate, updateDate) " + _
                                         "VALUES " + _
-                                        "(@worktimeHdID, @userID, @remarks, " + _
+                                        "(@worktimeHdID, @userID, @remarks, @workLocationGCID, " + _
                                         "@isSubmitted, @worktimeDate, GETDATE(), GETDATE())"
             cmdToExecute.CommandType = CommandType.Text
             cmdToExecute.Connection = _mainConnection
@@ -42,6 +42,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@worktimeHdID", strID)
                 cmdToExecute.Parameters.AddWithValue("@userID", _userID)
                 cmdToExecute.Parameters.AddWithValue("@remarks", _remarks)
+                cmdToExecute.Parameters.AddWithValue("@workLocationGCID", _workLocationGCID)
                 cmdToExecute.Parameters.AddWithValue("@isSubmitted", _isSubmitted)
                 cmdToExecute.Parameters.AddWithValue("@worktimeDate", _worktimeDate)                
 
@@ -64,7 +65,8 @@ Namespace QIS.Common.BussinessRules
         Public Overrides Function Update() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "UPDATE WorkTimeHd " + _
-                                        "SET remarks=@remarks, workTimeDate=@workTimeDate, isSubmitted=@isSubmitted, updateDate=GETDATE() " + _
+                                        "SET remarks=@remarks, workLocationGCID=@workLocationGCID, " + _
+                                        "workTimeDate=@workTimeDate, isSubmitted=@isSubmitted, updateDate=GETDATE() " + _
                                         "WHERE worktimeHdID=@worktimeHdID"
             cmdToExecute.CommandType = CommandType.Text
             cmdToExecute.Connection = _mainConnection
@@ -72,6 +74,7 @@ Namespace QIS.Common.BussinessRules
             Try
                 cmdToExecute.Parameters.AddWithValue("@worktimeHdID", _worktimeHdID)
                 cmdToExecute.Parameters.AddWithValue("@remarks", _remarks)
+                cmdToExecute.Parameters.AddWithValue("@workLocationGCID", _workLocationGCID)
                 cmdToExecute.Parameters.AddWithValue("@isSubmitted", _isSubmitted)
                 cmdToExecute.Parameters.AddWithValue("@workTimeDate", _worktimeDate)
 
@@ -142,6 +145,7 @@ Namespace QIS.Common.BussinessRules
                     _worktimeHdID = CType(toReturn.Rows(0)("worktimeHdID"), String)
                     _userID = CType(toReturn.Rows(0)("userID"), String)
                     _remarks = CType(toReturn.Rows(0)("remarks"), String)
+                    _workLocationGCID = CType(toReturn.Rows(0)("workLocationGCID"), String)
                     _isSubmitted = CType(toReturn.Rows(0)("isSubmitted"), Boolean)
                     _worktimeDate = CType(toReturn.Rows(0)("worktimeDate"), DateTime)
                     _insertDate = CType(toReturn.Rows(0)("insertDate"), DateTime)
@@ -216,6 +220,7 @@ Namespace QIS.Common.BussinessRules
                     _worktimeHdID = CType(toReturn.Rows(0)("worktimeHdID"), String)
                     _userID = CType(toReturn.Rows(0)("userID"), String)
                     _remarks = CType(toReturn.Rows(0)("remarks"), String)
+                    _workLocationGCID = CType(toReturn.Rows(0)("workLocationGCID"), String)
                     _isSubmitted = CType(toReturn.Rows(0)("isSubmitted"), Boolean)
                     _worktimeDate = CType(toReturn.Rows(0)("worktimeDate"), DateTime)
                     _insertDate = CType(toReturn.Rows(0)("insertDate"), DateTime)
@@ -328,6 +333,15 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _remarks = Value
+            End Set
+        End Property
+
+        Public Property [WorkLocationGCID]() As String
+            Get
+                Return _workLocationGCID
+            End Get
+            Set(ByVal Value As String)
+                _workLocationGCID = Value
             End Set
         End Property
 
