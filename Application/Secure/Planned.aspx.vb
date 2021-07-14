@@ -677,6 +677,7 @@ Namespace QIS.Web
             oWTHd.Remarks = "Follow Up Basecamp Issue"
             oWTHd.IsSubmitted = False
             If isNew Then
+                oWTHd.WorkLocationGCID = "NSP"
                 If oWTHd.Insert() Then
                     InsertUpdateWorkTimeDtFromAddEditIssue(oWTHd.WorkTimeHdID.Trim)
                 End If
@@ -723,6 +724,7 @@ Namespace QIS.Web
             oWTHd.Remarks = "Follow Up Basecamp Issue"
             oWTHd.IsSubmitted = False
             If isNew Then
+                oWTHd.WorkLocationGCID = "NSP"
                 If oWTHd.Insert() Then
                     InsertUpdateWorkTimeDtFromAddEditResponse(oWTHd.WorkTimeHdID.Trim)
                 End If
