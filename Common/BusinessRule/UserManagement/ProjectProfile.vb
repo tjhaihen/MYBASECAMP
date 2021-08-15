@@ -163,6 +163,69 @@ Namespace QIS.Common.BussinessRules
                 adapter.Dispose()
             End Try
         End Function
+
+        Public Function SelectProfileByProjectID(ByVal ProjectID As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "SELECT p.*, pp.projectProfileID FROM projectProfile pp INNER JOIN profile p " +
+                                        "ON pp.ProfileID = p.ProfileID WHERE projectID=@ProjectID"
+            cmdToExecute.CommandType = CommandType.Text
+            Dim toReturn As DataTable = New DataTable("profileByProjectID")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            ' // Use base class' connection object
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@ProjectID", ProjectID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                Return toReturn
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                Throw New Exception(ex.Message)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+        End Function
+
+        Public Function SelectProfileNotInProjectProfileByProjectID(ByVal ProjectID As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "SELECT * FROM Profile WHERE profileID NOT IN (SELECT profileID FROM projectProfile WHERE projectID=@ProjectID)"
+            cmdToExecute.CommandType = CommandType.Text
+            Dim toReturn As DataTable = New DataTable("ProfileNotInProjectProfileByProjectID")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            ' // Use base class' connection object
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@ProjectID", ProjectID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                Return toReturn
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                Throw New Exception(ex.Message)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+        End Function
 #End Region
 
 #Region " Class Property Declarations "

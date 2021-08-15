@@ -262,6 +262,9 @@ Namespace QIS.Web
 
             _updateIssue()
             SetDataGrid()
+
+            PrepareScreenIssueFile()
+            SetDataGridIssueFile()
         End Sub
 
         Private Sub btnSaveAndNew_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndNew.Click
@@ -273,6 +276,9 @@ Namespace QIS.Web
             _updateIssue()
             PrepareScreenAddNew()
             SetDataGrid()
+
+            PrepareScreenIssueFile()
+            SetDataGridIssueFile()
         End Sub
 
         Private Sub btnSaveAndClose_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndClose.Click
@@ -283,6 +289,10 @@ Namespace QIS.Web
 
             _updateIssue()
             PrepareScreenAddNew()
+
+            PrepareScreenIssueFile()
+            SetDataGridIssueFile()
+
             pnlAddNew.Visible = False
             SetDataGrid()
         End Sub
@@ -1068,6 +1078,7 @@ Namespace QIS.Web
             oWTHd.Remarks = "Follow Up Basecamp Issue"
             oWTHd.IsSubmitted = False
             If isNew Then
+                oWTHd.WorkLocationGCID = "NSP"
                 If oWTHd.Insert() Then
                     InsertUpdateWorkTimeDtFromAddEditIssue(oWTHd.WorkTimeHdID.Trim)
                 End If

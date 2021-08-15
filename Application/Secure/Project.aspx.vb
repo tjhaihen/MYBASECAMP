@@ -55,6 +55,23 @@ Namespace QIS.Web.Secure
         End Sub
 #End Region
 
+#Region " Profile Project "
+        Private Sub btnProfileProjectAdd_Click(sender As Object, e As System.EventArgs) Handles btnProfileProjectAdd.Click
+            _updateProfileProject(False)
+        End Sub
+
+        Private Sub btnProfileProjectAddAll_Click(sender As Object, e As System.EventArgs) Handles btnProfileProjectAddAll.Click
+            _updateProfileProject(True)
+        End Sub
+
+        Private Sub btnProfileProjectRemove_Click(sender As Object, e As System.EventArgs) Handles btnProfileProjectRemove.Click
+            _deleteProfileProject(False)
+        End Sub
+
+        Private Sub btnProfileProjectRemoveAll_Click(sender As Object, e As System.EventArgs) Handles btnProfileProjectRemoveAll.Click
+            _deleteProfileProject(True)
+        End Sub
+#End Region
 
 #Region " Support functions for navigation bar (Controls) "
         Private Sub setToolbarVisibleButton()
@@ -104,6 +121,15 @@ Namespace QIS.Web.Secure
             Else
                 commonFunction.Focus(Me, txtProjectName.ClientID)
             End If
+            SetDataGridProfileProject()
+            SetEnableButton(False)
+        End Sub
+
+        Private Sub SetEnableButton(ByVal isEnable As Boolean)
+            btnProfileProjectAdd.Enabled = isEnable
+            btnProfileProjectAddAll.Enabled = isEnable
+            btnProfileProjectRemove.Enabled = isEnable
+            btnProfileProjectRemoveAll.Enabled = isEnable
         End Sub
 
         Private Sub SetDataGridProject()
@@ -112,6 +138,16 @@ Namespace QIS.Web.Secure
             grdProject.DataBind()
             oProject.Dispose()
             oProject = Nothing
+        End Sub
+
+        Private Sub SetDataGridProfileProject()
+            Dim oPr As New Common.BussinessRules.ProjectProfile
+            grdProfile.DataSource = oPr.SelectProfileNotInProjectProfileByProjectID(txtProjectID.Text.Trim)
+            grdProfile.DataBind()
+            grdProjectProfile.DataSource = oPr.SelectProfileByProjectID(txtProjectID.Text.Trim)
+            grdProjectProfile.DataBind()
+            oPr.Dispose()
+            oPr = Nothing
         End Sub
 #End Region
 
@@ -130,6 +166,9 @@ Namespace QIS.Web.Secure
                     ddlProjectGroup.SelectedValue = .ProjectGroupID.Trim
                     txtHEXColorID.Text = .HexColorID.Trim
                     chkIsOpenForClient.Checked = .IsOpenForClient
+
+                    SetDataGridProfileProject()
+                    SetEnableButton(True)
                 Else
                     prepareScreen(False)
                 End If
@@ -147,6 +186,26 @@ Namespace QIS.Web.Secure
             oProject.Dispose()
             oProject = Nothing
             SetDataGridProject()
+        End Sub
+
+        Private Sub _deleteProfileProject(ByVal isRemoveAll As Boolean)
+            Dim oPr As New Common.BussinessRules.ProjectProfile
+            With oPr
+                For Each item As DataGridItem In grdProjectProfile.Items
+                    Dim chkSelect As CheckBox = CType(item.FindControl("chkSelect"), CheckBox)
+                    Dim lblProjectProfileID As Label = CType(item.FindControl("_lblProjectProfileID"), Label)
+                    .ProjectProfileID = lblProjectProfileID.Text.Trim
+                    If isRemoveAll Then
+                        .Delete()
+                    Else
+                        If chkSelect.Checked Then .Delete()
+                    End If
+                Next
+            End With
+            oPr.Dispose()
+            oPr = Nothing
+
+            SetDataGridProfileProject()
         End Sub
 
         Private Sub _update()
@@ -170,15 +229,41 @@ Namespace QIS.Web.Secure
                 .userIDinsert = MyBase.LoggedOnUserID
                 .userIDupdate = MyBase.LoggedOnUserID
                 If isNew Then
-                    If .Insert() Then txtProjectID.Text = .ProjectID
+                    If .Insert() Then
+                        txtProjectID.Text = .ProjectID
+                        SetDataGridProject()
+                        SetEnableButton(True)
+                        SetDataGridProfileProject()
+                    End If
                 Else
-                    .Update()
+                    If .Update() Then
+                        SetDataGridProfileProject()
+                    End If
                 End If
             End With
             oProject.Dispose()
             oProject = Nothing
-            prepareScreen(True)
-            SetDataGridProject()
+        End Sub
+
+        Private Sub _updateProfileProject(ByVal isAddAll As Boolean)
+            Dim oPr As New Common.BussinessRules.ProjectProfile
+            With oPr
+                For Each item As DataGridItem In grdProfile.Items
+                    Dim chkSelect As CheckBox = CType(item.FindControl("chkSelect"), CheckBox)
+                    Dim lblProfileID As Label = CType(item.FindControl("_lblProfileID"), Label)
+                    .ProjectID = txtProjectID.Text.Trim
+                    .ProfileID = lblProfileID.Text.Trim
+                    If isAddAll Then
+                        .Insert()
+                    Else
+                        If chkSelect.Checked Then .Insert()
+                    End If
+                Next
+            End With
+            oPr.Dispose()
+            oPr = Nothing
+
+            SetDataGridProfileProject()
         End Sub
 #End Region
     End Class

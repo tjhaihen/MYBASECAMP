@@ -295,11 +295,10 @@
                                                                         <td valign="top" align="right">
                                                                             <asp:ImageButton ID="print" runat="server" ImageUrl="/qistoollib/images/tbprint.png"
                                                                                 ToolTip="Print Customer Support Weekly Report" CommandName="rprint" />
-                                                                            <%--<asp:Image ID="imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/urgents.png" Visible='<%# DataBinder.Eval(Container.DataItem, "IsUrgentIssueExists") %>'
-                                                                                ToolTip='<%# DataBinder.Eval(Container.DataItem, "totalUrgentIssue") %>' />--%>
-                                                                            <%--percobaan penambahan schedule--%>
                                                                             <asp:ImageButton ID="_ibtnSchedule" runat="server" ImageUrl="/qistoollib/images/schedule.png"
                                                                                 ToolTip="Schedule Patch Update" CommandName="schedule" />
+                                                                            <asp:ImageButton ID="_ibtnProjectTimeline" runat="server" ImageUrl="/qistoollib/images/timeline.png"
+                                                                                ToolTip="View Project Timeline" CommandName="ViewProjectTimeline" />
                                                                             <asp:ImageButton ID="_ibtnGoToProjectDetailPage" runat="server" ImageUrl="/qistoollib/images/viewDetail.png"
                                                                                 ToolTip="View Project Detail" CommandName="ViewDetail" />
                                                                         </td>

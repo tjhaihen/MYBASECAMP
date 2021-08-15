@@ -469,6 +469,13 @@
       <DependentUpon>ProjectGroup.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\ProjectTimeline.aspx.designer.vb">
+      <DependentUpon>ProjectTimeline.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\ProjectTimeline.aspx.vb">
+      <DependentUpon>ProjectTimeline.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Secure\ReportImage.aspx.designer.vb">
       <DependentUpon>ReportImage.aspx</DependentUpon>
     </Compile>
@@ -704,6 +711,7 @@
     <Content Include="Secure\Project.aspx" />
     <Content Include="Secure\ProjectDetail.aspx" />
     <Content Include="Secure\ProjectGroup.aspx" />
+    <Content Include="Secure\ProjectTimeline.aspx" />
     <Content Include="Secure\ReportImage.aspx" />
     <Content Include="Secure\SystemParameter.aspx" />
     <Content Include="Secure\Urgent.aspx" />
@@ -855,7 +863,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -92,10 +92,12 @@ Namespace QIS.Web
                     '    End With
                     '    oRpt.Dispose()
                     '    oRpt = Nothing
+                Case "ViewProjectTimeline"
+                    Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
+                    Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/ProjectTimeline.aspx/?&projectID=" + _lblProjectID.Text.Trim + "')</script>")
                 Case "rprint"
                     Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
-                    Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Print.aspx/?&idp=" + _lblProjectID.Text.Trim + "')</script>")
-                    '-- penambahan di menu.aspx.vb
+                    Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Print.aspx/?&idp=" + _lblProjectID.Text.Trim + "')</script>")                    
                 Case "schedule"
                     Dim _lblProjectID As Label = CType(e.Item.FindControl("_lblProjectID"), Label)
                     Dim _lblProjectAliasName As Label = CType(e.Item.FindControl("_lblProjectAliasName"), Label)

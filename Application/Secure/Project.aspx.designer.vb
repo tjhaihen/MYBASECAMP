@@ -132,6 +132,60 @@ Namespace QIS.Web.Secure
         Protected WithEvents chkIsOpenForClient As Global.System.Web.UI.WebControls.CheckBox
 
         '''<summary>
+        '''grdProfile control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdProfile As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''btnProfileProjectAdd control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnProfileProjectAdd As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''btnProfileProjectAddAll control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnProfileProjectAddAll As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''btnProfileProjectRemoveAll control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnProfileProjectRemoveAll As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''btnProfileProjectRemove control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnProfileProjectRemove As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''grdProjectProfile control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdProjectProfile As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
         '''grdProject control.
         '''</summary>
         '''<remarks>
