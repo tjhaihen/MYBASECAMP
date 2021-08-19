@@ -350,17 +350,20 @@ Namespace QIS.Web
                     PrepareScreenAddNew()
                     lblIssueID.Text = _lbtnIssueID.Text.Trim
                     _openIssue()
+                    PrepareScreenIssueFile()
                     SetDataGridIssueFile()
+
                 Case "IssueReponse"
+                    PrepareScreenAddNew()
+                    pnlAddNew.Visible = False
+
                     Dim _lbtnIssueID As LinkButton = CType(e.Item.FindControl("_lbtnIssueID"), LinkButton)
                     pnlIssueResponse.Visible = True
-                    pnlAddNew.Visible = False
                     Response_lblIssueID.Text = _lbtnIssueID.Text.Trim
                     _openIssueForResponse()
                     PrepareScreenIssueResponse()
                     SetDataGridIssueResponse()
 
-                    'percobaan print issue ticket form
                 Case "PrintTicket"
                     Dim _lbtnIssueID As LinkButton = CType(e.Item.FindControl("_lbtnIssueID"), LinkButton)
                     Dim oRpt As New Common.BussinessRules.MyReport
@@ -371,11 +374,9 @@ Namespace QIS.Web
                         '.UrlPrint(Context.Request.Url.Host)
                         'Response.Write(.UrlPrintPreview())
                         Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/PrintTicket.aspx/?&idp=" + _lbtnIssueID.Text.Trim + "')</script>")
-
                     End With
                     oRpt.Dispose()
                     oRpt = Nothing
-
             End Select
 
         End Sub

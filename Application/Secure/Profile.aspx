@@ -100,6 +100,7 @@
                                         <td class="hseparator" style="width: 100%;">
                                         </td>
                                     </tr>
+                                    <div id="ProfileMenu">
                                     <tr>
                                         <td style="width: 100%;">
                                             <table width="100%" cellspacing="1">
@@ -169,6 +170,7 @@
                                         <td class="hseparator" style="width: 100%;">
                                         </td>
                                     </tr>
+                                    </div>
                                     <tr>
                                         <td class="Heading1">
                                             Profile Project

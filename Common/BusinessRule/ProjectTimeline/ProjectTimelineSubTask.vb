@@ -7,12 +7,12 @@ Imports System.Data.SqlClient
 Imports QIS.Common
 
 Namespace QIS.Common.BussinessRules
-    Public Class ProjectSchedule
+    Public Class ProjectTimelineSubTask
         Inherits BRInteractionBase
 
 #Region " Class Member Declarations "
-        Private _projectScheduleID, _projectID As String
-        Private _sequenceNo, _sequencePredecessorNo, _task, _taskDescription, _userIDPIC As String
+        Private _projectTimelineSubTaskID, _projectTimelineID As String
+        Private _sequenceNo, _subTask, _subTaskDescription, _userIDPIC, _subTaskStatusSCode As String
         Private _startTimeScheduled, _endTimeScheduled, _startTimeRealized, _endTimeRealized As String
         Private _startDateScheduled, _endDateScheduled, _startDateRealized, _endDateRealized As Date
         Private _userIDinsert, _userIDupdate As String
@@ -30,35 +30,53 @@ Namespace QIS.Common.BussinessRules
 #Region " C,R,U,D "
         Public Overrides Function Insert() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
-            cmdToExecute.CommandText = "INSERT INTO projectSchedule " + _
-                                        "(projectScheduleID, projectID, sequenceNo, sequencePredecessorNo, task, taskDescription, " + _
-                                        "userIDPIC, startDateScheduled, endDateScheduled, startDateRealized, endDateRealized, " + _
-                                        "startTimeScheduled, endTimeScheduled, startTimeRealized, endTimeRealized, userIDinsert, userIDupdate, insertDate, updateDate) " + _
+            cmdToExecute.CommandText = "INSERT INTO projectTimelineSubTask " + _
+                                        "(projectTimelineSubTaskID, projectTimelineID, sequenceNo, subTask, subTaskDescription, subTaskStatusSCode, " + _
+                                        "userIDPIC, startDateScheduled, endDateScheduled, startTimeScheduled, endTimeScheduled, " + _
+                                        "startDateRealized, endDateRealized, startTimeRealized, endTimeRealized, " + _
+                                        "userIDinsert, insertDate, userIDupdate, updateDate) " + _
                                         "VALUES " + _
-                                        "(@projectScheduleID, @projectID, @sequenceNo, @sequencePredecessorNo, @task, @taskDescription, " + _
-                                        "@userIDPIC, @startDateScheduled, @endDateScheduled, @startDateRealized, @endDateRealized, " + _
-                                        "@startTimeScheduled, @endTimeScheduled, @startTimeRealized, @endTimeRealized, @userIDinsert, @userIDupdate, GETDATE(), GETDATE())"
+                                        "(@projectTimelineSubTaskID, @projectTimelineID, @sequenceNo, @subTask, @subTaskDescription, @subTaskStatusSCode, " + _
+                                        "@userIDPIC, @startDateScheduled, @endDateScheduled, @startTimeScheduled, @endTimeScheduled, " + _
+                                        "@startDateRealized, @endDateRealized, @startTimeRealized, @endTimeRealized, " + _
+                                        "@userIDinsert, GETDATE(), @userIDupdate, GETDATE())"
             cmdToExecute.CommandType = CommandType.Text
             cmdToExecute.Connection = _mainConnection
 
-            Dim strProjectScheduleID As String = ID.GenerateIDNumber("ProjectSchedule", "ProjectScheduleID")
+            Dim strProjectTimelineSubTaskID As String = ID.GenerateIDNumber("ProjectTimelineSubTask", "ProjectTimelineSubTaskID")
 
             Try
-                cmdToExecute.Parameters.AddWithValue("@projectScheduleID", strProjectScheduleID)
-                cmdToExecute.Parameters.AddWithValue("@projectID", _projectID)
+                cmdToExecute.Parameters.AddWithValue("@projectTimelineSubTaskID", strProjectTimelineSubTaskID)
+                cmdToExecute.Parameters.AddWithValue("@projectTimelineID", _projectTimelineID)
                 cmdToExecute.Parameters.AddWithValue("@sequenceNo", _sequenceNo)
-                cmdToExecute.Parameters.AddWithValue("@sequencePredecessorNo", _sequencePredecessorNo)
-                cmdToExecute.Parameters.AddWithValue("@task", _task)
-                cmdToExecute.Parameters.AddWithValue("@taskDescription", _taskDescription)
+                cmdToExecute.Parameters.AddWithValue("@subTask", _subTask)
+                cmdToExecute.Parameters.AddWithValue("@subTaskDescription", _subTaskDescription)
+                cmdToExecute.Parameters.AddWithValue("@subTaskStatusSCode", _subTaskStatusSCode)
                 cmdToExecute.Parameters.AddWithValue("@userIDPIC", _userIDPIC)
                 cmdToExecute.Parameters.AddWithValue("@startDateScheduled", _startDateScheduled)
                 cmdToExecute.Parameters.AddWithValue("@endDateScheduled", _endDateScheduled)
-                cmdToExecute.Parameters.AddWithValue("@startDateRealized", _startDateRealized)
-                cmdToExecute.Parameters.AddWithValue("@endDateRealized", _endDateRealized)
+                If _startDateRealized = Nothing Then
+                    cmdToExecute.Parameters.AddWithValue("@startDateRealized", DBNull.Value)
+                Else
+                    cmdToExecute.Parameters.AddWithValue("@startDateRealized", _startDateRealized)
+                End If
+                If _endDateRealized = Nothing Then
+                    cmdToExecute.Parameters.AddWithValue("@endDateRealized", DBNull.Value)
+                Else
+                    cmdToExecute.Parameters.AddWithValue("@endDateRealized", _endDateRealized)
+                End If
                 cmdToExecute.Parameters.AddWithValue("@startTimeScheduled", _startTimeScheduled)
                 cmdToExecute.Parameters.AddWithValue("@endTimeScheduled", _endTimeScheduled)
-                cmdToExecute.Parameters.AddWithValue("@startTimeRealized", _startTimeRealized)
-                cmdToExecute.Parameters.AddWithValue("@endTimeRealized", _endTimeRealized)
+                If _startTimeRealized = Nothing Then
+                    cmdToExecute.Parameters.AddWithValue("@startTimeRealized", DBNull.Value)
+                Else
+                    cmdToExecute.Parameters.AddWithValue("@startTimeRealized", _startTimeRealized)
+                End If
+                If _endTimeRealized = Nothing Then
+                    cmdToExecute.Parameters.AddWithValue("@endTimeRealized", DBNull.Value)
+                Else
+                    cmdToExecute.Parameters.AddWithValue("@endTimeRealized", _endTimeRealized)
+                End If
                 cmdToExecute.Parameters.AddWithValue("@userIDinsert", _userIDinsert)
                 cmdToExecute.Parameters.AddWithValue("@userIDupdate", _userIDupdate)
 
@@ -68,7 +86,7 @@ Namespace QIS.Common.BussinessRules
                 ' // Execute Query
                 cmdToExecute.ExecuteNonQuery()
 
-                _projectScheduleID = strProjectScheduleID
+                _projectTimelineSubTaskID = strProjectTimelineSubTaskID
                 Return True
             Catch ex As Exception
                 ExceptionManager.Publish(ex)
@@ -80,32 +98,47 @@ Namespace QIS.Common.BussinessRules
 
         Public Overrides Function Update() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
-            cmdToExecute.CommandText = "UPDATE projectSchedule " + _
-                                        "SET sequenceNo=@sequenceNo, sequencePredecessorNo=@sequencePredecessorNo, task=@task, " + _
-                                        "taskDescription=@taskDescription, userIDPIC=@userIDPIC, startDateScheduled=@startDateScheduled, " + _
+            cmdToExecute.CommandText = "UPDATE projectTimelineSubTask " + _
+                                        "SET sequenceNo=@sequenceNo, subTask=@subTask, " + _
+                                        "subTaskDescription=@subTaskDescription, subTaskStatusSCode=@subTaskStatusSCode, userIDPIC=@userIDPIC, startDateScheduled=@startDateScheduled, " + _
                                         "endDateScheduled=@endDateScheduled, startDateRealized=@startDateRealized, endDateRealized=@endDateRealized, " + _
                                         "startTimeScheduled=@startTimeScheduled, endTimeRealized=@endTimeRealized, userIDupdate=@userIDupdate, updateDate=GETDATE() " + _
-                                        "WHERE ProjectScheduleID=@ProjectScheduleID"
+                                        "WHERE ProjectTimelineSubTaskID=@ProjectTimelineSubTaskID"
             cmdToExecute.CommandType = CommandType.Text
 
             cmdToExecute.Connection = _mainConnection
 
             Try
-                cmdToExecute.Parameters.AddWithValue("@projectScheduleID", _projectScheduleID)
-                cmdToExecute.Parameters.AddWithValue("@projectID", _projectID)
+                cmdToExecute.Parameters.AddWithValue("@projectTimelineSubTaskID", _projectTimelineSubTaskID)
                 cmdToExecute.Parameters.AddWithValue("@sequenceNo", _sequenceNo)
-                cmdToExecute.Parameters.AddWithValue("@sequencePredecessorNo", _sequencePredecessorNo)
-                cmdToExecute.Parameters.AddWithValue("@task", _task)
-                cmdToExecute.Parameters.AddWithValue("@taskDescription", _taskDescription)
+                cmdToExecute.Parameters.AddWithValue("@subTask", _subTask)
+                cmdToExecute.Parameters.AddWithValue("@subTaskDescription", _subTaskDescription)
+                cmdToExecute.Parameters.AddWithValue("@subTaskStatusSCode", _subTaskStatusSCode)
                 cmdToExecute.Parameters.AddWithValue("@userIDPIC", _userIDPIC)
                 cmdToExecute.Parameters.AddWithValue("@startDateScheduled", _startDateScheduled)
                 cmdToExecute.Parameters.AddWithValue("@endDateScheduled", _endDateScheduled)
-                cmdToExecute.Parameters.AddWithValue("@startDateRealized", _startDateRealized)
-                cmdToExecute.Parameters.AddWithValue("@endDateRealized", _endDateRealized)
+                If _startDateRealized = Nothing Then
+                    cmdToExecute.Parameters.AddWithValue("@startDateRealized", DBNull.Value)
+                Else
+                    cmdToExecute.Parameters.AddWithValue("@startDateRealized", _startDateRealized)
+                End If
+                If _endDateRealized = Nothing Then
+                    cmdToExecute.Parameters.AddWithValue("@endDateRealized", DBNull.Value)
+                Else
+                    cmdToExecute.Parameters.AddWithValue("@endDateRealized", _endDateRealized)
+                End If
                 cmdToExecute.Parameters.AddWithValue("@startTimeScheduled", _startTimeScheduled)
                 cmdToExecute.Parameters.AddWithValue("@endTimeScheduled", _endTimeScheduled)
-                cmdToExecute.Parameters.AddWithValue("@startTimeRealized", _startTimeRealized)
-                cmdToExecute.Parameters.AddWithValue("@endTimeRealized", _endTimeRealized)
+                If _startTimeRealized = Nothing Then
+                    cmdToExecute.Parameters.AddWithValue("@startTimeRealized", DBNull.Value)
+                Else
+                    cmdToExecute.Parameters.AddWithValue("@startTimeRealized", _startTimeRealized)
+                End If
+                If _endTimeRealized = Nothing Then
+                    cmdToExecute.Parameters.AddWithValue("@endTimeRealized", DBNull.Value)
+                Else
+                    cmdToExecute.Parameters.AddWithValue("@endTimeRealized", _endTimeRealized)
+                End If
                 cmdToExecute.Parameters.AddWithValue("@userIDupdate", _userIDupdate)
 
                 ' // Open Connection
@@ -126,11 +159,11 @@ Namespace QIS.Common.BussinessRules
         Public Overrides Function SelectAll() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "SELECT p.* " + _
-                                        "FROM ProjectSchedule p " + _
+                                        "FROM ProjectTimelineSubTask p " + _
                                         "ORDER BY p.sequenceNo"
             cmdToExecute.CommandType = CommandType.Text
 
-            Dim toReturn As DataTable = New DataTable("ProjectSchedule")
+            Dim toReturn As DataTable = New DataTable("ProjectTimelineSubTask")
             Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
 
             cmdToExecute.Connection = _mainConnection
@@ -157,16 +190,16 @@ Namespace QIS.Common.BussinessRules
         Public Overrides Function SelectOne(Optional ByVal recStatus As QISRecStatus = QISRecStatus.CurrentRecord) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "SELECT p.* " + _
-                                        "FROM ProjectSchedule p WHERE p.ProjectScheduleID=@ProjectScheduleID"
+                                        "FROM ProjectTimelineSubTask p WHERE p.ProjectTimelineSubTaskID=@ProjectTimelineSubTaskID"
             cmdToExecute.CommandType = CommandType.Text
 
-            Dim toReturn As DataTable = New DataTable("ProjectSchedule")
+            Dim toReturn As DataTable = New DataTable("ProjectTimelineSubTask")
             Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
 
             cmdToExecute.Connection = _mainConnection
 
             Try
-                cmdToExecute.Parameters.AddWithValue("@ProjectScheduleID", _projectScheduleID)
+                cmdToExecute.Parameters.AddWithValue("@ProjectTimelineSubTaskID", _projectTimelineSubTaskID)
 
                 ' // Open connection.
                 _mainConnection.Open()
@@ -175,21 +208,21 @@ Namespace QIS.Common.BussinessRules
                 adapter.Fill(toReturn)
 
                 If toReturn.Rows.Count > 0 Then
-                    _projectScheduleID = CType(toReturn.Rows(0)("ProjectScheduleID"), String)
-                    _projectID = CType(toReturn.Rows(0)("ProjectID"), String)
+                    _projectTimelineSubTaskID = CType(toReturn.Rows(0)("ProjectTimelineSubTaskID"), String)
+                    _projectTimelineID = CType(toReturn.Rows(0)("ProjectTimelineID"), String)
                     _sequenceNo = CType(toReturn.Rows(0)("sequenceNo"), String)
-                    _sequencePredecessorNo = CType(toReturn.Rows(0)("sequencePredecessorNo"), String)
-                    _task = CType(toReturn.Rows(0)("task"), String)
-                    _taskDescription = CType(toReturn.Rows(0)("taskDescription"), String)
+                    _subTask = CType(toReturn.Rows(0)("subTask"), String)
+                    _subTaskDescription = CType(toReturn.Rows(0)("subTaskDescription"), String)
+                    _subTaskStatusSCode = CType(toReturn.Rows(0)("subTaskStatusSCode"), String)
                     _userIDPIC = CType(toReturn.Rows(0)("userIDPIC"), String)
                     _startDateScheduled = CType(toReturn.Rows(0)("startDateScheduled"), Date)
                     _endDateScheduled = CType(toReturn.Rows(0)("endDateScheduled"), Date)
-                    _startDateRealized = CType(toReturn.Rows(0)("startDateRealized"), Date)
-                    _endDateRealized = CType(toReturn.Rows(0)("endDateRealized"), Date)
+                    _startDateRealized = CType(ProcessNull.GetDateTime(toReturn.Rows(0)("startDateRealized")), Date)
+                    _endDateRealized = CType(ProcessNull.GetDateTime(toReturn.Rows(0)("endDateRealized")), Date)
                     _startTimeScheduled = CType(toReturn.Rows(0)("startTimeScheduled"), String)
                     _endTimeScheduled = CType(toReturn.Rows(0)("endTimeScheduled"), String)
-                    _startTimeRealized = CType(toReturn.Rows(0)("startTimeRealized"), String)
-                    _endTimeRealized = CType(toReturn.Rows(0)("endTimeRealized"), String)
+                    _startTimeRealized = CType(ProcessNull.GetString(toReturn.Rows(0)("startTimeRealized")), String)
+                    _endTimeRealized = CType(ProcessNull.GetString(toReturn.Rows(0)("endTimeRealized")), String)
                     _userIDinsert = CType(toReturn.Rows(0)("userIDinsert"), String)
                     _userIDupdate = CType(toReturn.Rows(0)("userIDupdate"), String)
                     _insertDate = CType(toReturn.Rows(0)("insertDate"), DateTime)
@@ -210,14 +243,14 @@ Namespace QIS.Common.BussinessRules
 
         Public Overrides Function Delete() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
-            cmdToExecute.CommandText = "DELETE FROM ProjectSchedule " + _
-                                        "WHERE ProjectScheduleID=@ProjectScheduleID"
+            cmdToExecute.CommandText = "DELETE FROM ProjectTimelineSubTask " + _
+                                        "WHERE ProjectTimelineSubTaskID=@ProjectTimelineSubTaskID"
             cmdToExecute.CommandType = CommandType.Text
 
             cmdToExecute.Connection = _mainConnection
 
             Try
-                cmdToExecute.Parameters.AddWithValue("@ProjectScheduleID", _projectScheduleID)
+                cmdToExecute.Parameters.AddWithValue("@ProjectTimelineSubTaskID", _projectTimelineSubTaskID)
 
                 ' // Open Connection
                 _mainConnection.Open()
@@ -233,24 +266,57 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Dispose()
             End Try
         End Function
+
+#Region " Custom Functions "
+        Public Function SelectByProjectTimelineID() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spSelectProjectTimelineSubTaskByProjectTimelineID"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("ProjectTimelineSubTaskSelectByProjectTimelineID")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@projectTimelineID", _projectTimelineID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+#End Region
 #End Region
 
 #Region " Class Property Declarations "
-        Public Property [ProjectScheduleID]() As String
+        Public Property [ProjectTimelineSubTaskID]() As String
             Get
-                Return _projectScheduleID
+                Return _projectTimelineSubTaskID
             End Get
             Set(ByVal Value As String)
-                _projectScheduleID = Value
+                _projectTimelineSubTaskID = Value
             End Set
         End Property
 
-        Public Property [ProjectID]() As String
+        Public Property [ProjectTimelineID]() As String
             Get
-                Return _projectID
+                Return _projectTimelineID
             End Get
             Set(ByVal Value As String)
-                _projectID = Value
+                _projectTimelineID = Value
             End Set
         End Property
 
@@ -263,30 +329,30 @@ Namespace QIS.Common.BussinessRules
             End Set
         End Property
 
-        Public Property [SequencePredecessorNo]() As String
+        Public Property [SubTask]() As String
             Get
-                Return _sequencePredecessorNo
+                Return _subTask
             End Get
             Set(ByVal Value As String)
-                _sequencePredecessorNo = Value
+                _subTask = Value
             End Set
         End Property
 
-        Public Property [Task]() As String
+        Public Property [SubTaskDescription]() As String
             Get
-                Return _task
+                Return _subTaskDescription
             End Get
             Set(ByVal Value As String)
-                _task = Value
+                _subTaskDescription = Value
             End Set
         End Property
 
-        Public Property [TaskDescription]() As String
+        Public Property [SubTaskStatusSCode]() As String
             Get
-                Return _taskDescription
+                Return _subTaskStatusSCode
             End Get
             Set(ByVal Value As String)
-                _taskDescription = Value
+                _subTaskStatusSCode = Value
             End Set
         End Property
 

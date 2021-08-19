@@ -154,7 +154,8 @@
     <Compile Include="BusinessRule\PenunjangMedis.vb" />
     <Compile Include="BusinessRule\Project.vb" />
     <Compile Include="BusinessRule\ProjectGroup.vb" />
-    <Compile Include="BusinessRule\ProjectSchedule\ProjectSchedule.vb" />
+    <Compile Include="BusinessRule\ProjectTimeline\ProjectTimeline.vb" />
+    <Compile Include="BusinessRule\ProjectTimeline\ProjectTimelineSubTask.vb" />
     <Compile Include="BusinessRule\Registrasi.vb" />
     <Compile Include="BusinessRule\ReportImage.vb" />
     <Compile Include="BusinessRule\Menu.vb" />
