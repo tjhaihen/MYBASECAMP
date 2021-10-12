@@ -147,6 +147,7 @@
                                         Worktime date
                                     </td>
                                     <td>
+                                        <asp:Label ID="lblDayOfWeekSelectedDate" runat="server" Font-Bold="True"></asp:Label>
                                         <asp:Label ID="lblSelectedDate" runat="server" Font-Bold="true"></asp:Label>
                                         <asp:Label ID="lblWorkTimeHdID" runat="server" Visible="false"></asp:Label>
                                         <asp:Label ID="lblWorkTimeDtID" runat="server" Visible="false"></asp:Label>

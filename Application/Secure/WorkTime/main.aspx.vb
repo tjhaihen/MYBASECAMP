@@ -59,6 +59,15 @@ Namespace QIS.Web.WorkTime
                 Case "SelectDate"
                     Dim _lbtnDateInMonth As LinkButton = CType(e.Item.FindControl("_lbtnDateInMonth"), LinkButton)
                     lblSelectedDate.Text = _lbtnDateInMonth.Text.Trim
+                    Dim dd As String = Left(lblSelectedDate.Text, 2)
+                    Dim yyyy As String = Right(lblSelectedDate.Text, 4)
+                    Dim mmm As String = lblSelectedDate.Text.Substring(3, 3)
+                    Dim arMonth() As String = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
+                    Dim numbermm As Integer = Array.IndexOf(arMonth, mmm) + 1
+                    Dim mm As String = numbermm.ToString
+                    Dim stringDate As String = yyyy + "-" + mm + "-" + dd
+                    Dim convertedDate As DateTime = DateTime.Parse(stringDate)
+                    lblDayOfWeekSelectedDate.Text = convertedDate.DayOfWeek.ToString + ", "
                     OpenWorkTimeHdByUserIDWorkTimeDate()
             End Select
         End Sub
@@ -113,6 +122,7 @@ Namespace QIS.Web.WorkTime
             ddlMonth.SelectedValue = Date.Today.Month.ToString.Trim
             lblPageTitle.Text = "My Worktime"
             GetDateInMonth()
+            lblDayOfWeekSelectedDate.Text = Date.Today.DayOfWeek.ToString + ", "
             lblSelectedDate.Text = Format(Date.Today, commonFunction.FORMAT_DATE)
             txtRemarks.Text = String.Empty
             chkIsSubmitted.Checked = False

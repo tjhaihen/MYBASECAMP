@@ -78,6 +78,15 @@ Namespace QIS.Web.WorkTime
         Protected WithEvents CSSToolbar As Global.QIS.CSSToolbar
 
         '''<summary>
+        '''lblSelectedDate0 control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblDayOfWeekSelectedDate As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''lblSelectedDate control.
         '''</summary>
         '''<remarks>
