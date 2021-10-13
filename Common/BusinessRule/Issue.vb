@@ -777,10 +777,11 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function SelectByPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date, strProjectGroupID As String, strIssueStatusSCode As String, Optional ByVal IsGetUsersOnly As Boolean = False) As DataTable
+        Public Function SelectByPlanned(ByVal strUserIDAssignedTo As String, ByVal startDate As Date, ByVal endDate As Date, strProjectGroupID As String, strProjectID As String, strIssueStatusSCode As String, Optional ByVal IsGetUsersOnly As Boolean = False) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             Dim cmdGetUsersOnlySTART As String = String.Empty
             Dim cmdGetUsersOnlyEND As String = String.Empty
+            Dim cmdProjectFilter As String = String.Empty
             Dim cmdIssueStatusFilter As String = String.Empty
             Dim cmdUserIDAssignedToFilter As String = String.Empty
             Dim cmdOrderBy As String = String.Empty
@@ -788,12 +789,16 @@ Namespace QIS.Common.BussinessRules
             cmdGetUsersOnlySTART = "SELECT DISTINCT lst.userIDAssignedTo, lst.userNameAssignedTo FROM ( "
             cmdGetUsersOnlyEND = " ) lst "
 
+            If strProjectID.Length > 0 And strProjectID.Trim <> "All" Then
+                cmdProjectFilter = " AND i.projectID = @projectID "
+            End If
+
             If strIssueStatusSCode.Length > 0 And strIssueStatusSCode.Trim <> "All" Then
                 cmdIssueStatusFilter = " AND i.issueStatusSCode = @issueStatusSCode "
             End If
 
             If strUserIDAssignedTo.Length > 0 And strUserIDAssignedTo.Trim <> "All" Then
-                cmdUserIDAssignedToFilter = " AND i.UserIDAssignedTo = @UserIDAssignedTo "                
+                cmdUserIDAssignedToFilter = " AND i.UserIDAssignedTo = @UserIDAssignedTo "
             End If
 
             If IsGetUsersOnly = False Then
@@ -816,7 +821,7 @@ Namespace QIS.Common.BussinessRules
                 "DATEDIFF(DAY,i.targetDate,GETDATE()) AS dueToTargetDateAgeInDay, " + _
                 "isHasAttachment=CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID) > 0) THEN(1) ELSE(0) END " + _
                 "FROM Issue i INNER JOIN Project p ON i.ProjectID = p.ProjectID WHERE i.targetDate BETWEEN @startDate AND @endDate " + _
-                "AND p.ProjectGroupID = @ProjectGroupID AND i.IsPlanned = 1" + cmdIssueStatusFilter + cmdUserIDAssignedToFilter
+                "AND p.ProjectGroupID = @ProjectGroupID AND i.IsPlanned = 1" + cmdProjectFilter + cmdIssueStatusFilter + cmdUserIDAssignedToFilter
 
             If IsGetUsersOnly = True Then
                 cmdToExecute.CommandText = cmdGetUsersOnlySTART + cmdToExecute.CommandText + cmdGetUsersOnlyEND + cmdOrderBy
@@ -833,6 +838,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@startDate", startDate)
                 cmdToExecute.Parameters.AddWithValue("@endDate", endDate)
                 cmdToExecute.Parameters.AddWithValue("@projectGroupID", strProjectGroupID)
+                cmdToExecute.Parameters.AddWithValue("@projectID", strProjectID)
                 cmdToExecute.Parameters.AddWithValue("@issueStatusSCode", strIssueStatusSCode)
                 If cmdUserIDAssignedToFilter.Trim.Length > 0 Then
                     cmdToExecute.Parameters.AddWithValue("@userIDassignedTo", strUserIDAssignedTo)

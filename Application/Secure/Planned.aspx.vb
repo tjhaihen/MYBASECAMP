@@ -232,7 +232,7 @@ Namespace QIS.Web
         Private Sub SetDataGrid()
             Dim oBR As New Common.BussinessRules.Issue
             Dim oDT As New DataTable
-            oDT = oBR.SelectByPlanned(ddlUserIDAssignedToFilter.SelectedValue.Trim, calStartDate.selectedDate, calEndDate.selectedDate, ddlProjectGroupFilter.SelectedValue.Trim, ddlIssueStatusFilter.SelectedValue.Trim)
+            oDT = oBR.SelectByPlanned(ddlUserIDAssignedToFilter.SelectedValue.Trim, calStartDate.selectedDate, calEndDate.selectedDate, ddlProjectGroupFilter.SelectedValue.Trim, ddlProjectFilter.SelectedValue.Trim, ddlIssueStatusFilter.SelectedValue.Trim)
             grdIssueByFilter.DataSource = oDT
             grdIssueByFilter.DataBind()
             oBR.Dispose()
@@ -278,6 +278,7 @@ Namespace QIS.Web
 
         Private Sub prepareDDL()
             commonFunction.SetDDL_Table(ddlProjectGroupFilter, "ProjectGroup", MyBase.LoggedOnUserID.Trim, False)
+            commonFunction.SetDDL_Table(ddlProjectFilter, "ProjectUser", MyBase.LoggedOnUserID.Trim, True, "All Project", "All")
             commonFunction.SetDDL_Table(ddlIssueStatusFilter, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "All Issue Status", "All")
             commonFunction.SetDDL_Table(ddlProductRoadmap, "CommonCode", Common.Constants.GroupCode.ProductRoadmap_SCode, True, "Not Set")
             commonFunction.SetDDL_Table(ddlIssueType, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, True, "Not Set", "All")
@@ -762,6 +763,9 @@ Namespace QIS.Web
 #End Region
 #End Region
 
+        Protected Sub ddlProjectFilter_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlProjectFilter.SelectedIndexChanged
+
+        End Sub
     End Class
 
 End Namespace

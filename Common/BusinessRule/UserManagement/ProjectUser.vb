@@ -92,7 +92,9 @@ Namespace QIS.Common.BussinessRules
                                         "FROM projectUser up " + _
                                         "INNER JOIN Project p ON up.projectID=p.projectID " + _
                                         "WHERE up.UserID=@UserID) a " + _
-                                        "ORDER BY a.totalOpen DESC"
+                                        "ORDER BY a.projectAliasName ASC"
+
+                '  "ORDER BY a.totalOpen DESC"
             Else
                 cmdToExecute.CommandText = "SELECT a.* FROM (SELECT up.*, p.projectName, p.projectDescription, p.projectAliasName, p.isOpenForClient, " + _
                                         "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
@@ -104,7 +106,9 @@ Namespace QIS.Common.BussinessRules
                                         "INNER JOIN Project p ON up.projectID=p.projectID " + _
                                         "WHERE up.UserID=@UserID AND up.projectID IN " + _
                                         "(SELECT DISTINCT projectID FROM Issue WHERE UserIDAssignedTo=@UserID)) a " + _
-                                        "ORDER BY a.totalOpen DESC"
+                                        "ORDER BY a.projectAliasName ASC"
+
+                '  "ORDER BY a.totalOpen DESC"
             End If
             cmdToExecute.CommandType = CommandType.Text
             Dim toReturn As DataTable = New DataTable("projectByUserID")

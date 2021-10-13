@@ -43,6 +43,16 @@
           color: #ffffff;
           padding: 5px;
         }
+        .style1
+        {
+            text-align: right;
+            padding-right: 5px;
+            height: 26px;
+        }
+        .style2
+        {
+            height: 26px;
+        }
     </style>
 </head>
 <body>
@@ -206,6 +216,15 @@
                                             </tr>
                                             <tr>
                                                 <td class="right">
+                                                    Project
+                                                </td>
+                                                <td>
+                                                    <asp:DropDownList ID="ddlProjectFilter" runat="server" Width="200" AutoPostBack="true">
+                                                    </asp:DropDownList>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="right">
                                                     Issue Status
                                                 </td>
                                                 <td>
@@ -332,8 +351,7 @@
                                                             Department
                                                         </td>
                                                         <td style="background: #ffffff;">
-                                                            <asp:TextBox ID="txtDepartmentName" runat="server" Width="360">
-                                                            </asp:TextBox>
+                                                            <asp:TextBox ID="txtDepartmentName" runat="server" Width="360px" Height="23px"></asp:TextBox>
                                                             <asp:RequiredFieldValidator ID="rfvDepartmentName" runat="server" Display="dynamic"
                                                                 ErrorMessage="Department Name" ControlToValidate="txtDepartmentName" CssClass="txterrmsg"
                                                                 Text="required">
@@ -510,13 +528,11 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td class="txtweak" colspan="2">
-                                                                        File type&nbsp;<%# DataBinder.Eval(Container.DataItem, "fileExtension")%>
-                                                                    </td>
+                                                                        File type&nbsp;<%# DataBinder.Eval(Container.DataItem, "fileExtension")%></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td class="txtweak" colspan="2">
-                                                                        Attached by&nbsp;<%# DataBinder.Eval(Container.DataItem, "firstName")%>&nbsp;on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "insertDate"), "dd-MMM-yyyy HH:mm") %>
-                                                                    </td>
+                                                                        Attached by&nbsp;<%# DataBinder.Eval(Container.DataItem, "firstName")%>&nbsp;on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "insertDate"), "dd-MMM-yyyy HH:mm") %></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td class="left">
@@ -596,8 +612,7 @@
                                                             Time Start
                                                         </td>
                                                         <td style="background: #ffffff;">
-                                                            <ew:MaskedTextBox ID="Response_txtResponseTimeStart" runat="server" Width="100">
-                                                            </ew:MaskedTextBox>
+                                                            <ew:MaskedTextBox ID="Response_txtResponseTimeStart" runat="server" Width="100"></ew:MaskedTextBox>
                                                             &nbsp;&nbsp;Duration
                                                             <asp:TextBox ID="Response_txtResponseDuration" runat="server" Width="60"></asp:TextBox>
                                                             Minutes
@@ -828,8 +843,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="txtweak">
-                                                            Patch No.:&nbsp;<%# DataBinder.Eval(Container.DataItem, "patchNo")%>
-                                                        </td>
+                                                            Patch No.:&nbsp;<%# DataBinder.Eval(Container.DataItem, "patchNo")%></td>
                                                     </tr>
                                                 </table>
                                             </ItemTemplate>
@@ -877,8 +891,7 @@
                                                         <td class="txtweak">
                                                             <%# DataBinder.Eval(Container.DataItem, "reportedBy")%>
                                                             <br />
-                                                            on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %>
-                                                        </td>
+                                                            on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %></td>
                                                     </tr>
                                                     <tr>
                                                         <td class="hseparator">
@@ -886,10 +899,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="txtweak">
-                                                            Created by:&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameInsert")%>
-                                                            <br />
-                                                            on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "insertDate"),"dd-MMM-yyyy") %>
-                                                        </td>
+                                                            Created by:&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameInsert")%><br />on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "insertDate"),"dd-MMM-yyyy") %></td>
                                                     </tr>
                                                     <tr>
                                                         <td class="hseparator">
@@ -897,10 +907,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="txtweak">
-                                                            Updated by:&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameUpdate")%>
-                                                            <br />
-                                                            on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "updateDate"),"dd-MMM-yyyy") %>
-                                                        </td>
+                                                            Updated by:&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameUpdate")%><br />on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "updateDate"),"dd-MMM-yyyy") %></td>
                                                     </tr>
                                                 </table>
                                             </ItemTemplate>

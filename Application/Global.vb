@@ -532,7 +532,7 @@ Namespace QIS.Web
             Dim tblToApply As DataTable
 
             Dim oTbl As New Common.BussinessRules.Issue
-            tblToApply = oTbl.SelectByPlanned(String.Empty, startDate, endDate, strProjectGroupID, String.Empty, True)
+            tblToApply = oTbl.SelectByPlanned(String.Empty, startDate, endDate, strProjectGroupID, String.Empty, String.Empty, True)
 
             With ddl
                 .Items.Clear()
