@@ -232,7 +232,13 @@
                                         Total Open
                                     </td>
                                     <td style="background: #ffffff; width: 120;" class="center">
+                                        Total In Progress
+                                    </td>
+                                    <td style="background: #ffffff; width: 120;" class="center">
                                         Total Dev.Finish
+                                    </td>
+                                    <td style="background: #ffffff; width: 120;" class="center">
+                                        Total QC Passed
                                     </td>
                                     <td style="background: #ffffff; width: 100;" class="center">
                                         Total Finish
@@ -252,7 +258,13 @@
                                         <asp:Label ID="lblTotalOpen" runat="server"></asp:Label>
                                     </td>
                                     <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
+                                        <asp:Label ID="lblTotalInProgress" runat="server"></asp:Label>
+                                    </td>
+                                    <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
                                         <asp:Label ID="lblTotalDevFinish" runat="server"></asp:Label>
+                                    </td>
+                                    <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
+                                        <asp:Label ID="lblTotalQCPassed" runat="server"></asp:Label>
                                     </td>
                                     <td style="background: #ffffff; width: 120; font-size: 24;" class="center">
                                         <asp:Label ID="lblTotalFinish" runat="server"></asp:Label>

@@ -471,7 +471,9 @@ Namespace QIS.Web
         Private Sub SetDataGrid()
             Dim decTotalIssue As Decimal = 0D
             Dim decTotalOpen As Decimal = 0D
+            Dim decTotalInProgress As Decimal = 0D
             Dim decTotalDevFinish As Decimal = 0D
+            Dim decTotalQCPassed As Decimal = 0D
             Dim decTotalFinish As Decimal = 0D
             Dim decProgress As Decimal = 0D
 
@@ -484,13 +486,15 @@ Namespace QIS.Web
             If oBR.SelectSummaryByProjectID(chkIsMyAssignment.Checked).Rows.Count > 0 Then
                 decTotalIssue = oBR.totalIssue
                 decTotalOpen = oBR.totalOpen
+                decTotalInProgress = oBR.totalInProgress
                 decTotalDevFinish = oBR.totalDevFinish
+                decTotalQCPassed = oBR.totalQCPassed
                 decTotalFinish = oBR.totalFinish
 
                 If decTotalIssue = 0 Then
                     decProgress = 100
                 Else
-                    decProgress = (decTotalFinish / decTotalIssue) * 100
+                    decProgress = Math.Ceiling((decTotalFinish / decTotalIssue) * 100)
                 End If
             End If
             oBR.Dispose()
@@ -498,7 +502,9 @@ Namespace QIS.Web
 
             lblTotalIssue.Text = decTotalIssue.ToString.Trim
             lblTotalOpen.Text = decTotalOpen.ToString.Trim
+            lblTotalInProgress.Text = decTotalInProgress.ToString.Trim
             lblTotalDevFinish.Text = decTotalDevFinish.ToString.Trim
+            lblTotalQCPassed.Text = decTotalQCPassed.ToString.Trim
             lblTotalFinish.Text = decTotalFinish.ToString.Trim
             lblProgress.Text = Format(decProgress, "##0")
         End Sub
