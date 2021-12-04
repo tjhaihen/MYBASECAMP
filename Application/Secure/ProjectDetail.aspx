@@ -178,7 +178,7 @@
                 </table>
                 <table width="100%">
                     <tr>
-                        <td valign="top" style="width: 50%;">
+                        <td valign="top" style="width: 40%;">
                             <table>
                                 <tr>
                                     <td valign="top" style="width: 100;">
@@ -226,22 +226,22 @@
                             <table style="background: #dddddd;" cellspacing="1" cellpadding="2">
                                 <tr>
                                     <td style="background: #ffffff; width: 100;" class="center">
-                                        Total Issue
+                                        Total
                                     </td>
                                     <td style="background: #ffffff; width: 100;" class="center">
-                                        Total Open
+                                        Open
                                     </td>
                                     <td style="background: #ffffff; width: 120;" class="center">
-                                        Total In Progress
+                                        In Progress
                                     </td>
                                     <td style="background: #ffffff; width: 120;" class="center">
-                                        Total Dev.Finish
+                                        Dev.Finish
                                     </td>
                                     <td style="background: #ffffff; width: 120;" class="center">
-                                        Total QC Passed
+                                        QC Passed
                                     </td>
                                     <td style="background: #ffffff; width: 100;" class="center">
-                                        Total Finish
+                                        Finish
                                     </td>
                                     <td style="background: #ffffff; width: 100; font-weight: bold;" class="center">
                                         Progress
@@ -251,25 +251,25 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
+                                    <td style="background: #ffffff; width: 100; font-size: large;" class="center">
                                         <asp:Label ID="lblTotalIssue" runat="server"></asp:Label>
                                     </td>
-                                    <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
+                                    <td style="background: #ffffff; width: 100; font-size: large;" class="center">
                                         <asp:Label ID="lblTotalOpen" runat="server"></asp:Label>
                                     </td>
-                                    <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
+                                    <td style="background: #ffffff; width: 100; font-size: large;" class="center">
                                         <asp:Label ID="lblTotalInProgress" runat="server"></asp:Label>
                                     </td>
-                                    <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
+                                    <td style="background: #ffffff; width: 100; font-size: large;" class="center">
                                         <asp:Label ID="lblTotalDevFinish" runat="server"></asp:Label>
                                     </td>
-                                    <td style="background: #ffffff; width: 100; font-size: 24;" class="center">
+                                    <td style="background: #ffffff; width: 100; font-size: large;" class="center">
                                         <asp:Label ID="lblTotalQCPassed" runat="server"></asp:Label>
                                     </td>
-                                    <td style="background: #ffffff; width: 120; font-size: 24;" class="center">
+                                    <td style="background: #ffffff; width: 120; font-size: large;" class="center">
                                         <asp:Label ID="lblTotalFinish" runat="server"></asp:Label>
                                     </td>
-                                    <td style="background: #ffffff; width: 100; font-size: 24; font-weight: bold;" class="center">
+                                    <td style="background: #ffffff; width: 100; font-size: large; font-weight: bold;" class="center">
                                         <asp:Label ID="lblProgress" runat="server"></asp:Label>&nbsp;%
                                     </td>
                                     <td style="background: #ffffff; width: 100;" class="center">

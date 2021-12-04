@@ -275,6 +275,20 @@
       <DependentUpon>CommonCode.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\CustomerPage\CustomerDashboard.aspx.designer.vb">
+      <DependentUpon>CustomerDashboard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\CustomerPage\CustomerDashboard.aspx.vb">
+      <DependentUpon>CustomerDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\CustomerPage\CustomerMain.aspx.designer.vb">
+      <DependentUpon>CustomerMain.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\CustomerPage\CustomerMain.aspx.vb">
+      <DependentUpon>CustomerMain.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Secure\PatchManagement\PatchGroup.aspx.designer.vb">
       <DependentUpon>PatchGroup.aspx</DependentUpon>
     </Compile>
@@ -680,6 +694,8 @@
     <Content Include="Secure\Budget\BudgetPurchasing.aspx" />
     <Content Include="Secure\ChangePassword.aspx" />
     <Content Include="Secure\CommonCode.aspx" />
+    <Content Include="Secure\CustomerPage\CustomerDashboard.aspx" />
+    <Content Include="Secure\CustomerPage\CustomerMain.aspx" />
     <Content Include="Secure\PatchManagement\PatchGroup.aspx" />
     <Content Include="Secure\PrintTicket.aspx" />
     <Content Include="Secure\Documents.aspx" />

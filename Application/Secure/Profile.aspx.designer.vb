@@ -114,6 +114,15 @@ Namespace QIS.Web.Secure
         Protected WithEvents chkIsSystem As Global.System.Web.UI.WebControls.CheckBox
 
         '''<summary>
+        '''chkIsCustomerProfile control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsCustomerProfile As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
         '''grdMenu control.
         '''</summary>
         '''<remarks>

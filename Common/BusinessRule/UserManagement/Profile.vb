@@ -11,7 +11,7 @@ Namespace QIS.Common.BussinessRules
 #Region " Class Member Declarations "
 
         Private _ProfileID, _ProfileCode, _ProfileName As String
-        Private _IsActive, _IsSystem As Boolean
+        Private _IsActive, _IsSystem, _IsCustomerProfile As Boolean
         Private _UserIDInsert, _UserIDUpdate As String
         Private _InsertDate, _UpdateDate As DateTime
 
@@ -26,10 +26,10 @@ Namespace QIS.Common.BussinessRules
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "INSERT INTO Profile " + _
                                         "(profileID, profileCode, profileName, " + _
-                                        "isActive, isSystem, userIDinsert, userIDupdate, insertDate, updateDate) " + _
+                                        "isActive, isSystem, isCustomerProfile, userIDinsert, userIDupdate, insertDate, updateDate) " + _
                                         "VALUES " + _
                                         "(@profileID, @profileCode, @profileName, " + _
-                                        "@isActive, @isSystem, @userIDinsert, @userIDupdate, GETDATE(), GETDATE())"
+                                        "@isActive, @isSystem, @isCustomerProfile, @userIDinsert, @userIDupdate, GETDATE(), GETDATE())"
             cmdToExecute.CommandType = CommandType.Text
             cmdToExecute.Connection = _mainConnection
 
@@ -41,6 +41,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@profileName", _profileName)
                 cmdToExecute.Parameters.AddWithValue("@isActive", _IsActive)
                 cmdToExecute.Parameters.AddWithValue("@isSystem", _IsSystem)
+                cmdToExecute.Parameters.AddWithValue("@isCustomerProfile", _IsCustomerProfile)
                 cmdToExecute.Parameters.AddWithValue("@userIDinsert", _userIDinsert)
                 cmdToExecute.Parameters.AddWithValue("@userIDupdate", _userIDupdate)
 
@@ -64,8 +65,8 @@ Namespace QIS.Common.BussinessRules
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "UPDATE Profile " + _
                                         "SET profileCode=@profileCode, profileName=@profileName, " + _
-                                        "isActive=@isActive, userIDupdate=@userIDupdate, " + _
-                                        "updateDate=GETDATE() " + _
+                                        "isActive=@isActive, isCustomerProfile=@isCustomerProfile, " + _
+                                        "userIDupdate=@userIDupdate, updateDate=GETDATE() " + _
                                         "WHERE profileID=@profileID"
             cmdToExecute.CommandType = CommandType.Text
 
@@ -75,7 +76,8 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@profileID", _profileID)
                 cmdToExecute.Parameters.AddWithValue("@profileCode", _profileCode)
                 cmdToExecute.Parameters.AddWithValue("@profileName", _profileName)
-                cmdToExecute.Parameters.AddWithValue("@isActive", _isActive)
+                cmdToExecute.Parameters.AddWithValue("@isActive", _IsActive)
+                cmdToExecute.Parameters.AddWithValue("@isCustomerProfile", _IsCustomerProfile)
                 cmdToExecute.Parameters.AddWithValue("@userIDupdate", _userIDupdate)
 
                 ' // Open Connection
@@ -157,6 +159,7 @@ Namespace QIS.Common.BussinessRules
                     _ProfileName = CType(toReturn.Rows(0)("ProfileName"), String)
                     _IsActive = CType(toReturn.Rows(0)("IsActive"), Boolean)
                     _IsSystem = CType(toReturn.Rows(0)("IsSystem"), Boolean)
+                    _IsCustomerProfile = CType(toReturn.Rows(0)("isCustomerProfile"), Boolean)
                     _UserIDInsert = CType(toReturn.Rows(0)("UserIDInsert"), String)
                     _UserIDUpdate = CType(toReturn.Rows(0)("UserIDUpdate"), String)
                     _InsertDate = CType(toReturn.Rows(0)("InsertDate"), DateTime)
@@ -249,6 +252,15 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As Boolean)
                 _IsSystem = Value
+            End Set
+        End Property
+
+        Public Property [IsCustomerProfile]() As Boolean
+            Get
+                Return _IsCustomerProfile
+            End Get
+            Set(ByVal Value As Boolean)
+                _IsCustomerProfile = Value
             End Set
         End Property
 

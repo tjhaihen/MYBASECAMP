@@ -44,6 +44,9 @@ Namespace QIS.Web
                 If Common.Methods.GetCommonCode(Common.Constants.SystemSetting.SystemSetting_SYSEMR, Common.Constants.GroupCode.System_SCode).Trim = "1" Then
                     Response.Redirect(PageBase.UrlBase + "/secure/EMR/main.aspx")
                 End If
+                If IsCustomerProfile(MyBase.LoggedOnProfileID) = True Then
+                    Response.Redirect(PageBase.UrlBase + "/secure/CustomerPage/CustomerDashboard.aspx")
+                End If
                 ReadQueryString()
                 GetProjectsByUserID(chkIsMyAssignment.Checked)
                 GetTasksByUserID()
@@ -246,6 +249,20 @@ Namespace QIS.Web
             oBR.Dispose()
             oBR = Nothing
             Return i
+        End Function
+
+        Private Function IsCustomerProfile(ByVal strProfileID As String) As Boolean
+            Dim bolIsCustomerProfile As Boolean = False
+
+            Dim oBR As New Common.BussinessRules.Profile
+            oBR.ProfileID = strProfileID.Trim
+            If oBR.SelectOne.Rows.Count > 0 Then
+                bolIsCustomerProfile = oBR.IsCustomerProfile
+            End If
+            oBR.Dispose()
+            oBR = Nothing
+
+            Return bolIsCustomerProfile
         End Function
 #End Region
 

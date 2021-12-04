@@ -789,7 +789,7 @@ Namespace QIS.Web
         End Sub
 
         Public Shared Sub Focus(ByVal Aspx As Page, ByVal ControlID As String)
-            Aspx.RegisterStartupScript("__Focus", "<script language='javascript'>document.getElementById('" + ControlID + "').focus();document.getElementById('" + ControlID + "').select();</script>")
+            Aspx.RegisterStartupScript("__Focus", "<script language='javascript'>document.getElementById('" + ControlID + "').focus();document.getElementById('" + ControlID + "').select();</script>")            
         End Sub
 
         Public Shared Sub MsgBox(ByVal AspxPage As Page, ByVal Msg As String)

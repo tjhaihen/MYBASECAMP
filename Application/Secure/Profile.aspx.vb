@@ -150,6 +150,7 @@ Namespace QIS.Web.Secure
             txtProfileName.Text = String.Empty
             chkIsActive.Checked = True
             chkIsSystem.Checked = False
+            chkIsCustomerProfile.Checked = False
             If isNew Then
                 txtProfileCode.Text = String.Empty
                 commonFunction.Focus(Me, txtProfileCode.ClientID)
@@ -233,6 +234,7 @@ Namespace QIS.Web.Secure
                     txtProfileName.Text = .ProfileName.Trim
                     chkIsActive.Checked = .IsActive
                     chkIsSystem.Checked = .IsSystem
+                    chkIsCustomerProfile.Checked = .IsCustomerProfile
                     SetEnableButton(True)
                 Else
                     prepareScreen(False)
@@ -346,6 +348,7 @@ Namespace QIS.Web.Secure
                     .ProfileName = txtProfileName.Text.Trim
                     .IsActive = chkIsActive.Checked
                     .IsSystem = False
+                    .IsCustomerProfile = chkIsCustomerProfile.Checked
                     .UserIDInsert = MyBase.LoggedOnUserID
                     .UserIDUpdate = MyBase.LoggedOnUserID
                     If isNew Then

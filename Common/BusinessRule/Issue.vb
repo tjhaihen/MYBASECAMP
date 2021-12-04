@@ -30,7 +30,7 @@ Namespace QIS.Common.BussinessRules
         Private _PICDev, _IssueType, _IssueStatus, _IssuePriority, _IssueConfirmStatus, _projectDescription As String
         Private _totalreported, _openissue, _progressissue, _needsampleissue, _finishissue, _totalissuefull, _overallprogress, _totalfinished As Decimal
 
-
+        Private _strArray As String
 #End Region
 
         Public Sub New()
@@ -921,6 +921,50 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
+        Public Function SelectDashboardCustomer(ByVal strDisplayParameter As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            Select Case strDisplayParameter
+                Case "ByStatus"
+                    cmdToExecute.CommandText = "spGetIssueByStatusCustomer"
+                Case "ByType"
+                    cmdToExecute.CommandText = "spGetIssueByTypeCustomer"
+                Case "ByPriority"
+                    cmdToExecute.CommandText = "spGetIssueByPriorityCustomer"
+                Case "ByProductRoadmap"
+                    cmdToExecute.CommandText = "spGetIssueByRoadmapCustomer"
+            End Select
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spGetIssueBy")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@projectID", _projectID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _strArray = CType(toReturn.Rows(0)("strArray"), String)
+                End If
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
         Public Function SelectByFilter(ByVal strProductRoadmap As String, ByVal strProjectID As String, ByVal strIssueType As String, ByVal strIssuePriority As String, ByVal strUserIDAssignedTo As String, ByVal strIssueStatus As String, ByVal strIssueConfirmStatus As String, ByVal isUrgent As Boolean, ByVal isByPeriode As Boolean, ByVal dtStartDate As Date, ByVal dtEndDate As Date) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "spSelectIssueByFilter"
@@ -941,6 +985,48 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@issueStatusSCode", strIssueStatus)
                 cmdToExecute.Parameters.AddWithValue("@issueConfirmStatusSCode", strIssueConfirmStatus)
                 cmdToExecute.Parameters.AddWithValue("@isUrgent", isUrgent)
+                If isByPeriode Then
+                    cmdToExecute.Parameters.AddWithValue("@startDate", dtStartDate)
+                    cmdToExecute.Parameters.AddWithValue("@endDate", dtEndDate)
+                End If
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function SelectByFilterCustomer(ByVal strProductRoadmap As String, ByVal strProjectID As String, ByVal strIssueType As String, ByVal strIssuePriority As String, ByVal strUserIDAssignedTo As String, ByVal strIssueStatus As String, ByVal strIssueConfirmStatus As String, ByVal isByPeriode As Boolean, ByVal dtStartDate As Date, ByVal dtEndDate As Date) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spSelectIssueByFilterCustomer"
+            If isByPeriode Then cmdToExecute.CommandText = "spSelectIssueByFilterByPeriodCustomer"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("IssueByFilterCustomer")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@productRoadmapSCode", strProductRoadmap)
+                cmdToExecute.Parameters.AddWithValue("@projectID", strProjectID)
+                cmdToExecute.Parameters.AddWithValue("@issueTypeSCode", strIssueType)
+                cmdToExecute.Parameters.AddWithValue("@issuePrioritySCode", strIssuePriority)
+                cmdToExecute.Parameters.AddWithValue("@userIDAssignedTo", strUserIDAssignedTo)
+                cmdToExecute.Parameters.AddWithValue("@issueStatusSCode", strIssueStatus)
+                cmdToExecute.Parameters.AddWithValue("@issueConfirmStatusSCode", strIssueConfirmStatus)
                 If isByPeriode Then
                     cmdToExecute.Parameters.AddWithValue("@startDate", dtStartDate)
                     cmdToExecute.Parameters.AddWithValue("@endDate", dtEndDate)
@@ -1892,7 +1978,14 @@ Namespace QIS.Common.BussinessRules
             End Set
         End Property
 
-
+        Public Property [strArray]() As String
+            Get
+                Return _strArray
+            End Get
+            Set(ByVal Value As String)
+                _strArray = Value
+            End Set
+        End Property
 #End Region
 
     End Class

@@ -85,6 +85,7 @@
                                                     <td>
                                                         <asp:CheckBox ID="chkIsActive" runat="server" Text="Is Active?" Checked="False" />
                                                         <asp:CheckBox ID="chkIsSystem" runat="server" Text="Is System?" Checked="False" Visible="false" />
+                                                        <asp:CheckBox ID="chkIsCustomerProfile" runat="server" Text="Is Customer Profile?" Checked="False" />
                                                     </td>
                                                 </tr>
                                                 <!-- PAGE CONTENT END HERE -->
@@ -305,7 +306,7 @@
                                                             <asp:CheckBox ID="_chkIsActive" runat="server" Checked='<%# DataBinder.Eval(Container.DataItem, "IsActive") %>'
                                                                 Enabled="false" />
                                                         </ItemTemplate>
-                                                    </asp:TemplateColumn>
+                                                    </asp:TemplateColumn>                                                    
                                                 </Columns>
                                             </asp:DataGrid>
                                         </td>
@@ -445,6 +446,12 @@
                                                     <asp:TemplateColumn runat="server" HeaderText="Is System?">
                                                         <ItemTemplate>
                                                             <asp:CheckBox ID="_chkIsSystem" runat="server" Checked='<%# DataBinder.Eval(Container.DataItem, "IsSystem") %>'
+                                                                Enabled="false" />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateColumn>
+                                                    <asp:TemplateColumn runat="server" HeaderText="Is Customer?">
+                                                        <ItemTemplate>
+                                                            <asp:CheckBox ID="_chkIsCustomerProfile" runat="server" Checked='<%# DataBinder.Eval(Container.DataItem, "IsCustomerProfile") %>'
                                                                 Enabled="false" />
                                                         </ItemTemplate>
                                                     </asp:TemplateColumn>
