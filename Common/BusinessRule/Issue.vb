@@ -921,7 +921,7 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function SelectDashboardCustomer(ByVal strDisplayParameter As String) As DataTable
+        Public Function SelectDashboardCustomer(ByVal strDisplayParameter As String, Optional ByVal strFilterParameter As String = "") As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             Select Case strDisplayParameter
                 Case "ByStatus"
@@ -932,6 +932,10 @@ Namespace QIS.Common.BussinessRules
                     cmdToExecute.CommandText = "spGetIssueByPriorityCustomer"
                 Case "ByProductRoadmap"
                     cmdToExecute.CommandText = "spGetIssueByRoadmapCustomer"
+                Case "ByTypeStatus"
+                    cmdToExecute.CommandText = "spGetIssueByTypeStatusCustomer"
+                Case "ByAllStatus"
+                    cmdToExecute.CommandText = "spGetIssueAllStatusCustomer"
             End Select
             cmdToExecute.CommandType = CommandType.StoredProcedure
 
@@ -942,6 +946,10 @@ Namespace QIS.Common.BussinessRules
 
             Try
                 cmdToExecute.Parameters.AddWithValue("@projectID", _projectID)
+                Select Case strDisplayParameter
+                    Case "ByTypeStatus"
+                        cmdToExecute.Parameters.AddWithValue("@issueTypeSCode", strFilterParameter)
+                End Select
 
                 ' // Open connection.
                 _mainConnection.Open()

@@ -374,7 +374,7 @@ Namespace QIS.Web
             Page.Validate()
             If Not Page.IsValid Then Exit Sub
 
-            If IsPredecessorProjectTimelineExist(lblProjectID.Text.Trim, txtPredecessorSequenceNo.Text.Trim) = False Then
+            If txtPredecessorSequenceNo.Text.Trim <> String.Empty And IsPredecessorProjectTimelineExist(lblProjectID.Text.Trim, txtPredecessorSequenceNo.Text.Trim) = False Then
                 commonFunction.MsgBox(Me, "The predecessor you entered does not exists.")
                 commonFunction.Focus(Me, txtPredecessorSequenceNo.ClientID)
                 Exit Sub

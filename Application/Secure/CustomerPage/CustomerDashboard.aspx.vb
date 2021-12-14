@@ -129,11 +129,11 @@ Namespace QIS.Web
             lblProgress.Text = Format(decProgress, "##0")
         End Sub
 
-        Protected Function GetIssueBy(ByVal strDisplayParameter As String) As String
+        Protected Function GetIssueBy(ByVal strDisplayParameter As String, Optional ByVal strFilterParameter As String = "") As String
             Dim strToReturn As String = String.Empty
             Dim oBR As New Common.BussinessRules.Issue
             oBR.ProjectID = ddlProjectFilter.SelectedValue.Trim
-            If oBR.SelectDashboardCustomer(strDisplayParameter).Rows.Count > 0 Then
+            If oBR.SelectDashboardCustomer(strDisplayParameter.Trim, strFilterParameter.Trim).Rows.Count > 0 Then
                 strToReturn = oBR.strArray.Trim
                 strToReturn = Replace(strToReturn, "$", "'")
                 strToReturn = Replace(strToReturn, "^", "[")
