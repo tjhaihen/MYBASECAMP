@@ -70,7 +70,7 @@
 
             // Optional; add a title and set the width and height of the chart
             var optionsProgressAll = { 'title': 'Progress: ALL', 'width': 316, 'height': 300, 'pieHole': 0.4,
-                slices: {0: {color: '#3498db'}, 1:{color: '#d6eaf8'}}, legend: { position: "none" } };
+                slices: {0: {color: '#5dade2'}, 1:{color: '#85c1e9'}, 2:{color: '#aed6f1'}, 3:{color: '#d6eaf8'}}, legend: { position: "none" } };
 
             // Display the chart inside the <div> element
             var chartProgressAll = new google.visualization.PieChart(document.getElementById('progressall'));
@@ -82,7 +82,7 @@
 
             // Optional; add a title and set the width and height of the chart
             var optionsProgressRequest = { 'title': 'Progress: Request', 'width': 300, 'height': 300, 'pieHole': 0.4,
-                slices: {0: {color: '#2ecc71'}, 1:{color: '#d5f5e3'}}, legend: { position: "none" } };
+                slices: {0: {color: '#58d68d'}, 1:{color: '#82e0aa'}, 2:{color: '#abebc6'}, 3:{color: '#d5f5e3'}}, legend: { position: "none" } };
 
             // Display the chart inside the <div> element
             var chartProgressRequest = new google.visualization.PieChart(document.getElementById('progressrequest'));
@@ -94,7 +94,7 @@
 
             // Optional; add a title and set the width and height of the chart
             var optionsProgressBugs = { 'title': 'Progress: Bugs', 'width': 300, 'height': 300, 'pieHole': 0.4,
-                slices: {0: {color: '#e74c3c'}, 1:{color: '#fadbd8'}}, legend: { position: "none" } };
+                slices: {0: {color: '#ec7063'}, 1:{color: '#f1948a'}, 2:{color: '#f5b7b1'}, 3:{color: '#fadbd8'}}, legend: { position: "none" } };
 
             // Display the chart inside the <div> element
             var chartProgressBugs = new google.visualization.PieChart(document.getElementById('progressbugs'));
@@ -106,7 +106,7 @@
 
             // Optional; add a title and set the width and height of the chart
             var optionsProgressGuidance = { 'title': 'Progress: Guidance', 'width': 300, 'height': 300, 'pieHole': 0.4,
-                slices: {0: {color: '#8e24aa'}, 1:{color: '#e1bee7'}}, legend: { position: "none" } };
+                slices: {0: {color: '#af7ac5'}, 1:{color: '#c39bd3'}, 2:{color: '#d7bde2'}, 3:{color: '#ebdef0'}}, legend: { position: "none" } };
 
             // Display the chart inside the <div> element
             var chartProgressGuidance = new google.visualization.PieChart(document.getElementById('progressguidance'));
