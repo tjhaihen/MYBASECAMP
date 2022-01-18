@@ -1016,6 +1016,12 @@
                                                 <%# DataBinder.Eval(Container.DataItem, "progressDevFinish")%>&nbsp;%
                                             </ItemTemplate>
                                         </asp:TemplateColumn>
+                                        <asp:TemplateColumn runat="server" HeaderText="Total QC Failed" ItemStyle-VerticalAlign="Top"
+                                            HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "totalQCFailed")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
                                         <asp:TemplateColumn runat="server" HeaderText="Total QC Passed" ItemStyle-VerticalAlign="Top"
                                             HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
                                             <ItemTemplate>

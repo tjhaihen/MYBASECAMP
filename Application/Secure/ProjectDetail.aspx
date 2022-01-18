@@ -1039,7 +1039,9 @@
                                                 <br />
                                                 <div class="txtweak">
                                                     Target Date:<br />
-                                                    <%# Format(DataBinder.Eval(Container.DataItem, "targetDate"), "dd-MMM-yyyy")%></div>
+                                                    <%# Format(DataBinder.Eval(Container.DataItem, "targetDate"), "dd-MMM-yyyy")%>
+                                                <br />
+                                                <asp:CheckBox ID="_chkIsPlanned" Checked='<%# DataBinder.Eval(Container.DataItem, "IsPlanned")%>' runat="server" Enabled="false" Text="Planned" /></div>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Status" ItemStyle-Width="80" ItemStyle-VerticalAlign="Top">

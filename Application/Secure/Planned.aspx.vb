@@ -49,6 +49,7 @@ Namespace QIS.Web
 
                 pnlAddNew.Visible = False
                 pnlIssueResponse.Visible = False
+                pnlPlannedByTeam.Visible = False
                 GetTasksByUserID()
             End If
         End Sub
@@ -88,6 +89,10 @@ Namespace QIS.Web
 
         Private Sub ddlUserIDAssignedToFilter_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlUserIDAssignedToFilter.SelectedIndexChanged
             SetDataGrid()
+        End Sub
+
+        Protected Sub ddlProjectFilter_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlProjectFilter.SelectedIndexChanged
+
         End Sub
 
         Private Sub btnClose_Click(sender As Object, e As System.EventArgs) Handles btnClose.Click
@@ -763,9 +768,6 @@ Namespace QIS.Web
 #End Region
 #End Region
 
-        Protected Sub ddlProjectFilter_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlProjectFilter.SelectedIndexChanged
-
-        End Sub
     End Class
 
 End Namespace

@@ -572,8 +572,8 @@ Namespace QIS.Web
             Response_chkIsShared.Checked = False
 
             Response_chkIsUpdateStatus.Checked = False
-            Response_txtPatchNo.Text = String.Empty
-            Response_chkIsSpecific.Checked = False
+            'Response_txtPatchNo.Text = String.Empty
+            'Response_chkIsSpecific.Checked = False
 
             Response_chkIsIncludeInMyWorktime.Checked = False
             Response_txtWorktimeDtDescription.Text = String.Empty
