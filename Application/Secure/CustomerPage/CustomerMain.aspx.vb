@@ -99,20 +99,20 @@ Namespace QIS.Web
         End Sub
 
         Private Sub Response_btnClose_Click(sender As Object, e As System.EventArgs) Handles Response_btnClose.Click
-            PrepareScreenIssueResponse()
+            PrepareScreenIssueResponse(True)
             pnlIssueResponse.Visible = False
         End Sub
 
         Private Sub Response_btnSaveAndNew_Click(sender As Object, e As System.EventArgs) Handles Response_btnSaveAndNew.Click
             _updateIssueResponse()
-            PrepareScreenIssueResponse()
+            PrepareScreenIssueResponse(True)
             SetDataGridIssueResponse()
             SetDataGrid()
         End Sub
 
         Private Sub Response_btnSaveAndClose_Click(sender As Object, e As System.EventArgs) Handles Response_btnSaveAndClose.Click
             _updateIssueResponse()
-            PrepareScreenIssueResponse()
+            PrepareScreenIssueResponse(True)
             pnlIssueResponse.Visible = False
             SetDataGridIssueResponse()
             SetDataGrid()
@@ -132,7 +132,7 @@ Namespace QIS.Web
                     pnlIssueResponse.Visible = True
                     Response_lblIssueID.Text = _lbtnIssueID.Text.Trim
                     _openIssueForResponse()
-                    PrepareScreenIssueResponse()
+                    PrepareScreenIssueResponse(False)
                     SetDataGridIssueResponse()
             End Select
         End Sub
@@ -278,7 +278,10 @@ Namespace QIS.Web
             commonFunction.Focus(Me, txtDepartmentName.ClientID)
         End Sub
 
-        Private Sub PrepareScreenIssueResponse()
+        Private Sub PrepareScreenIssueResponse(ByVal IsNew As Boolean)
+            If IsNew = True Then
+                Response_lblResponseID.Text = String.Empty
+            End If
             Response_calResponseDate.selectedDate = Date.Today
             Response_txtResponseDescription.Text = String.Empty
             commonFunction.Focus(Me, Response_txtResponseDescription.ClientID)
@@ -477,6 +480,10 @@ Namespace QIS.Web
                 .IssueID = Response_lblIssueID.Text.Trim
                 .ResponseDescription = Response_txtResponseDescription.Text.Trim
                 .ResponseDate = Response_calResponseDate.selectedDate
+                .ResponseTimeStart = Format(Date.Today, commonFunction.FORMAT_TIME)
+                .ResponseDuration = 0
+                .ResponseTypeSCode = Common.Constants.ResponseTypeCode.ResponseType_Customer
+                .isShared = True
                 .userIDinsert = MyBase.LoggedOnUserID.Trim
                 .userIDupdate = MyBase.LoggedOnUserID.Trim
                 If fNew Then

@@ -163,6 +163,10 @@
             Public Const IssueConfirmStatus_Confirmed As String = "003"
         End Class
 
+        Public NotInheritable Class ResponseTypeCode
+            Public Const ResponseType_Customer As String = "998"
+        End Class
+
         Public NotInheritable Class SystemSetting
             Public Const SystemSetting_SYSEMR As String = "SYSEMR"
             Public Const SystemSetting_DBOHIS As String = "DBOHIS"
