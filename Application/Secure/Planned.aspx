@@ -304,6 +304,8 @@
                                                         ToolTip="View Detail Planned" Width="32" />
                                                     <asp:ImageButton ID="ibtnViewPlannedByTeam" runat="server" ImageUrl="/qistoollib/images/ico-teamtask.png"
                                                         ToolTip="View Planned by Team" Width="32" />
+                                                    <asp:ImageButton ID="ibtnViewPlannedByProject" runat="server" ImageUrl="/qistoollib/images/ico-edit.png"
+                                                        ToolTip="View Planned by Project" Width="32" />
                                                 </td>
                                             </tr>
                                         </table>
@@ -528,11 +530,13 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td class="txtweak" colspan="2">
-                                                                        File type&nbsp;<%# DataBinder.Eval(Container.DataItem, "fileExtension")%></td>
+                                                                        File type&nbsp;<%# DataBinder.Eval(Container.DataItem, "fileExtension")%>
+                                                                    </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td class="txtweak" colspan="2">
-                                                                        Attached by&nbsp;<%# DataBinder.Eval(Container.DataItem, "firstName")%>&nbsp;on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "insertDate"), "dd-MMM-yyyy HH:mm") %></td>
+                                                                        Attached by&nbsp;<%# DataBinder.Eval(Container.DataItem, "firstName")%>&nbsp;on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "insertDate"), "dd-MMM-yyyy HH:mm") %>
+                                                                    </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td class="left">
@@ -612,7 +616,8 @@
                                                             Time Start
                                                         </td>
                                                         <td style="background: #ffffff;">
-                                                            <ew:MaskedTextBox ID="Response_txtResponseTimeStart" runat="server" Width="100"></ew:MaskedTextBox>
+                                                            <ew:MaskedTextBox ID="Response_txtResponseTimeStart" runat="server" Width="100">
+                                                            </ew:MaskedTextBox>
                                                             &nbsp;&nbsp;Duration
                                                             <asp:TextBox ID="Response_txtResponseDuration" runat="server" Width="60"></asp:TextBox>
                                                             Minutes
@@ -843,7 +848,8 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="txtweak">
-                                                            Patch No.:&nbsp;<%# DataBinder.Eval(Container.DataItem, "patchNo")%></td>
+                                                            Patch No.:&nbsp;<%# DataBinder.Eval(Container.DataItem, "patchNo")%>
+                                                        </td>
                                                     </tr>
                                                 </table>
                                             </ItemTemplate>
@@ -891,7 +897,8 @@
                                                         <td class="txtweak">
                                                             <%# DataBinder.Eval(Container.DataItem, "reportedBy")%>
                                                             <br />
-                                                            on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %></td>
+                                                            on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %>
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td class="hseparator">
@@ -899,7 +906,9 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="txtweak">
-                                                            Created by:&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameInsert")%><br />on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "insertDate"),"dd-MMM-yyyy") %></td>
+                                                            Created by:&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameInsert")%><br />
+                                                            on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "insertDate"),"dd-MMM-yyyy") %>
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td class="hseparator">
@@ -907,7 +916,9 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="txtweak">
-                                                            Updated by:&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameUpdate")%><br />on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "updateDate"),"dd-MMM-yyyy") %></td>
+                                                            Updated by:&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameUpdate")%><br />
+                                                            on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "updateDate"),"dd-MMM-yyyy") %>
+                                                        </td>
                                                     </tr>
                                                 </table>
                                             </ItemTemplate>
@@ -983,6 +994,97 @@
                                         <asp:TemplateColumn runat="server" HeaderText="Team Name" ItemStyle-VerticalAlign="Top">
                                             <ItemTemplate>
                                                 <%# DataBinder.Eval(Container.DataItem, "fullName")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn runat="server" HeaderText="Total Issue" ItemStyle-VerticalAlign="Top"
+                                            HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "totalIssue")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn runat="server" HeaderText="Total Open" ItemStyle-VerticalAlign="Top"
+                                            HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "totalOpen")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn runat="server" HeaderText="Total In Progress" ItemStyle-VerticalAlign="Top"
+                                            HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "totalInProgress")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn runat="server" HeaderText="Total Dev. Finish" ItemStyle-VerticalAlign="Top"
+                                            HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "totalDevFinish")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn runat="server" HeaderText="Progress Dev. Finish" ItemStyle-VerticalAlign="Top"
+                                            HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" HeaderStyle-Font-Bold="true"
+                                            ItemStyle-Font-Bold="true">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "progressDevFinish")%>&nbsp;%
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn runat="server" HeaderText="Total QC Failed" ItemStyle-VerticalAlign="Top"
+                                            HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "totalQCFailed")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn runat="server" HeaderText="Total QC Passed" ItemStyle-VerticalAlign="Top"
+                                            HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "totalQCPassed")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn runat="server" HeaderText="Progress QC Passed" ItemStyle-VerticalAlign="Top"
+                                            HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" HeaderStyle-Font-Bold="true"
+                                            ItemStyle-Font-Bold="true">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "progressQCPassed")%>&nbsp;%
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn runat="server" HeaderText="Total Finish" ItemStyle-VerticalAlign="Top"
+                                            HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "totalFinish")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn runat="server" HeaderText="Progress Finish" ItemStyle-VerticalAlign="Top"
+                                            HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center" HeaderStyle-Font-Bold="true"
+                                            ItemStyle-Font-Bold="true">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "progressFinish")%>&nbsp;%
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                    </Columns>
+                                </asp:DataGrid>
+                            </td>
+                        </tr>
+                    </table>
+                </asp:Panel>
+
+                <asp:Panel ID="pnlPlannedByProject" runat="server">
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                <asp:DataGrid ID="grdPlannedByProject" runat="server" BorderWidth="0" GridLines="None"
+                                    Width="100%" CellPadding="2" CellSpacing="1" ShowHeader="true" ShowFooter="false"
+                                    AutoGenerateColumns="false">
+                                    <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
+                                    <ItemStyle CssClass="gridItemStyle" />
+                                    <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
+                                    <Columns>
+                                        <asp:TemplateColumn runat="server" HeaderText="Project Initial" ItemStyle-VerticalAlign="Top">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "projectAliasName")%>
+                                            </ItemTemplate>
+                                        </asp:TemplateColumn>
+                                        <asp:TemplateColumn runat="server" HeaderText="Project Name" ItemStyle-VerticalAlign="Top">
+                                            <ItemTemplate>
+                                                <%# DataBinder.Eval(Container.DataItem, "projectName")%>
                                             </ItemTemplate>
                                         </asp:TemplateColumn>
                                         <asp:TemplateColumn runat="server" HeaderText="Total Issue" ItemStyle-VerticalAlign="Top"

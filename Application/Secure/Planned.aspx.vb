@@ -50,6 +50,7 @@ Namespace QIS.Web
                 pnlAddNew.Visible = False
                 pnlIssueResponse.Visible = False
                 pnlPlannedByTeam.Visible = False
+                pnlPlannedByProject.Visible = False
                 GetTasksByUserID()
             End If
         End Sub
@@ -131,12 +132,21 @@ Namespace QIS.Web
         Private Sub ibtnViewDetailPlanned_Click(sender As Object, e As System.Web.UI.ImageClickEventArgs) Handles ibtnViewDetailPlanned.Click
             pnlDetailPlanned.Visible = True
             pnlPlannedByTeam.Visible = False
+            pnlPlannedByProject.Visible = False
         End Sub
 
         Private Sub ibtnViewPlannedByTeam_Click(sender As Object, e As System.Web.UI.ImageClickEventArgs) Handles ibtnViewPlannedByTeam.Click
             pnlDetailPlanned.Visible = False
             pnlPlannedByTeam.Visible = True
+            pnlPlannedByProject.Visible = False
             SetDataGridPlannedByTeam()
+        End Sub
+
+        Private Sub ibtnViewPlannedByProject_Click(sender As Object, e As System.Web.UI.ImageClickEventArgs) Handles ibtnViewPlannedByProject.Click
+            pnlDetailPlanned.Visible = False
+            pnlPlannedByTeam.Visible = False
+            pnlPlannedByProject.Visible = True
+            SetDataGridPlannedByProject()
         End Sub
 
         Private Sub Response_btnClose_Click(sender As Object, e As System.EventArgs) Handles Response_btnClose.Click
@@ -281,6 +291,16 @@ Namespace QIS.Web
             oBR = Nothing
         End Sub
 
+        Private Sub SetDataGridPlannedByProject()
+            Dim oBR As New Common.BussinessRules.Issue
+            Dim oDT As New DataTable
+            oDT = oBR.SelectPlannedByProject(calStartDate.selectedDate, calEndDate.selectedDate, ddlProjectGroupFilter.SelectedValue.Trim)
+            grdPlannedByProject.DataSource = oDT
+            grdPlannedByProject.DataBind()
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
         Private Sub prepareDDL()
             commonFunction.SetDDL_Table(ddlProjectGroupFilter, "ProjectGroup", MyBase.LoggedOnUserID.Trim, False)
             commonFunction.SetDDL_Table(ddlProjectFilter, "ProjectUser", MyBase.LoggedOnUserID.Trim, True, "All Project", "All")
@@ -332,8 +352,8 @@ Namespace QIS.Web
             Response_chkIsShared.Checked = False
 
             Response_chkIsUpdateStatus.Checked = False
-            Response_txtPatchNo.Text = String.Empty
-            Response_chkIsSpecific.Checked = False
+            'Response_txtPatchNo.Text = String.Empty
+            'Response_chkIsSpecific.Checked = False
 
             Response_chkIsIncludeInMyWorktime.Checked = False
             Response_txtWorktimeDtDescription.Text = String.Empty

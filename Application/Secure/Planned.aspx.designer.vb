@@ -348,6 +348,15 @@ Namespace QIS.Web
         Protected WithEvents ibtnViewPlannedByTeam As Global.System.Web.UI.WebControls.ImageButton
 
         '''<summary>
+        '''ibtnViewPlannedByProject control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ibtnViewPlannedByProject As Global.System.Web.UI.WebControls.ImageButton
+
+        '''<summary>
         '''pnlDetailPlanned control.
         '''</summary>
         '''<remarks>
@@ -841,6 +850,24 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents grdPlannedByTeam As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''pnlPlannedByProject control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlPlannedByProject As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''grdPlannedByProject control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdPlannedByProject As Global.System.Web.UI.WebControls.DataGrid
 
         '''<summary>
         '''mdlCopyRight control.
