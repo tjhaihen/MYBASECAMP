@@ -103,7 +103,7 @@ Namespace QIS.Web
         End Sub
 
         Private Sub btnSaveAndClose_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndClose.Click
-            If IsPatchClosed(txtPatchNo.Text.Trim) = True Then
+            If IsPatchClosed(txtPatchNo.Text.Trim, ddlIssueStatus.SelectedValue.Trim) = True Then
                 commonFunction.MsgBox(Me, "Cannot add to Patch No. " + txtPatchNo.Text.Trim + ". It is already Closed.")
                 Exit Sub
             End If
@@ -155,7 +155,7 @@ Namespace QIS.Web
         End Sub
 
         Private Sub Response_btnSaveAndNew_Click(sender As Object, e As System.EventArgs) Handles Response_btnSaveAndNew.Click
-            If IsPatchClosed(Response_txtPatchNo.Text.Trim) = True Then
+            If IsPatchClosed(Response_txtPatchNo.Text.Trim, Response_ddlIssueStatus.SelectedValue.Trim) = True Then
                 commonFunction.MsgBox(Me, "Cannot add to Patch No. " + Response_txtPatchNo.Text.Trim + ". It is already Closed.")
                 Exit Sub
             End If
@@ -167,7 +167,7 @@ Namespace QIS.Web
         End Sub
 
         Private Sub Response_btnSaveAndClose_Click(sender As Object, e As System.EventArgs) Handles Response_btnSaveAndClose.Click
-            If IsPatchClosed(Response_txtPatchNo.Text.Trim) = True Then
+            If IsPatchClosed(Response_txtPatchNo.Text.Trim, Response_ddlIssueStatus.SelectedValue.Trim) = True Then
                 commonFunction.MsgBox(Me, "Cannot add to Patch No. " + Response_txtPatchNo.Text.Trim + ". It is already Closed.")
                 Exit Sub
             End If
@@ -399,17 +399,24 @@ Namespace QIS.Web
             Return i
         End Function
 
-        Private Function IsPatchClosed(ByVal strPatchNo As String) As Boolean
+        Private Function IsPatchClosed(ByVal strPatchNo As String, ByVal strIssueStatusSCode As String) As Boolean
             Dim bolToReturn As Boolean = False
-            Dim oBR As New Common.BussinessRules.Patch
-            With oBR
-                .PatchNo = strPatchNo.Trim
-                If .SelectOne.Rows.Count > 0 Then
-                    bolToReturn = .IsClosed
-                End If
-            End With
-            oBR.Dispose()
-            oBR = Nothing
+            Select Case strIssueStatusSCode.Trim
+                Case "003", "002-5", "002-6"
+                    '// Finish, QC Passed, QC Failed just skip the validation
+                    bolToReturn = False
+                Case Else
+                    Dim oBR As New Common.BussinessRules.Patch
+                    With oBR
+                        .PatchNo = strPatchNo.Trim
+                        If .SelectOne.Rows.Count > 0 Then
+                            bolToReturn = .IsClosed
+                        End If
+                    End With
+                    oBR.Dispose()
+                    oBR = Nothing
+            End Select
+
             Return bolToReturn
         End Function
 #End Region
@@ -493,7 +500,7 @@ Namespace QIS.Web
             Page.Validate()
             If Not Page.IsValid Then Exit Sub
 
-            If IsPatchClosed(txtPatchNo.Text.Trim) = True Then
+            If IsPatchClosed(txtPatchNo.Text.Trim, ddlIssueStatus.SelectedValue.Trim) = True Then
                 commonFunction.MsgBox(Me, "Cannot add to Patch No. " + txtPatchNo.Text.Trim + ". It is already Closed.")
                 Exit Sub
             End If
