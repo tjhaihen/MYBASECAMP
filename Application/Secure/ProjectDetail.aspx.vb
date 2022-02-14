@@ -523,10 +523,10 @@ Namespace QIS.Web
             commonFunction.SetDDL_Table(ddlIssueType, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, True, "Not Set")
             commonFunction.SetDDL_Table(ddlIssueStatus, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, False)
             commonFunction.SetDDL_Table(ddlIssuePriority, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, True, "Not Set")
-            commonFunction.SetDDL_Table(ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, True, "Not Set")
+            commonFunction.SetDDL_Table(ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, False)
             commonFunction.SetDDL_Table(Response_ddlResponseType, "CommonCode", Common.Constants.GroupCode.ResponseType_SCode, False)
             commonFunction.SetDDL_Table(Response_ddlIssueStatus, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, False)
-            commonFunction.SetDDL_Table(Response_ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, True, "Not Set")
+            commonFunction.SetDDL_Table(Response_ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, False)
             commonFunction.SetDDL_Table(ddlUserIDAssignedTo, "UserActive", String.Empty, True, "Not Set")
         End Sub
 
