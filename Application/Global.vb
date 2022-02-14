@@ -264,6 +264,9 @@ Namespace QIS.Web
                 Case "ProjectGroup"
                     Dim oTbl As New Common.BussinessRules.ProjectGroup
                     tblToApply = oTbl.SelectAll()
+                Case "PatchGroup"
+                    Dim oTbl As New Common.BussinessRules.PatchGroup
+                    tblToApply = oTbl.SelectAll()
                 Case "Physician"
                     Dim oTbl As New Common.BussinessRules.Utility
                     tblToApply = oTbl.GetPhysician()
@@ -380,6 +383,9 @@ Namespace QIS.Web
                             Case "ProjectGroup"
                                 _strText = Common.ProcessNull.GetString(rgRows(i - 1)("ProjectGroupName"))
                                 _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("ProjectGroupID"))
+                            Case "PatchGroup"
+                                _strText = Common.ProcessNull.GetString(rgRows(i - 1)("PatchGroupName"))
+                                _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("PatchGroupID"))
                             Case "Physician"
                                 _strText = Common.ProcessNull.GetString(rgRows(i - 1)("PhysicianName"))
                                 _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("PhysicianID"))

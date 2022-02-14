@@ -11,7 +11,7 @@ Namespace QIS.Common.BussinessRules
         Inherits BRInteractionBase
 
 #Region " Class Member Declarations "
-        Private _patchNo, _userIDinsert, _userIDclosed, _remarks As String
+        Private _patchNo, _patchGroupID, _userIDinsert, _userIDclosed, _remarks As String
         Private _patchDate, _insertDate, _closedDate As DateTime
         Private _isClosed As Boolean
 #End Region
@@ -28,16 +28,17 @@ Namespace QIS.Common.BussinessRules
         Public Overrides Function Insert() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "INSERT INTO Patch " + _
-                                        "(patchNo, remarks, userIDinsert, " + _
+                                        "(patchNo, patchGroupID, remarks, userIDinsert, " + _
                                         "patchDate, insertDate) " + _
                                         "VALUES " + _
-                                        "(@patchNo, @remarks, @userIDinsert, " + _
+                                        "(@patchNo, @patchGroupID, @remarks, @userIDinsert, " + _
                                         "@patchDate, GETDATE())"
             cmdToExecute.CommandType = CommandType.Text
             cmdToExecute.Connection = _mainConnection
 
             Try
                 cmdToExecute.Parameters.AddWithValue("@patchNo", _patchNo)
+                cmdToExecute.Parameters.AddWithValue("@patchGroupID", _patchGroupID)
                 cmdToExecute.Parameters.AddWithValue("@remarks", _remarks)
                 cmdToExecute.Parameters.AddWithValue("@userIDinsert", _userIDinsert)
                 cmdToExecute.Parameters.AddWithValue("@patchDate", _patchDate)
@@ -60,13 +61,14 @@ Namespace QIS.Common.BussinessRules
         Public Overrides Function Update() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "UPDATE Patch " + _
-                                        "SET remarks=@remarks, patchDate=@patchDate " + _
+                                        "SET patchGroupID=@patchGroupID, remarks=@remarks, patchDate=@patchDate " + _
                                         "WHERE patchNo=@patchNo"
             cmdToExecute.CommandType = CommandType.Text
             cmdToExecute.Connection = _mainConnection
 
             Try
                 cmdToExecute.Parameters.AddWithValue("@patchNo", _patchNo)
+                cmdToExecute.Parameters.AddWithValue("@patchGroupID", _patchGroupID)
                 cmdToExecute.Parameters.AddWithValue("@remarks", _remarks)
                 cmdToExecute.Parameters.AddWithValue("@patchDate", _patchDate)
 
@@ -135,6 +137,7 @@ Namespace QIS.Common.BussinessRules
 
                 If toReturn.Rows.Count > 0 Then
                     _patchNo = CType(toReturn.Rows(0)("patchNo"), String)
+                    _patchGroupID = CType(toReturn.Rows(0)("patchGroupID"), String)
                     _patchDate = CType(toReturn.Rows(0)("patchDate"), Date)
                     _remarks = CType(toReturn.Rows(0)("remarks"), String)
                     _insertDate = CType(toReturn.Rows(0)("insertDate"), DateTime)
@@ -195,6 +198,41 @@ Namespace QIS.Common.BussinessRules
 #End Region
 
 #Region " Custom Function "
+        Public Function SelectByPatchGroupFilter(ByVal txtFilter As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "SELECT * FROM Patch " + _
+                "WHERE patchGroupID = @patchGroupID " + _
+                "AND patchNo LIKE @patchFilter " + _
+                "ORDER BY PatchNo DESC"
+            cmdToExecute.CommandType = CommandType.Text
+
+            Dim toReturn As DataTable = New DataTable("SelectByPatchGroupFilter")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@patchGroupID", _patchGroupID)
+                cmdToExecute.Parameters.AddWithValue("@patchFilter", "%" + txtFilter + "%")
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
         Public Function UpdateIsClosed() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "UPDATE Patch " + _
@@ -233,6 +271,15 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _patchNo = Value
+            End Set
+        End Property
+
+        Public Property [PatchGroupID]() As String
+            Get
+                Return _patchGroupID
+            End Get
+            Set(ByVal Value As String)
+                _patchGroupID = Value
             End Set
         End Property
 

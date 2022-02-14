@@ -77,6 +77,11 @@
                     </tr>
                     <tr>
                         <td>
+                            <asp:DropDownList ID="ddlPatchGroupFilter" runat="server" Width="150" AutoPostBack="true"></asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <asp:DataGrid ID="grdPatchList" runat="server" BorderWidth="0" GridLines="None" Width="100%"
                                 CellPadding="2" CellSpacing="1" ShowHeader="false" ShowFooter="false" AutoGenerateColumns="false">
                                 <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
@@ -155,6 +160,14 @@
                                 </tr>
                                 <tr>
                                     <td class="right" style="width: 100;">
+                                        Patch group
+                                    </td>
+                                    <td>
+                                        <asp:DropDownList ID="ddlPatchGroup" runat="server" Width="300"></asp:DropDownList>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="right" style="width: 100;">
                                         Patch date
                                     </td>
                                     <td>
@@ -224,7 +237,7 @@
                                                             </asp:Panel>
                                                             <tr>
                                                                 <td>
-                                                                    <asp:Button ID="btnAddPatchIssue" runat="server" Text="Save" CssClass="sbttn" Width="100" />
+                                                                    <asp:Button ID="btnAddPatchIssue" runat="server" Text="Save" CssClass="sbttn" Width="100" CausesValidation="false" />
                                                                 </td>
                                                             </tr>
                                                         </table>

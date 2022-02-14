@@ -47,6 +47,14 @@ Namespace QIS.Web.PatchManagement
             End If
         End Sub
 
+        Private Sub txtSelectPatchNo_TextChanged(sender As Object, e As System.EventArgs) Handles txtSelectPatchNo.TextChanged
+            UpdateViewGridPatchList()
+        End Sub
+
+        Private Sub ddlPatchGroupFilter_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlPatchGroupFilter.SelectedIndexChanged
+            UpdateViewGridPatchList()
+        End Sub
+
         Private Sub txtIssueID_TextChanged(sender As Object, e As System.EventArgs) Handles txtIssueID.TextChanged
             OpenIssue()
         End Sub
@@ -184,7 +192,9 @@ Namespace QIS.Web.PatchManagement
         End Function
 
         Private Sub PrepareDDL()
-            commonFunction.SetDDL_Table(PatchDt_ddlProject, "ProjectUser", MyBase.LoggedOnUserID.Trim, True, "All Project")            
+            commonFunction.SetDDL_Table(PatchDt_ddlProject, "ProjectUser", MyBase.LoggedOnUserID.Trim, True, "All Project")
+            commonFunction.SetDDL_Table(ddlPatchGroupFilter, "PatchGroup", String.Empty, False)
+            commonFunction.SetDDL_Table(ddlPatchGroup, "PatchGroup", String.Empty, False)
         End Sub
 
         Private Sub PrepareDDL_PatchProject_ddlProject(ByVal strPatchNo As String)
@@ -192,7 +202,7 @@ Namespace QIS.Web.PatchManagement
         End Sub
 
         Private Sub PrepareScreen()
-            lblPageTitle.Text = "Patch List"
+            lblPageTitle.Text = "Patch Group"
             txtPatchNo.Text = String.Empty
             calPatchDate.selectedDate = Date.Today
             txtRemarks.Text = String.Empty
@@ -222,6 +232,9 @@ Namespace QIS.Web.PatchManagement
             PatchProject_calUpdateDate.selectedDate = Date.Today
             PatchProject_txtRemarks.Text = String.Empty
             PatchProject_btnAddPatchProject.Enabled = False
+
+            txtSelectPatchNo.Text = Year(Date.Today).ToString.Trim
+            ddlPatchGroup.SelectedIndex = 0
 
             UpdateViewGridPatchList()
             UpdateViewGridPatchIssue()
@@ -260,7 +273,8 @@ Namespace QIS.Web.PatchManagement
 
         Private Sub UpdateViewGridPatchList()
             Dim oPatch As New Common.BussinessRules.Patch
-            grdPatchList.DataSource = oPatch.SelectAll
+            oPatch.PatchGroupID = ddlPatchGroupFilter.SelectedValue.Trim
+            grdPatchList.DataSource = oPatch.SelectByPatchGroupFilter(txtSelectPatchNo.Text.Trim)
             grdPatchList.DataBind()
             oPatch.Dispose()
             oPatch = Nothing
@@ -309,6 +323,7 @@ Namespace QIS.Web.PatchManagement
             With oPatch
                 .PatchNo = strPatchNo.Trim
                 If .SelectOne.Rows.Count > 0 Then
+                    ddlPatchGroup.SelectedValue = .PatchGroupID.Trim
                     calPatchDate.selectedDate = .PatchDate
                     txtRemarks.Text = .Remarks.Trim
                     imgIsClosed.Visible = .IsClosed
@@ -394,6 +409,7 @@ Namespace QIS.Web.PatchManagement
             With oPatch
                 .PatchNo = txtPatchNo.Text.Trim
                 isNew = .SelectOne.Rows.Count = 0
+                .PatchGroupID = ddlPatchGroup.SelectedValue.Trim
                 .PatchDate = calPatchDate.selectedDate
                 .Remarks = txtRemarks.Text.Trim
                 .userIDinsert = MyBase.LoggedOnUserID.Trim

@@ -80,6 +80,8 @@
             Public Const BudgetAccount_MenuID As String = "6001"
             Public Const BudgetPurchasing_MenuID As String = "6002"
             Public Const AccountingBalance_MenuID As String = "4001"
+            Public Const PatchGroup_MenuID As String = "3001"
+            Public Const Patch_MenuID As String = "3002"
         End Class
 
         Public NotInheritable Class ReportID

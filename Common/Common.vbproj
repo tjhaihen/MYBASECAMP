@@ -150,6 +150,7 @@
     <Compile Include="BusinessRule\Pasien.vb" />
     <Compile Include="BusinessRule\PatchManagement\Patch.vb" />
     <Compile Include="BusinessRule\PatchManagement\PatchDt.vb" />
+    <Compile Include="BusinessRule\PatchManagement\PatchGroup.vb" />
     <Compile Include="BusinessRule\PatchManagement\PatchProject.vb" />
     <Compile Include="BusinessRule\PenunjangMedis.vb" />
     <Compile Include="BusinessRule\Project.vb" />

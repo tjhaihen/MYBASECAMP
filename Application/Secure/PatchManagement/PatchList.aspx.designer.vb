@@ -42,6 +42,15 @@ Namespace QIS.Web.PatchManagement
         Protected WithEvents txtSelectPatchNo As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
+        '''ddlPatchGroupFilter control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlPatchGroupFilter As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
         '''grdPatchList control.
         '''</summary>
         '''<remarks>
@@ -103,6 +112,15 @@ Namespace QIS.Web.PatchManagement
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents lblClosedDate As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''ddlPatchGroup control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents ddlPatchGroup As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
         '''calPatchDate control.
