@@ -91,10 +91,10 @@
                     <tr>
                         <td valign="middle" style="width: 34;">
                             <asp:ImageButton ID="ibtnUrgents" runat="server" ImageUrl="/qistoollib/images/urgents.png"
-                                alt="Urgents" />
+                                alt="Criticals" />
                         </td>
                         <td valign="middle">
-                            <asp:LinkButton ID="lbtnUrgents" runat="server" Text="Urgents" CausesValidation="false"></asp:LinkButton>
+                            <asp:LinkButton ID="lbtnUrgents" runat="server" Text="Criticals" CausesValidation="false"></asp:LinkButton>
                         </td>
                         <td class="right" style="color: red;">
                             <asp:Label ID="lblUrgentsTotal" runat="server"></asp:Label>

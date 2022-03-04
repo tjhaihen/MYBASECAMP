@@ -191,7 +191,7 @@
                                         <td colspan="3">
                                             <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                                 <tr>
-                                                    <td style="font-weight: bold;">
+                                                    <td style="font-weight: bold; background-color: #d6eaf8;">
                                                         .:: Add or Edit Patch Issue (for Issue(s) that have Issue ID)
                                                     </td>
                                                 </tr>
@@ -311,7 +311,7 @@
                                         <td colspan="3">
                                             <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                                 <tr>
-                                                    <td style="font-weight: bold;">
+                                                    <td style="font-weight: bold; background-color: #d0ece7;">
                                                         .:: Add or Edit Patch Detail (for Issue(s) that doesn't have Issue ID)
                                                     </td>
                                                 </tr>
@@ -423,7 +423,7 @@
                                         <td colspan="3">
                                             <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                                 <tr>
-                                                    <td style="font-weight: bold;">
+                                                    <td style="font-weight: bold; background-color: #d0ece7;">
                                                         .:: Add or Edit Patch Project (for Project(s) Updated with this Patch No.)
                                                     </td>
                                                 </tr>

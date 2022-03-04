@@ -195,13 +195,13 @@ Namespace QIS.Web
         Protected WithEvents CSSToolbar As Global.QIS.CSSToolbar
 
         '''<summary>
-        '''txtKeywords control.
+        '''txtIssueID control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents txtKeywords As Global.System.Web.UI.WebControls.TextBox
+        Protected WithEvents txtIssueID As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
         '''ddlProjectFilter control.
@@ -211,6 +211,15 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents ddlProjectFilter As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''txtKeywords control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtKeywords As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
         '''repIssue control.

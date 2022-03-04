@@ -163,6 +163,8 @@
     <Compile Include="BusinessRule\Person.vb" />
     <Compile Include="BusinessRule\Report.vb" />
     <Compile Include="BusinessRule\SearchList.vb" />
+    <Compile Include="BusinessRule\Tickets\Tickets.vb" />
+    <Compile Include="BusinessRule\Tickets\TicketsResponse.vb" />
     <Compile Include="BusinessRule\UserManagement\Profile.vb" />
     <Compile Include="BusinessRule\UserManagement\ProfileMenu.vb" />
     <Compile Include="BusinessRule\UserManagement\ProfileUnit.vb" />

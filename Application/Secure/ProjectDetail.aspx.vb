@@ -252,6 +252,9 @@ Namespace QIS.Web
         Private Sub btnClose_Click(sender As Object, e As System.EventArgs) Handles btnClose.Click
             PrepareScreenAddNew()
             pnlAddNew.Visible = False
+
+            PrepareScreenIssueResponse()
+            pnlIssueResponse.Visible = False
         End Sub
 
         Private Sub btnSaveOnly_Click(sender As Object, e As System.EventArgs) Handles btnSaveOnly.Click
@@ -265,6 +268,12 @@ Namespace QIS.Web
 
             PrepareScreenIssueFile()
             SetDataGridIssueFile()
+
+            pnlIssueResponse.Visible = True
+            Response_lblIssueID.Text = lblIssueID.Text.Trim
+            _openIssueForResponse()
+            PrepareScreenIssueResponse()
+            SetDataGridIssueResponse()
         End Sub
 
         Private Sub btnSaveAndNew_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndNew.Click
@@ -295,6 +304,14 @@ Namespace QIS.Web
 
             pnlAddNew.Visible = False
             SetDataGrid()
+        End Sub
+
+        Private Sub btnAddResponse_Click(sender As Object, e As System.EventArgs) Handles btnAddResponse.Click
+            pnlIssueResponse.Visible = True
+            Response_lblIssueID.Text = lblIssueID.Text.Trim
+            _openIssueForResponse()
+            PrepareScreenIssueResponse()
+            SetDataGridIssueResponse()
         End Sub
 
         Private Sub btnIssueFileAttach_Click(sender As Object, e As System.EventArgs) Handles btnIssueFileAttach.Click
@@ -520,9 +537,9 @@ Namespace QIS.Web
 
         Private Sub prepareDDL()
             commonFunction.SetDDL_Table(ddlProductRoadmap, "CommonCode", Common.Constants.GroupCode.ProductRoadmap_SCode, True, "Not Set")
-            commonFunction.SetDDL_Table(ddlIssueType, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, True, "Not Set")
+            commonFunction.SetDDL_Table(ddlIssueType, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, False)
             commonFunction.SetDDL_Table(ddlIssueStatus, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, False)
-            commonFunction.SetDDL_Table(ddlIssuePriority, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, True, "Not Set")
+            commonFunction.SetDDL_Table(ddlIssuePriority, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, False)
             commonFunction.SetDDL_Table(ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, False)
             commonFunction.SetDDL_Table(Response_ddlResponseType, "CommonCode", Common.Constants.GroupCode.ResponseType_SCode, False)
             commonFunction.SetDDL_Table(Response_ddlIssueStatus, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, False)
@@ -560,6 +577,8 @@ Namespace QIS.Web
             chkIsIncludeInMyWorktime.Checked = False
             txtWorktimeDtDescription.Text = String.Empty
             txtWorkTimeInHour.Text = "0"
+
+            btnAddResponse.Enabled = False
             commonFunction.Focus(Me, txtDepartmentName.ClientID)
         End Sub
 
@@ -788,6 +807,9 @@ Namespace QIS.Web
                     chkIsPlanned.Checked = .isPlanned
                     txtPatchNo.Text = .PatchNo.Trim
                     chkIsSpecific.Checked = .isSpecific
+                    btnAddResponse.Enabled = True
+                Else
+                    btnAddResponse.Enabled = False
                 End If
             End With
             oBR.Dispose()

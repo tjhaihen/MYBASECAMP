@@ -504,6 +504,13 @@
       <DependentUpon>SystemParameter.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Secure\TicketManagement.aspx.designer.vb">
+      <DependentUpon>TicketManagement.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\TicketManagement.aspx.vb">
+      <DependentUpon>TicketManagement.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Secure\Urgent.aspx.designer.vb">
       <DependentUpon>Urgent.aspx</DependentUpon>
     </Compile>
@@ -730,6 +737,7 @@
     <Content Include="Secure\ProjectTimeline.aspx" />
     <Content Include="Secure\ReportImage.aspx" />
     <Content Include="Secure\SystemParameter.aspx" />
+    <Content Include="Secure\TicketManagement.aspx" />
     <Content Include="Secure\Urgent.aspx" />
     <Content Include="Secure\Utilities\BedInformation.aspx" />
     <Content Include="Secure\Utilities\BedInformationSummary.aspx" />
@@ -879,7 +887,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

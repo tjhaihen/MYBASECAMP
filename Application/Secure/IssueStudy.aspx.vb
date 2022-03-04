@@ -115,7 +115,7 @@ Namespace QIS.Web
         Private Sub mdlToolbar_commandBarClick(ByVal sender As Object, ByVal e As CSSToolbarItem) Handles CSSToolbar.CSSToolbarItemClick
             Select Case e
                 Case CSSToolbarItem.tidRefresh
-                    GetIssueStudy_Level1(txtKeywords.Text.Trim)
+                    GetIssueStudy_Level1(txtIssueID.Text.Trim, txtKeywords.Text.Trim)
             End Select
         End Sub
 #End Region
@@ -126,17 +126,18 @@ Namespace QIS.Web
         End Sub
 
         Private Sub PrepareScreen()
+            txtIssueID.Text = String.Empty
             txtKeywords.Text = String.Empty
-            commonFunction.Focus(Me, txtKeywords.ClientID)
+            commonFunction.Focus(Me, txtIssueID.ClientID)
         End Sub
 
-        Private Sub GetIssueStudy_Level1(ByVal strKeywords As String)
-            If txtKeywords.Text.Trim = String.Empty Then
-                commonFunction.MsgBox(Me, "Nothing to search for. Please type on Keywords first.")
+        Private Sub GetIssueStudy_Level1(ByVal strIssueID As String, ByVal strKeywords As String)
+            If txtIssueID.Text.Trim = String.Empty And txtKeywords.Text.Trim = String.Empty Then
+                commonFunction.MsgBox(Me, "Nothing to search for. Please type on Issue ID or Keywords first.")
                 Exit Sub
             End If
             Dim oBR As New Common.BussinessRules.Issue
-            repIssue.DataSource = oBR.SelectByKeywords(ddlProjectFilter.SelectedValue.Trim, strKeywords.Trim)
+            repIssue.DataSource = oBR.SelectByKeywords(ddlProjectFilter.SelectedValue.Trim, strIssueID.Trim, strKeywords.Trim)
             repIssue.DataBind()
             oBR.Dispose()
             oBR = Nothing

@@ -91,10 +91,10 @@
                     <tr>
                         <td valign="middle" style="width: 34;">
                             <asp:ImageButton ID="ibtnUrgents" runat="server" ImageUrl="/qistoollib/images/urgents.png"
-                                alt="Urgents" />
+                                alt="Criticals" />
                         </td>
                         <td valign="middle">
-                            <asp:LinkButton ID="lbtnUrgents" runat="server" Text="Urgents" CausesValidation="false"></asp:LinkButton>
+                            <asp:LinkButton ID="lbtnUrgents" runat="server" Text="Criticals" CausesValidation="false"></asp:LinkButton>
                         </td>
                         <td class="right" style="color: red;">
                             <asp:Label ID="lblUrgentsTotal" runat="server"></asp:Label>
@@ -293,7 +293,7 @@
                     </tr>
                     <tr>
                         <td colspan="3">
-                            <table width="100%">
+                            <table width="100%" style="display: none;">
                                 <tr>
                                     <td class="gridHeaderStyle center" style="width: 70%;">
                                         Upload Data - Spreadsheet File
@@ -323,7 +323,7 @@
                             <asp:Panel ID="pnlAddNew" runat="server">
                                 <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                     <tr>
-                                        <td colspan="2" style="font-weight: bold;">
+                                        <td colspan="2" style="font-weight: bold; background-color: #d6eaf8;">
                                             .:: Add or Edit Issue
                                         </td>
                                     </tr>
@@ -419,7 +419,7 @@
                                                         </asp:DropDownList>
                                                     </td>
                                                     <td style="width: 100; background: #ffffff;">
-                                                        <asp:CheckBox ID="chkIsUrgent" runat="server" Text="Urgent" ForeColor="Red" />
+                                                        <asp:CheckBox ID="chkIsUrgent" runat="server" Text="Critical" ForeColor="Red" />
                                                     </td>
                                                     <td style="width: 140; background: #ffffff;">
                                                     </td>
@@ -526,10 +526,15 @@
                                                         <asp:Button ID="btnSaveOnly" runat="server" Text="Save" CssClass="sbttn" Width="100" />
                                                         <asp:Button ID="btnSaveAndNew" runat="server" Text="Save & New" CssClass="sbttn"
                                                             Width="100" />
-                                                        <asp:Button ID="btnSaveAndClose" runat="server" Text="Save & Close" CssClass="sbttn"
-                                                            Width="100" />
+                                                        <asp:Button ID="btnAddResponse" runat="server" Text="Add Response" CssClass="sbttn" Width="100" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4">
                                                         <asp:Button ID="btnClose" runat="server" Text="Close" CssClass="sbttn" Width="100"
                                                             CausesValidation="false" />
+                                                        <asp:Button ID="btnSaveAndClose" runat="server" Text="Save & Close" CssClass="sbttn"
+                                                            Width="100" />
                                                     </td>
                                                 </tr>
                                             </table>
@@ -659,7 +664,7 @@
                             <asp:Panel ID="pnlIssueResponse" runat="server">
                                 <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                     <tr>
-                                        <td colspan="2" style="font-weight: bold;">
+                                        <td colspan="2" style="font-weight: bold; background-color: #d0ece7;">
                                             .:: Add Response
                                         </td>
                                     </tr>

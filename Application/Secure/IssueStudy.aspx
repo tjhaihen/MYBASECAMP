@@ -90,10 +90,10 @@
                     <tr>
                         <td valign="middle" style="width: 34;">
                             <asp:ImageButton ID="ibtnUrgents" runat="server" ImageUrl="/qistoollib/images/urgents.png"
-                                alt="Urgents" />
+                                alt="Criticals" />
                         </td>
                         <td valign="middle">
-                            <asp:LinkButton ID="lbtnUrgents" runat="server" Text="Urgents" CausesValidation="false"></asp:LinkButton>
+                            <asp:LinkButton ID="lbtnUrgents" runat="server" Text="Criticals" CausesValidation="false"></asp:LinkButton>
                         </td>
                         <td class="right" style="color: red;">
                             <asp:Label ID="lblUrgentsTotal" runat="server"></asp:Label>
@@ -192,10 +192,10 @@
                                         <table>
                                             <tr>
                                                 <td style="width: 120;" class="right">
-                                                    Keywords
+                                                    Issue ID
                                                 </td>
                                                 <td>
-                                                    <asp:TextBox ID="txtKeywords" runat="server" Width="300"></asp:TextBox>
+                                                    <asp:TextBox ID="txtIssueID" runat="server" Width="300"></asp:TextBox>
                                                 </td>
                                                 <td style="width: 120;" class="right">
                                                     Search in
@@ -203,6 +203,14 @@
                                                 <td>
                                                     <asp:DropDownList ID="ddlProjectFilter" runat="server" Width="200">
                                                     </asp:DropDownList>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 120;" class="right">
+                                                    or (Keywords)
+                                                </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtKeywords" runat="server" Width="300"></asp:TextBox>
                                                 </td>
                                             </tr>
                                         </table>
@@ -225,17 +233,18 @@
                                     <li>
                                         <table cellspacing="2">
                                             <tr>
-                                                <td style="width: 750; min-width: 750; font-size: 11pt; background-color: #eeeeee;" valign="top">
-                                                    <pre><%# DataBinder.Eval(Container.DataItem, "issueDescription")%></pre>
-                                                </td>
-                                                <td style="width: 400; background-color: #eeeeee; color: #333333; font-size: 8pt;" valign="top">
+                                                <td style="width: 200; background-color: #ebf5fb; color: #333333; font-size: 8pt;" valign="top">
                                                     IssueID:&nbsp;<font color="#000000"><strong><%# DataBinder.Eval(Container.DataItem, "issueID")%></strong></font>
-                                                    &nbsp;|&nbsp;<%# DataBinder.Eval(Container.DataItem, "projectGroupName") %>&nbsp;|&nbsp;<%# DataBinder.Eval(Container.DataItem, "projectAliasName") %>
+                                                    <br /><%# DataBinder.Eval(Container.DataItem, "projectGroupName") %>&nbsp;|&nbsp;<%# DataBinder.Eval(Container.DataItem, "projectAliasName") %>
                                                     <br />Status:&nbsp;<%# DataBinder.Eval(Container.DataItem, "issueStatusName")%>
                                                     &nbsp;|&nbsp;Type:&nbsp;<%# DataBinder.Eval(Container.DataItem, "issueTypeName")%>
                                                     <br /><%# DataBinder.Eval(Container.DataItem, "departmentName")%>
                                                     &nbsp;|&nbsp;<%# DataBinder.Eval(Container.DataItem, "reportedBy")%>&nbsp;on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %>
+                                                    <br />Patch No.:&nbsp;<strong><%# DataBinder.Eval(Container.DataItem, "patchNo")%></strong>
                                                 </td>
+                                                <td style="width: 100%; font-size: 11pt; background-color: #eeeeee;" valign="top">
+                                                    <pre><%# DataBinder.Eval(Container.DataItem, "issueDescription")%></pre>
+                                                </td                                                
                                             </tr>
                                             <tr>
                                                 <td colspan="2" style="padding-left: 50;">
@@ -286,7 +295,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="hseparator" colspan="3">
+                                                <td class="hseparator" colspan="2">
                                                 </td>
                                             </tr>
                                         </table>

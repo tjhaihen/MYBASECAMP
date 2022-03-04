@@ -618,13 +618,13 @@ Namespace QIS.Web
         Protected WithEvents btnSaveAndNew As Global.System.Web.UI.WebControls.Button
 
         '''<summary>
-        '''btnSaveAndClose control.
+        '''btnAddResponse control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents btnSaveAndClose As Global.System.Web.UI.WebControls.Button
+        Protected WithEvents btnAddResponse As Global.System.Web.UI.WebControls.Button
 
         '''<summary>
         '''btnClose control.
@@ -634,6 +634,15 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents btnClose As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''btnSaveAndClose control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnSaveAndClose As Global.System.Web.UI.WebControls.Button
 
         '''<summary>
         '''txtIssueFileID control.

@@ -1185,7 +1185,7 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function SelectByKeywords(ByVal strProjectID As String, ByVal strKeywords As String) As DataTable
+        Public Function SelectByKeywords(ByVal strProjectID As String, ByVal strIssueID As String, ByVal strKeywords As String) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "spSelectIssueByKeywords"
             cmdToExecute.CommandType = CommandType.StoredProcedure
@@ -1197,6 +1197,7 @@ Namespace QIS.Common.BussinessRules
 
             Try
                 cmdToExecute.Parameters.AddWithValue("@projectID", strProjectID)
+                cmdToExecute.Parameters.AddWithValue("@issueID", strIssueID)
                 cmdToExecute.Parameters.AddWithValue("@keywords", strKeywords)
 
                 ' // Open connection.
