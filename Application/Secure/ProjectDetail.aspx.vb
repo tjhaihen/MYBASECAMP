@@ -564,6 +564,8 @@ Namespace QIS.Web
             ddlIssueStatus.SelectedIndex = 0
             ddlIssuePriority.SelectedIndex = 0
             ddlIssueConfirmStatus.SelectedIndex = 0
+            ddlUserIDAssignedTo.Items.Clear()
+            commonFunction.SetDDL_Table(ddlUserIDAssignedTo, "UserActive", String.Empty, True, "Not Set")
             ddlUserIDAssignedTo.SelectedIndex = 0
             calEstStartDate.selectedDate = Date.Today
             calTargetDate.selectedDate = Date.Today
@@ -795,6 +797,8 @@ Namespace QIS.Web
                     ddlIssueStatus.SelectedValue = .IssueStatusSCode.Trim
                     ddlIssuePriority.SelectedValue = .IssuePrioritySCode.Trim
                     ddlIssueConfirmStatus.SelectedValue = .IssueConfirmStatusSCode.Trim
+                    ddlUserIDAssignedTo.Items.Clear()
+                    commonFunction.SetDDL_Table(ddlUserIDAssignedTo, "User", String.Empty, True, "Not Set")
                     If .userIDassignedTo.Trim = String.Empty Then
                         ddlUserIDAssignedTo.SelectedIndex = 0
                     Else
