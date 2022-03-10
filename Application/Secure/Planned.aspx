@@ -295,10 +295,13 @@
                                         </table>
                                         <table width="100%">
                                             <tr>
-                                                <td class="hseparator">
+                                                <td class="hseparator" colspan="2">
                                                 </td>
                                             </tr>
                                             <tr>
+                                                <td align="left" valign="top">
+                                                    <asp:CheckBox ID="chkIsShowOutstandingPlanned" runat="server" Text="View All Outstanding Planned Issue(s)" AutoPostBack="true" />
+                                                </td>
                                                 <td align="right" valign="bottom">
                                                     <asp:ImageButton ID="ibtnViewDetailPlanned" runat="server" ImageUrl="/qistoollib/images/ico-detail.png"
                                                         ToolTip="View Detail Planned" Width="32" />
@@ -326,7 +329,7 @@
                                 <asp:Panel ID="pnlAddNew" runat="server">
                                     <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                         <tr>
-                                            <td colspan="2" style="font-weight: bold;">
+                                            <td colspan="2" style="font-weight: bold; background-color: #d6eaf8;">
                                                 .:: Add or Edit Issue
                                             </td>
                                         </tr>
@@ -490,12 +493,12 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <%-- --percobaan --%>
-                                                        <td colspan="2">
+                                                        <td colspan="4">
                                                             <asp:Button ID="btnSaveAndClose" runat="server" Text="Save & Close" CssClass="sbttn"
                                                                 Width="100" />
                                                             <asp:Button ID="btnClose" runat="server" Text="Close" CssClass="sbttn" Width="100"
                                                                 CausesValidation="false" />
+                                                            <asp:Button ID="btnAddResponse" runat="server" Text="Add Response" CssClass="sbttn" Width="100" />
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -565,7 +568,7 @@
                                 <asp:Panel ID="pnlIssueResponse" runat="server">
                                     <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
                                         <tr>
-                                            <td colspan="2" style="font-weight: bold;">
+                                            <td colspan="2" style="font-weight: bold; background-color: #d0ece7;">
                                                 .:: Add Response
                                             </td>
                                         </tr>
@@ -573,11 +576,8 @@
                                             <td colspan="2">
                                                 <table width="100%" cellpadding="2" cellspacing="1">
                                                     <tr>
-                                                        <td class="right Title" style="width: 100; background: #ffffff;">
-                                                            Issue ID #
-                                                        </td>
-                                                        <td class="Title" style="background: #ffffff;">
-                                                            <asp:Label ID="Response_lblIssueID" runat="server"></asp:Label>
+                                                        <td class="Title" style="background: #ffffff;" colspan="2">
+                                                            Issue ID #&nbsp;<asp:Label ID="Response_lblIssueID" runat="server"></asp:Label>                                                            
                                                             <asp:Label ID="Response_lblProjectID" runat="server" Visible="false"></asp:Label>
                                                         </td>
                                                     </tr>

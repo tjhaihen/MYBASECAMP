@@ -812,6 +812,10 @@ Namespace QIS.Web
                     txtPatchNo.Text = .PatchNo.Trim
                     chkIsSpecific.Checked = .isSpecific
                     btnAddResponse.Enabled = True
+
+                    pnlIssueResponse.Visible = False
+                    PrepareScreenIssueResponse()
+                    SetDataGridIssueResponse()
                 Else
                     btnAddResponse.Enabled = False
                 End If

@@ -330,6 +330,15 @@ Namespace QIS.Web
         Protected WithEvents lblProgress As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
+        '''chkIsShowOutstandingPlanned control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsShowOutstandingPlanned As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
         '''ibtnViewDetailPlanned control.
         '''</summary>
         '''<remarks>
@@ -580,6 +589,15 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents btnClose As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''btnAddResponse control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnAddResponse As Global.System.Web.UI.WebControls.Button
 
         '''<summary>
         '''repIssueFile control.

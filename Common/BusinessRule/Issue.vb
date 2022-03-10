@@ -680,6 +680,50 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
+        Public Function SummaryisPlannedOutstanding() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "SELECT " + _
+                "totalIssue = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.IsPlanned=1 AND i.issueStatusSCode NOT IN ('002-1','002-5','003')), " + _
+                "totalOpen = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.IsPlanned=1 AND i.issueStatusSCode NOT IN ('002','002-1','002-5','003')), " + _
+                "totalInProgress = (SELECT COUNT(i.issueID) FROM issue i INNER JOIN project p ON i.projectID = p.projectID WHERE i.IsPlanned=1 AND i.issueStatusSCode NOT IN ('002-1','002-5','003') AND i.issueStatusSCode='002'), " + _
+                "totalDevFinish = 0, " + _
+                "totalQCPassed = 0, " + _
+                "totalFinish = 0"
+            cmdToExecute.CommandType = CommandType.Text
+
+            Dim toReturn As DataTable = New DataTable("IssueSummaryOutstanding")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                If toReturn.Rows.Count > 0 Then
+                    _totalIssue = CType(toReturn.Rows(0)("totalIssue"), Decimal)
+                    _totalOpen = CType(toReturn.Rows(0)("totalOpen"), Decimal)
+                    _totalInProgress = CType(toReturn.Rows(0)("totalInProgress"), Decimal)
+                    _totalDevFinish = CType(toReturn.Rows(0)("totalDevFinish"), Decimal)
+                    _totalQCPassed = CType(toReturn.Rows(0)("totalQCPassed"), Decimal)
+                    _totalFinish = CType(toReturn.Rows(0)("totalFinish"), Decimal)
+                End If
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
         Public Overrides Function Delete() As Boolean
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "DELETE FROM Issue " + _
@@ -844,6 +888,51 @@ Namespace QIS.Common.BussinessRules
                     cmdToExecute.Parameters.AddWithValue("@userIDassignedTo", strUserIDAssignedTo)
                 End If
 
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function SelectByPlannedOutstanding() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            Dim cmdOrderBy As String = String.Empty
+
+            cmdToExecute.CommandText = "SELECT i.*, p.ProjectAliasName, " + _
+                "(SELECT caption FROM CommonCode WHERE groupCode='ISSUETYPE' AND code=i.issueTypeSCode) AS issueTypeName, " + _
+                "(SELECT caption FROM CommonCode WHERE groupCode='ISSUESTATUS' AND code=i.issueStatusSCode) AS issueStatusName, " + _
+                "(SELECT caption FROM CommonCode WHERE groupCode='ISSUEPRIORITY' AND code=i.issuePrioritySCode) AS issuePriorityName, " + _
+                "(SELECT caption FROM CommonCode WHERE groupCode='ISSUECONFIRMSTS' AND code=i.issueConfirmStatusSCode) AS issueConfirmStatusName, " + _
+                "(SELECT caption FROM CommonCode WHERE groupCode='PRODUCTROADMAP' AND [value]=i.productRoadmapSCode) AS productRoadmapName, " + _
+                "ISNULL((SELECT COUNT(responseID) FROM issueResponse WHERE issueID=i.issueID),0) AS totalResponse, " + _
+                "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDAssignedTo)),'') AS userNameAssignedTo, " + _
+                "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDInsert)),'') AS userNameInsert, " + _
+                "ISNULL((SELECT firstName FROM Person WHERE personID=(SELECT personID FROM [User] WHERE userID=i.userIDUpdate)),'') AS userNameUpdate, " + _
+                "DATEDIFF(DAY,i.reportedDate,GETDATE()) AS issueAgeInDay, " + _
+                "DATEDIFF(DAY,i.targetDate,GETDATE()) AS dueToTargetDateAgeInDay, " + _
+                "isHasAttachment=CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID) > 0) THEN(1) ELSE(0) END " + _
+                "FROM Issue i INNER JOIN Project p ON i.ProjectID = p.ProjectID WHERE i.IsPlanned = 1 " + _
+                "AND i.issueStatusSCode NOT IN ('002-1','002-5','003') " + _
+                "ORDER BY i.targetDate, i.issueID"
+
+            Dim toReturn As DataTable = New DataTable("SelectByPlannedOutstanding")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
                 ' // Open connection.
                 _mainConnection.Open()
 

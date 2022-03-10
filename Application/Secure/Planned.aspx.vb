@@ -63,6 +63,10 @@ Namespace QIS.Web
             Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Myday.aspx')</script>")
         End Sub
 
+        Private Sub lbtnPlanned_Click(sender As Object, e As System.EventArgs) Handles lbtnPlanned.Click, lbtnPlanned.Click
+            Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Planned.aspx')</script>")
+        End Sub
+
         Private Sub lbtnUrgents_Click(sender As Object, e As System.EventArgs) Handles lbtnUrgents.Click, ibtnUrgents.Click
             Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/Urgent.aspx')</script>")
         End Sub
@@ -100,6 +104,7 @@ Namespace QIS.Web
             PrepareScreenAddNew()
             'SetDataGrid()
             pnlAddNew.Visible = False
+            pnlIssueResponse.Visible = False
         End Sub
 
         Private Sub btnSaveAndClose_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndClose.Click
@@ -111,7 +116,16 @@ Namespace QIS.Web
             _updateIssue()
             PrepareScreenAddNew()
             pnlAddNew.Visible = False
+            pnlIssueResponse.Visible = False
             SetDataGrid()
+        End Sub
+
+        Private Sub btnAddResponse_Click(sender As Object, e As System.EventArgs) Handles btnAddResponse.Click
+            pnlIssueResponse.Visible = True
+            Response_lblIssueID.Text = lblIssueID.Text.Trim
+            _openIssueForResponse()
+            PrepareScreenIssueResponse()
+            SetDataGridIssueResponse()
         End Sub
 
         Private Sub chkIsAssignedToMe_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkIsAssignedToMe.CheckedChanged
@@ -125,6 +139,36 @@ Namespace QIS.Web
                 End If
             Else
                 ddlUserIDAssignedToFilter.SelectedIndex = 0
+                SetDataGrid()
+            End If
+        End Sub
+
+        Private Sub chkIsShowOutstandingPlanned_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkIsShowOutstandingPlanned.CheckedChanged
+            If chkIsShowOutstandingPlanned.Checked Then
+                calStartDate.selectedDate = Nothing
+                calEndDate.selectedDate = Nothing
+                ddlProjectGroupFilter.Items.Clear()
+                ddlProjectGroupFilter.Enabled = False
+                ddlProjectFilter.Items.Clear()
+                ddlProjectFilter.Enabled = False
+                ddlIssueStatusFilter.Items.Clear()
+                ddlIssueStatusFilter.Enabled = False
+                ddlUserIDAssignedToFilter.Items.Clear()
+                ddlUserIDAssignedToFilter.Enabled = False
+                chkIsAssignedToMe.Checked = False
+                chkIsAssignedToMe.Enabled = False
+                SetDataGridOutstanding()
+            Else
+                ddlProjectGroupFilter.Enabled = True
+                ddlProjectFilter.Enabled = True
+                ddlIssueStatusFilter.Enabled = True
+                ddlIssueStatusFilter.Enabled = True
+                ddlUserIDAssignedToFilter.Enabled = True
+                chkIsAssignedToMe.Enabled = True
+                chkIsAssignedToMe.Checked = False
+                calStartDate.selectedDate = GetFirstDayForWeek(Date.Today, False)
+                calEndDate.selectedDate = GetLastDayForWeek(Date.Today, False)                
+                prepareDDLFilter()
                 SetDataGrid()
             End If
         End Sub
@@ -256,6 +300,18 @@ Namespace QIS.Web
             TotalPlanned()
         End Sub
 
+        Private Sub SetDataGridOutstanding()
+            Dim oBR As New Common.BussinessRules.Issue
+            Dim oDT As New DataTable
+            oDT = oBR.SelectByPlannedOutstanding()
+            grdIssueByFilter.DataSource = oDT
+            grdIssueByFilter.DataBind()
+            oBR.Dispose()
+            oBR = Nothing
+
+            TotalPlannedOutstanding()
+        End Sub
+
         Private Sub SetDataGridIssueResponse()
             Dim oBR As New Common.BussinessRules.IssueResponse
             oBR.IssueID = Response_lblIssueID.Text.Trim
@@ -316,6 +372,13 @@ Namespace QIS.Web
             commonFunction.SetDDL_Table(Response_ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, False)
         End Sub
 
+        Private Sub prepareDDLFilter()
+            commonFunction.SetDDL_Table(ddlProjectGroupFilter, "ProjectGroup", MyBase.LoggedOnUserID.Trim, False)
+            commonFunction.SetDDL_Table(ddlProjectFilter, "ProjectUser", MyBase.LoggedOnUserID.Trim, True, "All Project", "All")
+            commonFunction.SetDDL_Table(ddlIssueStatusFilter, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "All Issue Status", "All")
+            commonFunction.SetDDL_UserIDAssignedPlanned(ddlUserIDAssignedToFilter, calStartDate.selectedDate, calEndDate.selectedDate, ddlProjectGroupFilter.SelectedValue.Trim, True, "Everyone", "All")
+        End Sub
+
         Private Sub prepareDDLUserIDAssignedToFilter()
             commonFunction.SetDDL_UserIDAssignedPlanned(ddlUserIDAssignedToFilter, calStartDate.selectedDate, calEndDate.selectedDate, ddlProjectGroupFilter.SelectedValue.Trim, True, "Everyone", "All")
         End Sub
@@ -324,6 +387,7 @@ Namespace QIS.Web
             calStartDate.selectedDate = GetFirstDayForWeek(Date.Today, False)
             calEndDate.selectedDate = GetLastDayForWeek(Date.Today, False)
             chkIsAssignedToMe.Checked = False
+            chkIsShowOutstandingPlanned.Checked = False
         End Sub
 
         Private Sub PrepareScreenAddNew()
@@ -438,6 +502,8 @@ Namespace QIS.Web
                     ddlIssueStatus.SelectedValue = .IssueStatusSCode.Trim
                     ddlIssuePriority.SelectedValue = .IssuePrioritySCode.Trim
                     ddlIssueConfirmStatus.SelectedValue = .IssueConfirmStatusSCode.Trim
+                    ddlUserIDAssignedTo.Items.Clear()
+                    commonFunction.SetDDL_Table(ddlUserIDAssignedTo, "User", String.Empty, True, "Not Set")
                     If .userIDassignedTo.Trim = String.Empty Then
                         ddlUserIDAssignedTo.SelectedValue = MyBase.LoggedOnUserID.Trim
                     Else
@@ -445,6 +511,10 @@ Namespace QIS.Web
                     End If
                     txtPatchNo.Text = .PatchNo.Trim
                     chkIsSpecific.Checked = .isSpecific
+
+                    pnlIssueResponse.Visible = False
+                    PrepareScreenIssueResponse()
+                    SetDataGridIssueResponse()
                 End If
             End With
             oBR.Dispose()
@@ -617,6 +687,43 @@ Namespace QIS.Web
 
             Dim oBR As New Common.BussinessRules.Issue
             If oBR.SummaryisPlanned(ddlUserIDAssignedToFilter.SelectedValue.Trim, calStartDate.selectedDate, calEndDate.selectedDate, ddlProjectGroupFilter.SelectedValue.Trim).Rows.Count > 0 Then
+                decTotalIssue = oBR.totalIssue
+                decTotalOpen = oBR.totalOpen
+                decTotalInProgress = oBR.totalInProgress
+                decTotalDevFinish = oBR.totalDevFinish
+                decTotalQCPassed = oBR.totalQCPassed
+                decTotalFinish = oBR.totalFinish
+
+                If decTotalIssue = 0 Then
+                    decProgress = 100
+                Else
+                    decProgress = ((decTotalDevFinish + decTotalQCPassed + decTotalFinish) / decTotalIssue) * 100
+                End If
+            End If
+            oBR.Dispose()
+            oBR = Nothing
+
+            lblTotalIssue.Text = decTotalIssue.ToString.Trim
+            lblTotalOpen.Text = decTotalOpen.ToString.Trim
+            lblTotalInProgress.Text = decTotalInProgress.ToString.Trim
+            lblTotalDevFinish.Text = decTotalDevFinish.ToString.Trim
+            lblTotalQCPassed.Text = decTotalQCPassed.ToString.Trim
+            lblTotalFinish.Text = decTotalFinish.ToString.Trim
+            lblProgress.Text = Format(decProgress, "##0")
+        End Sub
+
+        Private Sub TotalPlannedOutstanding()
+            Dim decTotalIssue As Decimal = 0D
+            Dim decTotalOpen As Decimal = 0D
+            Dim decTotalInProgress As Decimal = 0D
+            Dim decTotalDevFinish As Decimal = 0D
+            Dim decTotalQCPassed As Decimal = 0D
+            Dim decTotalFinish As Decimal = 0D
+            Dim decProgress As Decimal = 0D
+            Dim decPICAssigned As Decimal = 0D
+
+            Dim oBR As New Common.BussinessRules.Issue
+            If oBR.SummaryisPlannedOutstanding().Rows.Count > 0 Then
                 decTotalIssue = oBR.totalIssue
                 decTotalOpen = oBR.totalOpen
                 decTotalInProgress = oBR.totalInProgress
