@@ -91,6 +91,7 @@
             Public Const PatchDashboard_ReportID As String = "5001"
             Public Const PatchDetail_ReportID As String = "5002"
             Public Const Worktime_ReportID As String = "8001"
+            Public Const MyWorktime_ReportID As String = "8003"
         End Class
 
         Public NotInheritable Class MaskFormat

@@ -100,6 +100,20 @@ Namespace QIS.Web.WorkTime
                     InsertUpdateWorkTimeHd()
                 Case CSSToolbarItem.tidApprove
                     UpdateSubmitWorkTimeHd()
+                Case CSSToolbarItem.tidDownload
+                    If lblWorkTimeHdID.Text.Trim = String.Empty Or lblWorkTimeHdID.Text.Trim = "0" Then
+                        commonFunction.MsgBox(Me, "Nothing to be Downloaded. To download worktime, you must Approve your worktime first.")
+                    Else
+                        Dim oRPT As New Common.BussinessRules.MyReport
+                        oRPT.AddParameters(lblWorkTimeHdID.Text.Trim)
+                        oRPT.ReportCode = Common.Constants.ReportID.MyWorktime_ReportID
+                        oRPT.GetReportDataByReportCode()
+                        If oRPT.ReportFormat = "XLS" Then
+                            oRPT.ExportToExcel(oRPT.generateReportDataTable, Response)
+                        End If
+                        oRPT.Dispose()
+                        oRPT = Nothing
+                    End If                    
             End Select
         End Sub
 #End Region
@@ -134,6 +148,7 @@ Namespace QIS.Web.WorkTime
             CSSToolbar.VisibleButton(CSSToolbarItem.tidSave) = True
             CSSToolbar.VisibleButton(CSSToolbarItem.tidDelete) = True
             CSSToolbar.VisibleButton(CSSToolbarItem.tidApprove) = True
+            CSSToolbar.VisibleButton(CSSToolbarItem.tidDownload) = False
             OpenWorkTimeHdByUserIDWorkTimeDate()
             commonFunction.Focus(Me, txtRemarks.ClientID)
         End Sub
@@ -150,6 +165,7 @@ Namespace QIS.Web.WorkTime
             CSSToolbar.VisibleButton(CSSToolbarItem.tidSave) = False
             CSSToolbar.VisibleButton(CSSToolbarItem.tidDelete) = False
             CSSToolbar.VisibleButton(CSSToolbarItem.tidApprove) = False
+            CSSToolbar.VisibleButton(CSSToolbarItem.tidDownload) = True
             UpdateViewGridWorkTimeDt()
         End Sub
 
@@ -269,7 +285,7 @@ Namespace QIS.Web.WorkTime
             oWTHd.IsSubmitted = True
             If oWTHd.UpdateSubmit() Then
                 PrepareScreenAfterSubmit()
-                GetDateInMonth()
+                GetDateInMonth()                
             End If
             oWTHd.Dispose()
             oWTHd = Nothing
@@ -299,10 +315,12 @@ Namespace QIS.Web.WorkTime
                 CSSToolbar.VisibleButton(CSSToolbarItem.tidSave) = False
                 CSSToolbar.VisibleButton(CSSToolbarItem.tidDelete) = False
                 CSSToolbar.VisibleButton(CSSToolbarItem.tidApprove) = False
+                CSSToolbar.VisibleButton(CSSToolbarItem.tidDownload) = True
             Else
                 CSSToolbar.VisibleButton(CSSToolbarItem.tidSave) = True
                 CSSToolbar.VisibleButton(CSSToolbarItem.tidDelete) = True
                 CSSToolbar.VisibleButton(CSSToolbarItem.tidApprove) = True
+                CSSToolbar.VisibleButton(CSSToolbarItem.tidDownload) = False
             End If
         End Sub
 
