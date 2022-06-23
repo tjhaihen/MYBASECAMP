@@ -269,11 +269,11 @@ Namespace QIS.Web
             PrepareScreenIssueFile()
             SetDataGridIssueFile()
 
-            pnlIssueResponse.Visible = True
-            Response_lblIssueID.Text = lblIssueID.Text.Trim
-            _openIssueForResponse()
-            PrepareScreenIssueResponse()
-            SetDataGridIssueResponse()
+            'pnlIssueResponse.Visible = True
+            'Response_lblIssueID.Text = lblIssueID.Text.Trim
+            '_openIssueForResponse()
+            'PrepareScreenIssueResponse()
+            'SetDataGridIssueResponse()
         End Sub
 
         Private Sub btnSaveAndNew_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndNew.Click
