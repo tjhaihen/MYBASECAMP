@@ -373,6 +373,16 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="right" style="background: #ffffff;">
+                                                        Description (User Friendly)
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:TextBox ID="txtUserFriendlyIssueDescription" runat="server" TextMode="MultiLine" Width="360"
+                                                            Height="80">
+                                                        </asp:TextBox>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #ffffff;">
                                                         Keywords
                                                     </td>
                                                     <td style="background: #ffffff;">

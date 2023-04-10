@@ -438,6 +438,15 @@ Namespace QIS.Web
         Protected WithEvents rfvIssueDescription As Global.System.Web.UI.WebControls.RequiredFieldValidator
 
         '''<summary>
+        '''txtUserFriendlyIssueDescription control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtUserFriendlyIssueDescription As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
         '''txtKeywords control.
         '''</summary>
         '''<remarks>

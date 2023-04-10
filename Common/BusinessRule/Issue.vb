@@ -25,7 +25,7 @@ Namespace QIS.Common.BussinessRules
 
         Private _totalIssue, _totalOpen, _totalInProgress, _totalDevFinish, _totalQCPassed, _totalFinish As Decimal
         Private _projectAliasName, _projectName As String
-        Private _productRoadmapSCode As String
+        Private _productRoadmapSCode, _userFriendlyIssueDescription As String
 
         Private _PICDev, _IssueType, _IssueStatus, _IssuePriority, _IssueConfirmStatus, _projectDescription As String
         Private _totalreported, _openissue, _progressissue, _needsampleissue, _finishissue, _totalissuefull, _overallprogress, _totalfinished As Decimal
@@ -47,11 +47,11 @@ Namespace QIS.Common.BussinessRules
             cmdToExecute.CommandText = "INSERT INTO Issue " + _
                                         "(issueID, projectID, departmentName, issueDescription, keywords, issueTypeSCode, issueStatusSCode, patchNo, isSpecific, " + _
                                         "issuePrioritySCode, issueConfirmStatusSCode, reportedBy, reportedDate, userIDassignedTo, isUrgent, isPlanned, userIDinsert, userIDupdate, insertDate, updateDate, assignedBy, assignedDate, targetDate, " + _
-                                        "estStartDate, productRoadmapSCode) " + _
+                                        "estStartDate, productRoadmapSCode, userFriendlyIssueDescription) " + _
                                         "VALUES " + _
                                         "(@issueID, @projectID, @departmentName, @issueDescription, @keywords, @issueTypeSCode, @issueStatusSCode, @patchNo, @isSpecific, " + _
                                         "@issuePrioritySCode, @issueConfirmStatusSCode, @reportedBy, @reportedDate, @userIDassignedTo, @isUrgent, @isPlanned, @userIDinsert, @userIDupdate, GETDATE(), GETDATE(), @assignedBy, GETDATE(), @targetDate, " + _
-                                        "@estStartDate, @productRoadmapSCode)"
+                                        "@estStartDate, @productRoadmapSCode, @userFriendlyIssueDescription)"
             cmdToExecute.CommandType = CommandType.Text
             cmdToExecute.Connection = _mainConnection
 
@@ -80,6 +80,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@isSpecific", _isSpecific)
                 cmdToExecute.Parameters.AddWithValue("@estStartDate", _estStartDate)
                 cmdToExecute.Parameters.AddWithValue("@productRoadmapSCode", _productRoadmapSCode)
+                cmdToExecute.Parameters.AddWithValue("@userFriendlyIssueDescription", _userFriendlyIssueDescription)
 
                 ' // Open Connection
                 _mainConnection.Open()
@@ -136,7 +137,8 @@ Namespace QIS.Common.BussinessRules
                                         "issueStatusSCode=@issueStatusSCode, issuePrioritySCode=@issuePrioritySCode, issueConfirmStatusSCode=@issueConfirmStatusSCode, " + _
                                         "reportedBy=@reportedBy, reportedDate=@reportedDate, userIDassignedTo=@userIDassignedTo, isUrgent=@isUrgent, isPlanned=@isPlanned, userIDupdate=@userIDupdate, updateDate=GETDATE(), " + _
                                         "targetDate=@targetDate, patchNo=@patchNo, isSpecific=@isSpecific, " + _
-                                        "estStartDate=@estStartDate, productRoadmapSCode=@productRoadmapSCode " + _
+                                        "estStartDate=@estStartDate, productRoadmapSCode=@productRoadmapSCode, " + _
+                                        "userFriendlyIssueDescription=@userFriendlyIssueDescription " + _
                                         "WHERE issueID=@issueID"
             cmdToExecute.CommandType = CommandType.Text
 
@@ -161,6 +163,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@isSpecific", _isSpecific)
                 cmdToExecute.Parameters.AddWithValue("@estStartDate", _estStartDate)
                 cmdToExecute.Parameters.AddWithValue("@productRoadmapSCode", _productRoadmapSCode)
+                cmdToExecute.Parameters.AddWithValue("@userFriendlyIssueDescription", _userFriendlyIssueDescription)
                 cmdToExecute.Parameters.AddWithValue("@userIDupdate", _userIDupdate)
 
                 ' // Open Connection
@@ -308,7 +311,6 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-
         Public Overrides Function SelectOne(Optional ByVal recStatus As QISRecStatus = QISRecStatus.CurrentRecord) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "SELECT * FROM Issue WHERE issueID=@issueID"
@@ -333,6 +335,7 @@ Namespace QIS.Common.BussinessRules
                     _projectID = CType(toReturn.Rows(0)("ProjectID"), String)
                     _departmentName = CType(toReturn.Rows(0)("departmentName"), String)
                     _issueDescription = CType(toReturn.Rows(0)("issueDescription"), String)
+                    _userFriendlyIssueDescription = CType(toReturn.Rows(0)("userFriendlyIssueDescription"), String)
                     _keywords = CType(toReturn.Rows(0)("keywords"), String)
                     _issueTypeSCode = CType(toReturn.Rows(0)("issueTypeSCode"), String)
                     _issueStatusSCode = CType(toReturn.Rows(0)("issueStatusSCode"), String)
@@ -366,6 +369,7 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
+
         'percobaan ambil response description
         Public Function ambilresponse() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
@@ -510,7 +514,6 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
-
 
         '--percobaan print
         Public Function PrintIssue() As DataTable
@@ -1549,6 +1552,15 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As String)
                 _issueDescription = Value
+            End Set
+        End Property
+
+        Public Property [UserFriendlyIssueDescription]() As String
+            Get
+                Return _userFriendlyIssueDescription
+            End Get
+            Set(ByVal Value As String)
+                _userFriendlyIssueDescription = Value
             End Set
         End Property
 

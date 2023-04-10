@@ -41,10 +41,22 @@ Namespace QIS.Web
                     strPrefix = "http://"
                 End If
 
-                urlSuffix = Context.Request.Url.Host
+                Dim strPort As String = String.Empty
+                Dim brCC As New Common.BussinessRules.CommonCode
+                With brCC
+                    .GroupCode = "URL"
+                    .Code = "URLPORT"
+                    If .SelectOne.Rows.Count > 0 Then
+                        strPort = .Value.Trim
+                    End If
+                End With
+                brCC.Dispose()
+                brCC = Nothing
+
+                urlSuffix = Context.Request.Url.Host & strPort
                 pageUrlDokuwiki = strPrefix & urlSuffix
 
-                urlSuffix = Context.Request.Url.Host & Context.Request.ApplicationPath
+                urlSuffix = Context.Request.Url.Host & strPort & Context.Request.ApplicationPath
                 pageUrlBase = strPrefix & urlSuffix
             Catch
             End Try

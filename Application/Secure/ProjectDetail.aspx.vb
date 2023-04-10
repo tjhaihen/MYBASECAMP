@@ -557,6 +557,7 @@ Namespace QIS.Web
             lblIssueID.Text = String.Empty
             txtDepartmentName.Text = String.Empty
             txtIssueDescription.Text = String.Empty
+            txtUserFriendlyIssueDescription.Text = String.Empty
             txtKeywords.Text = String.Empty
             calReportedDate.selectedDate = Date.Today
             txtReportedBy.Text = String.Empty
@@ -789,6 +790,7 @@ Namespace QIS.Web
                 If .SelectOne.Rows.Count > 0 Then
                     txtDepartmentName.Text = .DepartmentName.Trim
                     txtIssueDescription.Text = .IssueDescription.Trim
+                    txtUserFriendlyIssueDescription.Text = .UserFriendlyIssueDescription.Trim
                     txtKeywords.Text = .Keywords.Trim
                     calReportedDate.selectedDate = .ReportedDate
                     txtReportedBy.Text = .ReportedBy.Trim
@@ -889,6 +891,7 @@ Namespace QIS.Web
                 .ProductRoadmapSCode = ddlProductRoadmap.SelectedValue.Trim
                 .DepartmentName = txtDepartmentName.Text.Trim
                 .IssueDescription = txtIssueDescription.Text.Trim
+                .UserFriendlyIssueDescription = txtUserFriendlyIssueDescription.Text.Trim
                 .Keywords = txtKeywords.Text.Trim
                 .ReportedDate = calReportedDate.selectedDate
                 .ReportedBy = txtReportedBy.Text.Trim
@@ -912,12 +915,14 @@ Namespace QIS.Web
                         If chkIsIncludeInMyWorktime.Checked Then
                             InsertWorkTimeHdFromAddEditIssue()
                         End If
+                        btnAddResponse.Enabled = True
                     End If
                 Else
                     If .Update() Then
                         If chkIsIncludeInMyWorktime.Checked Then
                             InsertWorkTimeHdFromAddEditIssue()
                         End If
+                        btnAddResponse.Enabled = True
                     End If
                 End If
             End With
