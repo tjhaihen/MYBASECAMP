@@ -172,6 +172,11 @@
                                                 <td class="txtlessstrong">
                                                     Current Patch:&nbsp;<asp:Label ID="lblLastPatchNo" runat="server" Font-Bold="true"></asp:Label>
                                                 </td>
+                                                <td style="width: 120;" class="right">                                                    
+                                                </td>
+                                                <td>
+                                                    <asp:CheckBox ID="chkIsOpenForClient" runat="server" Enabled="false" Visible="false" />
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="hseparator" colspan="6">

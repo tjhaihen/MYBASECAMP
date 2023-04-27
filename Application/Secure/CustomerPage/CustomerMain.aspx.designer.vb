@@ -186,6 +186,15 @@ Namespace QIS.Web
         Protected WithEvents lblLastPatchNo As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
+        '''chkIsOpenForClient control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents chkIsOpenForClient As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
         '''ddlProductRoadmapFilter control.
         '''</summary>
         '''<remarks>

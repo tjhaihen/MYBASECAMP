@@ -142,7 +142,7 @@ Namespace QIS.Web
         Private Sub setToolbarVisibleButton()
             With CSSToolbar
                 .VisibleButton(CSSToolbarItem.tidSave) = False
-                .VisibleButton(CSSToolbarItem.tidNew) = False
+                .VisibleButton(CSSToolbarItem.tidNew) = chkIsOpenForClient.Checked
                 .VisibleButton(CSSToolbarItem.tidDelete) = False
                 .VisibleButton(CSSToolbarItem.tidApprove) = False
                 .VisibleButton(CSSToolbarItem.tidVoid) = False
@@ -382,13 +382,17 @@ Namespace QIS.Web
             With oBR
                 .ProjectID = ddlProjectFilter.SelectedValue.Trim
                 If .SelectOne.Rows.Count > 0 Then
-                    lblLastPatchNo.Text = .lastPatchNo.Trim                    
+                    lblLastPatchNo.Text = .lastPatchNo.Trim
+                    chkIsOpenForClient.Checked = .IsOpenForClient
                 Else
                     lblLastPatchNo.Text = "-"
+                    chkIsOpenForClient.Checked = False
                 End If
             End With
             oBR.Dispose()
             oBR = Nothing
+
+            setToolbarVisibleButton()
         End Sub
 
         Private Sub _openIssue()
