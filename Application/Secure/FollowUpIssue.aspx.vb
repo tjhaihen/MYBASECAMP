@@ -213,7 +213,7 @@ Namespace QIS.Web
             Dim oDT As New DataTable
             oDT = oBR.SelectByFilter(ddlProductRoadmapFilter.SelectedValue.Trim, ddlProjectFilter.SelectedValue.Trim, ddlIssueTypeFilter.SelectedValue.Trim, ddlIssuePriorityFilter.SelectedValue.Trim, _
                                         ddlUserIDAssignedToFilter.SelectedValue.Trim, ddlIssueStatusFilter.SelectedValue.Trim, ddlIssueConfirmStatusFilter.SelectedValue.Trim, _
-                                        chkIsUrgent.Checked, chkIsFilterByPeriod.Checked, calStartDate.selectedDate, calEndDate.selectedDate)
+                                        chkIsUrgent.Checked, chkIsFilterByPeriod.Checked, calStartDate.selectedDate, calEndDate.selectedDate, False)
             grdIssueByFilter.DataSource = oDT
             grdIssueByFilter.DataBind()
             decTotalIssue = oDT.Rows.Count
@@ -420,6 +420,7 @@ Namespace QIS.Web
                 .userIDassignedTo = ddlUserIDAssignedTo.SelectedValue.Trim
                 .userIDinsert = MyBase.LoggedOnUserID.Trim
                 .userIDupdate = MyBase.LoggedOnUserID.Trim
+                .isFromCustomer = False
                 If fNew Then
                     If .Insert() Then
                         lblIssueID.Text = .IssueID.Trim

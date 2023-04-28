@@ -12,7 +12,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-    <title>Basecamp - Customer Case</title>
+    <title>Basecamp - Customer Page</title>
     <link rel="title icon" href="/qistoollib/images/favicon.png" />
     <meta name="GENERATOR" content="Microsoft Visual Studio.NET 7.0" />
     <meta name="CODE_LANGUAGE" content="Visual Basic 7.0" />
@@ -83,13 +83,16 @@
                                         </table>
                                     </td>
                                     <td valign="middle">
-                                        <table style="background: #dddddd;" cellspacing="1" cellpadding="2">
+                                        <table style="background: #CDF4F3;" cellspacing="1" cellpadding="2">
                                             <tr>
                                                 <td style="background: #ffffff; width: 100;" class="center">
                                                     Total Issue
                                                 </td>
                                                 <td style="background: #ffffff; width: 100;" class="center">
                                                     Total Open
+                                                </td>
+                                                <td style="background: #ffffff; width: 120;" class="center">
+                                                    Total CRF Quotation
                                                 </td>
                                                 <td style="background: #ffffff; width: 120;" class="center">
                                                     Total In Progress
@@ -100,34 +103,77 @@
                                                 <td style="background: #ffffff; width: 100;" class="center">
                                                     Total Finish
                                                 </td>
+                                                <td style="background: #ffffff; width: 100;" class="center">
+                                                    Total Cancel
+                                                </td>
                                                 <td style="background: #ffffff; width: 100; font-weight: bold;" class="center">
                                                     Progress
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style="background: #ffffff; width: 100; font-size: larger;" class="center">
+                                                <td style="background: #ffffff; width: 100; font-size: medium;" class="center">
                                                     <asp:Label ID="lblTotalIssueAll" runat="server"></asp:Label>
                                                 </td>
-                                                <td style="background: #ffffff; width: 100; font-size: larger;" class="center">
+                                                <td style="background: #ffffff; width: 100; font-size: medium;" class="center">
                                                     <asp:Label ID="lblTotalOpen" runat="server"></asp:Label>
                                                 </td>
-                                                <td style="background: #ffffff; width: 100; font-size: larger;" class="center">
+                                                <td style="background: #ffffff; width: 100; font-size: medium;" class="center">
+                                                    <asp:Label ID="lblTotalCRFQuotation" runat="server"></asp:Label>
+                                                </td>
+                                                <td style="background: #ffffff; width: 100; font-size: medium;" class="center">
                                                     <asp:Label ID="lblTotalInProgress" runat="server"></asp:Label>
                                                 </td>
-                                                <td style="background: #ffffff; width: 100; font-size: larger;" class="center">
+                                                <td style="background: #ffffff; width: 100; font-size: medium;" class="center">
                                                     <asp:Label ID="lblTotalDevFinish" runat="server"></asp:Label>
                                                 </td>
-                                                <td style="background: #ffffff; width: 120; font-size: larger;" class="center">
+                                                <td style="background: #ffffff; width: 120; font-size: medium;" class="center">
                                                     <asp:Label ID="lblTotalFinish" runat="server"></asp:Label>
                                                 </td>
-                                                <td style="background: #ffffff; width: 100; font-size: larger; font-weight: bold;" class="center">
+                                                <td style="background: #ffffff; width: 120; font-size: medium;" class="center">
+                                                    <asp:Label ID="lblTotalCancel" runat="server"></asp:Label>
+                                                </td>
+                                                <td style="background: #ffffff; width: 100; font-size: medium; font-weight: bold;"
+                                                    class="center">
                                                     <asp:Label ID="lblProgress" runat="server"></asp:Label>&nbsp;%
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="background: #ffffff; width: 100; font-size: small;" class="center">
+                                                </td>
+                                                <td style="background: #ffffff; width: 100; font-size: small;" class="center">
+                                                    <asp:Label ID="lblTotalOpenPct" runat="server"></asp:Label>&nbsp;%
+                                                </td>
+                                                <td style="background: #ffffff; width: 100; font-size: small;" class="center">
+                                                    <asp:Label ID="lblTotalCRFQuotationPct" runat="server"></asp:Label>&nbsp;%
+                                                </td>
+                                                <td style="background: #ffffff; width: 100; font-size: small;" class="center">
+                                                    <asp:Label ID="lblTotalInProgressPct" runat="server"></asp:Label>&nbsp;%
+                                                </td>
+                                                <td style="background: #ffffff; width: 100; font-size: small;" class="center">
+                                                    <asp:Label ID="lblTotalDevFinishPct" runat="server"></asp:Label>&nbsp;%
+                                                </td>
+                                                <td style="background: #ffffff; width: 120; font-size: small;" class="center">
+                                                    <asp:Label ID="lblTotalFinishPct" runat="server"></asp:Label>&nbsp;%
+                                                </td>
+                                                <td style="background: #ffffff; width: 120; font-size: small;" class="center">
+                                                    <asp:Label ID="lblTotalCancelPct" runat="server"></asp:Label>&nbsp;%
+                                                </td>
+                                                <td style="background: #ffffff; width: 100; font-size: small; font-weight: bold;"
+                                                    class="center">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="8" style="background: #ffffff;">
+                                                    <div style="font-size: smaller;">
+                                                        * <b>Open</b> status includes: Need Sample and QC Failed&nbsp;|&nbsp;
+                                                        <b>Finish</b> status includes: Finish and QC Passed&nbsp;|&nbsp;
+                                                        <b>Cancel</b> status includes: Cancel, Retention and CRF Rejected</div>
                                                 </td>
                                             </tr>
                                         </table>
                                     </td>
                                     <td valign="middle" class="right">
-                                        <table style="background: #dddddd;" cellspacing="1" cellpadding="2">
+                                        <table style="background: #CDF4F3;" cellspacing="1" cellpadding="2">
                                             <tr>
                                                 <td style="background: #ffffff; width: 150;" class="center">
                                                     Total Issue (by Filter)
@@ -153,7 +199,7 @@
                                                     Project
                                                 </td>
                                                 <td>
-                                                    <asp:DropDownList ID="ddlProjectFilter" runat="server" Width="200">
+                                                    <asp:DropDownList ID="ddlProjectFilter" runat="server" Width="200" AutoPostBack="true">
                                                     </asp:DropDownList>
                                                 </td>
                                                 <td style="width: 120; display: none;" class="right">
@@ -168,11 +214,12 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td></td>
+                                                <td>
+                                                </td>
                                                 <td class="txtlessstrong">
                                                     Current Patch:&nbsp;<asp:Label ID="lblLastPatchNo" runat="server" Font-Bold="true"></asp:Label>
                                                 </td>
-                                                <td style="width: 120;" class="right">                                                    
+                                                <td style="width: 120;" class="right">
                                                 </td>
                                                 <td>
                                                     <asp:CheckBox ID="chkIsOpenForClient" runat="server" Enabled="false" Visible="false" />
@@ -359,8 +406,9 @@
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2">
+                                                        <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="sbttn" Width="100" />
                                                         <asp:Button ID="btnSaveAndNew" runat="server" Text="Save & New" CssClass="sbttn"
-                                                            Width="100" Visible="false" />
+                                                            Width="100" />
                                                         <asp:Button ID="btnSaveAndClose" runat="server" Text="Save & Close" CssClass="sbttn"
                                                             Width="100" />
                                                         <asp:Button ID="btnClose" runat="server" Text="Close" CssClass="sbttn" Width="100"
@@ -378,6 +426,56 @@
                                     <tr>
                                         <td colspan="2" style="font-weight: bold;">
                                             .:: Attachment(s)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 50%;" valign="top">
+                                            <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
+                                                <tr>
+                                                    <td class="right" style="width: 120px; background: #ffffff;">
+                                                        Choose File
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:TextBox ID="txtIssueFileID" Width="360" runat="server" Visible="false">
+                                                        </asp:TextBox>
+                                                        <input id="txtIssueFileUrl" type="file" name="txtIssueFileUrl" runat="server" class="imguploader"
+                                                            style="width: 360px;">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #ffffff;">
+                                                        File Description
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:TextBox ID="txtIssueFileDescription" Width="360" MaxLength="500" runat="server">
+                                                        </asp:TextBox>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="width: 50%;" valign="top">
+                                            <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
+                                                <tr>
+                                                    <td class="right" style="width: 120; background: #ffffff;">
+                                                        Rename File To
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:TextBox ID="txtIssueFileName" Width="360" MaxLength="500" runat="server">
+                                                        </asp:TextBox>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <asp:Button ID="btnIssueFileAttach" runat="server" Text="Attach" CssClass="sbttn"
+                                                            Width="100" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="height: 24; width: 100%; background-image: url('/qistoollib/images/timeline_dot.png');
+                                            background-repeat: repeat-x;">
                                         </td>
                                     </tr>
                                     <tr>
@@ -683,10 +781,11 @@
                                             <%# DataBinder.Eval(Container.DataItem, "issuePriorityName")%>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
-                                    <asp:TemplateColumn runat="server" HeaderText="Planned" ItemStyle-Width="80"
-                                        ItemStyle-VerticalAlign="Top" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center">
+                                    <asp:TemplateColumn runat="server" HeaderText="Planned" ItemStyle-Width="80" ItemStyle-VerticalAlign="Top"
+                                        ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" Visible="false">
                                         <ItemTemplate>
-                                            <asp:CheckBox ID="_chkIsPlanned" Checked='<%# DataBinder.Eval(Container.DataItem, "IsPlanned")%>' runat="server" Enabled="false" />
+                                            <asp:CheckBox ID="_chkIsPlanned" Checked='<%# DataBinder.Eval(Container.DataItem, "IsPlanned")%>'
+                                                runat="server" Enabled="false" />
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Status" ItemStyle-Width="80" ItemStyle-VerticalAlign="Top">

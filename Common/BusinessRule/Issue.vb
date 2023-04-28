@@ -21,9 +21,9 @@ Namespace QIS.Common.BussinessRules
         Private _userIDinsert, _userIDupdate As String
         Private _insertDate, _updateDate, _assignedDate As DateTime
         Private _estStartDate, _targetDate, _finishDate, _NextUpdateDate, _responseDate, _updateDateResponse As Date
-        Private _isUrgent, _isSpecific, _isPlanned As Boolean
+        Private _isUrgent, _isSpecific, _isPlanned, _isFromCustomer As Boolean
 
-        Private _totalIssue, _totalOpen, _totalInProgress, _totalDevFinish, _totalQCPassed, _totalFinish As Decimal
+        Private _totalIssue, _totalOpen, _totalInProgress, _totalCRFQuotation, _totalDevFinish, _totalQCPassed, _totalFinish, _totalCancel As Decimal
         Private _projectAliasName, _projectName As String
         Private _productRoadmapSCode, _userFriendlyIssueDescription As String
 
@@ -47,11 +47,11 @@ Namespace QIS.Common.BussinessRules
             cmdToExecute.CommandText = "INSERT INTO Issue " + _
                                         "(issueID, projectID, departmentName, issueDescription, keywords, issueTypeSCode, issueStatusSCode, patchNo, isSpecific, " + _
                                         "issuePrioritySCode, issueConfirmStatusSCode, reportedBy, reportedDate, userIDassignedTo, isUrgent, isPlanned, userIDinsert, userIDupdate, insertDate, updateDate, assignedBy, assignedDate, targetDate, " + _
-                                        "estStartDate, productRoadmapSCode, userFriendlyIssueDescription) " + _
+                                        "estStartDate, productRoadmapSCode, userFriendlyIssueDescription, isFromCustomer) " + _
                                         "VALUES " + _
                                         "(@issueID, @projectID, @departmentName, @issueDescription, @keywords, @issueTypeSCode, @issueStatusSCode, @patchNo, @isSpecific, " + _
                                         "@issuePrioritySCode, @issueConfirmStatusSCode, @reportedBy, @reportedDate, @userIDassignedTo, @isUrgent, @isPlanned, @userIDinsert, @userIDupdate, GETDATE(), GETDATE(), @assignedBy, GETDATE(), @targetDate, " + _
-                                        "@estStartDate, @productRoadmapSCode, @userFriendlyIssueDescription)"
+                                        "@estStartDate, @productRoadmapSCode, @userFriendlyIssueDescription, @isFromCustomer)"
             cmdToExecute.CommandType = CommandType.Text
             cmdToExecute.Connection = _mainConnection
 
@@ -81,6 +81,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@estStartDate", _estStartDate)
                 cmdToExecute.Parameters.AddWithValue("@productRoadmapSCode", _productRoadmapSCode)
                 cmdToExecute.Parameters.AddWithValue("@userFriendlyIssueDescription", _userFriendlyIssueDescription)
+                cmdToExecute.Parameters.AddWithValue("@isFromCustomer", _isFromCustomer)
 
                 ' // Open Connection
                 _mainConnection.Open()
@@ -959,19 +960,23 @@ Namespace QIS.Common.BussinessRules
             If IsAssignmentOnly = False Then
                 cmdToExecute.CommandText = "SELECT " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode NOT IN ('002','002-1','002-5','003')), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode NOT IN ('002','002-1','002-5','003','109','010','990','101')), " + _
+                                        "totalCRFQuotation = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode='101'), " + _
                                         "totalInProgress = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode='002'), " + _
                                         "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode='002-1'), " + _
                                         "totalQCPassed = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode='002-5'), " + _
-                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode='003')"
+                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode='003'), " + _
+                                        "totalCancel = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND issueStatusSCode IN ('109','010','990'))"
             Else
                 cmdToExecute.CommandText = "SELECT " + _
                                         "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo), " + _
-                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode NOT IN ('002','002-1','002-5','003')), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode NOT IN ('002','002-1','002-5','003','109','010','990','101')), " + _
+                                        "totalCRFQuotation = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode='101'), " + _
                                         "totalInProgress = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode='002'), " + _
                                         "totalDevFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode='002-1'), " + _
                                         "totalQCPassed = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode='002-5'), " + _
-                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode='003')"
+                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode='003'), " + _
+                                        "totalCancel = (SELECT COUNT(issueID) FROM issue WHERE projectID=@projectID AND UserIDAssignedTo=@userIDassignedTo AND issueStatusSCode IN ('109','010','990'))"
             End If
             cmdToExecute.CommandType = CommandType.Text
 
@@ -995,10 +1000,12 @@ Namespace QIS.Common.BussinessRules
                 If toReturn.Rows.Count > 0 Then
                     _totalIssue = CType(toReturn.Rows(0)("totalIssue"), Decimal)
                     _totalOpen = CType(toReturn.Rows(0)("totalOpen"), Decimal)
+                    _totalCRFQuotation = CType(toReturn.Rows(0)("totalCRFQuotation"), Decimal)
                     _totalInProgress = CType(toReturn.Rows(0)("totalInProgress"), Decimal)
                     _totalDevFinish = CType(toReturn.Rows(0)("totalDevFinish"), Decimal)
                     _totalQCPassed = CType(toReturn.Rows(0)("totalQCPassed"), Decimal)
                     _totalFinish = CType(toReturn.Rows(0)("totalFinish"), Decimal)
+                    _totalCancel = CType(toReturn.Rows(0)("totalCancel"), Decimal)
                 End If
             Catch ex As Exception
                 ' // some error occured. Bubble it to caller and encapsulate Exception object
@@ -1065,7 +1072,7 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
-        Public Function SelectByFilter(ByVal strProductRoadmap As String, ByVal strProjectID As String, ByVal strIssueType As String, ByVal strIssuePriority As String, ByVal strUserIDAssignedTo As String, ByVal strIssueStatus As String, ByVal strIssueConfirmStatus As String, ByVal isUrgent As Boolean, ByVal isByPeriode As Boolean, ByVal dtStartDate As Date, ByVal dtEndDate As Date) As DataTable
+        Public Function SelectByFilter(ByVal strProductRoadmap As String, ByVal strProjectID As String, ByVal strIssueType As String, ByVal strIssuePriority As String, ByVal strUserIDAssignedTo As String, ByVal strIssueStatus As String, ByVal strIssueConfirmStatus As String, ByVal isUrgent As Boolean, ByVal isByPeriode As Boolean, ByVal dtStartDate As Date, ByVal dtEndDate As Date, ByVal isFromCustomer As Boolean) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "spSelectIssueByFilter"
             If isByPeriode Then cmdToExecute.CommandText = "spSelectIssueByFilterByPeriod"
@@ -1085,6 +1092,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@issueStatusSCode", strIssueStatus)
                 cmdToExecute.Parameters.AddWithValue("@issueConfirmStatusSCode", strIssueConfirmStatus)
                 cmdToExecute.Parameters.AddWithValue("@isUrgent", isUrgent)
+                cmdToExecute.Parameters.AddWithValue("@isFromCustomer", isFromCustomer)
                 If isByPeriode Then
                     cmdToExecute.Parameters.AddWithValue("@startDate", dtStartDate)
                     cmdToExecute.Parameters.AddWithValue("@endDate", dtEndDate)
@@ -1762,6 +1770,15 @@ Namespace QIS.Common.BussinessRules
             End Set
         End Property
 
+        Public Property [isFromCustomer]() As Boolean
+            Get
+                Return _isFromCustomer
+            End Get
+            Set(ByVal Value As Boolean)
+                _isFromCustomer = Value
+            End Set
+        End Property
+
         Public Property [userIDinsert]() As String
             Get
                 Return _userIDinsert
@@ -1879,6 +1896,15 @@ Namespace QIS.Common.BussinessRules
             End Set
         End Property
 
+        Public Property [totalCRFQuotation]() As Decimal
+            Get
+                Return _totalCRFQuotation
+            End Get
+            Set(ByVal Value As Decimal)
+                _totalCRFQuotation = Value
+            End Set
+        End Property
+
         Public Property [totalInProgress]() As Decimal
             Get
                 Return _totalInProgress
@@ -1912,6 +1938,15 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(ByVal Value As Decimal)
                 _totalFinish = Value
+            End Set
+        End Property
+
+        Public Property [totalCancel]() As Decimal
+            Get
+                Return _totalCancel
+            End Get
+            Set(ByVal Value As Decimal)
+                _totalCancel = Value
             End Set
         End Property
 

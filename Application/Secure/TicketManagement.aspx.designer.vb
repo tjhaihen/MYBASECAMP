@@ -33,30 +33,75 @@ Namespace QIS.Web
         Protected WithEvents RadMenu As Global.QIS.RadMenu
 
         '''<summary>
-        '''lblPageTitle control.
+        '''lblTotalOpen control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents lblPageTitle As Global.System.Web.UI.WebControls.Label
+        Protected WithEvents lblTotalOpen As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
-        '''repTicketByStatus control.
+        '''lblTotalCRFQuotation control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents repTicketByStatus As Global.System.Web.UI.WebControls.Repeater
+        Protected WithEvents lblTotalCRFQuotation As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
-        '''mdlCopyRight control.
+        '''lblTotalInProgress control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents mdlCopyRight As Global.QIS.Web.copyRight
+        Protected WithEvents lblTotalInProgress As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalDevFinish control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalDevFinish As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''grdIssueOpen control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdIssueOpen As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''grdIssueCRFQuotation control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdIssueCRFQuotation As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''grdIssueInProgress control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdIssueInProgress As Global.System.Web.UI.WebControls.DataGrid
+
+        '''<summary>
+        '''grdIssueDevFinish control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents grdIssueDevFinish As Global.System.Web.UI.WebControls.DataGrid
     End Class
 End Namespace

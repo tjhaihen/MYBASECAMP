@@ -80,22 +80,43 @@ Namespace QIS.Web
         '    End Select
         'End Sub
 
+        Private Sub ddlProjectFilter_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlProjectFilter.SelectedIndexChanged
+            PrepareScreen()
+            _openProject()
+            CountTotal()
+
+            SetDataGrid()
+            GetTasksByUserID()
+        End Sub
+
         Private Sub btnClose_Click(sender As Object, e As System.EventArgs) Handles btnClose.Click
-            PrepareScreenAddNew()
+            PrepareScreenAddNew(False)
             pnlAddNew.Visible = False
+        End Sub
+
+        Private Sub btnSave_Click(sender As Object, e As System.EventArgs) Handles btnSave.Click
+            _updateIssueByCustomer()
+            SetDataGrid()
+            CountTotal()
         End Sub
 
         Private Sub btnSaveAndNew_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndNew.Click
-            _updateIssue()
-            PrepareScreenAddNew()
+            _updateIssueByCustomer()
+            PrepareScreenAddNew(True)
             SetDataGrid()
+            CountTotal()
         End Sub
 
         Private Sub btnSaveAndClose_Click(sender As Object, e As System.EventArgs) Handles btnSaveAndClose.Click
-            _updateIssue()
-            PrepareScreenAddNew()
+            _updateIssueByCustomer()
+            PrepareScreenAddNew(False)
             pnlAddNew.Visible = False
             SetDataGrid()
+            CountTotal()
+        End Sub
+
+        Private Sub btnIssueFileAttach_Click(sender As Object, e As System.EventArgs) Handles btnIssueFileAttach.Click
+            AttachIssueFile()
         End Sub
 
         Private Sub Response_btnClose_Click(sender As Object, e As System.EventArgs) Handles Response_btnClose.Click
@@ -156,6 +177,10 @@ Namespace QIS.Web
 
         Private Sub mdlToolbar_commandBarClick(ByVal sender As Object, ByVal e As CSSToolbarItem) Handles CSSToolbar.CSSToolbarItemClick
             Select Case e
+                Case CSSToolbarItem.tidNew
+                    pnlAddNew.Visible = True
+                    PrepareScreenAddNew(True)
+
                 Case CSSToolbarItem.tidRefresh
                     _openProject()
                     SetDataGrid()
@@ -236,11 +261,11 @@ Namespace QIS.Web
             commonFunction.SetDDL_Table(ddlIssuePriorityFilter, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, True, "All Priority", "All")
             commonFunction.SetDDL_Table(ddlIssueConfirmStatusFilter, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, True, "All Confirm Status", "All")
             commonFunction.SetDDL_Table(ddlUserIDAssignedToFilter, "User", String.Empty, True, "Everyone", "Everyone")
-            commonFunction.SetDDL_Table(ddlIssueType, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, True, "Not Set")
+            commonFunction.SetDDL_Table(ddlIssueType, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, False)
             commonFunction.SetDDL_Table(ddlIssueStatus, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, False)
-            commonFunction.SetDDL_Table(ddlIssuePriority, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, True, "Not Set")
-            commonFunction.SetDDL_Table(ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, True, "Not Set")
-            commonFunction.SetDDL_Table(ddlUserIDAssignedTo, "User", String.Empty)
+            commonFunction.SetDDL_Table(ddlIssuePriority, "CommonCode", Common.Constants.GroupCode.IssuePriority_SCode, False)
+            commonFunction.SetDDL_Table(ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, False)
+            commonFunction.SetDDL_Table(ddlUserIDAssignedTo, "UserActive", String.Empty, True, "Not Set")
         End Sub
 
         Private Sub PrepareScreen()
@@ -255,14 +280,22 @@ Namespace QIS.Web
 
             chkIsFilterByPeriod.Checked = False
             chkIsUrgent.Checked = False
+            chkIsOpenForClient.Checked = False
 
             'ddlPeriod.SelectedIndex = 0
             pnlCustomPeriod.Visible = True
             calStartDate.selectedDate = GetFirstDayForWeek(Date.Today, False)
             calEndDate.selectedDate = Date.Today
+
+            txtDepartmentName.ReadOnly = True
+            txtIssueDescription.ReadOnly = True
+            txtKeywords.ReadOnly = True
+            txtReportedBy.ReadOnly = True
+            ddlIssueType.Enabled = False
+            ddlIssuePriority.Enabled = False
         End Sub
 
-        Private Sub PrepareScreenAddNew()
+        Private Sub PrepareScreenAddNew(ByVal isAdd As Boolean)
             lblIssueID.Text = String.Empty
             txtDepartmentName.Text = String.Empty
             txtIssueDescription.Text = String.Empty
@@ -275,6 +308,23 @@ Namespace QIS.Web
             ddlIssuePriority.SelectedIndex = 0
             ddlIssueConfirmStatus.SelectedIndex = 0
             ddlUserIDAssignedTo.SelectedValue = MyBase.LoggedOnUserID.Trim
+
+            If isAdd = True And chkIsOpenForClient.Checked = True Then
+                txtDepartmentName.ReadOnly = False
+                txtIssueDescription.ReadOnly = False
+                txtKeywords.ReadOnly = False
+                txtReportedBy.ReadOnly = False
+                ddlIssueType.Enabled = True
+                ddlIssuePriority.Enabled = True
+            Else
+                txtDepartmentName.ReadOnly = True
+                txtIssueDescription.ReadOnly = True
+                txtKeywords.ReadOnly = True
+                txtReportedBy.ReadOnly = True
+                ddlIssueType.Enabled = False
+                ddlIssuePriority.Enabled = False
+            End If
+
             commonFunction.Focus(Me, txtDepartmentName.ClientID)
         End Sub
 
@@ -287,12 +337,28 @@ Namespace QIS.Web
             commonFunction.Focus(Me, Response_txtResponseDescription.ClientID)
         End Sub
 
+        Private Sub PrepareScreenIssueFile()
+            txtIssueFileID.Text = String.Empty
+            txtIssueFileDescription.Text = String.Empty
+            txtIssueFileName.Text = String.Empty
+            txtIssueFileName.Enabled = True
+            btnIssueFileAttach.Enabled = True
+        End Sub
+
         Private Sub CountTotal()
             Dim decTotalIssue As Decimal = 0D
             Dim decTotalOpen As Decimal = 0D
             Dim decTotalInProgress As Decimal = 0D
+            Dim decTotalCRFQuotation As Decimal = 0D
             Dim decTotalDevFinish As Decimal = 0D
             Dim decTotalFinish As Decimal = 0D
+            Dim decTotalCancel As Decimal = 0D
+            Dim decOpenPct As Decimal = 0D
+            Dim decInProgressPct As Decimal = 0D
+            Dim decCRFQuotationPct As Decimal = 0D
+            Dim decDevFinishPct As Decimal = 0D
+            Dim decFinishPct As Decimal = 0D
+            Dim decCancelPct As Decimal = 0D
             Dim decProgress As Decimal = 0D
 
             Dim oBR As New Common.BussinessRules.Issue
@@ -301,15 +367,23 @@ Namespace QIS.Web
             oDt = oBR.SelectSummaryByProjectID(False)
 
             decTotalIssue = oBR.totalIssue
-            decTotalOpen = oBR.totalOpen
+            decTotalOpen = oBR.totalOpen 'Need Sample, QC Failed, Retention and CRF Quotation
+            decTotalCRFQuotation = oBR.totalCRFQuotation
             decTotalInProgress = oBR.totalInProgress
             decTotalDevFinish = oBR.totalDevFinish
             decTotalFinish = oBR.totalFinish + oBR.totalQCPassed
+            decTotalCancel = oBR.totalCancel 'CRF Rejected, Cancel
 
             If decTotalIssue = 0 Then
-                decProgress = 100
+                decProgress = 100                
             Else
-                decProgress = Math.Ceiling((decTotalFinish / decTotalIssue) * 100)
+                decProgress = Math.Ceiling((decTotalFinish / (decTotalIssue - decTotalCancel)) * 100)
+                decOpenPct = Math.Ceiling((decTotalOpen / (decTotalIssue - decTotalCancel)) * 100)
+                decCRFQuotationPct = Math.Ceiling((decTotalCRFQuotation / (decTotalIssue - decTotalCancel)) * 100)
+                decInProgressPct = Math.Ceiling((decTotalInProgress / (decTotalIssue - decTotalCancel)) * 100)
+                decDevFinishPct = Math.Ceiling((decTotalDevFinish / (decTotalIssue - decTotalCancel)) * 100)
+                decFinishPct = Math.Ceiling((decTotalFinish / (decTotalIssue - decTotalCancel)) * 100)
+                decCancelPct = Math.Ceiling((decTotalCancel / (decTotalIssue - decTotalCancel)) * 100)
             End If
 
             oBR.Dispose()
@@ -320,9 +394,18 @@ Namespace QIS.Web
 
             lblTotalIssueAll.Text = decTotalIssue.ToString.Trim
             lblTotalOpen.Text = decTotalOpen.ToString.Trim
+            lblTotalCRFQuotation.Text = decTotalCRFQuotation.ToString.Trim
             lblTotalInProgress.Text = decTotalInProgress.ToString.Trim
             lblTotalDevFinish.Text = decTotalDevFinish.ToString.Trim
             lblTotalFinish.Text = decTotalFinish.ToString.Trim
+            lblTotalCancel.Text = decTotalCancel.ToString.Trim
+
+            lblTotalOpenPct.Text = Format(decOpenPct, "##0")
+            lblTotalCRFQuotationPct.Text = Format(decCRFQuotationPct, "##0")
+            lblTotalInProgressPct.Text = Format(decInProgressPct, "##0")
+            lblTotalDevFinishPct.Text = Format(decDevFinishPct, "##0")
+            lblTotalFinishPct.Text = Format(decFinishPct, "##0")
+            lblTotalCancelPct.Text = Format(decCancelPct, "##0")
             lblProgress.Text = Format(decProgress, "##0")
         End Sub
 
@@ -374,6 +457,91 @@ Namespace QIS.Web
             oBR = Nothing
             Return bolToReturn
         End Function
+
+        Private Sub AttachIssueFile()
+            If lblIssueID.Text.Trim.Length = 0 Then Exit Sub
+
+            If txtIssueFileUrl.Value.Trim.Length > 0 Then
+                Dim fileExt As String, fileName As String, dirName As String
+                Dim oCC As New Common.BussinessRules.CommonCode
+                Dim br As New Common.BussinessRules.File
+                With br
+                    fileExt = Path.GetExtension(txtIssueFileUrl.Value.Trim)
+                    fileName = IIf(txtIssueFileName.Text.Trim.Length > 0, txtIssueFileName.Text.Trim + fileExt.Trim, Path.GetFileName(txtIssueFileUrl.Value.Trim)).ToString.Trim
+                    .fileID = txtIssueFileID.Text.Trim
+                    Dim fNotNew As Boolean = False, fAllowSave As Boolean = False
+                    Dim nmFile As String
+                    Try
+                        If .SelectOne.Rows.Count > 0 Then
+                            fNotNew = True
+                        Else
+                            fNotNew = False
+                        End If
+                        .fileID = txtIssueFileID.Text.Trim
+                        .referenceID = lblIssueID.Text.Trim
+                        .tableName = Common.Constants.TableName.IssueTable
+                        .fileName = fileName.Trim
+                        .fileExtension = fileExt.Trim
+                        .fileDescription = txtIssueFileDescription.Text.Trim
+                        .UserIDInsert = MyBase.LoggedOnUserID.Trim
+                        .UserIDUpdate = MyBase.LoggedOnUserID.Trim
+
+                        oCC.GroupCode = Common.Constants.GroupCode.FileDirectory_SCode
+                        oCC.Code = Common.Constants.FileDirectoryType.FileDirectory_Issue
+
+                        '// validate if the file exist
+                        If oCC.SelectOne.Rows.Count > 0 Then
+                            dirName = oCC.Value.Trim + Common.Constants.TableName.IssueTable.Trim + "_" + lblIssueID.Text.Trim
+                            nmFile = dirName + "\" + fileName
+                        Else
+                            oCC.Dispose()
+                            oCC = Nothing
+                            fAllowSave = False
+                            commonFunction.MsgBox(Me, Common.Constants.MessageBoxText.Validate_CommonCodeNotFound)
+                            Exit Sub
+                        End If
+                        oCC.Dispose()
+                        oCC = Nothing
+
+                        If txtIssueFileUrl.Value.Trim.Length > 0 Then
+                            If File.Exists(nmFile) Then
+                                fAllowSave = False
+                                commonFunction.MsgBox(Me, Common.Constants.MessageBoxText.Validate_FileNameAlreadyExist)
+                                Exit Sub
+                            Else
+                                fAllowSave = True
+                                If Not Directory.Exists(dirName) Then
+                                    Directory.CreateDirectory(dirName)
+                                End If
+                                txtIssueFileUrl.PostedFile.SaveAs(nmFile)
+                            End If
+
+                            If fAllowSave Then
+                                If fNotNew Then
+                                    If .Update() Then
+                                        PrepareScreenIssueFile()
+                                        SetDataGridIssueFile()
+                                        SetDataGrid()
+                                    End If
+                                Else
+                                    If .Insert() Then
+                                        PrepareScreenIssueFile()
+                                        SetDataGridIssueFile()
+                                        SetDataGrid()
+                                    End If
+                                End If
+                            End If
+                        End If
+                    Catch ex As Exception
+                        commonFunction.MsgBox(Me, "Upload file failed.")
+                        Exit Sub
+                    End Try
+                End With
+            Else
+                commonFunction.MsgBox(Me, "No file choosen.")
+                Exit Sub
+            End If
+        End Sub
 #End Region
 
 #Region " C,R,U,D "
@@ -420,6 +588,22 @@ Namespace QIS.Web
             End With
             oBR.Dispose()
             oBR = Nothing
+
+            If chkIsOpenForClient.Checked = True Then
+                txtDepartmentName.ReadOnly = False
+                txtIssueDescription.ReadOnly = False
+                txtKeywords.ReadOnly = False
+                txtReportedBy.ReadOnly = False
+                ddlIssueType.Enabled = True
+                ddlIssuePriority.Enabled = True
+            Else
+                txtDepartmentName.ReadOnly = True
+                txtIssueDescription.ReadOnly = True
+                txtKeywords.ReadOnly = True
+                txtReportedBy.ReadOnly = True
+                ddlIssueType.Enabled = False
+                ddlIssuePriority.Enabled = False
+            End If
         End Sub
 
         Private Sub _openIssueForResponse()
@@ -438,7 +622,41 @@ Namespace QIS.Web
             oBR = Nothing
         End Sub
 
-        Private Sub _updateIssue()
+        'Private Sub _updateIssue()
+        '    Page.Validate()
+        '    If Not Page.IsValid Then Exit Sub
+
+        '    Dim fNew As Boolean = False
+        '    Dim oBR As New Common.BussinessRules.Issue
+        '    With oBR
+        '        .IssueID = lblIssueID.Text.Trim
+        '        fNew = .SelectOne.Rows.Count = 0
+        '        .ProjectID = lblProjectID.Text.Trim
+        '        .DepartmentName = txtDepartmentName.Text.Trim
+        '        .IssueDescription = txtIssueDescription.Text.Trim
+        '        .Keywords = txtKeywords.Text.Trim
+        '        .ReportedDate = calReportedDate.selectedDate
+        '        .ReportedBy = txtReportedBy.Text.Trim
+        '        .IssueTypeSCode = ddlIssueType.SelectedValue.Trim
+        '        .IssueStatusSCode = ddlIssueStatus.SelectedValue.Trim
+        '        .IssuePrioritySCode = ddlIssuePriority.SelectedValue.Trim
+        '        .IssueConfirmStatusSCode = ddlIssueConfirmStatus.SelectedValue.Trim
+        '        .userIDassignedTo = ddlUserIDAssignedTo.SelectedValue.Trim
+        '        .userIDinsert = MyBase.LoggedOnUserID.Trim
+        '        .userIDupdate = MyBase.LoggedOnUserID.Trim
+        '        If fNew Then
+        '            If .Insert() Then
+        '                lblIssueID.Text = .IssueID.Trim
+        '            End If
+        '        Else
+        '            .Update()
+        '        End If
+        '    End With
+        '    oBR.Dispose()
+        '    oBR = Nothing
+        'End Sub
+
+        Private Sub _updateIssueByCustomer()
             Page.Validate()
             If Not Page.IsValid Then Exit Sub
 
@@ -447,9 +665,19 @@ Namespace QIS.Web
             With oBR
                 .IssueID = lblIssueID.Text.Trim
                 fNew = .SelectOne.Rows.Count = 0
-                .ProjectID = lblProjectID.Text.Trim
+                .assignedBy = MyBase.LoggedOnUserID.Trim
+                If fNew = False Then
+                    If .userIDassignedTo.Trim = String.Empty Then
+                        .UpdateAssigned()
+                    ElseIf .userIDassignedTo.Trim <> ddlUserIDAssignedTo.SelectedValue.Trim Then
+                        .UpdateAssigned()
+                    End If
+                End If
+                .ProjectID = ddlProjectFilter.SelectedItem.Value.Trim
+                .ProductRoadmapSCode = String.Empty
                 .DepartmentName = txtDepartmentName.Text.Trim
                 .IssueDescription = txtIssueDescription.Text.Trim
+                .UserFriendlyIssueDescription = String.Empty
                 .Keywords = txtKeywords.Text.Trim
                 .ReportedDate = calReportedDate.selectedDate
                 .ReportedBy = txtReportedBy.Text.Trim
@@ -458,11 +686,19 @@ Namespace QIS.Web
                 .IssuePrioritySCode = ddlIssuePriority.SelectedValue.Trim
                 .IssueConfirmStatusSCode = ddlIssueConfirmStatus.SelectedValue.Trim
                 .userIDassignedTo = ddlUserIDAssignedTo.SelectedValue.Trim
+                .estStartDate = Date.Today
+                .targetDate = Date.Today
+                .isUrgent = False
+                .isPlanned = False
+                .PatchNo = String.Empty
+                .isSpecific = False
+                .isFromCustomer = True
+
                 .userIDinsert = MyBase.LoggedOnUserID.Trim
                 .userIDupdate = MyBase.LoggedOnUserID.Trim
                 If fNew Then
                     If .Insert() Then
-                        lblIssueID.Text = .IssueID.Trim
+                        lblIssueID.Text = .IssueID.Trim                        
                     End If
                 Else
                     .Update()
@@ -500,6 +736,56 @@ Namespace QIS.Web
             End With
             oBR.Dispose()
             oBR = Nothing
+        End Sub
+
+        Private Sub _openFile(ByVal txtFileID As TextBox, ByVal txtFileName As TextBox, ByVal txtFileDescription As TextBox, ByVal btnUpdateFile As Button)
+            Dim oFile As New Common.BussinessRules.File
+            With oFile
+                .fileID = txtFileID.Text.Trim
+                If .SelectOne.Rows.Count > 0 Then
+                    txtFileName.Text = .fileName.Trim
+                    txtFileDescription.Text = .fileDescription.Trim
+                    txtFileName.Enabled = False
+                    btnIssueFileAttach.Enabled = False
+                    btnUpdateFile.Enabled = True
+                Else
+                    txtFileID.Text = String.Empty
+                    txtFileName.Text = String.Empty
+                    txtFileDescription.Text = String.Empty
+                    txtFileName.Enabled = True
+                    btnIssueFileAttach.Enabled = True
+                    btnUpdateFile.Enabled = False
+                End If
+            End With
+            oFile.Dispose()
+            oFile = Nothing
+        End Sub
+
+        Private Sub _updateFile(ByVal strFileID As String, ByVal strFileDescription As String)
+            Dim oFile As New Common.BussinessRules.File
+            With oFile
+                .fileID = strFileID.Trim
+                If .SelectOne.Rows.Count > 0 Then
+                    .fileDescription = strFileDescription.Trim
+                    .UserIDUpdate = MyBase.LoggedOnUserID.Trim
+                    .Update()
+                End If
+            End With
+            oFile.Dispose()
+            oFile = Nothing
+        End Sub
+
+        Private Sub _deleteFile(ByVal strFileID As String, ByVal strFileDir As String)
+            Dim oFile As New Common.BussinessRules.File
+            With oFile
+                .fileID = strFileID.Trim
+                If .Delete() Then
+                    File.Delete(strFileDir)
+                    SetDataGrid()
+                End If
+            End With
+            oFile.Dispose()
+            oFile = Nothing
         End Sub
 #End Region
 

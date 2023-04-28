@@ -54,6 +54,11 @@ Namespace QIS.Web
         Private Sub ibtnViewDetail_Click(sender As Object, e As System.EventArgs) Handles ibtnViewDetail.Click
             Response.Write("<script language=javascript>window.location.replace('" + PageBase.UrlBase + "/secure/CustomerPage/CustomerMain.aspx')</script>")
         End Sub
+
+        Private Sub ddlProjectFilter_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlProjectFilter.SelectedIndexChanged
+            _openProject()
+            CountTotal()
+        End Sub
 #End Region
 
 #Region " Support functions for navigation bar (Controls) "

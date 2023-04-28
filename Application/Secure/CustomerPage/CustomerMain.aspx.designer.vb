@@ -87,6 +87,15 @@ Namespace QIS.Web
         Protected WithEvents lblTotalOpen As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
+        '''lblTotalCRFQuotation control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalCRFQuotation As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''lblTotalInProgress control.
         '''</summary>
         '''<remarks>
@@ -114,6 +123,15 @@ Namespace QIS.Web
         Protected WithEvents lblTotalFinish As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
+        '''lblTotalCancel control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalCancel As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
         '''lblProgress control.
         '''</summary>
         '''<remarks>
@@ -121,6 +139,60 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents lblProgress As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalOpenPct control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalOpenPct As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalCRFQuotationPct control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalCRFQuotationPct As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalInProgressPct control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalInProgressPct As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalDevFinishPct control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalDevFinishPct As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalFinishPct control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalFinishPct As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''lblTotalCancelPct control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lblTotalCancelPct As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
         '''lblTotalIssue control.
@@ -402,6 +474,15 @@ Namespace QIS.Web
         Protected WithEvents ddlIssueConfirmStatus As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
+        '''btnSave control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnSave As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
         '''btnSaveAndNew control.
         '''</summary>
         '''<remarks>
@@ -427,6 +508,51 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents btnClose As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''txtIssueFileID control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtIssueFileID As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''txtIssueFileUrl control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtIssueFileUrl As Global.System.Web.UI.HtmlControls.HtmlInputFile
+
+        '''<summary>
+        '''txtIssueFileDescription control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtIssueFileDescription As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''txtIssueFileName control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtIssueFileName As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''btnIssueFileAttach control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnIssueFileAttach As Global.System.Web.UI.WebControls.Button
 
         '''<summary>
         '''repIssueFile control.

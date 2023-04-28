@@ -906,6 +906,7 @@ Namespace QIS.Web
                 .isPlanned = chkIsPlanned.Checked
                 .PatchNo = txtPatchNo.Text.Trim
                 .isSpecific = chkIsSpecific.Checked
+                .isFromCustomer = False
 
                 .userIDinsert = MyBase.LoggedOnUserID.Trim
                 .userIDupdate = MyBase.LoggedOnUserID.Trim

@@ -161,7 +161,7 @@
                                                     Project
                                                 </td>
                                                 <td>
-                                                    <asp:DropDownList ID="ddlProjectFilter" runat="server" Width="200">
+                                                    <asp:DropDownList ID="ddlProjectFilter" runat="server" Width="200" AutoPostBack="true">
                                                     </asp:DropDownList>
                                                 </td>
                                             </tr>

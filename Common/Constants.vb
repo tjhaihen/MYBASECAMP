@@ -149,7 +149,9 @@
 
         Public NotInheritable Class IssueStatusCode
             Public Const IssueStatus_Open As String = "001"
+            Public Const IssueStatus_CRFQuotation As String = "101"
             Public Const IssueStatus_InProgress As String = "002"
+            Public Const IssueStatus_DevFinish As String = "002-1"
             Public Const IssueStatus_Finish As String = "003"
             Public Const IssueStatus_NeedSample As String = "004"
         End Class
