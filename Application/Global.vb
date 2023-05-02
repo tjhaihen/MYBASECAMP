@@ -233,6 +233,9 @@ Namespace QIS.Web
                 Case "ProjectUser"
                     Dim oTbl As New Common.BussinessRules.ProjectUser
                     tblToApply = oTbl.SelectProjectByUserID(keyField.Trim)
+                Case "ProjectCRMActive"
+                    Dim oTbl As New Common.BussinessRules.Project
+                    tblToApply = oTbl.SelectProjectCRMActive()
                 Case "ProjectProfile"
                     Dim oTbl As New Common.BussinessRules.ProjectUser
                     tblToApply = oTbl.SelectProjectByProfileID(keyField.Trim)
@@ -360,6 +363,9 @@ Namespace QIS.Web
                                 _strText = Common.ProcessNull.GetString(rgRows(i - 1)("UnitName"))
                                 _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("UnitID"))
                             Case "ProjectUser"
+                                _strText = Common.ProcessNull.GetString(rgRows(i - 1)("ProjectAliasName"))
+                                _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("ProjectID"))
+                            Case "ProjectCRMActive"
                                 _strText = Common.ProcessNull.GetString(rgRows(i - 1)("ProjectAliasName"))
                                 _strValue = Common.ProcessNull.GetString(rgRows(i - 1)("ProjectID"))
                             Case "ProjectProfile"

@@ -33,7 +33,7 @@ Namespace QIS.Web.Secure
             Else
                 CSSToolbar.ProfileID = MyBase.LoggedOnProfileID
                 CSSToolbar.MenuID = MenuID.Trim
-                CSSToolbar.setAuthorizationToolbar()
+                'CSSToolbar.setAuthorizationToolbar()
                 setToolbarVisibleButton()
 
                 prepareDDL()

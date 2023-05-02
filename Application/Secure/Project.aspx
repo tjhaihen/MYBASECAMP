@@ -137,7 +137,7 @@
                                                     <td>
                                                     </td>
                                                     <td>
-                                                        <asp:CheckBox ID="chkIsOpenForClient" runat="server" Text="Is Shared to Client?"
+                                                        <asp:CheckBox ID="chkIsOpenForClient" runat="server" Text="Is Open for Customer?"
                                                             Checked="False" />
                                                     </td>
                                                 </tr>
