@@ -44,9 +44,9 @@ Namespace QIS.Web
                 If Common.Methods.GetCommonCode(Common.Constants.SystemSetting.SystemSetting_SYSEMR, Common.Constants.GroupCode.System_SCode).Trim = "1" Then
                     Response.Redirect(PageBase.UrlBase + "/secure/EMR/main.aspx")
                 End If
-                'If IsCustomerProfile(MyBase.LoggedOnProfileID) = True Then
-                '    Response.Redirect(PageBase.UrlBase + "/secure/CustomerPage/CustomerDashboard.aspx")
-                'End If
+                If IsCustomerProfile(MyBase.LoggedOnProfileID) = True Then
+                    Response.Redirect(PageBase.UrlBase + "/secure/CustomerPage/CustomerDashboard.aspx")
+                End If
                 ReadQueryString()
                 GetProjectsByUserID(chkIsMyAssignment.Checked)
                 GetTasksByUserID()
