@@ -138,6 +138,64 @@ Namespace QIS.Common.BussinessRules
             End Try
         End Function
 
+        Public Function SelectProjectByUserIDOpenForCustomer(ByVal UserID As String, Optional ByVal IsAssignedOnly As Boolean = False) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            If IsAssignedOnly = False Then
+                cmdToExecute.CommandText = "SELECT a.* FROM (SELECT up.*, p.projectName, p.projectDescription, p.projectAliasName, p.isOpenForClient, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
+                                        "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
+                                        "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode<>'003'), " + _
+                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND issueStatusSCode='003') " + _
+                                        "FROM projectUser up " + _
+                                        "INNER JOIN Project p ON up.projectID=p.projectID " + _
+                                        "WHERE up.UserID=@UserID AND p.isOpenForClient=1) a " + _
+                                        "ORDER BY a.projectAliasName ASC"
+
+                '  "ORDER BY a.totalOpen DESC"
+            Else
+                cmdToExecute.CommandText = "SELECT a.* FROM (SELECT up.*, p.projectName, p.projectDescription, p.projectAliasName, p.isOpenForClient, " + _
+                                        "(SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
+                                        "ISNULL((SELECT CONVERT(VARCHAR,MAX(updateDate),106) + ' ' + CONVERT(VARCHAR,MAX(updateDate),108) FROM issue WHERE projectID=p.projectID),'-') AS lastUpdateDate, " + _
+                                        "totalIssue = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID), " + _
+                                        "totalOpen = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode<>'003'), " + _
+                                        "totalFinish = (SELECT COUNT(issueID) FROM issue WHERE projectID=up.projectID AND UserIDAssignedTo=@UserID AND issueStatusSCode='003') " + _
+                                        "FROM projectUser up " + _
+                                        "INNER JOIN Project p ON up.projectID=p.projectID " + _
+                                        "WHERE up.UserID=@UserID AND p.isOpenForClient=1 AND up.projectID IN " + _
+                                        "(SELECT DISTINCT projectID FROM Issue WHERE UserIDAssignedTo=@UserID)) a " + _
+                                        "ORDER BY a.projectAliasName ASC"
+
+                '  "ORDER BY a.totalOpen DESC"
+            End If
+            cmdToExecute.CommandType = CommandType.Text
+            Dim toReturn As DataTable = New DataTable("projectByUserIDOpenForCustomer")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            ' // Use base class' connection object
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@UserID", UserID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+
+                Return toReturn
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                Throw New Exception(ex.Message)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+        End Function
+
         Public Function SelectProjectGroupByUserID(ByVal UserID As String, Optional ByVal IsAssignedOnly As Boolean = False) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             If IsAssignedOnly = False Then

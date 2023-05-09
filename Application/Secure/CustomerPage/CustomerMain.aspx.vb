@@ -604,6 +604,16 @@ Namespace QIS.Web
                 ddlIssueType.Enabled = False
                 ddlIssuePriority.Enabled = False
             End If
+
+            If ddlIssueStatus.SelectedValue <> Common.Constants.IssueStatusCode.IssueStatus_Open Then
+                btnSave.Enabled = False
+                btnSaveAndNew.Enabled = False
+                btnSaveAndClose.Enabled = False
+            Else
+                btnSave.Enabled = True
+                btnSaveAndNew.Enabled = True
+                btnSaveAndClose.Enabled = True
+            End If
         End Sub
 
         Private Sub _openIssueForResponse()
@@ -621,40 +631,6 @@ Namespace QIS.Web
             oBR.Dispose()
             oBR = Nothing
         End Sub
-
-        'Private Sub _updateIssue()
-        '    Page.Validate()
-        '    If Not Page.IsValid Then Exit Sub
-
-        '    Dim fNew As Boolean = False
-        '    Dim oBR As New Common.BussinessRules.Issue
-        '    With oBR
-        '        .IssueID = lblIssueID.Text.Trim
-        '        fNew = .SelectOne.Rows.Count = 0
-        '        .ProjectID = lblProjectID.Text.Trim
-        '        .DepartmentName = txtDepartmentName.Text.Trim
-        '        .IssueDescription = txtIssueDescription.Text.Trim
-        '        .Keywords = txtKeywords.Text.Trim
-        '        .ReportedDate = calReportedDate.selectedDate
-        '        .ReportedBy = txtReportedBy.Text.Trim
-        '        .IssueTypeSCode = ddlIssueType.SelectedValue.Trim
-        '        .IssueStatusSCode = ddlIssueStatus.SelectedValue.Trim
-        '        .IssuePrioritySCode = ddlIssuePriority.SelectedValue.Trim
-        '        .IssueConfirmStatusSCode = ddlIssueConfirmStatus.SelectedValue.Trim
-        '        .userIDassignedTo = ddlUserIDAssignedTo.SelectedValue.Trim
-        '        .userIDinsert = MyBase.LoggedOnUserID.Trim
-        '        .userIDupdate = MyBase.LoggedOnUserID.Trim
-        '        If fNew Then
-        '            If .Insert() Then
-        '                lblIssueID.Text = .IssueID.Trim
-        '            End If
-        '        Else
-        '            .Update()
-        '        End If
-        '    End With
-        '    oBR.Dispose()
-        '    oBR = Nothing
-        'End Sub
 
         Private Sub _updateIssueByCustomer()
             Page.Validate()

@@ -40,14 +40,17 @@ Namespace QIS.Web
 #Region " Control Events "
         Private Sub Page_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
             If Not Me.IsPostBack Then
+                _openUserProfile()
                 prepareDDL()
                 PrepareScreen()
+                PrepareScreenForCustomer()
                 SetDataGrid(ddlProjectFilter.SelectedValue.Trim)
             End If
         End Sub
 
         Private Sub ddlProjectFilter_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlProjectFilter.SelectedIndexChanged
             PrepareScreen()
+            PrepareScreenForCustomer()
             SetDataGrid(ddlProjectFilter.SelectedValue.Trim)
         End Sub
 
@@ -141,6 +144,7 @@ Namespace QIS.Web
                     _openIssueForResponse()
                     PrepareScreenIssueResponse()
                     SetDataGridIssueResponse()
+                    PrepareScreenForCustomer()
 
                 Case "EditResponse"
                     Dim _lbtnIssueID As LinkButton = CType(e.Item.FindControl("_lbtnIssueID"), LinkButton)
@@ -149,6 +153,7 @@ Namespace QIS.Web
                     _openIssueForResponse()
                     PrepareScreenIssueResponse()
                     SetDataGridIssueResponse()
+                    PrepareScreenForCustomer()
             End Select
         End Sub
 
@@ -243,6 +248,11 @@ Namespace QIS.Web
         End Sub
 
         Private Sub prepareDDL()
+            If chkIsCustomerProfile.Checked = True Then
+                commonFunction.SetDDL_Table(ddlProjectFilter, "ProjectUserOpenForCustomer", MyBase.LoggedOnUserID.Trim, False)
+            Else
+                commonFunction.SetDDL_Table(ddlProjectFilter, "ProjectCRMActive", String.Empty, True, "All")
+            End If
             commonFunction.SetDDL_Table(ddlProductRoadmap, "CommonCode", Common.Constants.GroupCode.ProductRoadmap_SCode, True, "Not Set")
             commonFunction.SetDDL_Table(ddlIssueType, "CommonCode", Common.Constants.GroupCode.IssueType_SCode, False)
             commonFunction.SetDDL_Table(ddlIssueStatus, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, False)
@@ -250,7 +260,6 @@ Namespace QIS.Web
             commonFunction.SetDDL_Table(ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, False)
             commonFunction.SetDDL_Table(Response_ddlResponseType, "CommonCode", Common.Constants.GroupCode.ResponseType_SCode, False)
             commonFunction.SetDDL_Table(ddlUserIDAssignedTo, "UserActive", String.Empty, True, "Not Set")
-            commonFunction.SetDDL_Table(ddlProjectFilter, "ProjectCRMActive", String.Empty, True, "All")
         End Sub
 
         Private Sub PrepareScreen()
@@ -305,6 +314,22 @@ Namespace QIS.Web
             txtIssueFileName.Enabled = True
             btnIssueFileAttach.Enabled = True
             btnIssueFileUpdate.Enabled = False
+        End Sub
+
+        Private Sub PrepareScreenForCustomer()
+            If chkIsCustomerProfile.Checked = True Then
+                btnSaveOnly.Enabled = False
+                btnSaveAndNew.Enabled = False
+                btnSaveAndClose.Enabled = False
+                btnIssueFileAttach.Enabled = False
+                btnIssueFileUpdate.Enabled = False
+            Else
+                btnSaveOnly.Enabled = True
+                btnSaveAndNew.Enabled = True
+                btnSaveAndClose.Enabled = True
+                btnIssueFileAttach.Enabled = True
+                btnIssueFileUpdate.Enabled = True
+            End If
         End Sub
 
         Private Sub SetDataGridIssueFile()
@@ -411,6 +436,20 @@ Namespace QIS.Web
 #End Region
 
 #Region " C,R,U,D "
+        Private Sub _openUserProfile()
+            Dim oBR As New Common.BussinessRules.Profile
+            With oBR
+                .ProfileID = MyBase.LoggedOnProfileID.Trim
+                If .SelectOne.Rows.Count > 0 Then
+                    chkIsCustomerProfile.Checked = .IsCustomerProfile
+                Else
+                    chkIsCustomerProfile.Checked = False
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
         Private Sub _openProject()
             'Dim oBR As New Common.BussinessRules.Project
             'With oBR

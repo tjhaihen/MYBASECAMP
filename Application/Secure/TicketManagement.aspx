@@ -62,6 +62,7 @@
                                         Project
                                     </td>
                                     <td>
+                                        <asp:CheckBox ID="chkIsCustomerProfile" runat="server" Visible="false" />
                                         <asp:DropDownList ID="ddlProjectFilter" runat="server" Width="200" AutoPostBack="true">
                                         </asp:DropDownList>
                                     </td>
