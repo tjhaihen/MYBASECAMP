@@ -204,7 +204,7 @@ Namespace QIS.Web
             Dim decTotalIssue As Decimal = 0D
             Dim oBR As New Common.BussinessRules.Issue
             Dim oIssueOpen As New DataTable
-            oIssueOpen = oBR.SelectByFilter("All", strProjectID, "All", "All", "All", Common.Constants.IssueStatusCode.IssueStatus_Open, "All", False, False, Date.Today, Date.Today, True)
+            oIssueOpen = oBR.spSelectIssueByMultiStatus("All", strProjectID, "All", "All", "All", Common.Constants.IssueStatusCode.IssueStatus_Open, Common.Constants.IssueStatusCode.IssueStatus_NeedSample, "", "", "", "All", False, Date.Today, Date.Today, True)
             grdIssueOpen.DataSource = oIssueOpen
             grdIssueOpen.DataBind()
             lblTotalOpen.Text = grdIssueOpen.Items.Count.ToString
@@ -216,13 +216,13 @@ Namespace QIS.Web
             lblTotalCRFQuotation.Text = grdIssueCRFQuotation.Items.Count.ToString
 
             Dim oIssueInProgress As New DataTable
-            oIssueInProgress = oBR.SelectByFilter("All", strProjectID, "All", "All", "All", Common.Constants.IssueStatusCode.IssueStatus_InProgress, "All", False, False, Date.Today, Date.Today, True)
+            oIssueInProgress = oBR.spSelectIssueByMultiStatus("All", strProjectID, "All", "All", "All", Common.Constants.IssueStatusCode.IssueStatus_InProgress, Common.Constants.IssueStatusCode.IssueStatus_QCFailed, "", "", "", "All", False, Date.Today, Date.Today, True)
             grdIssueInProgress.DataSource = oIssueInProgress
             grdIssueInProgress.DataBind()
             lblTotalInProgress.Text = grdIssueInProgress.Items.Count.ToString
 
             Dim oIssueDevFinish As New DataTable
-            oIssueDevFinish = oBR.SelectByFilter("All", strProjectID, "All", "All", "All", Common.Constants.IssueStatusCode.IssueStatus_DevFinish, "All", False, False, Date.Today, Date.Today, True)
+            oIssueDevFinish = oBR.spSelectIssueByMultiStatus("All", strProjectID, "All", "All", "All", Common.Constants.IssueStatusCode.IssueStatus_DevFinish, Common.Constants.IssueStatusCode.IssueStatus_QCPassed, "", "", "", "All", False, Date.Today, Date.Today, True)
             grdIssueDevFinish.DataSource = oIssueDevFinish
             grdIssueDevFinish.DataBind()
             lblTotalDevFinish.Text = grdIssueDevFinish.Items.Count.ToString

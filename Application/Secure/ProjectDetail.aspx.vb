@@ -358,12 +358,25 @@ Namespace QIS.Web
             SetDataGrid()
         End Sub
 
+        Private Sub MoveProject_btnClose_Click(sender As Object, e As System.EventArgs) Handles MoveProject_btnClose.Click
+            PrepareScreenMoveProject()
+            pnlMoveProject.Visible = False
+        End Sub
+
+        Private Sub MoveProject_btnSaveAndClose_Click(sender As Object, e As System.EventArgs) Handles MoveProject_btnSaveAndClose.Click
+            _updateMoveProject()
+            PrepareScreenMoveProject()
+            pnlMoveProject.Visible = False
+            SetDataGrid()
+        End Sub
+
         Private Sub grdIssueByProject_ItemCommand(source As Object, e As System.Web.UI.WebControls.DataGridCommandEventArgs) Handles grdIssueByProject.ItemCommand
             Select Case e.CommandName
                 Case "Edit"
                     Dim _lbtnIssueID As LinkButton = CType(e.Item.FindControl("_lbtnIssueID"), LinkButton)
                     pnlAddNew.Visible = True
                     pnlIssueResponse.Visible = False
+                    pnlMoveProject.Visible = False
                     PrepareScreenAddNew()
                     lblIssueID.Text = _lbtnIssueID.Text.Trim
                     _openIssue()
@@ -373,6 +386,7 @@ Namespace QIS.Web
                 Case "IssueReponse"
                     PrepareScreenAddNew()
                     pnlAddNew.Visible = False
+                    pnlMoveProject.Visible = False
 
                     Dim _lbtnIssueID As LinkButton = CType(e.Item.FindControl("_lbtnIssueID"), LinkButton)
                     pnlIssueResponse.Visible = True
@@ -380,6 +394,14 @@ Namespace QIS.Web
                     _openIssueForResponse()
                     PrepareScreenIssueResponse()
                     SetDataGridIssueResponse()
+
+                Case "MoveProject"
+                    pnlMoveProject.Visible = True
+
+                    Dim _lbtnIssueID As LinkButton = CType(e.Item.FindControl("_lbtnIssueID"), LinkButton)
+                    MoveProject_lblIssueID.Text = _lbtnIssueID.Text.Trim
+                    _openIssueForMoveProject()
+                    PrepareScreenMoveProject()
 
                 Case "PrintTicket"
                     Dim _lbtnIssueID As LinkButton = CType(e.Item.FindControl("_lbtnIssueID"), LinkButton)
@@ -403,6 +425,7 @@ Namespace QIS.Web
                 Case "Edit"
                     Dim _lblResponseID As Label = CType(e.Item.FindControl("_lblResponseID"), Label)
                     pnlIssueResponse.Visible = True
+                    pnlMoveProject.Visible = False
                     pnlAddNew.Visible = False
                     Response_lblResponseID.Text = _lblResponseID.Text.Trim
                     _openIssueResponse()
@@ -460,6 +483,7 @@ Namespace QIS.Web
                 Case CSSToolbarItem.tidNew
                     pnlAddNew.Visible = True
                     pnlIssueResponse.Visible = False
+                    pnlMoveProject.Visible = False
                     PrepareScreenAddNew()
             End Select
         End Sub
@@ -545,10 +569,12 @@ Namespace QIS.Web
             commonFunction.SetDDL_Table(Response_ddlIssueStatus, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, False)
             commonFunction.SetDDL_Table(Response_ddlIssueConfirmStatus, "CommonCode", Common.Constants.GroupCode.IssueConfirmStatus_SCode, False)
             commonFunction.SetDDL_Table(ddlUserIDAssignedTo, "UserActive", String.Empty, True, "Not Set")
+            commonFunction.SetDDL_Table(MoveProject_ddlMoveToProject, "MoveProject", lblProjectID.Text.Trim, False)
         End Sub
 
         Private Sub PrepareScreen()
             pnlAddNew.Visible = False
+            pnlMoveProject.Visible = False
             pnlIssueResponse.Visible = False
             chkIsOpenOnly.Checked = True
         End Sub
@@ -601,6 +627,12 @@ Namespace QIS.Web
             Response_txtWorktimeDtDescription.Text = String.Empty
             Response_txtWorkTimeInHour.Text = "0"
             commonFunction.Focus(Me, Response_txtResponseTimeStart.ClientID)
+        End Sub
+
+        Private Sub PrepareScreenMoveProject()
+            MoveProject_ddlMoveToProject.SelectedIndex = 0
+            MoveProject_chkIsFromCustomer.Checked = False
+            commonFunction.Focus(Me, MoveProject_ddlMoveToProject.ClientID)
         End Sub
 
         Private Sub PrepareScreenIssueFile()
@@ -850,6 +882,22 @@ Namespace QIS.Web
             oBR = Nothing
         End Sub
 
+        Private Sub _openIssueForMoveProject()
+            Dim oBR As New Common.BussinessRules.Issue
+            With oBR
+                .IssueID = MoveProject_lblIssueID.Text.Trim
+                If .SelectOne.Rows.Count > 0 Then
+                    MoveProject_lblDepartmentName.Text = .DepartmentName.Trim
+                    MoveProject_lblIssueDescription.Text = .IssueDescription.Trim
+                Else
+                    MoveProject_lblDepartmentName.Text = String.Empty
+                    MoveProject_lblIssueDescription.Text = String.Empty
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
         Private Function _openValidatePatch(ByVal strPatchNo As String, ByVal txtPatch As TextBox) As String
             Dim strPatchNoToReturn As String = String.Empty
             Dim oPatch As New Common.BussinessRules.Patch
@@ -985,6 +1033,31 @@ Namespace QIS.Web
                             InsertWorkTimeHdFromAddEditResponse()
                         End If
                     End If
+                End If
+            End With
+            oBR.Dispose()
+            oBR = Nothing
+        End Sub
+
+        Private Sub _updateMoveProject()
+            Page.Validate()
+            If Not Page.IsValid Then Exit Sub
+
+            Dim fNew As Boolean = False
+            Dim oBR As New Common.BussinessRules.Issue
+            With oBR
+                .IssueID = MoveProject_lblIssueID.Text.Trim
+                If .SelectOne.Rows.Count > 0 Then
+                    .ProjectID = MoveProject_ddlMoveToProject.SelectedValue.Trim
+                    .isFromCustomer = MoveProject_chkIsFromCustomer.Checked
+                    .userIDupdate = MyBase.LoggedOnUserID.Trim
+                    .UpdateMoveProject()
+                    commonFunction.MsgBox(Me, "1 Issue ID succesfully moved from " + lblProjectAliasName.Text.Trim + " to " + MoveProject_ddlMoveToProject.SelectedItem.Text.Trim)
+                Else
+                    commonFunction.MsgBox(Me, "Issue ID not found.")
+                    oBR.Dispose()
+                    oBR = Nothing
+                    Exit Sub
                 End If
             End With
             oBR.Dispose()

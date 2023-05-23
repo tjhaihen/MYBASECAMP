@@ -55,7 +55,7 @@
                         <td class="Heading2" style="width: 70%;">
                             Change Request Management
                         </td>
-                        <td class="right" style="width:30%; padding-right: 0;">
+                        <td class="right" style="width: 30%; padding-right: 0;">
                             <table width="100%">
                                 <tr>
                                     <td style="width: 120;" class="right">
@@ -583,7 +583,7 @@
                                         <table width="100%" style="background: #fdedec; border-radius: 10px;" cellpadding="3">
                                             <tr>
                                                 <td>
-                                                    Open
+                                                    Open|Need Sample
                                                 </td>
                                                 <td class="right">
                                                     Total:&nbsp;<asp:Label ID="lblTotalOpen" runat="server"></asp:Label>
@@ -607,7 +607,7 @@
                                         <table width="100%" style="background: #fcf3cf; border-radius: 10px;" cellpadding="3">
                                             <tr>
                                                 <td>
-                                                    In Progress
+                                                    In Progress|QC Failed
                                                 </td>
                                                 <td class="right">
                                                     Total:&nbsp;<asp:Label ID="lblTotalInProgress" runat="server"></asp:Label>
@@ -619,7 +619,7 @@
                                         <table width="100%" style="background: #d6eaf8; border-radius: 10px;" cellpadding="3">
                                             <tr>
                                                 <td>
-                                                    Dev. Finish
+                                                    Dev. Finish|QC Passed
                                                 </td>
                                                 <td class="right">
                                                     Total:&nbsp;<asp:Label ID="lblTotalDevFinish" runat="server"></asp:Label>
@@ -630,82 +630,107 @@
                                 </tr>
                                 <tr>
                                     <td style="width: 25%; background: #f5f5f5; border-radius: 10px;" valign="top">
-                                        <table width="100%">
-                                            <tr>
-                                                <td style="width: 100%;">
-                                                    <asp:DataGrid ID="grdIssueOpen" runat="server" BorderWidth="0" GridLines="None" Width="100%"
-                                                        CellPadding="2" CellSpacing="1" ShowHeader="false" ShowFooter="false" AutoGenerateColumns="false">
-                                                        <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
-                                                        <ItemStyle CssClass="gridItemStyle" />
-                                                        <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
-                                                        <Columns>
-                                                            <asp:TemplateColumn runat="server">
-                                                                <ItemTemplate>
-                                                                    <table width="100%">
-                                                                        <tr>
-                                                                            <td>
-                                                                                <asp:LinkButton runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "issueID") %>'
-                                                                                    ID="_lbtnIssueID" CommandName="EditIssue" ForeColor="blue" CausesValidation="false"
-                                                                                    ToolTip="Edit" />
-                                                                            </td>
-                                                                            <td class="right" style="padding-right: 0;">
-                                                                                <table cellpadding="2" cellspacing="0" align="right">
-                                                                                    <tr>
-                                                                                        <td class="right">
-                                                                                            <asp:Image ID="_imgAttachment" runat="server" ImageUrl="/qistoollib/images/attachment_large.png"
-                                                                                                Width="16" ImageAlign="AbsMiddle" Visible='<%# DataBinder.Eval(Container.DataItem, "isHasAttachment") %>' ToolTip="Has Attachment(s)" />
-                                                                                        </td>
-                                                                                        <td class="right">
-                                                                                            <asp:Image ID="_imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/critical.png"
-                                                                                                Width="16" Visible='<%# DataBinder.Eval(Container.DataItem, "isUrgent")%>' ToolTip="Critical" />
-                                                                                        </td>
-                                                                                        <td class="right">
-                                                                                            <asp:ImageButton ID="_imgResponse" runat="server" ImageUrl="/qistoollib/images/response.png"
-                                                                                                Width="16" ImageAlign="AbsMiddle" CommandName="EditResponse" ToolTip="Edit Response" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <%# DataBinder.Eval(Container.DataItem, "projectAliasName") %>
-                                                                            </td>
-                                                                            <td class="txtweak right">
-                                                                                Response(s):&nbsp;<%# DataBinder.Eval(Container.DataItem, "totalResponse")%>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td colspan="2" class="txtweak">
-                                                                                <%# DataBinder.Eval(Container.DataItem, "reportedBy")%>
-                                                                                &nbsp;on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td colspan="2" class="hseparator">
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td class="txtweak">
-                                                                                <%# DataBinder.Eval(Container.DataItem, "issueTypeName")%>
-                                                                            </td>
-                                                                            <td class="txtweak right">
-                                                                                <%# DataBinder.Eval(Container.DataItem, "issuePriorityName")%>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td colspan="2" class="txtweak">
-                                                                                <%# DataBinder.Eval(Container.DataItem, "issueDescription")%>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </ItemTemplate>
-                                                            </asp:TemplateColumn>
-                                                        </Columns>
-                                                    </asp:DataGrid>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                        <div style="width: 100%; height: 100%; overflow: auto;">
+                                            <table width="100%">
+                                                <tr>
+                                                    <td style="width: 100%;">
+                                                        <asp:DataGrid ID="grdIssueOpen" runat="server" BorderWidth="0" GridLines="None" Width="100%"
+                                                            CellPadding="2" CellSpacing="1" ShowHeader="false" ShowFooter="false" AutoGenerateColumns="false">
+                                                            <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
+                                                            <ItemStyle CssClass="gridItemStyle" />
+                                                            <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
+                                                            <Columns>
+                                                                <asp:TemplateColumn runat="server">
+                                                                    <ItemTemplate>
+                                                                        <table width="100%">
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <asp:LinkButton runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "issueID") %>'
+                                                                                        ID="_lbtnIssueID" CommandName="EditIssue" ForeColor="blue" CausesValidation="false"
+                                                                                        ToolTip="Edit" />
+                                                                                </td>
+                                                                                <td class="right" style="padding-right: 0;">
+                                                                                    <table cellpadding="2" cellspacing="0" align="right">
+                                                                                        <tr>
+                                                                                            <td class="right">
+                                                                                                <asp:Image ID="_imgAttachment" runat="server" ImageUrl="/qistoollib/images/attachment_large.png"
+                                                                                                    Width="16" ImageAlign="AbsMiddle" Visible='<%# DataBinder.Eval(Container.DataItem, "isHasAttachment") %>'
+                                                                                                    ToolTip="Has Attachment(s)" />
+                                                                                            </td>
+                                                                                            <td class="right">
+                                                                                                <asp:Image ID="_imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/critical.png"
+                                                                                                    Width="16" Visible='<%# DataBinder.Eval(Container.DataItem, "isUrgent")%>' ToolTip="Critical" />
+                                                                                            </td>
+                                                                                            <td class="right">
+                                                                                                <asp:ImageButton ID="_imgResponse" runat="server" ImageUrl="/qistoollib/images/response.png"
+                                                                                                    Width="16" ImageAlign="AbsMiddle" CommandName="EditResponse" ToolTip="Edit Response" />
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <%# DataBinder.Eval(Container.DataItem, "projectAliasName") %>
+                                                                                </td>
+                                                                                <td class="txtweak right">
+                                                                                    Response(s):&nbsp;<%# DataBinder.Eval(Container.DataItem, "totalResponse")%>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td colspan="2" class="txtweak">
+                                                                                    <%# DataBinder.Eval(Container.DataItem, "reportedBy")%>
+                                                                                    &nbsp;on&nbsp;<%# Format(DataBinder.Eval(Container.DataItem, "reportedDate"),"dd-MMM-yyyy") %>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td colspan="2" class="hseparator">
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="txtweak">
+                                                                                    <%# DataBinder.Eval(Container.DataItem, "issueTypeName")%>
+                                                                                </td>
+                                                                                <td class="txtweak right">
+                                                                                    <table width="100%">
+                                                                                        <tr>
+                                                                                            <td class="txtweak center" style="background: #d6eaf8; color: #000000; border-radius: 10px;">
+                                                                                                <%# DataBinder.Eval(Container.DataItem, "issuePriorityName")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td colspan="2" class="txtweak">
+                                                                                    <%# DataBinder.Eval(Container.DataItem, "issueDescription")%>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td colspan="2" class="hseparator">
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td colspan="2" class="txtweak">
+                                                                                    Created by&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameInsert")%>&nbsp;on
+                                                                                    <%# Format(DataBinder.Eval(Container.DataItem, "insertDate"),"dd-MMM-yyyy hh:mm")%>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td colspan="2" class="txtweak">
+                                                                                    Updated by&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameUpdate")%>&nbsp;on
+                                                                                    <%# Format(DataBinder.Eval(Container.DataItem, "updateDate"),"dd-MMM-yyyy hh:mm")%>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateColumn>
+                                                            </Columns>
+                                                        </asp:DataGrid>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                     </td>
                                     <td style="width: 25%; background: #f5f5f5; border-radius: 10px;" valign="top">
                                         <table width="100%">
@@ -732,7 +757,8 @@
                                                                                     <tr>
                                                                                         <td class="right">
                                                                                             <asp:Image ID="_imgAttachment" runat="server" ImageUrl="/qistoollib/images/attachment_large.png"
-                                                                                                Width="16" ImageAlign="AbsMiddle" Visible='<%# DataBinder.Eval(Container.DataItem, "isHasAttachment") %>' ToolTip="Has Attachment(s)" />
+                                                                                                Width="16" ImageAlign="AbsMiddle" Visible='<%# DataBinder.Eval(Container.DataItem, "isHasAttachment") %>'
+                                                                                                ToolTip="Has Attachment(s)" />
                                                                                         </td>
                                                                                         <td class="right">
                                                                                             <asp:Image ID="_imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/critical.png"
@@ -769,12 +795,34 @@
                                                                                 <%# DataBinder.Eval(Container.DataItem, "issueTypeName")%>
                                                                             </td>
                                                                             <td class="txtweak right">
-                                                                                <%# DataBinder.Eval(Container.DataItem, "issuePriorityName")%>
+                                                                                <table width="100%">
+                                                                                    <tr>
+                                                                                        <td class="txtweak center" style="background: #d6eaf8; color: #000000; border-radius: 10px;">
+                                                                                            <%# DataBinder.Eval(Container.DataItem, "issuePriorityName")%>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td colspan="2" class="txtweak">
                                                                                 <%# DataBinder.Eval(Container.DataItem, "issueDescription")%>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2" class="hseparator">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2" class="txtweak">
+                                                                                Created by&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameInsert")%>&nbsp;on
+                                                                                <%# Format(DataBinder.Eval(Container.DataItem, "insertDate"),"dd-MMM-yyyy hh:mm")%>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2" class="txtweak">
+                                                                                Updated by&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameUpdate")%>&nbsp;on
+                                                                                <%# Format(DataBinder.Eval(Container.DataItem, "updateDate"),"dd-MMM-yyyy hh:mm")%>
                                                                             </td>
                                                                         </tr>
                                                                     </table>
@@ -811,7 +859,8 @@
                                                                                     <tr>
                                                                                         <td class="right">
                                                                                             <asp:Image ID="_imgAttachment" runat="server" ImageUrl="/qistoollib/images/attachment_large.png"
-                                                                                                Width="16" ImageAlign="AbsMiddle" Visible='<%# DataBinder.Eval(Container.DataItem, "isHasAttachment") %>' ToolTip="Has Attachment(s)" />
+                                                                                                Width="16" ImageAlign="AbsMiddle" Visible='<%# DataBinder.Eval(Container.DataItem, "isHasAttachment") %>'
+                                                                                                ToolTip="Has Attachment(s)" />
                                                                                         </td>
                                                                                         <td class="right">
                                                                                             <asp:Image ID="_imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/critical.png"
@@ -848,12 +897,34 @@
                                                                                 <%# DataBinder.Eval(Container.DataItem, "issueTypeName")%>
                                                                             </td>
                                                                             <td class="txtweak right">
-                                                                                <%# DataBinder.Eval(Container.DataItem, "issuePriorityName")%>
+                                                                                <table width="100%">
+                                                                                    <tr>
+                                                                                        <td class="txtweak center" style="background: #d6eaf8; color: #000000; border-radius: 10px;">
+                                                                                            <%# DataBinder.Eval(Container.DataItem, "issuePriorityName")%>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td colspan="2" class="txtweak">
                                                                                 <%# DataBinder.Eval(Container.DataItem, "issueDescription")%>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2" class="hseparator">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2" class="txtweak">
+                                                                                Created by&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameInsert")%>&nbsp;on
+                                                                                <%# Format(DataBinder.Eval(Container.DataItem, "insertDate"),"dd-MMM-yyyy hh:mm")%>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2" class="txtweak">
+                                                                                Updated by&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameUpdate")%>&nbsp;on
+                                                                                <%# Format(DataBinder.Eval(Container.DataItem, "updateDate"),"dd-MMM-yyyy hh:mm")%>
                                                                             </td>
                                                                         </tr>
                                                                     </table>
@@ -890,7 +961,8 @@
                                                                                     <tr>
                                                                                         <td class="right">
                                                                                             <asp:Image ID="_imgAttachment" runat="server" ImageUrl="/qistoollib/images/attachment_large.png"
-                                                                                                Width="16" ImageAlign="AbsMiddle" Visible='<%# DataBinder.Eval(Container.DataItem, "isHasAttachment") %>' ToolTip="Has Attachment(s)" />
+                                                                                                Width="16" ImageAlign="AbsMiddle" Visible='<%# DataBinder.Eval(Container.DataItem, "isHasAttachment") %>'
+                                                                                                ToolTip="Has Attachment(s)" />
                                                                                         </td>
                                                                                         <td class="right">
                                                                                             <asp:Image ID="_imgIsUrgent" runat="server" ImageUrl="/qistoollib/images/critical.png"
@@ -927,12 +999,35 @@
                                                                                 <%# DataBinder.Eval(Container.DataItem, "issueTypeName")%>
                                                                             </td>
                                                                             <td class="txtweak right">
-                                                                                <%# DataBinder.Eval(Container.DataItem, "issuePriorityName")%>
+                                                                                <table width="100%">
+                                                                                    <tr>
+                                                                                        <td class="txtweak center" style="background: #d6eaf8; color: #000000; border-radius: 10px;">
+                                                                                            <asp:Label runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "issuePriorityName") %>'
+                                                                                                ID="_lblIssuePriorityName" />
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td colspan="2" class="txtweak">
                                                                                 <%# DataBinder.Eval(Container.DataItem, "issueDescription")%>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2" class="hseparator">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2" class="txtweak">
+                                                                                Created by&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameInsert")%>&nbsp;on
+                                                                                <%# Format(DataBinder.Eval(Container.DataItem, "insertDate"),"dd-MMM-yyyy hh:mm")%>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2" class="txtweak">
+                                                                                Updated by&nbsp;<%# DataBinder.Eval(Container.DataItem, "userNameUpdate")%>&nbsp;on
+                                                                                <%# Format(DataBinder.Eval(Container.DataItem, "updateDate"),"dd-MMM-yyyy hh:mm")%>
                                                                             </td>
                                                                         </tr>
                                                                     </table>

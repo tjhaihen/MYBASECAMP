@@ -277,6 +277,38 @@ Namespace QIS.Common.BussinessRules
             End Try
         End Function
 
+        Public Function UpdateMoveProject() As Boolean
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "UPDATE Issue " + _
+                                        "SET projectID=@projectID,  " + _
+                                        "isFromCustomer=@isFromCustomer, " + _
+                                        "userIDupdate=@userIDupdate, updateDate=GETDATE() " + _
+                                        "WHERE issueID=@issueID"
+            cmdToExecute.CommandType = CommandType.Text
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@issueID", _issueID)
+                cmdToExecute.Parameters.AddWithValue("@projectID", _projectID)
+                cmdToExecute.Parameters.AddWithValue("@isFromCustomer", _isFromCustomer)
+                cmdToExecute.Parameters.AddWithValue("@userIDupdate", _userIDupdate)
+
+                ' // Open Connection
+                _mainConnection.Open()
+
+                ' // Execute Query
+                cmdToExecute.ExecuteNonQuery()
+
+                Return True
+            Catch ex As Exception
+                ExceptionManager.Publish(ex)
+            Finally
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+            End Try
+        End Function
+
         Public Overrides Function SelectAll() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "SELECT i.*, " + _
@@ -829,6 +861,7 @@ Namespace QIS.Common.BussinessRules
             Dim cmdToExecute As SqlCommand = New SqlCommand
             Dim cmdGetUsersOnlySTART As String = String.Empty
             Dim cmdGetUsersOnlyEND As String = String.Empty
+            Dim cmdProjectGroupFilter As String = String.Empty
             Dim cmdProjectFilter As String = String.Empty
             Dim cmdIssueStatusFilter As String = String.Empty
             Dim cmdUserIDAssignedToFilter As String = String.Empty
@@ -836,6 +869,10 @@ Namespace QIS.Common.BussinessRules
 
             cmdGetUsersOnlySTART = "SELECT DISTINCT lst.userIDAssignedTo, lst.userNameAssignedTo FROM ( "
             cmdGetUsersOnlyEND = " ) lst "
+
+            If strProjectGroupID.Length > 0 And strProjectGroupID.Trim <> "All" Then
+                cmdProjectGroupFilter = " AND p.projectGroupID = @projectGroupID "
+            End If
 
             If strProjectID.Length > 0 And strProjectID.Trim <> "All" Then
                 cmdProjectFilter = " AND i.projectID = @projectID "
@@ -869,7 +906,7 @@ Namespace QIS.Common.BussinessRules
                 "DATEDIFF(DAY,i.targetDate,GETDATE()) AS dueToTargetDateAgeInDay, " + _
                 "isHasAttachment=CASE WHEN((SELECT COUNT(fileID) FROM [File] WHERE tableName='Issue' AND referenceID=i.issueID) > 0) THEN(1) ELSE(0) END " + _
                 "FROM Issue i INNER JOIN Project p ON i.ProjectID = p.ProjectID WHERE i.targetDate BETWEEN @startDate AND @endDate " + _
-                "AND p.ProjectGroupID = @ProjectGroupID AND i.IsPlanned = 1" + cmdProjectFilter + cmdIssueStatusFilter + cmdUserIDAssignedToFilter
+                "AND i.IsPlanned = 1" + cmdProjectGroupFilter + cmdProjectFilter + cmdIssueStatusFilter + cmdUserIDAssignedToFilter
 
             If IsGetUsersOnly = True Then
                 cmdToExecute.CommandText = cmdGetUsersOnlySTART + cmdToExecute.CommandText + cmdGetUsersOnlyEND + cmdOrderBy
@@ -1097,6 +1134,49 @@ Namespace QIS.Common.BussinessRules
                     cmdToExecute.Parameters.AddWithValue("@startDate", dtStartDate)
                     cmdToExecute.Parameters.AddWithValue("@endDate", dtEndDate)
                 End If
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
+        Public Function spSelectIssueByMultiStatus(ByVal strProductRoadmap As String, ByVal strProjectID As String, ByVal strIssueType As String, ByVal strIssuePriority As String, ByVal strUserIDAssignedTo As String, ByVal strIssueStatus1 As String, ByVal strIssueStatus2 As String, ByVal strIssueStatus3 As String, ByVal strIssueStatus4 As String, ByVal strIssueStatus5 As String, ByVal strIssueConfirmStatus As String, ByVal isUrgent As Boolean, ByVal dtStartDate As Date, ByVal dtEndDate As Date, ByVal isFromCustomer As Boolean) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "spSelectIssueByMultiStatus"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("spSelectIssueByMultiStatus")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@productRoadmapSCode", strProductRoadmap)
+                cmdToExecute.Parameters.AddWithValue("@projectID", strProjectID)
+                cmdToExecute.Parameters.AddWithValue("@issueTypeSCode", strIssueType)
+                cmdToExecute.Parameters.AddWithValue("@issuePrioritySCode", strIssuePriority)
+                cmdToExecute.Parameters.AddWithValue("@userIDAssignedTo", strUserIDAssignedTo)
+                cmdToExecute.Parameters.AddWithValue("@issueStatusSCode1", strIssueStatus1)
+                cmdToExecute.Parameters.AddWithValue("@issueStatusSCode2", strIssueStatus2)
+                cmdToExecute.Parameters.AddWithValue("@issueStatusSCode3", strIssueStatus3)
+                cmdToExecute.Parameters.AddWithValue("@issueStatusSCode4", strIssueStatus4)
+                cmdToExecute.Parameters.AddWithValue("@issueStatusSCode5", strIssueStatus5)
+                cmdToExecute.Parameters.AddWithValue("@issueConfirmStatusSCode", strIssueConfirmStatus)
+                cmdToExecute.Parameters.AddWithValue("@isUrgent", isUrgent)
+                cmdToExecute.Parameters.AddWithValue("@isFromCustomer", isFromCustomer)
 
                 ' // Open connection.
                 _mainConnection.Open()
@@ -1471,7 +1551,6 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@startDate", dtStartDate)
                 cmdToExecute.Parameters.AddWithValue("@endDate", dtEndDate)
                 cmdToExecute.Parameters.AddWithValue("@projectGroupID", strProjectGroupID)
-
 
                 ' // Open connection.
                 _mainConnection.Open()

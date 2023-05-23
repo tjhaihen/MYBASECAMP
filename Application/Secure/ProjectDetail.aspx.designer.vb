@@ -942,6 +942,78 @@ Namespace QIS.Web
         Protected WithEvents grdIssueResponse As Global.System.Web.UI.WebControls.DataGrid
 
         '''<summary>
+        '''pnlMoveProject control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents pnlMoveProject As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''MoveProject_lblIssueID control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents MoveProject_lblIssueID As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''MoveProject_lblDepartmentName control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents MoveProject_lblDepartmentName As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''MoveProject_lblIssueDescription control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents MoveProject_lblIssueDescription As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''MoveProject_ddlMoveToProject control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents MoveProject_ddlMoveToProject As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
+        '''MoveProject_chkIsFromCustomer control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents MoveProject_chkIsFromCustomer As Global.System.Web.UI.WebControls.CheckBox
+
+        '''<summary>
+        '''MoveProject_btnSaveAndClose control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents MoveProject_btnSaveAndClose As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
+        '''MoveProject_btnClose control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents MoveProject_btnClose As Global.System.Web.UI.WebControls.Button
+
+        '''<summary>
         '''grdIssueByProject control.
         '''</summary>
         '''<remarks>

@@ -370,7 +370,7 @@ Namespace QIS.Common.BussinessRules
                                         "(SELECT caption FROM CommonCode WHERE groupCode='NATIONALITY' AND code=p.nationalitySCode) AS NationalityName " & _
                                         "FROM [User] u " & _
                                         "INNER JOIN Person p ON u.PersonID=p.PersonID " & _
-                                        "ORDER BY u.Username"
+                                        "ORDER BY u.isActive DESC, p.firstName"
             cmdToExecute.CommandType = CommandType.Text
             Dim toReturn As DataTable = New DataTable("User")
             Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)

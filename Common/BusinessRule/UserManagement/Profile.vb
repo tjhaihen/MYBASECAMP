@@ -97,7 +97,7 @@ Namespace QIS.Common.BussinessRules
 
         Public Overrides Function SelectAll() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
-            cmdToExecute.CommandText = "SELECT * FROM Profile"
+            cmdToExecute.CommandText = "SELECT * FROM Profile ORDER BY profileName"
             cmdToExecute.CommandType = CommandType.Text
 
             Dim toReturn As DataTable = New DataTable("Profile")

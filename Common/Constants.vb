@@ -154,6 +154,8 @@
             Public Const IssueStatus_DevFinish As String = "002-1"
             Public Const IssueStatus_Finish As String = "003"
             Public Const IssueStatus_NeedSample As String = "004"
+            Public Const IssueStatus_QCPassed As String = "002-5"
+            Public Const IssueStatus_QCFailed As String = "002-6"
         End Class
 
         Public NotInheritable Class IssuePriorityCode

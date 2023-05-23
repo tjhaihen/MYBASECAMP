@@ -246,11 +246,45 @@ Namespace QIS.Common.BussinessRules
             Return toReturn
         End Function
 
+        Public Function SelectMoveProject(ByVal strProjectID As String) As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "SELECT p.*, (SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
+                                        "(SELECT projectGroupName FROM projectGroup WHERE projectGroupID=p.projectGroupID) AS projectGroupName FROM Project p " + _
+                                        "WHERE p.projectID <> @projectID " + _
+                                        "ORDER BY p.projectAliasName"
+            cmdToExecute.CommandType = CommandType.Text
+
+            Dim toReturn As DataTable = New DataTable("SelectMoveProject")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@projectID", strProjectID)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
+
         Public Function SelectProjectCRMActive() As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "SELECT p.*, (SELECT caption FROM CommonCode WHERE groupCode='PROJECTSTATUS' AND code=p.projectStatusGCID) AS projectStatusName, " + _
                                         "(SELECT projectGroupName FROM projectGroup WHERE projectGroupID=p.projectGroupID) AS projectGroupName FROM Project p " + _
-                                        "WHERE p.projectID IN (SELECT projectID FROM Issue WHERE IsFromCustomer=1 AND issueStatusSCode NOT IN ('003','002-5','010','990')) " + _
+                                        "WHERE p.projectID IN (SELECT projectID FROM Issue WHERE IsFromCustomer=1 AND issueStatusSCode NOT IN ('003','010','990')) " + _
                                         "ORDER BY p.projectAliasName"
             cmdToExecute.CommandType = CommandType.Text
 

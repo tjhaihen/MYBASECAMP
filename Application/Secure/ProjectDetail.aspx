@@ -269,7 +269,8 @@
                                     <td style="background: #ffffff; width: 120; font-size: large;" class="center">
                                         <asp:Label ID="lblTotalFinish" runat="server"></asp:Label>
                                     </td>
-                                    <td style="background: #ffffff; width: 100; font-size: large; font-weight: bold;" class="center">
+                                    <td style="background: #ffffff; width: 100; font-size: large; font-weight: bold;"
+                                        class="center">
                                         <asp:Label ID="lblProgress" runat="server"></asp:Label>&nbsp;%
                                     </td>
                                     <td style="background: #ffffff; width: 100;" class="center">
@@ -376,8 +377,8 @@
                                                         Description (User Friendly)
                                                     </td>
                                                     <td style="background: #ffffff;">
-                                                        <asp:TextBox ID="txtUserFriendlyIssueDescription" runat="server" TextMode="MultiLine" Width="360"
-                                                            Height="80">
+                                                        <asp:TextBox ID="txtUserFriendlyIssueDescription" runat="server" TextMode="MultiLine"
+                                                            Width="360" Height="80">
                                                         </asp:TextBox>
                                                     </td>
                                                 </tr>
@@ -536,7 +537,8 @@
                                                         <asp:Button ID="btnSaveOnly" runat="server" Text="Save" CssClass="sbttn" Width="100" />
                                                         <asp:Button ID="btnSaveAndNew" runat="server" Text="Save & New" CssClass="sbttn"
                                                             Width="100" />
-                                                        <asp:Button ID="btnAddResponse" runat="server" Text="Add Response" CssClass="sbttn" Width="100" />
+                                                        <asp:Button ID="btnAddResponse" runat="server" Text="Add Response" CssClass="sbttn"
+                                                            Width="100" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -906,6 +908,87 @@
                                     </tr>
                                 </table>
                             </asp:Panel>
+                            <asp:Panel ID="pnlMoveProject" runat="server">
+                                <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
+                                    <tr>
+                                        <td colspan="2" style="font-weight: bold; background-color: #d0ece7;">
+                                            .:: Move Project
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <table width="100%" cellpadding="2" cellspacing="1">
+                                                <tr>
+                                                    <td class="right Title" style="width: 100; background: #ffffff;">
+                                                        Issue ID #
+                                                    </td>
+                                                    <td class="Title" style="background: #ffffff;">
+                                                        <asp:Label ID="MoveProject_lblIssueID" runat="server"></asp:Label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="width: 100; background: #ffffff;">
+                                                        Department:
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:Label ID="MoveProject_lblDepartmentName" runat="server"></asp:Label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="width: 100; background: #ffffff;">
+                                                        Description:
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:Label ID="MoveProject_lblIssueDescription" runat="server"></asp:Label>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 50%;" valign="top">
+                                            <table width="100%" class="gridAlternetingItemStyle" cellspacing="1">
+                                                <tr>
+                                                    <td class="right" style="background: #ffffff;">
+                                                        Move to
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:DropDownList ID="MoveProject_ddlMoveToProject" runat="server" Width="200">
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #ffffff;">
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:CheckBox ID="MoveProject_chkIsFromCustomer" runat="server" Text="Is Change Request Issue?" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #ffffff;">
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <font style="color: Red;">Change Request Issue will be showed in Change Request Management
+                                                            page</font>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="width: 50%;" valign="top">
+                                            <table width="100%" class="gridAlternatingItemStyle" cellspacing="1">
+                                                <tr>
+                                                    <td colspan="3">
+                                                        <asp:Button ID="MoveProject_btnSaveAndClose" runat="server" Text="Save & Close" CssClass="sbttn"
+                                                            Width="100" />
+                                                        <asp:Button ID="MoveProject_btnClose" runat="server" Text="Close" CssClass="sbttn"
+                                                            Width="100" CausesValidation="false" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </asp:Panel>
                         </td>
                     </tr>
                     <tr>
@@ -920,8 +1003,21 @@
                                     <asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center"
                                         ItemStyle-VerticalAlign="Top">
                                         <ItemTemplate>
-                                            <asp:ImageButton ID="_ibtnEdit" runat="server" ImageUrl="/qistoollib/images/edit.png"
-                                                ImageAlign="AbsMiddle" CommandName="Edit" CausesValidation="false" />
+                                            <table cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <td>
+                                                        <asp:ImageButton ID="_ibtnEdit" runat="server" ImageUrl="/qistoollib/images/edit.png"
+                                                            ImageAlign="AbsMiddle" CommandName="Edit" CausesValidation="false" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding-top: 5px;">
+                                                        <asp:ImageButton ID="_ibtnMoveProject" runat="server" ImageUrl="/qistoollib/images/edit_green.png"
+                                                            ImageAlign="AbsMiddle" CommandName="MoveProject" CausesValidation="false" Width="22"
+                                                            ToolTip="Move Project" />
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" ItemStyle-Width="30" ItemStyle-HorizontalAlign="center"
@@ -1055,8 +1151,9 @@
                                                 <div class="txtweak">
                                                     Target Date:<br />
                                                     <%# Format(DataBinder.Eval(Container.DataItem, "targetDate"), "dd-MMM-yyyy")%>
-                                                <br />
-                                                <asp:CheckBox ID="_chkIsPlanned" Checked='<%# DataBinder.Eval(Container.DataItem, "IsPlanned")%>' runat="server" Enabled="false" Text="Planned" /></div>
+                                                    <br />
+                                                    <asp:CheckBox ID="_chkIsPlanned" Checked='<%# DataBinder.Eval(Container.DataItem, "IsPlanned")%>'
+                                                        runat="server" Enabled="false" Text="Planned" /></div>
                                         </ItemTemplate>
                                     </asp:TemplateColumn>
                                     <asp:TemplateColumn runat="server" HeaderText="Status" ItemStyle-Width="80" ItemStyle-VerticalAlign="Top">

@@ -276,8 +276,9 @@ Namespace QIS.Web
                 Case CSSToolbarItem.tidRefresh
                     pnlAddNew.Visible = False
                     pnlIssueResponse.Visible = False
-                    SetDataGrid()
-                    SetDataGridPlannedByTeam()
+                    If pnlDetailPlanned.Visible Then SetDataGrid()
+                    If pnlPlannedByTeam.Visible Then SetDataGridPlannedByTeam()
+                    If pnlPlannedByProject.Visible Then SetDataGridPlannedByProject()
                     prepareDDLUserIDAssignedToFilter()
             End Select
         End Sub
@@ -358,7 +359,7 @@ Namespace QIS.Web
         End Sub
 
         Private Sub prepareDDL()
-            commonFunction.SetDDL_Table(ddlProjectGroupFilter, "ProjectGroup", MyBase.LoggedOnUserID.Trim, False)
+            commonFunction.SetDDL_Table(ddlProjectGroupFilter, "ProjectGroup", MyBase.LoggedOnUserID.Trim, True, "All Project Group", "All")
             commonFunction.SetDDL_Table(ddlProjectFilter, "ProjectUser", MyBase.LoggedOnUserID.Trim, True, "All Project", "All")
             commonFunction.SetDDL_Table(ddlIssueStatusFilter, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "All Issue Status", "All")
             commonFunction.SetDDL_Table(ddlProductRoadmap, "CommonCode", Common.Constants.GroupCode.ProductRoadmap_SCode, True, "Not Set")
@@ -373,7 +374,7 @@ Namespace QIS.Web
         End Sub
 
         Private Sub prepareDDLFilter()
-            commonFunction.SetDDL_Table(ddlProjectGroupFilter, "ProjectGroup", MyBase.LoggedOnUserID.Trim, False)
+            commonFunction.SetDDL_Table(ddlProjectGroupFilter, "ProjectGroup", MyBase.LoggedOnUserID.Trim, True, "All Project Group", "All")
             commonFunction.SetDDL_Table(ddlProjectFilter, "ProjectUser", MyBase.LoggedOnUserID.Trim, True, "All Project", "All")
             commonFunction.SetDDL_Table(ddlIssueStatusFilter, "CommonCode", Common.Constants.GroupCode.IssueStatus_SCode, True, "All Issue Status", "All")
             commonFunction.SetDDL_UserIDAssignedPlanned(ddlUserIDAssignedToFilter, calStartDate.selectedDate, calEndDate.selectedDate, ddlProjectGroupFilter.SelectedValue.Trim, True, "Everyone", "All")
