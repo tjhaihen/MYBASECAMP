@@ -297,9 +297,13 @@ Namespace QIS.Web
         End Sub
 
         Private Sub PrepareScreenIssueResponse()
+            Response_lblResponseID.Text = String.Empty
             Response_calResponseDate.selectedDate = Date.Today
+            Response_txtResponseTimeStart.Text = Format(Date.Now, "hh:mm")
+            Response_txtResponseDuration.Text = "0"
             Response_txtResponseDescription.Text = String.Empty
-            commonFunction.Focus(Me, Response_txtResponseDescription.ClientID)
+            Response_chkIsShared.Checked = False
+            commonFunction.Focus(Me, Response_txtResponseTimeStart.ClientID)
         End Sub
 
         Private Function GetFirstDayForWeek(ByVal inputDate As DateTime, ByVal isLastWeek As Boolean) As DateTime
@@ -383,15 +387,18 @@ Namespace QIS.Web
         End Sub
 
         Private Sub _openIssueForResponse()
-            Dim oBR As New Common.BussinessRules.Issue
+            Dim oBR As New Common.BussinessRules.IssueResponse
             With oBR
-                .IssueID = Response_lblIssueID.Text.Trim
+                .ResponseID = Response_lblResponseID.Text.Trim
                 If .SelectOne.Rows.Count > 0 Then
-                    Response_lblDepartmentName.Text = .DepartmentName.Trim
-                    Response_lblIssueDescription.Text = .IssueDescription.Trim
+                    Response_calResponseDate.selectedDate = .ResponseDate
+                    Response_txtResponseTimeStart.Text = .ResponseTimeStart.Trim
+                    Response_txtResponseDuration.Text = .ResponseDuration.ToString.Trim
+                    Response_ddlResponseType.SelectedValue = .ResponseTypeSCode.Trim
+                    Response_txtResponseDescription.Text = .ResponseDescription.Trim
+                    Response_chkIsShared.Checked = .isShared
                 Else
-                    Response_lblDepartmentName.Text = String.Empty
-                    Response_lblIssueDescription.Text = String.Empty
+                    PrepareScreenIssueResponse()
                 End If
             End With
             oBR.Dispose()
@@ -445,6 +452,10 @@ Namespace QIS.Web
                 .IssueID = Response_lblIssueID.Text.Trim
                 .ResponseDescription = Response_txtResponseDescription.Text.Trim
                 .ResponseDate = Response_calResponseDate.selectedDate
+                .ResponseTimeStart = Response_txtResponseTimeStart.Text.Trim
+                .ResponseDuration = CInt(IIf(IsNumeric(Response_txtResponseDuration.Text.Trim), Response_txtResponseDuration.Text.Trim, 0).ToString.Trim)
+                .ResponseTypeSCode = Response_ddlResponseType.SelectedItem.Value.Trim
+                .isShared = Response_chkIsShared.Checked
                 .userIDinsert = MyBase.LoggedOnUserID.Trim
                 .userIDupdate = MyBase.LoggedOnUserID.Trim
                 If fNew Then

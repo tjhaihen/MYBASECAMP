@@ -19,6 +19,7 @@
             Public Const WorktimeReport_SCode As String = "WORKTIMEREPORT"
             Public Const WorkLocation_SCode As String = "WORKLOCATION"
             Public Const DocumentType_SCode As String = "DOCTYPE"
+            Public Const IncidentSeverity_SCode As String = "INSEV"
 
             Public Const EMRAssessmentType_SCode As String = "ASSESSMENTTYPE"
 

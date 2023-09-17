@@ -537,6 +537,33 @@ Namespace QIS.Web
         Protected WithEvents Response_calResponseDate As Global.QIS.Web.Calendar
 
         '''<summary>
+        '''Response_txtResponseTimeStart control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_txtResponseTimeStart As Global.eWorld.UI.MaskedTextBox
+
+        '''<summary>
+        '''Response_txtResponseDuration control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_txtResponseDuration As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''Response_ddlResponseType control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_ddlResponseType As Global.System.Web.UI.WebControls.DropDownList
+
+        '''<summary>
         '''Response_txtResponseDescription control.
         '''</summary>
         '''<remarks>
@@ -562,6 +589,15 @@ Namespace QIS.Web
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents Response_lblResponseID As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''Response_chkIsShared control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents Response_chkIsShared As Global.System.Web.UI.WebControls.CheckBox
 
         '''<summary>
         '''Response_btnSaveAndNew control.

@@ -9,6 +9,7 @@
 
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
+<%@ Register TagPrefix="ew" Namespace="eWorld.UI" Assembly="eWorld.UI, Version=1.9.0.0, Culture=neutral, PublicKeyToken=24d65337282035f2" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
@@ -522,8 +523,29 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td class="right" style="background: #ffffff;">
+                                                        Time Start
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <ew:MaskedTextBox ID="Response_txtResponseTimeStart" runat="server" Width="100">
+                                                        </ew:MaskedTextBox>
+                                                        &nbsp;&nbsp;Duration
+                                                        <asp:TextBox ID="Response_txtResponseDuration" runat="server" Width="60"></asp:TextBox>
+                                                        Minutes
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #ffffff;">
+                                                        Response Type
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <asp:DropDownList ID="Response_ddlResponseType" runat="server" Width="360">
+                                                        </asp:DropDownList>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td class="right" style="width: 100; background: #ffffff; color: #666666;">
-                                                        Response
+                                                        Response Description
                                                     </td>
                                                     <td style="background: #ffffff;">
                                                         <asp:TextBox ID="Response_txtResponseDescription" runat="server" Width="360" TextMode="MultiLine"
@@ -534,6 +556,14 @@
                                                             Text="required">
                                                         </asp:RequiredFieldValidator>
                                                         <asp:Label ID="Response_lblResponseID" runat="server" Visible="false"></asp:Label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right" style="background: #ffffff;">
+                                                        <asp:CheckBox ID="Response_chkIsShared" runat="server" Text="Shared?" />
+                                                    </td>
+                                                    <td style="background: #ffffff;">
+                                                        <font style="color: Red;">Shared response will be printed on Issue Ticket Form</font>
                                                     </td>
                                                 </tr>
                                             </table>

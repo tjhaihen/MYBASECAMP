@@ -144,6 +144,8 @@
     <Compile Include="BusinessRule\EMR\Worklist.vb" />
     <Compile Include="BusinessRule\File.vb" />
     <Compile Include="BusinessRule\ID.vb" />
+    <Compile Include="BusinessRule\incidentChronological.vb" />
+    <Compile Include="BusinessRule\IncidentInvestigation.vb" />
     <Compile Include="BusinessRule\Issue.vb" />
     <Compile Include="BusinessRule\IssueResponse.vb" />
     <Compile Include="BusinessRule\Laboratorium.vb" />
