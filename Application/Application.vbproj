@@ -553,6 +553,13 @@
       <DependentUpon>BedInformationSummary.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\Utilities\BedInformationSummaryUpdate.aspx.designer.vb">
+      <DependentUpon>BedInformationSummaryUpdate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Utilities\BedInformationSummaryUpdate.aspx.vb">
+      <DependentUpon>BedInformationSummaryUpdate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Secure\Utilities\DrugInteractionInfo.aspx.designer.vb">
       <DependentUpon>DrugInteractionInfo.aspx</DependentUpon>
     </Compile>
@@ -765,6 +772,7 @@
     <Content Include="Secure\Urgent.aspx" />
     <Content Include="Secure\Utilities\BedInformation.aspx" />
     <Content Include="Secure\Utilities\BedInformationSummary.aspx" />
+    <Content Include="Secure\Utilities\BedInformationSummaryUpdate.aspx" />
     <Content Include="Secure\Utilities\DrugInteractionInfo.aspx" />
     <Content Include="Secure\Utilities\PatientMedicalRecord.aspx" />
     <Content Include="Secure\Utilities\PharmacyPrescriptionInfo.aspx" />
@@ -789,7 +797,6 @@
     <EmbeddedResource Include="Logout.aspx.resx">
       <DependentUpon>Logout.aspx.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="Secure\Informasi\TransaksiLab\Hasil.aspx.resx">
       <DependentUpon>Hasil.aspx.vb</DependentUpon>
     </EmbeddedResource>
@@ -883,6 +890,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="My Project\" />
     <Folder Include="Secure\MSExcelTemplates\" />
     <Folder Include="SharedLibs\Tools\" />
     <Folder Include="Uploads\DataFiles\" />
