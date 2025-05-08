@@ -178,6 +178,7 @@
     <Compile Include="BusinessRule\UserManagement\UserProfile.vb" />
     <Compile Include="BusinessRule\UserManagement\UserSite.vb" />
     <Compile Include="BusinessRule\Utility.vb" />
+    <Compile Include="BusinessRule\WorkTime\ChecklistInfrastruktur.vb" />
     <Compile Include="BusinessRule\WorkTime\WorkTimeDt.vb" />
     <Compile Include="BusinessRule\WorkTime\WorkTimeHd.vb" />
     <Compile Include="bussinessRulesBase.vb" />

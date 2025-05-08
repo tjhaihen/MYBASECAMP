@@ -240,6 +240,11 @@
       <DependentUpon>Activity.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\AssetRegistrasi\Aktiva.aspx.vb">
+      <DependentUpon>Aktiva.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\AssetRegistrasi\PrintOtomatis.vb" />
     <Compile Include="Secure\Balance\AccountingBalance.aspx.designer.vb">
       <DependentUpon>AccountingBalance.aspx</DependentUpon>
     </Compile>
@@ -599,6 +604,13 @@
       <DependentUpon>card.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\WorkTime\CheckListServer.aspx.designer.vb">
+      <DependentUpon>CheckListServer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\WorkTime\CheckListServer.aspx.vb">
+      <DependentUpon>CheckListServer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Secure\WorkTime\dashboard.aspx.designer.vb">
       <DependentUpon>dashboard.aspx</DependentUpon>
     </Compile>
@@ -724,6 +736,9 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="searchlist.aspx" />
     <Content Include="Secure\Activity.aspx" />
+    <Content Include="Secure\AssetRegistrasi\Aktiva.aspx" />
+    <Content Include="Secure\AssetRegistrasi\Aktiva_AddNewRow.Incl.aspx" />
+    <Content Include="Secure\AssetRegistrasi\Aktiva_DataGrid.Incl.aspx" />
     <Content Include="Secure\Balance\AccountingBalance.aspx" />
     <Content Include="Secure\Budget\BudgetAccount.aspx" />
     <Content Include="Secure\Budget\BudgetPurchasing.aspx" />
@@ -780,6 +795,7 @@
     <Content Include="Secure\Utilities\TransactionNumbering\Default.aspx" />
     <Content Include="Secure\Web.config" />
     <Content Include="Secure\WorkTime\card.aspx" />
+    <Content Include="Secure\WorkTime\CheckListServer.aspx" />
     <Content Include="Secure\WorkTime\dashboard.aspx" />
     <Content Include="Secure\WorkTime\main.aspx" />
     <Content Include="Web.config">
@@ -796,6 +812,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Logout.aspx.resx">
       <DependentUpon>Logout.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Secure\AssetRegistrasi\Aktiva.aspx.resx">
+      <DependentUpon>Aktiva.aspx.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Secure\Informasi\TransaksiLab\Hasil.aspx.resx">
       <DependentUpon>Hasil.aspx.vb</DependentUpon>
@@ -907,15 +926,14 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1450</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost/mybasecamp/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost/Medinfras/MYBASECAMP/Application/logon.aspx</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
