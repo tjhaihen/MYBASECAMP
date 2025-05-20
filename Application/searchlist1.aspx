@@ -5,11 +5,9 @@
 <head id="Head1" runat="server">
     <title>
         <asp:Literal ID="litSearchList" runat="server" Text="" /></title>
-    <link rel="shortcut icon" type="image/x-icon" href="/qislib/images/qisicon.ico" />
-    <link rel="Stylesheet" type="text/css" href="/qislib/css/styles.css" />
-
-    <script language="javascript" src="/qislib/scripts/JScript.js"></script>
-
+    <link rel="shortcut icon" type="image/x-icon" href="/qistoollib/images/favicon.ico" />
+    <link rel="Stylesheet" type="text/css" href="/qistoollib/css/styles_blue.css" />
+    <script language="javascript" src="/qistoollib/scripts/JScript.js"></script>
 </head>
 <body onload="ffocus('txtFilterValue')" onkeydown="closeWindow_Escape(event.keyCode)">
     <form id="form1" runat="server">
@@ -17,29 +15,30 @@
         <tr>
             <td valign="top" style="height: 32px;">
                 <table cellspacing="0" cellpadding="1" width="100%" border="0">
-                    <tr class="rfieldgroup">
-                        <td style="text-align: right; width: 50px">
-                            <asp:Label ID="Label2" runat="server" Text="Show" />
-                        </td>
-                        <td style="width: 50px">
-                            <asp:TextBox ID="txtMaxRecord" runat="server" Text="" Style="text-align: center"
-                                MaxLength="4" Width="30px" />
+                    <tr class="menu_gray">
+                        <td align="left" style="width: 100px; padding: 0 0 0 5px;">
+                            Count:
+                            <asp:Label ID="lblSearchResults" runat="server" />
                         </td>
                         <td style="text-align: right; width: 100px">
-                            <asp:Label ID="Label1" runat="server" Text="Filter value" />
+                            <asp:Label ID="lblFilterValueCaption" runat="server" Text="Filter value" />&nbsp;
                         </td>
-                        <td style="width: 300px">
+                        <td style="width: 220px">
                             <asp:TextBox ID="txtFilterValue" runat="server" Text="" onkeypress="javascript:PostBackCtrlID_Enter(event.keyCode,'linkApplyFilter');"
                                 onfocus="javascript:setSelectionRange('txtFilterValue');" Width="200px" />
-                            <asp:LinkButton ID="linkApplyFilter" runat="server" Width="60px" Text="Apply" Visible="false" />
-                            <asp:Button ID="btnApplyFilter" runat="server" Text=" Apply " CssClass="sbttn" Height="24px" />
-                            &nbsp;
                             <asp:Label ID="lblSearchProcedure" runat="server" Style="display: none" />
                             <asp:Label ID="lblSearchCode" runat="server" Style="display: none" />
                         </td>
-                        <td align="Right" style="width: 100px">
-                            [Count:
-                            <asp:Label ID="lblSearchResults" runat="server" />]
+                        <td style="text-align: right; width: 50px">
+                            <asp:Label ID="lblShowCaption" runat="server" Text="Show" />&nbsp;
+                        </td>
+                        <td style="width: 150px">
+                            <asp:TextBox ID="txtMaxRecord" runat="server" Text="" Style="text-align: center"
+                                MaxLength="4" Width="50px" />
+                        </td>
+                        <td align="right" style="padding: 0 5px 0 0;">
+                            <asp:LinkButton ID="linkApplyFilter" runat="server" Width="60px" Text="Apply" Visible="false" />
+                            <asp:Button ID="btnApplyFilter" runat="server" Text="Go" CssClass="sbttn" Height="24px" />
                         </td>
                     </tr>
                 </table>
@@ -52,11 +51,11 @@
                         <!-- PAGE CONTENT BEGIN HERE -->
                         <tr>
                             <td valign="top" colspan="2" style="height: 100%;">
-                                <asp:DataGrid ID="grdSearchList" runat="server" BorderWidth="0"
-                                    GridLines="None" Width="100%" CellPadding="2" CellSpacing="1">
+                                <asp:DataGrid ID="grdSearchList" runat="server" BorderWidth="0" GridLines="None"
+                                    Width="100%" CellPadding="2" CellSpacing="1">
                                     <HeaderStyle HorizontalAlign="Left" CssClass="gridHeaderStyle" />
-                                    <ItemStyle HorizontalAlign="Left" BackColor="#EEEEEE" ForeColor="#000000" />
-                                    <AlternatingItemStyle HorizontalAlign="Left" BackColor="#DDDDDD" ForeColor="#000000" />
+                                    <ItemStyle CssClass="gridItemStyle" />
+                                    <AlternatingItemStyle CssClass="gridAlternatingItemStyle" />
                                     <PagerStyle Mode="NumericPages" HorizontalAlign="right" />
                                     <Columns>
                                         <asp:TemplateColumn runat="server" HeaderText="" HeaderStyle-HorizontalAlign="Center"

@@ -77,24 +77,111 @@ Namespace QIS.Web.WorkTime
         Private Sub setToolbarVisibleButton()
             With CSSToolbar
                 .VisibleButton(CSSToolbarItem.tidVoid) = False
-                .VisibleButton(CSSToolbarItem.tidPrint) = False
+                '.VisibleButton(CSSToolbarItem.tidPrint) = False
                 .VisibleButton(CSSToolbarItem.tidPrevious) = False
                 .VisibleButton(CSSToolbarItem.tidNext) = False
                 .VisibleButton(CSSToolbarItem.tidDownload) = False
                 .VisibleButton(CSSToolbarItem.tidNew) = False
+                .VisibleButton(CSSToolbarItem.tidDelete) = False
             End With
         End Sub
 
         Private Sub mdlToolbar_commandBarClick(ByVal sender As Object, ByVal e As CSSToolbarItem) Handles CSSToolbar.CSSToolbarItemClick
             Select Case e
-                Case CSSToolbarItem.tidDelete
-                    Delete()
-                    'Case CSSToolbarItem.tidNew
-                    '    PrepareScreen()
+                Case CSSToolbarItem.tidVoid
+                    Dim comm As New Common.BussinessRules.CommonCode
+                    Dim oCheck As New Common.BussinessRules.ChecklistInfrastruktur
+                    Dim isApprove As Boolean
+                    Dim isValidasi As Boolean
+                    With oCheck
+                        .Tanggal = CDate(lblSelectedDate.Text.Trim)
+                        If .SelectOne.Rows.Count > 0 Then
+                            isApprove = .isApprove
+                            isValidasi = .isValidation
+                        Else
+                            isApprove = False
+                            isValidasi = False
+                        End If
+
+                        If isValidasi = True Then
+                            With comm
+                                .Code = "DIR"
+                                .GroupCode = "Direktur"
+                                .SelectOne()
+                                If .Value = Me.LoggedOnUserID Then
+                                    UpdateValidasi(False)
+                                Else
+                                    Throw New Exception("Data sudah validasi, void hanya dapat dilakukan oleh Direktur")
+                                    Exit Sub
+                                End If
+                            End With
+                            comm.Dispose()
+                            comm = Nothing
+                        ElseIf isApprove = True And isValidasi = False Then
+                            With comm
+                                .Code = "MGRITS"
+                                .GroupCode = "ManagerITS"
+                                .SelectOne()
+                                If .Value = Me.LoggedOnUserID Then
+                                    UpdateValidasi(False)
+                                Else
+                                    Throw New Exception("Data sudah approval, void hanya dapat dilakukan oleh Manager ITS")
+                                    Exit Sub
+                                End If
+                            End With
+                            comm.Dispose()
+                            comm = Nothing
+                        Else
+                            Delete()
+                        End If
+                    End With
+                    oCheck.Dispose()
+                    oCheck = Nothing
                 Case CSSToolbarItem.tidSave
                     InsertUpdate(False)
                 Case CSSToolbarItem.tidApprove
+                    Dim comm As New Common.BussinessRules.CommonCode
+                    With comm
+                        .Code = "MGRITS"
+                        .GroupCode = "ManagerITS"
+                        .SelectOne()
+                        If .Value = Me.LoggedOnUserID Then
+                            UpdateValidasi(True)
+                        Else
+                            Throw New Exception("Approval hanya dapat dilakukan oleh Manager ITS")
+                            Exit Sub
+                        End If
+                    End With
+                    comm.Dispose()
+                    comm = Nothing
+                Case CSSToolbarItem.tidPrint
+                    'Dim result As String
+                    Dim br As New Common.BussinessRules.MyReport
+                    With br
+                        .ReportCode = "9001"
+                        .AddParameters(txtYear.Text.Trim)
+                        .AddParameters(ddlMonth.SelectedValue)
+                        Response.Write(.UrlPrintPreview(Context.Request.Url.Host, "", ""))
+                    End With
+                    br.Dispose()
+                    br = Nothing
+                Case CSSToolbarItem.tidPropose
                     InsertUpdate(True)
+                Case CSSToolbarItem.tidValidation
+                    Dim comm As New Common.BussinessRules.CommonCode
+                    With comm
+                        .Code = "DIR"
+                        .GroupCode = "Direktur"
+                        .SelectOne()
+                        If .Value = Me.LoggedOnUserID Then
+                            UpdateValidasi(True)
+                        Else
+                            Throw New Exception("Validasi hanya dapat dilakukan oleh Direktur")
+                            Exit Sub
+                        End If
+                    End With
+                    comm.Dispose()
+                    comm = Nothing
             End Select
         End Sub
 #End Region
@@ -171,17 +258,30 @@ Namespace QIS.Web.WorkTime
                     .Keterangan = _keterangan.Text.Trim
                     .isCheck = _pilih.Checked
                     .Catatan = _catatan.Text.Trim
-                    .isApprove = _isApprove
+                    .isPropose = _isApprove
                     .User = Me.LoggedOnUserID.Trim
 
                     If isNew Then
                         .Insert()
                     Else
-                        '.isApprove = _isApprove
                         .Update()
                     End If
                 End With
             Next
+            oChecklist.Dispose()
+            oChecklist = Nothing
+            Open()
+        End Sub
+
+        Private Sub UpdateValidasi(ByVal _valid As Boolean)
+            Page.Validate()
+            If Not Page.IsValid Then Exit Sub
+            Dim oChecklist As New Common.BussinessRules.ChecklistInfrastruktur
+            With oChecklist
+                .isApprove = _valid
+                .User = Me.LoggedOnUserID.Trim
+                .UpdateValidasi(txtYear.Text.Trim, ddlMonth.SelectedValue.Trim)
+            End With
             oChecklist.Dispose()
             oChecklist = Nothing
             Open()
@@ -197,14 +297,34 @@ Namespace QIS.Web.WorkTime
                 Else
                     isApprove = False
                 End If
-                If isApprove = True Then
+                If .isPropose = True And isApprove = True And .isValidation = True Then
                     CSSToolbar.VisibleButton(CSSToolbarItem.tidSave) = False
-                    CSSToolbar.VisibleButton(CSSToolbarItem.tidDelete) = True
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidVoid) = True
                     CSSToolbar.VisibleButton(CSSToolbarItem.tidApprove) = False
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidValidation) = False
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidPropose) = False
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidPrint) = True
+                ElseIf .isPropose = True And isApprove = True And .isValidation = False Then
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidSave) = False
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidVoid) = True
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidApprove) = False
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidValidation) = True
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidPropose) = False
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidPrint) = True
+                ElseIf .isPropose = True And isApprove = False And .isValidation = False Then
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidSave) = False
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidVoid) = True
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidApprove) = True
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidValidation) = False
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidPropose) = False
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidPrint) = False
                 Else
                     CSSToolbar.VisibleButton(CSSToolbarItem.tidSave) = True
-                    CSSToolbar.VisibleButton(CSSToolbarItem.tidDelete) = False
-                    CSSToolbar.VisibleButton(CSSToolbarItem.tidApprove) = True
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidVoid) = True
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidApprove) = False
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidValidation) = False
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidPropose) = True
+                    CSSToolbar.VisibleButton(CSSToolbarItem.tidPrint) = False
                 End If
             End With
             oChecklist.Dispose()

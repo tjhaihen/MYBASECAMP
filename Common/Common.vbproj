@@ -129,6 +129,7 @@
     <Compile Include="BusinessRule\Budget\Budget.vb" />
     <Compile Include="BusinessRule\CommonCode.vb" />
     <Compile Include="BusinessRule\Company.vb" />
+    <Compile Include="BusinessRule\CryptoHelper.vb" />
     <Compile Include="BusinessRule\Customer.vb" />
     <Compile Include="BusinessRule\Documents.vb" />
     <Compile Include="BusinessRule\DrugInteraction\DrugGenericMtx.vb" />
@@ -143,6 +144,7 @@
     <Compile Include="BusinessRule\EMR\PatientDocument.vb" />
     <Compile Include="BusinessRule\EMR\Worklist.vb" />
     <Compile Include="BusinessRule\File.vb" />
+    <Compile Include="BusinessRule\Hardening.vb" />
     <Compile Include="BusinessRule\ID.vb" />
     <Compile Include="BusinessRule\incidentChronological.vb" />
     <Compile Include="BusinessRule\IncidentInvestigation.vb" />

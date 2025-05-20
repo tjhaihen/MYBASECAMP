@@ -30,6 +30,7 @@ Namespace QIS
         tidPropose = 9
         tidAttach = 10
         tidDownload = 11
+        tidValidation = 12
     End Enum
 
     Public MustInherit Class CSSToolbar
@@ -133,6 +134,8 @@ Namespace QIS
                         Return TMpnlAttach.Visible
                     Case CSSToolbarItem.tidDownload
                         Return TMPnlDownload.Visible
+                    Case CSSToolbarItem.tidValidation
+                        Return TMPnlValidation.Visible
                 End Select
             End Get
             Set(ByVal Value As Boolean)
@@ -168,6 +171,8 @@ Namespace QIS
                         TMpnlAttach.Visible = Value
                     Case CSSToolbarItem.tidDownload
                         TMPnlDownload.Visible = Value
+                    Case CSSToolbarItem.tidValidation
+                        TMPnlValidation.Visible = Value
                 End Select
             End Set
         End Property
@@ -200,6 +205,8 @@ Namespace QIS
                     RaiseEvent CSSToolbarItemClick(sender, CSSToolbarItem.tidAttach)
                 Case lbtnDownload.ClientID
                     RaiseEvent CSSToolbarItemClick(sender, CSSToolbarItem.tidDownload)
+                Case lbtnValidation.ClientID
+                    RaiseEvent CSSToolbarItemClick(sender, CSSToolbarItem.tidValidation)
             End Select
         End Sub
 

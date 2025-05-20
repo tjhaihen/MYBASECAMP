@@ -285,6 +285,24 @@ Namespace QIS
         Protected WithEvents lbtnNext As Global.System.Web.UI.WebControls.LinkButton
 
         '''<summary>
+        '''TMPnlValidation control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents TMPnlValidation As Global.System.Web.UI.WebControls.Panel
+
+        '''<summary>
+        '''lbtnValidation control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents lbtnValidation As Global.System.Web.UI.WebControls.LinkButton
+
+        '''<summary>
         '''lblMenuID control.
         '''</summary>
         '''<remarks>

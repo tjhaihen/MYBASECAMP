@@ -273,6 +273,13 @@
       <DependentUpon>ChangePassword.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\ChecklistInfrastruktur\CheckListServer.aspx.designer.vb">
+      <DependentUpon>CheckListServer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\ChecklistInfrastruktur\CheckListServer.aspx.vb">
+      <DependentUpon>CheckListServer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Secure\CommonCode.aspx.designer.vb">
       <DependentUpon>CommonCode.aspx</DependentUpon>
     </Compile>
@@ -307,6 +314,13 @@
     <Compile Include="Secure\Dashboard\Dashboard02.aspx.vb">
       <DependentUpon>Dashboard02.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Hardening\Hardening.aspx.designer.vb">
+      <DependentUpon>Hardening.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Secure\Hardening\Hardening.aspx.vb">
+      <DependentUpon>Hardening.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Secure\IncidentInvestigation.aspx.designer.vb">
       <DependentUpon>IncidentInvestigation.aspx</DependentUpon>
@@ -523,6 +537,10 @@
       <DependentUpon>ReportImage.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\Reports\Default.aspx.vb">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Secure\SystemParameter.aspx.designer.vb">
       <DependentUpon>SystemParameter.aspx</DependentUpon>
     </Compile>
@@ -603,13 +621,6 @@
     <Compile Include="Secure\WorkTime\card.aspx.vb">
       <DependentUpon>card.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="Secure\WorkTime\CheckListServer.aspx.designer.vb">
-      <DependentUpon>CheckListServer.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Secure\WorkTime\CheckListServer.aspx.vb">
-      <DependentUpon>CheckListServer.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Secure\WorkTime\dashboard.aspx.designer.vb">
       <DependentUpon>dashboard.aspx</DependentUpon>
@@ -743,11 +754,13 @@
     <Content Include="Secure\Budget\BudgetAccount.aspx" />
     <Content Include="Secure\Budget\BudgetPurchasing.aspx" />
     <Content Include="Secure\ChangePassword.aspx" />
+    <Content Include="Secure\ChecklistInfrastruktur\CheckListServer.aspx" />
     <Content Include="Secure\CommonCode.aspx" />
     <Content Include="Secure\CustomerPage\CustomerDashboard.aspx" />
     <Content Include="Secure\CustomerPage\CustomerMain.aspx" />
     <Content Include="Secure\Dashboard\Dashboard01.aspx" />
     <Content Include="Secure\Dashboard\Dashboard02.aspx" />
+    <Content Include="Secure\Hardening\Hardening.aspx" />
     <Content Include="Secure\IncidentInvestigation.aspx" />
     <Content Include="Secure\PatchManagement\PatchGroup.aspx" />
     <Content Include="Secure\PrintTicket.aspx" />
@@ -782,6 +795,7 @@
     <Content Include="Secure\ProjectGroup.aspx" />
     <Content Include="Secure\ProjectTimeline.aspx" />
     <Content Include="Secure\ReportImage.aspx" />
+    <Content Include="Secure\Reports\Default.aspx" />
     <Content Include="Secure\SystemParameter.aspx" />
     <Content Include="Secure\TicketManagement.aspx" />
     <Content Include="Secure\Urgent.aspx" />
@@ -795,7 +809,6 @@
     <Content Include="Secure\Utilities\TransactionNumbering\Default.aspx" />
     <Content Include="Secure\Web.config" />
     <Content Include="Secure\WorkTime\card.aspx" />
-    <Content Include="Secure\WorkTime\CheckListServer.aspx" />
     <Content Include="Secure\WorkTime\dashboard.aspx" />
     <Content Include="Secure\WorkTime\main.aspx" />
     <Content Include="Web.config">
@@ -826,6 +839,9 @@
       <DependentUpon>Hasil.aspx.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Secure\licenses.licx" />
+    <EmbeddedResource Include="Secure\Reports\Default.aspx.resx">
+      <DependentUpon>Default.aspx.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Secure\Utilities\TransactionNumbering\Default.aspx.resx">
       <DependentUpon>Default.aspx.vb</DependentUpon>
     </EmbeddedResource>

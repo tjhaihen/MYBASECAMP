@@ -13,7 +13,7 @@ Namespace QIS.Common.BussinessRules
 #Region " Class Member Declarations "
         Private _kode, _keterangan, _status, _catatan, _user As String
         Private _worktimeinhour As Integer
-        Private _isCheck, _isApprove As Boolean
+        Private _isCheck, _isApprove, _isPropose, _isValidation As Boolean
         Private _tanggal As DateTime
 #End Region
 
@@ -37,7 +37,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@Tanggal", _tanggal)
                 cmdToExecute.Parameters.AddWithValue("@isCheck", _isCheck)
                 cmdToExecute.Parameters.AddWithValue("@Catatan", _catatan)
-                cmdToExecute.Parameters.AddWithValue("@isApprove", _isApprove)
+                cmdToExecute.Parameters.AddWithValue("@isPropose", _isPropose)
                 cmdToExecute.Parameters.AddWithValue("@usrinsert", _user)
 
                 ' // Open Connection
@@ -65,7 +65,7 @@ Namespace QIS.Common.BussinessRules
                 cmdToExecute.Parameters.AddWithValue("@Tanggal", _tanggal)
                 cmdToExecute.Parameters.AddWithValue("@isCheck", _isCheck)
                 cmdToExecute.Parameters.AddWithValue("@Catatan", _catatan)
-                cmdToExecute.Parameters.AddWithValue("@isApprove", _isApprove)
+                cmdToExecute.Parameters.AddWithValue("@isPropose", _isPropose)
                 cmdToExecute.Parameters.AddWithValue("@usrinsert", _user)
 
                 ' // Open Connection
@@ -137,7 +137,9 @@ Namespace QIS.Common.BussinessRules
                     _status = CType(toReturn.Rows(0)("value"), String)
                     _isCheck = CType(toReturn.Rows(0)("isCheck"), Boolean)
                     _catatan = CType(toReturn.Rows(0)("Catatan"), String)
+                    _isPropose = CType(toReturn.Rows(0)("isPropose"), Boolean)
                     _isApprove = CType(toReturn.Rows(0)("isApprove"), Boolean)
+                    _isValidation = CType(toReturn.Rows(0)("isValidation"), Boolean)
                 End If
             Catch ex As Exception
                 ' // some error occured. Bubble it to caller and encapsulate Exception object
@@ -177,7 +179,9 @@ Namespace QIS.Common.BussinessRules
                     _status = CType(toReturn.Rows(0)("value"), String)
                     _isCheck = CType(toReturn.Rows(0)("isCheck"), Boolean)
                     _catatan = CType(toReturn.Rows(0)("Catatan"), String)
+                    _isPropose = CType(toReturn.Rows(0)("isPropose"), Boolean)
                     _isApprove = CType(toReturn.Rows(0)("isApprove"), Boolean)
+                    _isValidation = CType(toReturn.Rows(0)("isValidation"), Boolean)
                 End If
             Catch ex As Exception
                 ' // some error occured. Bubble it to caller and encapsulate Exception object
@@ -202,6 +206,33 @@ Namespace QIS.Common.BussinessRules
             Try
                 cmdToExecute.Parameters.AddWithValue("@usrinsert", _user)
                 cmdToExecute.Parameters.AddWithValue("@Tanggal", _tanggal)
+
+                ' // Open Connection
+                _mainConnection.Open()
+
+                ' // Execute Query
+                cmdToExecute.ExecuteNonQuery()
+
+                Return True
+            Catch ex As Exception
+                ExceptionManager.Publish(ex)
+            Finally
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+            End Try
+        End Function
+
+        Public Function UpdateValidasi(ByVal _tahun As String, _bulan As String) As Boolean
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "sp_CheckListInfrastruktur_UpdateValidasi"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@isApprove", _isApprove)
+                cmdToExecute.Parameters.AddWithValue("@tahun", _tahun)
+                cmdToExecute.Parameters.AddWithValue("@bulan", _bulan)
+                cmdToExecute.Parameters.AddWithValue("@user", _user)
 
                 ' // Open Connection
                 _mainConnection.Open()
@@ -289,6 +320,24 @@ Namespace QIS.Common.BussinessRules
             End Get
             Set(value As DateTime)
                 _tanggal = value
+            End Set
+        End Property
+
+        Public Property [isPropose]() As Boolean
+            Get
+                Return _isPropose
+            End Get
+            Set(ByVal Value As Boolean)
+                _isPropose = Value
+            End Set
+        End Property
+
+        Public Property [isValidation]() As Boolean
+            Get
+                Return _isValidation
+            End Get
+            Set(ByVal Value As Boolean)
+                _isValidation = Value
             End Set
         End Property
 #End Region

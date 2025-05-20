@@ -22,16 +22,6 @@ Namespace QIS
         Inherits PageBase
 
 #Region " Control Events "
-        'Protected WithEvents grdSearchList As System.Web.UI.WebControls.DataGrid
-        'Protected WithEvents btnApplyFilter As System.Web.UI.WebControls.Button
-        'Protected WithEvents txtFilterValue As System.Web.UI.WebControls.TextBox
-        'Protected WithEvents linkApplyFilter As System.Web.UI.WebControls.LinkButton
-        'Protected WithEvents lblSearchCode As System.Web.UI.WebControls.Label
-        'Protected WithEvents lblSearchResults As System.Web.UI.WebControls.Label
-        'Protected WithEvents lblSearchProcedure As System.Web.UI.WebControls.Label
-        'Protected WithEvents txtMaxRecord As System.Web.UI.WebControls.TextBox
-        'Protected WithEvents litSearchList As System.Web.UI.WebControls.Literal
-
         Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
             If Me.IsPostBack Then
             Else
@@ -58,18 +48,18 @@ Namespace QIS
                     s1 = Replace(s1, "'", " ")
                     s1 = Replace(s1, """", " ")
 
-                    e.Item.Attributes.Add("onmouseover", "javascript:this.style.backgroundColor='#ffd27a';this.style.Color='#000000';this.focus;this.style.cursor='pointer';")
+                    e.Item.Attributes.Add("onmouseover", "javascript:this.style.backgroundColor='#00bcf2';this.style.color='#454545';this.focus;this.style.cursor='pointer';")
                     If e.Item.ItemType = ListItemType.Item Then
-                        e.Item.Attributes.Add("onmouseout", "javascript:this.style.backgroundColor='#eeeeee';this.style.Color='#000000'")
+                        e.Item.Attributes.Add("onmouseout", "javascript:this.style.backgroundColor='#ffffff';this.style.color='#000000'")
                     Else
-                        e.Item.Attributes.Add("onmouseout", "javascript:this.style.backgroundColor='#dddddd';this.style.Color='#000000'")
+                        e.Item.Attributes.Add("onmouseout", "javascript:this.style.backgroundColor='#eeeeee';this.style.color='#000000'")
                     End If
                     e.Item.Attributes.Add("onclick", "closeWindowPostBackReturnValue('" + s1 + "', '" + Trim(Request.QueryString("ctrlID")) + "')")
             End Select
         End Sub
 
         Private Sub btnApplyFilter_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnApplyFilter.Click
-            UpdateViewGrid(txtFilterValue.Text.Trim, Trim(Request.QueryString("param").ToString))
+            UpdateViewGrid(txtFilterValue.Text.Trim)
         End Sub
 
         Protected Sub linkApplyFilter_Click(ByVal sender As Object, ByVal e As EventArgs) Handles linkApplyFilter.Click
@@ -79,34 +69,33 @@ Namespace QIS
 
 #Region " Additional: Private Function "
         Private Function ReadQueryString() As Boolean
-            Dim b As Boolean = (Len(Trim(Request.QueryString("cd"))) > 0) And (Len(Trim(Request.QueryString("ctrlID"))) > 0)
+            Dim b As Boolean = (Len(Trim(Request.QueryString("sID"))) > 0) And (Len(Trim(Request.QueryString("ctrlID"))) > 0)
             Return b
         End Function
 
         Private Sub prepareScreen()
-            txtFilterValue.Text = CType(IIf(Trim(Request.QueryString("fvalue")) = Nothing, "", Trim(Request.QueryString("fvalue"))), String)
-            lblSearchCode.Text = Trim(Request.QueryString("cd"))
+            'txtFilterValue.Text = CType(IIf(Trim(Request.QueryString("fvalue")) = Nothing, "", Trim(Request.QueryString("fvalue"))), String)
+            txtFilterValue.Text = String.Empty
+            lblSearchCode.Text = Trim(Request.QueryString("sID"))
             _OpenSearch()
-            UpdateViewGrid(txtFilterValue.Text.Trim, Trim(Request.QueryString("param").ToString))
+            UpdateViewGrid(Trim(Request.QueryString("filterValue").ToString))
         End Sub
 
-        Private Sub UpdateViewGrid(Optional ByVal FilterValue As String = "", Optional ByVal Param As String = "")
+        Private Sub UpdateViewGrid(Optional ByVal FilterValue As String = "")
             Dim br As New Common.BussinessRules.SearchList
-            Param = CType(IIf(Param.Trim = Nothing, "", Param.Trim.Replace(commonFunction.EqualSL, "=")), String)
-            Param = CType(IIf(Param.Trim = Nothing, "", Param.Trim.Replace(commonFunction.QuoteSL, "'")), String)
-
             If IsNumeric(txtMaxRecord.Text.Trim) Then
                 If CInt(txtMaxRecord.Text.Trim) <= 0 Then
-                    txtMaxRecord.Text = "650"
+                    txtMaxRecord.Text = "50"
                 Else
                     txtMaxRecord.Text = CStr(CInt(txtMaxRecord.Text.Trim))
                 End If
             Else
-                txtMaxRecord.Text = "650"
+                txtMaxRecord.Text = "50"
             End If
 
-            br.SearchID = CStr(Trim(Request.QueryString("cd")))
-            grdSearchList.DataSource = br.SelectSearchList(CInt(txtMaxRecord.Text), Param.Trim, FilterValue.Trim).DefaultView
+            br.SearchID = CStr(Trim(Request.QueryString("sID")))
+            br.SearchProcedure = lblSearchProcedure.Text.Trim
+            grdSearchList.DataSource = br.SelectSearchList(CInt(txtMaxRecord.Text), FilterValue.Trim).DefaultView
             grdSearchList.DataBind()
 
             '// display record count
@@ -116,15 +105,14 @@ Namespace QIS
         End Sub
 #End Region
 
-
 #Region " Main Function: Open, Save Delete Data "
         Private Sub _OpenSearch()
-            If Len(Trim(Request.QueryString("cd"))) = 0 Then Exit Sub
+            If Len(Trim(Request.QueryString("sID"))) = 0 Then Exit Sub
 
             Dim br As New Common.BussinessRules.SearchList
 
             With br
-                .SearchID = CStr(Trim(Request.QueryString("cd")))
+                .SearchID = CStr(Trim(Request.QueryString("sID")))
 
                 If (.SelectOne.Rows.Count > 0) Then
                     litSearchList.Text = .SearchCaption.Trim

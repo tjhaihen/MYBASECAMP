@@ -10,125 +10,116 @@
 Option Strict On
 Option Explicit On
 
-Namespace QIS
+Namespace QIS.Web
 
-    Partial Public Class SearchList
+    Partial Public Class Hardening
 
         '''<summary>
-        '''Head1 control.
+        '''Form1 control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents Head1 As Global.System.Web.UI.HtmlControls.HtmlHead
+        Protected WithEvents Form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
         '''<summary>
-        '''litSearchList control.
+        '''RadMenu control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents litSearchList As Global.System.Web.UI.WebControls.Literal
+        Protected WithEvents RadMenu As Global.QIS.RadMenu
 
         '''<summary>
-        '''form1 control.
+        '''lblPageTitle control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
+        Protected WithEvents lblPageTitle As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
-        '''Label2 control.
+        '''CSSToolbar control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
+        Protected WithEvents CSSToolbar As Global.QIS.CSSToolbar
 
         '''<summary>
-        '''txtMaxRecord control.
+        '''lbtNoHardening control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents txtMaxRecord As Global.System.Web.UI.WebControls.TextBox
+        Protected WithEvents lbtNoHardening As Global.System.Web.UI.WebControls.LinkButton
 
         '''<summary>
-        '''Label1 control.
+        '''txtNoHardening control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
+        Protected WithEvents txtNoHardening As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
-        '''txtFilterValue control.
+        '''ddlPerangkat control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents txtFilterValue As Global.System.Web.UI.WebControls.TextBox
+        Protected WithEvents ddlPerangkat As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
-        '''linkApplyFilter control.
+        '''txtNoAsset control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents linkApplyFilter As Global.System.Web.UI.WebControls.LinkButton
+        Protected WithEvents txtNoAsset As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
-        '''btnApplyFilter control.
+        '''ddlPengguna control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents btnApplyFilter As Global.System.Web.UI.WebControls.Button
+        Protected WithEvents ddlPengguna As Global.System.Web.UI.WebControls.DropDownList
 
         '''<summary>
-        '''lblSearchProcedure control.
+        '''txtcatatan control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents lblSearchProcedure As Global.System.Web.UI.WebControls.Label
+        Protected WithEvents txtcatatan As Global.System.Web.UI.WebControls.TextBox
 
         '''<summary>
-        '''lblSearchCode control.
+        '''grdHardening control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents lblSearchCode As Global.System.Web.UI.WebControls.Label
+        Protected WithEvents grdHardening As Global.System.Web.UI.WebControls.DataGrid
 
         '''<summary>
-        '''lblSearchResults control.
+        '''mdlCopyRight control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents lblSearchResults As Global.System.Web.UI.WebControls.Label
-
-        '''<summary>
-        '''grdSearchList control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents grdSearchList As Global.System.Web.UI.WebControls.DataGrid
+        Protected WithEvents mdlCopyRight As Global.QIS.Web.copyRight
     End Class
 End Namespace

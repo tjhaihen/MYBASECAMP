@@ -96,19 +96,44 @@ Namespace QIS.Common.BussinessRules
             Return "<script language=javascript>window.open('https://www.google.com/?hl=id')</script>"
         End Function
         '--percobaan
-        Public Function UrlPrintPreview(ByVal ContextRequestUrlHost As String, Optional ByVal ModuleName As String = "basecamp") As String
+        Public Function UrlPrintPreview(ByVal ContextRequestUrlHost As String, Optional ByVal ModuleName As String = "basecamp", Optional ByVal view As String = "") As String
             If Not GetReportDataByReportCode.Rows.Count > 0 Then
                 Throw New Exception("Report ID not found")
                 Exit Function
             End If
 
-            If (_reportFormat <> "DX") Then
-                Return "<script language=javascript>window.open('http://" + ContextRequestUrlHost + SysConfig.ReportsFolder.Trim + _reportAsp.Trim + ".asp?RptName=" + _reportFileName.Trim + "&SP=" + _reportSPName.Trim + "&parm=" + _Parameters.Trim + "&moduleName=" + ModuleName.Trim + "','','status=no,resizable=yes,toolbar=no,menubar=no,location=no;')</script>"
+            Dim oComm As New QIS.Common.BussinessRules.CommonCode
+            Dim _nilai As String
+            oComm.Code = "RPT"
+            oComm.GroupCode = "UrlReport"
+            If oComm.SelectOne.Rows.Count > 0 Then
+                _nilai = oComm.Value
             Else
-                Return String.Format("<script language=javascript>window.open('/secure/PrintTicket.aspx/?&id={2}&RptName={3}&parm={4}&showCriteria={5}','','status=no,resizable=yes,toolbar=no,menubar=no,location=no;')</script>", ContextRequestUrlHost, SysConfig.ModuleAppl, _reportID.Trim, _reportFileName.Trim, _Parameters.Trim, SysConfig.IsDisplayReportCriteria)
-                'Return String.Format("<script language=javascript>window.open('http://www.google.com{0}/{1}/Libs/XReportViewer.aspx?id={2}&RptName={3}&parm={4}&showCriteria={5}','','status=no,resizable=yes,toolbar=no,menubar=no,location=no;')</script>", ContextRequestUrlHost, SysConfig.ModuleAppl, _reportID.Trim, _reportFileName.Trim, _Parameters.Trim, SysConfig.IsDisplayReportCriteria)
-                'Return String.Format("<script language=javascript>window.open('https://www.google.com/?hl=id')</script>", ContextRequestUrlHost, SysConfig.ModuleAppl, _reportID.Trim, _reportFileName.Trim, _Parameters.Trim, SysConfig.IsDisplayReportCriteria)
+                _nilai = String.Empty
             End If
+
+            If (_reportFormat <> "MRT") Then
+                Return String.Format("<script language=javascript>window.open('/secure/PrintTicket.aspx/?&id={2}&RptName={3}&parm={4}&showCriteria={5}','','status=no,resizable=yes,toolbar=no,menubar=no,location=no;')</script>", ContextRequestUrlHost, SysConfig.ModuleAppl, _reportID.Trim, _reportFileName.Trim, _Parameters.Trim, SysConfig.IsDisplayReportCriteria)
+            Else
+                If view.Trim = "PDF" Then
+                    view = "2"
+                ElseIf view.Trim = "Excel" Then
+                    view = "3"
+                Else
+                    view = "1"
+                End If
+                Return "<script language=javascript>window.open('https://" + _nilai.Trim + "RptID=" + _reportID.Trim + "&SP=" + _reportSPName.Trim + "&parm=" + _Parameters.Trim + "&moduleName=" + ModuleName.Trim + "&format=" + view.Trim + "','','status=no,resizable=yes,toolbar=no,menubar=no,location=no;')</script>"
+            End If
+
+            oComm.Dispose()
+            oComm = Nothing
+            'If (_reportFormat <> "DX") Then
+            '    Return "<script language=javascript>window.open('http://" + ContextRequestUrlHost + SysConfig.ReportsFolder.Trim + _reportAsp.Trim + ".asp?RptName=" + _reportFileName.Trim + "&SP=" + _reportSPName.Trim + "&parm=" + _Parameters.Trim + "&moduleName=" + ModuleName.Trim + "','','status=no,resizable=yes,toolbar=no,menubar=no,location=no;')</script>"
+            'Else
+            '    Return String.Format("<script language=javascript>window.open('/secure/PrintTicket.aspx/?&id={2}&RptName={3}&parm={4}&showCriteria={5}','','status=no,resizable=yes,toolbar=no,menubar=no,location=no;')</script>", ContextRequestUrlHost, SysConfig.ModuleAppl, _reportID.Trim, _reportFileName.Trim, _Parameters.Trim, SysConfig.IsDisplayReportCriteria)
+            '    'Return String.Format("<script language=javascript>window.open('http://www.google.com{0}/{1}/Libs/XReportViewer.aspx?id={2}&RptName={3}&parm={4}&showCriteria={5}','','status=no,resizable=yes,toolbar=no,menubar=no,location=no;')</script>", ContextRequestUrlHost, SysConfig.ModuleAppl, _reportID.Trim, _reportFileName.Trim, _Parameters.Trim, SysConfig.IsDisplayReportCriteria)
+            '    'Return String.Format("<script language=javascript>window.open('https://www.google.com/?hl=id')</script>", ContextRequestUrlHost, SysConfig.ModuleAppl, _reportID.Trim, _reportFileName.Trim, _Parameters.Trim, SysConfig.IsDisplayReportCriteria)
+            'End If
         End Function
 
         Public Function generateReportDataTable() As DataTable
@@ -145,6 +170,24 @@ Namespace QIS.Common.BussinessRules
                 adapter.Dispose()
             End Try
         End Function
+
+        Public Function BuildEncryptedReportUrl(baseUrl As String,
+                                                reportID As String,
+                                                spName As String,
+                                                parameters As String,
+                                                moduleName As String,
+                                                format As String) As String
+
+            Dim plainQuery As String = "RptID=" & reportID.Trim() &
+                                       "&SP=" & spName.Trim() &
+                                       "&parm=" & parameters.Trim() &
+                                       "&moduleName=" & moduleName.Trim() &
+                                       "&format=" & Format.Trim()
+
+            Dim encrypted As String = HttpUtility.UrlEncode(CryptoHelper.Encrypt(plainQuery))
+            Return baseUrl & "?q=" & encrypted
+        End Function
+
 
         Public Shared Sub ExportToExcel(ByVal dt As DataTable, ByRef response As System.Web.HttpResponse)
             Dim GridView1 As New GridView()

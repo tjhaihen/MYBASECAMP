@@ -42,31 +42,22 @@ Namespace QIS
         Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
         '''<summary>
-        '''Label2 control.
+        '''lblSearchResults control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents Label2 As Global.System.Web.UI.WebControls.Label
+        Protected WithEvents lblSearchResults As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
-        '''txtMaxRecord control.
+        '''lblFilterValueCaption control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents txtMaxRecord As Global.System.Web.UI.WebControls.TextBox
-
-        '''<summary>
-        '''Label1 control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents Label1 As Global.System.Web.UI.WebControls.Label
+        Protected WithEvents lblFilterValueCaption As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
         '''txtFilterValue control.
@@ -76,24 +67,6 @@ Namespace QIS
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
         Protected WithEvents txtFilterValue As Global.System.Web.UI.WebControls.TextBox
-
-        '''<summary>
-        '''linkApplyFilter control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents linkApplyFilter As Global.System.Web.UI.WebControls.LinkButton
-
-        '''<summary>
-        '''btnApplyFilter control.
-        '''</summary>
-        '''<remarks>
-        '''Auto-generated field.
-        '''To modify move field declaration from designer file to code-behind file.
-        '''</remarks>
-        Protected WithEvents btnApplyFilter As Global.System.Web.UI.WebControls.Button
 
         '''<summary>
         '''lblSearchProcedure control.
@@ -114,13 +87,40 @@ Namespace QIS
         Protected WithEvents lblSearchCode As Global.System.Web.UI.WebControls.Label
 
         '''<summary>
-        '''lblSearchResults control.
+        '''lblShowCaption control.
         '''</summary>
         '''<remarks>
         '''Auto-generated field.
         '''To modify move field declaration from designer file to code-behind file.
         '''</remarks>
-        Protected WithEvents lblSearchResults As Global.System.Web.UI.WebControls.Label
+        Protected WithEvents lblShowCaption As Global.System.Web.UI.WebControls.Label
+
+        '''<summary>
+        '''txtMaxRecord control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents txtMaxRecord As Global.System.Web.UI.WebControls.TextBox
+
+        '''<summary>
+        '''linkApplyFilter control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents linkApplyFilter As Global.System.Web.UI.WebControls.LinkButton
+
+        '''<summary>
+        '''btnApplyFilter control.
+        '''</summary>
+        '''<remarks>
+        '''Auto-generated field.
+        '''To modify move field declaration from designer file to code-behind file.
+        '''</remarks>
+        Protected WithEvents btnApplyFilter As Global.System.Web.UI.WebControls.Button
 
         '''<summary>
         '''grdSearchList control.

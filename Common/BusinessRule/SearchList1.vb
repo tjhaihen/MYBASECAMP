@@ -11,7 +11,7 @@ Namespace QIS.Common.BussinessRules
         Inherits BRInteractionBase
 
 #Region " Class Member Declarations "
-        Private _SearchID, _SearchCaption, _SearchProcedure As String
+        Private _SearchID, _SearchCaption, _SearchProcedure, _FilterParameter As String
 #End Region
 
         Public Sub New()
@@ -23,7 +23,7 @@ Namespace QIS.Common.BussinessRules
         End Sub
 
 #Region " Main Function "
-        Public Function SelectOne(Optional ByVal recStatus As QISRecStatus = QISRecStatus.CurrentRecord) As DataTable
+        Public Overrides Function SelectOne(Optional ByVal recStatus As QISRecStatus = QISRecStatus.CurrentRecord) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             cmdToExecute.CommandText = "SELECT * FROM SearchList WHERE SearchID = @SearchID"
             cmdToExecute.CommandType = CommandType.Text
@@ -60,12 +60,14 @@ Namespace QIS.Common.BussinessRules
             End Try
         End Function
 
-        Public Function SelectSearchList(ByVal MaxRecord As Integer, Optional ByVal Param As String = "", Optional ByVal FilterValue As String = "", Optional ByVal IsValidate As Boolean = False) As DataTable
+        Public Function SelectSearchList(ByVal MaxRecord As Integer, Optional ByVal FilterValue As String = "") As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand
             Me.SelectOne(QISRecStatus.CurrentRecord)
-            cmdToExecute.CommandText = "Exec " + Me.SearchProcedure.Trim + " " + IIf(Param.Trim = "", "", Param + ",") + " @MaxRecord='" + CStr(MaxRecord) + "', @FilterValue='" + FilterValue + "', @IsValidate='" + CStr(IsValidate) + "' "
+            If FilterValue <> "" Then
+                FilterValue = Replace(FilterValue, "|", "','")
+            End If
+            cmdToExecute.CommandText = "EXEC " & Me.SearchProcedure.Trim & " " + IIf(FilterValue.Trim = "", "", "'" & FilterValue & "',") & " @MaxRecord='" & CStr(MaxRecord) & "'"
             cmdToExecute.CommandType = CommandType.Text
-            'cmdToExecute.CommandTimeout = 3600
             Dim toReturn As DataTable = New DataTable("SearchList")
             Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
 

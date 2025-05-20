@@ -70,7 +70,12 @@
                 <td class="center padding-LR-5">
                     <asp:LinkButton runat="server" ID="lbtnNext" ToolTip="Next" CausesValidation="false" Width="48"><img src="/qistoollib/images/tbnext.png" alt="" border="0" /><br />Next</asp:LinkButton>
                 </td>
-            </asp:Panel>            
+            </asp:Panel>    
+            <asp:Panel runat="server" ID="TMPnlValidation" Visible="false">
+                <td class="center padding-LR-5">
+                    <asp:LinkButton runat="server" ID="lbtnValidation" ToolTip="Validation" CausesValidation="false" Width="48"><img src="/qistoollib/images/tbvalidation.png" alt="" border="0" /><br />Validation</asp:LinkButton>
+                </td>
+            </asp:Panel>        
         </tr>
         <tr style="display: none;">
             <td>

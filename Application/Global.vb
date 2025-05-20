@@ -928,9 +928,20 @@ Namespace QIS.Web
         End Function
 #End Region
 
-        Public Shared Function JSOpenSearchListWind(ByVal SearchID As String, ByVal CtrlID As String, Optional ByVal FilterValue As String = "", Optional ByVal _width As String = "800", Optional ByVal _height As String = "500", Optional ByVal _resizeble As String = "1", Optional ByVal _scrollable As String = "1") As String
+        'Public Shared Function JSOpenSearchListWind(ByVal SearchID As String, ByVal CtrlID As String, Optional ByVal FilterValue As String = "", Optional ByVal _width As String = "800", Optional ByVal _height As String = "500", Optional ByVal _resizeble As String = "1", Optional ByVal _scrollable As String = "1") As String
+        '    Dim strJS As String = ""
+        '    strJS = "javascript:openWindowForSL('" + PageBase.UrlBase + "/SearchList.aspx?sID=" + SearchID.Trim + "&ctrlID=" + CtrlID + "&filterValue=" + FilterValue.Trim + "','" + CtrlID + "','SL','" + _width + "','" + _height + "','" + _resizeble + "','" + _scrollable + "');"
+        '    Return strJS
+        'End Function
+
+
+        Public Shared Function JSOpenSearchListWind(ByVal SearchID As String, ByVal CtrlID As String, Optional ByVal IsWithKeyCode As Boolean = False, Optional ByVal _width As String = "650", Optional ByVal _height As String = "450", Optional ByVal _resizeble As String = "0", Optional ByVal _scrollable As String = "0") As String
             Dim strJS As String = ""
-            strJS = "javascript:openWindowForSL('" + PageBase.UrlBase + "/SearchList.aspx?sID=" + SearchID.Trim + "&ctrlID=" + CtrlID + "&filterValue=" + FilterValue.Trim + "','" + CtrlID + "','SL','" + _width + "','" + _height + "','" + _resizeble + "','" + _scrollable + "');"
+            If IsWithKeyCode Then
+                strJS = "javascript:openWindowForSLKeyCode(event.keyCode,'" + PageBase.UrlBase + "/SearchList.aspx?cd=" + SearchID.Trim + "&ctrlID=" + CtrlID + "&param=&fvalue=','" + CtrlID + "','SL','" + _width + "','" + _height + "','" + _resizeble + "','" + _scrollable + "');"
+            Else
+                strJS = "javascript:openWindowForSL('" + PageBase.UrlBase + "/SearchList.aspx?cd=" + SearchID.Trim + "&ctrlID=" + CtrlID + "&param=&fvalue=','" + CtrlID + "','SL','" + _width + "','" + _height + "','" + _resizeble + "','" + _scrollable + "');"
+            End If
             Return strJS
         End Function
 

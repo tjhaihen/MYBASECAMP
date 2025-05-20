@@ -175,7 +175,7 @@
                                                 </asp:TemplateColumn>
                                                 <asp:TemplateColumn runat="server" HeaderText="Pilih #">
                                                     <ItemTemplate>
-                                                        <asp:CheckBox runat="server" Checked='<%# iif(DataBinder.Eval(Container.DataItem, "isCheck")=true, True, False) %>' ID="_chkPilih" />
+                                                        <asp:CheckBox runat="server" Checked='<%# iif(DataBinder.Eval(Container.DataItem, "isCheck")=true, True, true) %>' ID="_chkPilih" />
                                                     </ItemTemplate>
                                                     <HeaderTemplate>
                                                         <input name="cbxSelectAll" type="checkbox" onclick="javascript:checkAll(this.form,'_chkPilih');">
