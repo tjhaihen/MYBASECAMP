@@ -273,6 +273,37 @@ Namespace QIS.Common.BussinessRules
 
             Return toReturn
         End Function
+        Public Function SelectByGroupCodeValue() As DataTable
+            Dim cmdToExecute As SqlCommand = New SqlCommand
+            cmdToExecute.CommandText = "sp_CommonCode_byGroupCodeValue"
+            cmdToExecute.CommandType = CommandType.StoredProcedure
+
+            Dim toReturn As DataTable = New DataTable("SelectByGroupCodeValue")
+            Dim adapter As SqlDataAdapter = New SqlDataAdapter(cmdToExecute)
+
+            cmdToExecute.Connection = _mainConnection
+
+            Try
+                cmdToExecute.Parameters.AddWithValue("@groupCode", _groupCode)
+                cmdToExecute.Parameters.AddWithValue("@value", _value)
+
+                ' // Open connection.
+                _mainConnection.Open()
+
+                ' // Execute query.
+                adapter.Fill(toReturn)
+            Catch ex As Exception
+                ' // some error occured. Bubble it to caller and encapsulate Exception object
+                ExceptionManager.Publish(ex)
+            Finally
+                ' // Close connection.
+                _mainConnection.Close()
+                cmdToExecute.Dispose()
+                adapter.Dispose()
+            End Try
+
+            Return toReturn
+        End Function
 
         Public Function SelectStandardFieldByKdField(ByVal strKdField As String) As DataTable
             Dim cmdToExecute As SqlCommand = New SqlCommand

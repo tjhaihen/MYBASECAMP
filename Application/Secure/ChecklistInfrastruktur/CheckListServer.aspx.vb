@@ -120,7 +120,7 @@ Namespace QIS.Web.WorkTime
                         ElseIf isApprove = True And isValidasi = False Then
                             With comm
                                 .Code = "MGRITS"
-                                .GroupCode = "ManagerITS"
+                                .GroupCode = "Manager"
                                 .SelectOne()
                                 If .Value = Me.LoggedOnUserID Then
                                     UpdateValidasi(False)
@@ -143,7 +143,7 @@ Namespace QIS.Web.WorkTime
                     Dim comm As New Common.BussinessRules.CommonCode
                     With comm
                         .Code = "MGRITS"
-                        .GroupCode = "ManagerITS"
+                        .GroupCode = "Manager"
                         .SelectOne()
                         If .Value = Me.LoggedOnUserID Then
                             UpdateValidasi(True)

@@ -336,6 +336,14 @@
       <DependentUpon>PatchGroup.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="Secure\Pembelian\PermintaanPembelian.aspx.vb">
+      <DependentUpon>PermintaanPembelian.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Secure\Pembelian\PurchaseOrder.aspx.vb">
+      <DependentUpon>PurchaseOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Secure\PrintTicket.aspx.designer.vb">
       <DependentUpon>PrintTicket.aspx</DependentUpon>
     </Compile>
@@ -763,6 +771,8 @@
     <Content Include="Secure\Hardening\Hardening.aspx" />
     <Content Include="Secure\IncidentInvestigation.aspx" />
     <Content Include="Secure\PatchManagement\PatchGroup.aspx" />
+    <Content Include="Secure\Pembelian\PermintaanPembelian.aspx" />
+    <Content Include="Secure\Pembelian\PurchaseOrder.aspx" />
     <Content Include="Secure\PrintTicket.aspx" />
     <Content Include="Secure\Documents.aspx" />
     <Content Include="Secure\Documents\UserGuideVideo\Askep - Mapping Master SDKI.mp4" />
@@ -839,6 +849,12 @@
       <DependentUpon>Hasil.aspx.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Secure\licenses.licx" />
+    <EmbeddedResource Include="Secure\Pembelian\PermintaanPembelian.aspx.resx">
+      <DependentUpon>PermintaanPembelian.aspx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Secure\Pembelian\PurchaseOrder.aspx.resx">
+      <DependentUpon>PurchaseOrder.aspx.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Secure\Reports\Default.aspx.resx">
       <DependentUpon>Default.aspx.vb</DependentUpon>
     </EmbeddedResource>

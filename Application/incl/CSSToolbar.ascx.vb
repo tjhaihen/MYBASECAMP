@@ -179,7 +179,7 @@ Namespace QIS
         Private Sub lbtn_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lbtnNew.Click, lbtnSave.Click, lbtnDelete.Click, _
                 lbtnApprove.Click, lbtnVoid.Click, lbtnPrint.Click, _
                     lbtnPrevious.Click, lbtnNext.Click, lbtnRefresh.Click, _
-                        lbtnPropose.Click, lbtnAttach.Click, lbtnDownload.Click
+                        lbtnPropose.Click, lbtnAttach.Click, lbtnDownload.Click, lbtnValidation.Click
             Select Case CType(sender, LinkButton).ClientID
                 Case lbtnNew.ClientID
                     RaiseEvent CSSToolbarItemClick(sender, CSSToolbarItem.tidNew)

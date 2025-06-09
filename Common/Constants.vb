@@ -21,6 +21,7 @@
             Public Const DocumentType_SCode As String = "DOCTYPE"
             Public Const IncidentSeverity_SCode As String = "INSEV"
             Public Const PERANGKAT_SCode As String = "PERANGKAT"
+            Public Const Unit As String = "UNIT"
 
             Public Const EMRAssessmentType_SCode As String = "ASSESSMENTTYPE"
 

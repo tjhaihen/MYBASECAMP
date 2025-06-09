@@ -157,6 +157,7 @@
     <Compile Include="BusinessRule\PatchManagement\PatchGroup.vb" />
     <Compile Include="BusinessRule\PatchManagement\PatchProject.vb" />
     <Compile Include="BusinessRule\PenunjangMedis.vb" />
+    <Compile Include="BusinessRule\PermintaanBeli.vb" />
     <Compile Include="BusinessRule\Project.vb" />
     <Compile Include="BusinessRule\ProjectGroup.vb" />
     <Compile Include="BusinessRule\ProjectTimeline\ProjectTimeline.vb" />
